@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/home/victor/AndroidProject/BirdcageHabit/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="de48466873a647d9b398c6053c2173be1a88e9ba">
+        <dex dex="/home/victor/AndroidProject/BirdcageHabit/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run-bootstrap_12696547e246a0af1bc64c14b404df87497c7e47/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/home/victor/AndroidProject/BirdcageHabit/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.0"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="/home/victor/AndroidProject/BirdcageHabit/app/build/intermediates/transforms/dex/debug/folders/1000/10000/instant-run_2d66b23a36c2fe8390139a4c13edf1650cd2bfd1/classes.dex" />
+    </item>
+
+</items>

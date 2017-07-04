@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.victor.nesthabit">
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <application
+        android:name="com.victor.nesthabit.MyApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name="com.victor.nesthabit.activity.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name="com.victor.nesthabit.activity.NewBirdcageActivity"/>
+
+        <service
+            android:name="com.victor.nesthabit.service.NetworkService"
+            android:enabled="true"
+            android:exported="true"/>
+        <service android:name="com.victor.nesthabit.service.RecordingService"/>
+
+        <!-- <service -->
+        <!-- android:name=".service.RecordingService" -->
+        <!-- android:enabled="true" -->
+        <!-- android:exported="true"> -->
+        <!-- </service> -->
+
+        <receiver
+            android:name="com.victor.nesthabit.broadcast.AlarmReceiver"
+            android:enabled="true"
+            android:exported="true">
+        </receiver>
+
+        <activity android:name="com.victor.nesthabit.activity.AlarmActivity"/>
+    </application>
+
+</manifest>

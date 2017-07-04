@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.victor.nesthabit.activity.AlarmActivity">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="107dp"
+        android:text="早起的鸟儿有虫吃"
+        android:textColor="@color/black"
+        android:textSize="20dp"/>
+
+    <com.victor.nesthabit.view.DragCircleImageView
+        android:id="@+id/slide_image"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="150dp"
+        android:src="@drawable/ic_alarm_on_black_24dp"
+        />
+
+
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:id="@+id/image_cancel"
+        android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+        android:layout_marginLeft="320dp"
+        android:layout_marginTop="200dp"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="320dp"
+        android:layout_below="@+id/image_cancel"
+        android:textSize="15dp"
+        android:id="@+id/text_cancel"
+        android:text="取消"
+        />
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_keyboard_arrow_left_black_24dp"
+        android:layout_marginTop="200dp"
+        android:layout_marginLeft="20dp"
+        android:id="@+id/image_pull_of"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/image_pull_of"
+        android:layout_marginLeft="10dp"
+        android:text="推迟五分钟"
+        android:textSize="15dp"
+
+        />
+    <!--app:layout_constraintLeft_toRightOf="@+id/slide_image"-->
+    <!--android:layout_marginLeft="8dp"-->
+    <!--android:layout_marginRight="8dp"-->
+    <!--app:layout_constraintRight_toRightOf="parent"-->
+    <!--app:layout_constraintHorizontal_bias="0.448"-->
+    <!--app:layout_constraintTop_toTopOf="parent"-->
+    <!--android:layout_marginTop="-539dp"-->
+    <!--android:id="@+id/cancel"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--android:layout_marginBottom="8dp"-->
+    <!--app:layout_constraintVertical_bias="0.394"/>-->
+
+
+</RelativeLayout>
