@@ -32,8 +32,8 @@ public class CircleImageView extends android.support.v7.widget.AppCompatImageVie
     private static final Bitmap.Config BITMAP_CONFIG = Bitmap.Config.ARGB_8888;
     private static final int COLORDRAWABLE_DIMENSION = 2;
 
-    private static final int DEFAULT_BORDER_WIDTH = 0;
-    private static final int DEFAULT_BORDER_COLOR = Color.BLACK;
+    private static final int DEFAULT_BORDER_WIDTH = 0; //默认无边框
+    private static final int DEFAULT_BORDER_COLOR = Color.BLACK; //边框颜色
 
     private final RectF mDrawableRect = new RectF();
     private final RectF mBorderRect = new RectF();
@@ -208,13 +208,10 @@ public class CircleImageView extends android.support.v7.widget.AppCompatImageVie
             mSetupPending = true;
             return;
         }
-
         if (mBitmap == null) {
             return;
         }
-
         mBitmapShader = new BitmapShader(mBitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
-
         mBitmapPaint.setAntiAlias(true);
         mBitmapPaint.setShader(mBitmapShader);
 
@@ -231,7 +228,6 @@ public class CircleImageView extends android.support.v7.widget.AppCompatImageVie
 
         mDrawableRect.set(mBorderWidth, mBorderWidth, mBorderRect.width() - mBorderWidth, mBorderRect.height() - mBorderWidth);
         mDrawableRadius = Math.min(mDrawableRect.height() / 2, mDrawableRect.width() / 2);
-
         updateShaderMatrix();
         invalidate();
     }

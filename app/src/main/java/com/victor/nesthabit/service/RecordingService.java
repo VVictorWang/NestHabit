@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.activity.MainActivity;
 import com.victor.nesthabit.data.RecordItem;
+import com.victor.nesthabit.utils.LogUtils;
 import com.victor.nesthabit.utils.PrefsUtils;
 import com.victor.nesthabit.utils.ToastUtils;
 
@@ -36,15 +37,13 @@ public class RecordingService extends Service {
 
     private MediaRecorder mRecorder = null;
     private RecordItem mRecordItem;
-    private ToastUtils mToastUtils=  new ToastUtils();
-    private long mStartingTimeMillis = 0;
-    private long mElapsedMillis = 0;
-    private int mElapsedSeconds = 0;
     private OnTimerChangedListener onTimerChangedListener = null;
-    private static final SimpleDateFormat mTimerFormat = new SimpleDateFormat("mm:ss", Locale.getDefault());
-
+    private long mStartingTimeMillis = 0;
     private Timer mTimer = null;
     private TimerTask mIncrementTimerTask = null;
+    private long mElapsedMillis = 0;
+    private int mElapsedSeconds = 0;
+    private static final SimpleDateFormat mTimerFormat = new SimpleDateFormat("mm:ss", Locale.getDefault());
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -78,7 +77,6 @@ public class RecordingService extends Service {
 
     public void startRecording() {
         setFileNameAndPath();
-
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
@@ -89,7 +87,6 @@ public class RecordingService extends Service {
             mRecorder.setAudioSamplingRate(44100);
             mRecorder.setAudioEncodingBitRate(192000);
         }
-
         try {
             mRecorder.prepare();
             mRecorder.start();
@@ -109,12 +106,10 @@ public class RecordingService extends Service {
 
         do{
             count++;
-
             mFileName = getString(R.string.default_file_name)
                     + "_" + (DataSupport.count(RecordItem.class) + count) + ".mp4";
             mFilePath = Environment.getExternalStorageDirectory().getAbsolutePath();
             mFilePath += "/SoundRecorder/" + mFileName;
-
             f = new File(mFilePath);
         }while (f.exists() && !f.isDirectory());
     }
@@ -137,11 +132,8 @@ public class RecordingService extends Service {
             mRecordItem.setFile_path(mFilePath);
             mRecordItem.setLength(mElapsedSeconds);
             mRecordItem.save();
-
-//            mDatabase.addRecording(mFileName, mFilePath, mElapsedMillis);
-
         } catch (Exception e){
-            Log.e(LOG_TAG, "exception", e);
+            LogUtils.e(LOG_TAG, "exception ", e);
         }
     }
 

@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- *  格式验证
+ * 格式验证
  * Created by victor on 7/2/17.
  */
 
@@ -167,7 +167,6 @@ public class PatternUtils {
                 return matcher.group(1);
             }
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return "";

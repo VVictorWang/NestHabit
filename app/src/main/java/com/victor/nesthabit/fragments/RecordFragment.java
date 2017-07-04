@@ -26,26 +26,23 @@ import java.io.File;
 
 public class RecordFragment extends DialogFragment {
     private static final String ARGT_POSITION = "position";
-    private int position;
-
     private FloatingActionButton recordButton;
-    private Chronometer chronometer;
-    private ProgressBar recordProgressbar;
 
+    private Chronometer chronometer;
+    private TextView mRecordingPrompt;
+    private ProgressBar recordProgressbar;
     private Button mPauseButton = null;
     private int mRecordPromptCount = 0;
 
-    private TextView mRecordingPrompt;
     private boolean mStartRecording = true;
     private boolean mPauseRecording = true;
     private long timeWhenPaused = 0;
 
-    public static RecordFragment newInstance(int position) {
+    public static RecordFragment newInstance() {
 
         Bundle args = new Bundle();
 
         RecordFragment fragment = new RecordFragment();
-        args.putInt(ARGT_POSITION, position);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,7 +53,6 @@ public class RecordFragment extends DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        position = getArguments().getInt(ARGT_POSITION);
     }
 
 
@@ -97,9 +93,8 @@ public class RecordFragment extends DialogFragment {
     private void onRecord(boolean start) {
 
         Intent intent = new Intent(getActivity(), RecordingService.class);
-
         if (start) {
-            // start recording
+            // 开始录音
             recordButton.setImageResource(R.drawable.ic_media_stop);
             //mPauseButton.setVisibility(View.VISIBLE);
             Toast.makeText(getActivity(), R.string.toast_recording_start, Toast.LENGTH_SHORT).show();
