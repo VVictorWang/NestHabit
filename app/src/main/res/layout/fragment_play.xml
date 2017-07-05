@@ -72,6 +72,20 @@
                     android:layout_marginRight="10dp"
                     android:text="00:00"/>
 
+                <Button
+                    android:id="@+id/give_up"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="15dp"
+                    android:text="放弃"/>
+
+                <Button
+                    android:id="@+id/save_record"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="15dp"
+                    android:text="保存"/>
             </RelativeLayout>
 
         </LinearLayout>

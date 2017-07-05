@@ -1,65 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="400dp">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/record_button"
-        android:src="@drawable/ic_mic_white_36dp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:paddingBottom="10dp"
-        />
+
     <Chronometer
+        android:id="@+id/chronometer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/chronometer"
-        android:textSize="50dp"
-        android:fontFamily="sans-serif-condensed"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="145dp"
+        android:layout_marginTop="55dp"
+        android:fontFamily="sans-serif-condensed"
+        android:textSize="50dp"
         />
 
     <ProgressBar
-        android:layout_width="200dp"
-        android:layout_height="200dp"
         android:id="@+id/record_progressbar"
-        android:progressDrawable="@drawable/record_progress_bar_background"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
         android:indeterminate="false"
         android:max="100"
         android:progress="0"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="80dp"
-        />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button_pause"
-        android:text="PUASE"
-        android:textAllCaps="true"
-        android:fontFamily="sans-serif-condensed"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginBottom="10dp"
-        android:drawableLeft="@drawable/ic_media_pause"
-        />
+        android:progressDrawable="@drawable/record_progress_bar_background"/>
+
 
     <TextView
+        android:id="@+id/record_status_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/record_status_text"
-        android:textStyle="bold"
-        android:textSize="18dp"
-        android:fontFamily="sans-serif-condensed"
-        android:layout_centerHorizontal="true"
         android:layout_below="@+id/record_progressbar"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
+        android:fontFamily="sans-serif-condensed"
+        android:textSize="18dp"
+        android:textStyle="bold"
         />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/record_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/record_status_text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/ic_mic_white_36dp"/>
 
 
 </RelativeLayout>

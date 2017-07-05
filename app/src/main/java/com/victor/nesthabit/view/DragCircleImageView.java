@@ -38,18 +38,7 @@ public class DragCircleImageView extends CircleImageView {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         init();
-//        mRipplePaint.setStyle(Paint.Style.STROKE);
-//        mRipplePaint.setStrokeWidth(0);
-//        mRipplePaint.setARGB(127, 255, 255, 255);
-//        if (drawCircle) {
-//            Paint circlePaint = new Paint();
-//            circlePaint.setColor(Color.BLUE);
-//            circlePaint.setStyle(Paint.Style.STROKE);
-//            canvas.drawCircle(getLeft() + getWidth() / 2, getTop() + getHeight() / 2, 10, circlePaint);
-//            canvas.drawCircle(getLeft() + getWidth() / 2, getTop() + getHeight() / 2, 10+mRippleWidth/2, mRipplePaint);
-//        }
     }
-
 //    private int mRippleWidth = 50;
 //    private Paint mRipplePaint = new Paint();
 //    public void setAnim() {

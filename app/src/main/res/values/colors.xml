@@ -10,4 +10,5 @@
     <color name="accent">#FFC107</color>
     <color name="secondary_text">#727272</color>
     <color name="primary">#F44336</color>
+    <color name="red">#de1d20</color>
 </resources>

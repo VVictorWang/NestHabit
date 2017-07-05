@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.victor.nesthabit">
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
@@ -21,17 +22,15 @@
         </activity>
         <activity android:name="com.victor.nesthabit.activity.NewBirdcageActivity"/>
 
+        <activity android:name=".activity.RecordActivity"/>
+        <activity android:name="com.victor.nesthabit.activity.AlarmActivity"/>
+
         <service
             android:name="com.victor.nesthabit.service.NetworkService"
             android:enabled="true"
             android:exported="true"/>
         <service android:name="com.victor.nesthabit.service.RecordingService"/>
 
-        <!-- <service -->
-        <!-- android:name=".service.RecordingService" -->
-        <!-- android:enabled="true" -->
-        <!-- android:exported="true"> -->
-        <!-- </service> -->
 
         <receiver
             android:name="com.victor.nesthabit.broadcast.AlarmReceiver"
@@ -39,7 +38,7 @@
             android:exported="true">
         </receiver>
 
-        <activity android:name="com.victor.nesthabit.activity.AlarmActivity"/>
+
     </application>
 
 </manifest>

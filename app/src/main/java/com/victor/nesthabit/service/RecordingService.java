@@ -1,27 +1,19 @@
 package com.victor.nesthabit.service;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.media.MediaRecorder;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.activity.MainActivity;
 import com.victor.nesthabit.data.RecordItem;
+import com.victor.nesthabit.listenners.OnNewRecordListenner;
 import com.victor.nesthabit.utils.LogUtils;
 import com.victor.nesthabit.utils.PrefsUtils;
-import com.victor.nesthabit.utils.ToastUtils;
-
 import org.litepal.crud.DataSupport;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -35,6 +27,7 @@ public class RecordingService extends Service {
     private String mFileName = null;
     private String mFilePath = null;
 
+    private static OnNewRecordListenner sOnNewRecordListenner = null;
     private MediaRecorder mRecorder = null;
     private RecordItem mRecordItem;
     private OnTimerChangedListener onTimerChangedListener = null;
@@ -45,6 +38,9 @@ public class RecordingService extends Service {
     private int mElapsedSeconds = 0;
     private static final SimpleDateFormat mTimerFormat = new SimpleDateFormat("mm:ss", Locale.getDefault());
 
+    Handler handler = new Handler();
+
+    private static final String TAG = "RecordingService";
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -71,7 +67,6 @@ public class RecordingService extends Service {
         if (mRecorder != null) {
             stopRecording();
         }
-
         super.onDestroy();
     }
 
@@ -91,34 +86,30 @@ public class RecordingService extends Service {
             mRecorder.prepare();
             mRecorder.start();
             mStartingTimeMillis = System.currentTimeMillis();
-
-            //startTimer();
-            //startForeground(1, createNotification());
-
         } catch (IOException e) {
             Log.e(LOG_TAG, "prepare() failed");
         }
     }
 
-    public void setFileNameAndPath(){
+    public void setFileNameAndPath() {
         int count = 0;
         File f;
 
-        do{
+        do {
             count++;
             mFileName = getString(R.string.default_file_name)
-                    + "_" + (DataSupport.count(RecordItem.class) + count) + ".mp4";
+                    + "_" + (DataSupport.count(RecordItem.class) + count) + ".mp3";
             mFilePath = Environment.getExternalStorageDirectory().getAbsolutePath();
             mFilePath += "/SoundRecorder/" + mFileName;
             f = new File(mFilePath);
-        }while (f.exists() && !f.isDirectory());
+        } while (f.exists() && !f.isDirectory());
     }
 
     public void stopRecording() {
         mRecorder.stop();
         mElapsedMillis = (System.currentTimeMillis() - mStartingTimeMillis);
         mRecorder.release();
-        Toast.makeText(this, getString(R.string.toast_recording_finish) + " " + mFilePath, Toast.LENGTH_LONG).show();
+
         //remove notification
         if (mIncrementTimerTask != null) {
             mIncrementTimerTask.cancel();
@@ -130,39 +121,17 @@ public class RecordingService extends Service {
         try {
             mRecordItem.setName(mFileName);
             mRecordItem.setFile_path(mFilePath);
-            mRecordItem.setLength(mElapsedSeconds);
+            mRecordItem.setLength((int) mElapsedMillis);
+            mRecordItem.setTime_added(System.currentTimeMillis());
             mRecordItem.save();
-        } catch (Exception e){
+            if (sOnNewRecordListenner != null) {
+                sOnNewRecordListenner.onNewRecordAdded(mRecordItem.getId());
+            }
+        } catch (Exception e) {
             LogUtils.e(LOG_TAG, "exception ", e);
         }
     }
-
-    private void startTimer() {
-        mTimer = new Timer();
-        mIncrementTimerTask = new TimerTask() {
-            @Override
-            public void run() {
-                mElapsedSeconds++;
-                if (onTimerChangedListener != null)
-                    onTimerChangedListener.onTimerChanged(mElapsedSeconds);
-                NotificationManager mgr = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                mgr.notify(1, createNotification());
-            }
-        };
-        mTimer.scheduleAtFixedRate(mIncrementTimerTask, 1000, 1000);
-    }
-
-    private Notification createNotification() {
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(getApplicationContext())
-//                        .setSmallIcon(R.drawable.ic_mic_white_36dp)// TODO: 7/2/17 加入图标
-                        .setContentTitle(getString(R.string.notification_recording))
-                        .setContentText(mTimerFormat.format(mElapsedSeconds * 1000))
-                        .setOngoing(true);
-
-        mBuilder.setContentIntent(PendingIntent.getActivities(getApplicationContext(), 0,
-                new Intent[]{new Intent(getApplicationContext(), MainActivity.class)}, 0));
-
-        return mBuilder.build();
+    public static void setOnNewRecordListenner(OnNewRecordListenner listenner) {
+        sOnNewRecordListenner = listenner;
     }
 }

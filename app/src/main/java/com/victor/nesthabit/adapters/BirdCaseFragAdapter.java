@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.activity.AlarmActivity;
 import com.victor.nesthabit.activity.NewBirdcageActivity;
+import com.victor.nesthabit.activity.RecordActivity;
 import com.victor.nesthabit.data.BirdCageInfo;
 import com.victor.nesthabit.utils.ActivityManager;
 
@@ -56,11 +57,6 @@ public class BirdCaseFragAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-
-
-
-
-
     public BirdCaseFragAdapter(Context context, RecyclerView recyclerView, List<BirdCageInfo> birdCageInfos) {
         mContext = context;
         mRecyclerView = recyclerView;
@@ -80,9 +76,6 @@ public class BirdCaseFragAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 @Override
                 public void onClick(View v) {
                     ActivityManager.startActivity((Activity) mContext, NewBirdcageActivity.class);
-//                    Intent intent = new Intent(mContext, NewBirdcageActivity.class);
-//                    mContext.startActivity(intent);
-
                 }
             });
         } else {
@@ -91,7 +84,7 @@ public class BirdCaseFragAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ActivityManager.startActivity((Activity) mContext, AlarmActivity.class);
+                    ActivityManager.startActivity((Activity) mContext, RecordActivity.class);
                 }
             });
 

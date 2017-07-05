@@ -5,22 +5,26 @@ import android.app.Dialog;
 import android.graphics.ColorFilter;
 import android.graphics.LightingColorFilter;
 import android.media.MediaPlayer;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
 import android.view.View;
-import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.TextView;
+import android.widget.Button;
 import android.widget.SeekBar;
-import android.support.design.widget.FloatingActionButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.data.RecordItem;
+import com.victor.nesthabit.listenners.OnNewRecordListenner;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -29,6 +33,11 @@ public class PlayMusicFragment extends DialogFragment {
     private static final String LOG_TAG = "PlaybackFragment";
 
     private static final String ARG_ITEM = "recording_item";
+    private static final String ARG_STATUS = "status";
+    public static final int STATUS_WAIT_FOR_SAVING = 1;
+    public static final int STATUS_SAVED = 2;
+
+    private static OnNewRecordListenner sOnNewRecordListenner,sRecordListenner;
     private RecordItem item;
 
     private Handler mHandler = new Handler();
@@ -39,6 +48,7 @@ public class PlayMusicFragment extends DialogFragment {
     private TextView mCurrentProgressTextView = null;
     private TextView mFileNameTextView = null;
     private TextView mFileLengthTextView = null;
+    private Button give_up, save;
 
     //stores whether or not the mediaplayer is currently playing audio
     private boolean isPlaying = false;
@@ -46,11 +56,13 @@ public class PlayMusicFragment extends DialogFragment {
     //stores minutes and seconds of the length of the file.
     long minutes = 0;
     long seconds = 0;
+    private int status;
 
-    public static PlayMusicFragment newInstance(RecordItem item) {
+    public static PlayMusicFragment newInstance(RecordItem item, int status) {
 
         Bundle args = new Bundle();
         args.putParcelable(ARG_ITEM, item);
+        args.putInt(ARG_STATUS, status);
         PlayMusicFragment fragment = new PlayMusicFragment();
         fragment.setArguments(args);
         return fragment;
@@ -60,7 +72,7 @@ public class PlayMusicFragment extends DialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         item = getArguments().getParcelable(ARG_ITEM);
-
+        status = getArguments().getInt(ARG_STATUS);
         long itemDuration = item.getLength();
         minutes = TimeUnit.MILLISECONDS.toMinutes(itemDuration);
         seconds = TimeUnit.MILLISECONDS.toSeconds(itemDuration)
@@ -72,12 +84,13 @@ public class PlayMusicFragment extends DialogFragment {
         super.onActivityCreated(savedInstanceState);
     }
 
+    private static final String TAG = "PlayMusicFragment";
 
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Dialog dialog = super.onCreateDialog(savedInstanceState);
+        final Dialog dialog = super.onCreateDialog(savedInstanceState);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         View view = getActivity().getLayoutInflater().inflate(R.layout.fragment_play, null);
@@ -86,6 +99,8 @@ public class PlayMusicFragment extends DialogFragment {
         mFileLengthTextView = (TextView) view.findViewById(R.id.file_length_text_view);
         mCurrentProgressTextView = (TextView) view.findViewById(R.id.current_progress_text_view);
 
+        give_up = (Button) view.findViewById(R.id.give_up);
+        save = (Button) view.findViewById(R.id.save_record);
         mSeekBar = (SeekBar) view.findViewById(R.id.seekbar);
         ColorFilter filter = new LightingColorFilter
                 (getResources().getColor(R.color.primary), getResources().getColor(R.color.primary));
@@ -145,11 +160,44 @@ public class PlayMusicFragment extends DialogFragment {
             }
         });
 
+        if (status == STATUS_WAIT_FOR_SAVING) {
+            save.setVisibility(View.VISIBLE);
+            give_up.setVisibility(View.VISIBLE);
+            save.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getActivity(), getString(R.string.toast_recording_finish) + " " + item.getFile_path(), Toast.LENGTH_LONG).show();
+                    if (sOnNewRecordListenner != null) {
+                        sOnNewRecordListenner.onNewRecordAddedtoDataBase(item);
+                    }
+                    if (sRecordListenner != null) {
+                        sRecordListenner.onNewRecordAddedtoDataBase(item);
+                    }
+                    dismiss();
+                }
+            });
+        } else if (status == STATUS_SAVED) {
+            save.setVisibility(View.GONE);
+            give_up.setVisibility(View.VISIBLE);
+            give_up.setText("删除");
+        }
+        give_up.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                File file = new File(item.getFile_path());
+                file.delete();
+                if (sOnNewRecordListenner != null) {
+                    sOnNewRecordListenner.onRecordDeleted(item);
+                }
+                item.delete();
+                dismiss();
+            }
+        });
+
+
         mFileNameTextView.setText(item.getName());
         mFileLengthTextView.setText(String.format("%02d:%02d", minutes, seconds));
-
         builder.setView(view);
-
         // request a window without the title
         dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
@@ -315,4 +363,11 @@ public class PlayMusicFragment extends DialogFragment {
     }
 
 
+    public static void setOnNewRecordListenner(OnNewRecordListenner listenner) {
+        sOnNewRecordListenner = listenner;
+    }
+
+    public static void setRecordListenner(OnNewRecordListenner listenner) {
+        sRecordListenner = listenner;
+    }
 }

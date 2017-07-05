@@ -19,9 +19,9 @@ public class RecordItem extends DataSupport implements Parcelable{
     public RecordItem() {
     }
     public RecordItem(Parcel in) {
+        id = in.readInt();
         name = in.readString();
         file_path = in.readString();
-        id = in.readInt();
         length = in.readInt();
         time_added = in.readLong();
     }
@@ -39,10 +39,10 @@ public class RecordItem extends DataSupport implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt((int)id);
+        dest.writeString(name);
+        dest.writeString(file_path);
         dest.writeInt(length);
         dest.writeLong(time_added);
-        dest.writeString(file_path);
-        dest.writeString(name);
     }
     @Override
     public int describeContents() {
