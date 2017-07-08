@@ -13,6 +13,8 @@ import com.victor.nesthabit.utils.NetworkUtils;
 
 /**  网络状态监听服务
  * Created by victor on 7/2/17.
+ * email: chengyiwang@hustunique.com
+ * blog: www.victorwang.science
  */
 
 public class NetworkService extends Service {

@@ -17,6 +17,8 @@ import java.net.URL;
 /**
  *  自定义的BitmapUtils,实现三级缓存
  * Created by victor on 7/2/17.
+ * email: chengyiwang@hustunique.com
+ * blog: www.victorwang.science
  */
 
 public class BitmapUtils {

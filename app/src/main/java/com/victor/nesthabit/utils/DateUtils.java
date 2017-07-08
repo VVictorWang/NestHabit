@@ -6,6 +6,8 @@ import java.util.Date;
 
 /**
  * Created by victor on 7/2/17.
+ * email: chengyiwang@hustunique.com
+ * blog: www.victorwang.science
  */
 
 public class DateUtils {

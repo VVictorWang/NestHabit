@@ -22,6 +22,8 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Created by victor on 7/5/17.
+ * email: chengyiwang@hustunique.com
+ * blog: www.victorwang.science
  */
 
 public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.ListViewHolder> implements OnNewRecordListenner{
@@ -50,7 +52,7 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Li
     }
 
     @Override
-    public void onNewRecordAdded(long id) {
+    public void onNewRecordAdded(RecordItem item) {
 
     }
 

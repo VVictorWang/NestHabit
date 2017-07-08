@@ -9,6 +9,10 @@ import com.victor.nesthabit.listenners.DragListenner;
 
 /**
  * Created by victor on 7/3/17.
+ * email: chengyiwang@hustunique.com
+ * blog: www.victorwang.science
+ *
+ * 可以拖拽的圆形imageview
  */
 
 public class DragCircleImageView extends CircleImageView {
@@ -39,32 +43,12 @@ public class DragCircleImageView extends CircleImageView {
         super.onDraw(canvas);
         init();
     }
-//    private int mRippleWidth = 50;
-//    private Paint mRipplePaint = new Paint();
-//    public void setAnim() {
-//        drawCircle = true;
-//        ValueAnimator va = ValueAnimator.ofInt(0, 100);
-//        va.setDuration(300 * 2);
-//        va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-//            @Override
-//            public void onAnimationUpdate(ValueAnimator animation) {
-//                int value = (int) animation.getAnimatedValue();
-//                mRippleWidth = value;
-//                mRipplePaint.setStrokeWidth(value);
-//                invalidate();
-//            }
-//        });
-//        va.start();
-//    }
 
     private void init() {
         originLeft = getLeft();
         originRight = getLeft() + getWidth();
         originTop = getTop();
         originBottom = getTop() + getHeight();
-//        originX = getLeft() + getX();
-//
-//        originY = getY()+getTop();
     }
 
 

@@ -7,6 +7,8 @@ import org.litepal.crud.DataSupport;
 
 /**
  * Created by victor on 7/4/17.
+ * email: chengyiwang@hustunique.com
+ * blog: www.victorwang.science
  */
 
 public class RecordItem extends DataSupport implements Parcelable{

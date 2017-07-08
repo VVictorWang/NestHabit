@@ -6,6 +6,8 @@ import android.widget.Toast;
 /**
  * Toast工具类，解决多个Toast同时出现的问题
  * Created by victor on 7/2/17.
+ * email: chengyiwang@hustunique.com
+ * blog: www.victorwang.science
  */
 
 public class ToastUtils {

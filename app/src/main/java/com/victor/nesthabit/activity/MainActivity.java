@@ -21,9 +21,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private android.support.design.widget.TabLayout maintable;
     private android.widget.RelativeLayout drawer;
     private DrawerLayout mDrawerLayout;
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

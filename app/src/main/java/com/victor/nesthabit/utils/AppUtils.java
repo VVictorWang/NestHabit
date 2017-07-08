@@ -8,6 +8,8 @@ import android.os.Looper;
 
 /**
  * Created by victor on 7/2/17.
+ * email: chengyiwang@hustunique.com
+ * blog: www.victorwang.science
  *  #                                                   #
  * #                       _oo0oo_                     #
  * #                      o8888888o                    #

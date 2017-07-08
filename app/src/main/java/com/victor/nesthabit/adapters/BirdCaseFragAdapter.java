@@ -20,6 +20,8 @@ import java.util.List;
 
 /**
  * Created by victor on 7/2/17.
+ * email: chengyiwang@hustunique.com
+ * blog: www.victorwang.science
  */
 
 public class BirdCaseFragAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

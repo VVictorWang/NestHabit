@@ -14,6 +14,8 @@ import java.util.Date;
 
 /**
  * Created by victor on 7/2/17.
+ * email: chengyiwang@hustunique.com
+ * blog: www.victorwang.science
  * Log工具类，可控制Log输出开关、保存Log到文件、过滤输出等级
  */
 

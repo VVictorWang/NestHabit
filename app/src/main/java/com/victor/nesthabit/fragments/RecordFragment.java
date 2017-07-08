@@ -27,28 +27,17 @@ import org.litepal.crud.DataSupport;
 
 import java.io.File;
 
-public class RecordFragment extends DialogFragment implements OnNewRecordListenner {
-    private static final String ARGT_POSITION = "position";
-    private FloatingActionButton recordButton;
+import static android.R.attr.id;
 
+public class RecordFragment extends DialogFragment implements OnNewRecordListenner {
+    private FloatingActionButton recordButton;
     private Chronometer chronometer;
     private TextView mRecordingPrompt;
     private int mRecordPromptCount = 0;
     private boolean mStartRecording = true;
     private boolean finished = false;
-
-    public static RecordFragment newInstance() {
-
-        Bundle args = new Bundle();
-
-        RecordFragment fragment = new RecordFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
     public RecordFragment() {
     }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,17 +47,17 @@ public class RecordFragment extends DialogFragment implements OnNewRecordListenn
 
     private static final String TAG = "RecordFragment";
 
+    //录音文件已缓存，弹出实时预览窗口
     @Override
-    public void onNewRecordAdded(long id) {
+    public void onNewRecordAdded(RecordItem item) {
         if (finished) {
             FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            RecordItem item = DataSupport.find(RecordItem.class, id);
-            boolean c = item == null;
             PlayMusicFragment playMusicFragment = PlayMusicFragment.newInstance(item, PlayMusicFragment.STATUS_WAIT_FOR_SAVING);
             playMusicFragment.show(transaction, "record");
         }
     }
 
+    //录音缓存文件实际保存，关闭录音界面
     @Override
     public void onNewRecordAddedtoDataBase(RecordItem item) {
         dismiss();
@@ -101,8 +90,11 @@ public class RecordFragment extends DialogFragment implements OnNewRecordListenn
         return builder.create();
     }
 
+    /*
+    * 录音
+    * @param start 开始录音还是结束录音
+    * */
     private void onRecord(boolean start) {
-
         Intent intent = new Intent(getActivity(), RecordingService.class);
         if (start) {
             // 开始录音
@@ -128,7 +120,6 @@ public class RecordFragment extends DialogFragment implements OnNewRecordListenn
                         mRecordingPrompt.setText(getString(R.string.record_in_progress) + "...");
                         mRecordPromptCount = -1;
                     }
-
                     mRecordPromptCount++;
                 }
             });
@@ -139,7 +130,6 @@ public class RecordFragment extends DialogFragment implements OnNewRecordListenn
 
             mRecordingPrompt.setText(getString(R.string.record_in_progress) + "...");
             mRecordPromptCount++;
-
         } else {
             //stop recording
             recordButton.setImageResource(R.drawable.ic_mic_white_36dp);

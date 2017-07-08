@@ -4,6 +4,8 @@ import android.util.Base64;
 
 /**
  * Created by victor on 7/2/17.
+ * email: chengyiwang@hustunique.com
+ * blog: www.victorwang.science
  */
 
 public class Base64Cipher extends Cipher {

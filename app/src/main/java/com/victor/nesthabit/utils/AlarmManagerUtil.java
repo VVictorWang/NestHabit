@@ -14,14 +14,12 @@ import static android.R.attr.id;
 
 /**
  * Created by victor on 7/2/17.
+ * email: chengyiwang@hustunique.com
+ * blog: www.victorwang.science
  */
 
 public class AlarmManagerUtil {
     public static void cancelAlarm(Context context,  AlarmTime alarmTime) {
-//        Intent cancel = new Intent(context, AlarmService.class);
-//        cancel.putExtra("id", id);
-//        cancel.setAction(AlarmService.CANCEL);
-//        context.startService(cancel);
         AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.putExtra("id", alarmTime.getId());

@@ -4,7 +4,6 @@ import android.app.Service;
 import android.content.Intent;
 import android.media.MediaRecorder;
 import android.os.Environment;
-import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -13,41 +12,32 @@ import com.victor.nesthabit.data.RecordItem;
 import com.victor.nesthabit.listenners.OnNewRecordListenner;
 import com.victor.nesthabit.utils.LogUtils;
 import com.victor.nesthabit.utils.PrefsUtils;
+
 import org.litepal.crud.DataSupport;
+
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-import java.util.Timer;
 import java.util.TimerTask;
-
+/*
+* 录音Service
+* Created by victor on 7/5/17.
+* email: chengyiwang@hustunique.com
+ * blog: www.victorwang.science
+* */
 public class RecordingService extends Service {
     private static final String LOG_TAG = "RecordingService";
-
     private String mFileName = null;
     private String mFilePath = null;
-
     private static OnNewRecordListenner sOnNewRecordListenner = null;
     private MediaRecorder mRecorder = null;
     private RecordItem mRecordItem;
-    private OnTimerChangedListener onTimerChangedListener = null;
     private long mStartingTimeMillis = 0;
-    private Timer mTimer = null;
     private TimerTask mIncrementTimerTask = null;
     private long mElapsedMillis = 0;
-    private int mElapsedSeconds = 0;
-    private static final SimpleDateFormat mTimerFormat = new SimpleDateFormat("mm:ss", Locale.getDefault());
-
-    Handler handler = new Handler();
-
     private static final String TAG = "RecordingService";
     @Override
     public IBinder onBind(Intent intent) {
         return null;
-    }
-
-    public interface OnTimerChangedListener {
-        void onTimerChanged(int seconds);
     }
 
     @Override
@@ -70,13 +60,17 @@ public class RecordingService extends Service {
         super.onDestroy();
     }
 
+    //开始录音
     public void startRecording() {
         setFileNameAndPath();
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-        mRecorder.setOutputFile(mFilePath);
+        //设置输出格式为mp3
+        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        mRecorder.setOutputFile(mFilePath); //设置输出文件路径
+        //采取AAC Low Complexity格式的编码
         mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+        //输出频道选为1
         mRecorder.setAudioChannels(1);
         if (PrefsUtils.getPrefHighQuality(this)) {
             mRecorder.setAudioSamplingRate(44100);
@@ -91,12 +85,13 @@ public class RecordingService extends Service {
         }
     }
 
+    //设置录音文件保存路径
     public void setFileNameAndPath() {
         int count = 0;
         File f;
-
         do {
             count++;
+            //设置文件名，并保存成mp3格式
             mFileName = getString(R.string.default_file_name)
                     + "_" + (DataSupport.count(RecordItem.class) + count) + ".mp3";
             mFilePath = Environment.getExternalStorageDirectory().getAbsolutePath();
@@ -105,19 +100,13 @@ public class RecordingService extends Service {
         } while (f.exists() && !f.isDirectory());
     }
 
+    //停止录音
     public void stopRecording() {
         mRecorder.stop();
         mElapsedMillis = (System.currentTimeMillis() - mStartingTimeMillis);
         mRecorder.release();
 
-        //remove notification
-        if (mIncrementTimerTask != null) {
-            mIncrementTimerTask.cancel();
-            mIncrementTimerTask = null;
-        }
-
         mRecorder = null;
-
         try {
             mRecordItem.setName(mFileName);
             mRecordItem.setFile_path(mFilePath);
@@ -125,12 +114,14 @@ public class RecordingService extends Service {
             mRecordItem.setTime_added(System.currentTimeMillis());
             mRecordItem.save();
             if (sOnNewRecordListenner != null) {
-                sOnNewRecordListenner.onNewRecordAdded(mRecordItem.getId());
+                //通知录音文件已缓存，以便弹出实时预览的窗口
+                sOnNewRecordListenner.onNewRecordAdded(mRecordItem);
             }
         } catch (Exception e) {
             LogUtils.e(LOG_TAG, "exception ", e);
         }
     }
+    //设置监听器
     public static void setOnNewRecordListenner(OnNewRecordListenner listenner) {
         sOnNewRecordListenner = listenner;
     }

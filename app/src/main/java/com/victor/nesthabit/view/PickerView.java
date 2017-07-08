@@ -17,7 +17,10 @@ import java.util.TimerTask;
 /**
  * 滚动选择器
  * 模仿原生android的时间选择器
+ *
  * Created by victor on 7/2/17.
+ * email: chengyiwang@hustunique.com
+ * blog: www.victorwang.science
  */
 
 public class PickerView extends View {

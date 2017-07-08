@@ -7,6 +7,8 @@ import android.view.animation.TranslateAnimation;
 
 /**
  * Created by victor on 7/3/17.
+ * email: chengyiwang@hustunique.com
+ * blog: www.victorwang.science
  */
 
 public class ViewAnimationUtils {

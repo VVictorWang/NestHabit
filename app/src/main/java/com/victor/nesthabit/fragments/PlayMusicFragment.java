@@ -36,8 +36,7 @@ public class PlayMusicFragment extends DialogFragment {
     private static final String ARG_STATUS = "status";
     public static final int STATUS_WAIT_FOR_SAVING = 1;
     public static final int STATUS_SAVED = 2;
-
-    private static OnNewRecordListenner sOnNewRecordListenner,sRecordListenner;
+    private static OnNewRecordListenner sOnNewRecordListenner, sRecordListenner;
     private RecordItem item;
 
     private Handler mHandler = new Handler();
@@ -49,7 +48,7 @@ public class PlayMusicFragment extends DialogFragment {
     private TextView mFileNameTextView = null;
     private TextView mFileLengthTextView = null;
     private Button give_up, save;
-
+    private static final String TAG = "PlayMusicFragment";
     //stores whether or not the mediaplayer is currently playing audio
     private boolean isPlaying = false;
 
@@ -83,10 +82,6 @@ public class PlayMusicFragment extends DialogFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }
-
-    private static final String TAG = "PlayMusicFragment";
-
-
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -344,20 +339,19 @@ public class PlayMusicFragment extends DialogFragment {
         @Override
         public void run() {
             if (mMediaPlayer != null) {
-
                 int mCurrentPosition = mMediaPlayer.getCurrentPosition();
                 mSeekBar.setProgress(mCurrentPosition);
-
+                //实时算出分钟、秒钟
                 long minutes = TimeUnit.MILLISECONDS.toMinutes(mCurrentPosition);
                 long seconds = TimeUnit.MILLISECONDS.toSeconds(mCurrentPosition)
                         - TimeUnit.MINUTES.toSeconds(minutes);
                 mCurrentProgressTextView.setText(String.format("%02d:%02d", minutes, seconds));
-
+                //在update方法里面实现每隔一秒钟更新一次
                 updateSeekBar();
             }
         }
     };
-
+    //每隔一秒钟更新一次
     private void updateSeekBar() {
         mHandler.postDelayed(mRunnable, 1000);
     }

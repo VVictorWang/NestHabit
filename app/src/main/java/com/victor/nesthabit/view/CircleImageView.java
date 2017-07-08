@@ -21,9 +21,12 @@ import com.victor.nesthabit.R;
 
 /**
  * Created by victor on 7/2/17.
+ * email: chengyiwang@hustunique.com
+ * blog: www.victorwang.science
+ *
+ *
  * 圆形的ImageView
  */
-
 
 public class CircleImageView extends android.support.v7.widget.AppCompatImageView {
 

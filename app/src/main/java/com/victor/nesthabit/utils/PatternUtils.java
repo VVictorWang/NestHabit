@@ -6,6 +6,8 @@ import java.util.regex.Pattern;
 /**
  * 格式验证
  * Created by victor on 7/2/17.
+ * email: chengyiwang@hustunique.com
+ * blog: www.victorwang.science
  */
 
 public class PatternUtils {

@@ -13,6 +13,8 @@ import com.victor.nesthabit.R;
 
 /**
  * Created by victor on 7/2/17.
+ * email: chengyiwang@hustunique.com
+ * blog: www.victorwang.science
  */
 
 public class SlideImageView extends View {

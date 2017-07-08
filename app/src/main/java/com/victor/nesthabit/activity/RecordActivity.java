@@ -1,13 +1,13 @@
 package com.victor.nesthabit.activity;
 
 import android.os.Bundle;
-import android.app.Activity;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.adapters.RecordListAdapter;
 import com.victor.nesthabit.data.RecordItem;
@@ -15,7 +15,6 @@ import com.victor.nesthabit.fragments.RecordFragment;
 
 import org.litepal.crud.DataSupport;
 
-import java.io.File;
 import java.util.List;
 
 public class RecordActivity extends AppCompatActivity {

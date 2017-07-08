@@ -20,6 +20,10 @@ import com.victor.nesthabit.R;
 
 /**
  * Created by victor on 7/2/17.
+ * email: chengyiwang@hustunique.com
+ * blog: www.victorwang.science
+ *
+ * 切换开关
  */
 
 public class SwitchButton extends View {
