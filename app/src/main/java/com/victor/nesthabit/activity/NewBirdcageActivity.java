@@ -1,8 +1,8 @@
 package com.victor.nesthabit.activity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.app.Activity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -10,10 +10,10 @@ import android.widget.TextView;
 
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.utils.ActivityManager;
+import com.victor.nesthabit.base.BaseActivity;
 import com.victor.nesthabit.view.SwitchButton;
 
-public class NewBirdcageActivity extends Activity  {
+public class NewBirdcageActivity extends BaseActivity {
 
     private View newToolbar;
     private RelativeLayout introductionAndAdd;
@@ -28,8 +28,21 @@ public class NewBirdcageActivity extends Activity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_birdcage);
-        ActivityManager.getInstance().pushActivity(NewBirdcageActivity.this);
+        initEvent();
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_new_birdcage;
+    }
+
+    @Override
+    protected Activity getActivityToPush() {
+        return NewBirdcageActivity.this;
+    }
+
+    @Override
+    protected void initView() {
         newToolbar = (View) findViewById(R.id.new_toolbar);
         introductionAndAdd = (RelativeLayout) findViewById(R.id.introduction_and_add);
         creatBriefIntroduction = (TextView) findViewById(R.id.creat_brief_introduction);
@@ -39,18 +52,22 @@ public class NewBirdcageActivity extends Activity  {
         limitAmount = (RelativeLayout) findViewById(R.id.limit_amount);
         limitAmountToogle = (SwitchButton) findViewById(R.id.limit_amount_toogle);
         limitAmountPeople = (RelativeLayout) findViewById(R.id.limit_amount_people);
-        initEvent();
     }
 
-    private EditText getEditNewBirdcage(){
+    @Override
+    protected void initData() {
+
+    }
+
+    private EditText getEditNewBirdcage() {
         return (EditText) findViewById(R.id.edit_new_birdcage);
     }
 
-    private EditText getEditDay(){
+    private EditText getEditDay() {
         return (EditText) findViewById(R.id.edit_day);
     }
 
-    private EditText getLimitAmountPeopleText(){
+    private EditText getLimitAmountPeopleText() {
         return (EditText) findViewById(R.id.limit_amount_people_text);
     }
 

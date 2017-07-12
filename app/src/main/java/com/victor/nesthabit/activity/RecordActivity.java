@@ -1,5 +1,6 @@
 package com.victor.nesthabit.activity;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentTransaction;
@@ -10,14 +11,16 @@ import android.view.View;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.adapters.RecordListAdapter;
+import com.victor.nesthabit.base.BaseActivity;
 import com.victor.nesthabit.data.RecordItem;
 import com.victor.nesthabit.fragments.RecordFragment;
+import com.victor.nesthabit.utils.ActivityManager;
 
 import org.litepal.crud.DataSupport;
 
 import java.util.List;
 
-public class RecordActivity extends AppCompatActivity {
+public class RecordActivity extends BaseActivity {
 
     private View toolbarRecord;
     private RecyclerView record_list;
@@ -29,13 +32,21 @@ public class RecordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_record);
-        initView();
-        initData();
         initEvent();
     }
 
-    private void initView() {
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_record;
+    }
+
+    @Override
+    protected Activity getActivityToPush() {
+        return RecordActivity.this;
+    }
+
+    @Override
+    protected void initView() {
         toolbarRecord = (View) findViewById(R.id.toolbar_record);
         record_list = (RecyclerView) findViewById(R.id.record_list);
         mFloatingActionButton = (FloatingActionButton) findViewById(R.id.add_new_record);
@@ -43,7 +54,8 @@ public class RecordActivity extends AppCompatActivity {
         record_list.setLayoutManager(linearLayoutManager);
     }
 
-    private void initData() {
+    @Override
+    protected void initData() {
         mRecordItems = DataSupport.findAll(RecordItem.class);
         mRecordListAdapter = new RecordListAdapter(RecordActivity.this, mRecordItems);
         record_list.setAdapter(mRecordListAdapter);
