@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.base.BaseActivity;
-import com.victor.nesthabit.listenners.DragListenner;
 import com.victor.nesthabit.utils.LogUtils;
 import com.victor.nesthabit.view.DragCircleImageView;
 
@@ -46,7 +45,7 @@ public class AlarmActivity extends BaseActivity {
     protected void initView() {
         slideImage = (DragCircleImageView) findViewById(R.id.slide_image);
         textCancel = (TextView) findViewById(R.id.text_cancel);
-        slideImage.setDragListenner(new DragListenner() {
+        slideImage.setDragListenner(new DragCircleImageView.DragListenner() {
             @Override
             public void onNodeSelect(int positionX) {
                 if (positionX >= textCancel.getLeft()) {
@@ -58,6 +57,11 @@ public class AlarmActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+
+    }
+
+    @Override
+    protected void initEvent() {
 
     }
 }

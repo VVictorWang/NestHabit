@@ -22,7 +22,7 @@ import android.widget.Toast;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.data.RecordItem;
-import com.victor.nesthabit.listenners.OnNewRecordListenner;
+import com.victor.nesthabit.service.RecordingService;
 
 import java.io.File;
 import java.io.IOException;
@@ -36,7 +36,7 @@ public class PlayMusicFragment extends DialogFragment {
     private static final String ARG_STATUS = "status";
     public static final int STATUS_WAIT_FOR_SAVING = 1;
     public static final int STATUS_SAVED = 2;
-    private static OnNewRecordListenner sOnNewRecordListenner, sRecordListenner;
+    private static RecordingService.OnNewRecordListenner sOnNewRecordListenner, sRecordListenner;
     private RecordItem item;
 
     private Handler mHandler = new Handler();
@@ -357,11 +357,11 @@ public class PlayMusicFragment extends DialogFragment {
     }
 
 
-    public static void setOnNewRecordListenner(OnNewRecordListenner listenner) {
+    public static void setOnNewRecordListenner(RecordingService.OnNewRecordListenner listenner) {
         sOnNewRecordListenner = listenner;
     }
 
-    public static void setRecordListenner(OnNewRecordListenner listenner) {
+    public static void setRecordListenner(RecordingService.OnNewRecordListenner listenner) {
         sRecordListenner = listenner;
     }
 }

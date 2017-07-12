@@ -9,7 +9,6 @@ import android.util.Log;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.data.RecordItem;
-import com.victor.nesthabit.listenners.OnNewRecordListenner;
 import com.victor.nesthabit.utils.LogUtils;
 import com.victor.nesthabit.utils.PrefsUtils;
 
@@ -124,5 +123,10 @@ public class RecordingService extends Service {
     //设置监听器
     public static void setOnNewRecordListenner(OnNewRecordListenner listenner) {
         sOnNewRecordListenner = listenner;
+    }
+    public interface OnNewRecordListenner {
+        void onNewRecordAdded(RecordItem item); //录音文件已缓存
+        void onNewRecordAddedtoDataBase(RecordItem item); //录音文件实际保存
+        void onRecordDeleted(RecordItem item); //录音文件删除
     }
 }

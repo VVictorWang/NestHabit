@@ -28,7 +28,6 @@ public class NewBirdcageActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initEvent();
     }
 
     @Override
@@ -71,7 +70,8 @@ public class NewBirdcageActivity extends BaseActivity {
         return (EditText) findViewById(R.id.limit_amount_people_text);
     }
 
-    private void initEvent() {
+    @Override
+    protected void initEvent() {
         beginTimeTextTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

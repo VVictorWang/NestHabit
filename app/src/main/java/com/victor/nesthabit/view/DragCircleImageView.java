@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-import com.victor.nesthabit.listenners.DragListenner;
 
 /**
  * Created by victor on 7/3/17.
@@ -84,5 +83,8 @@ public class DragCircleImageView extends CircleImageView {
 
     public void setDragListenner(DragListenner listenner) {
         mDragListenner = listenner;
+    }
+    public interface DragListenner {
+        void onNodeSelect(int positionX);
     }
 }

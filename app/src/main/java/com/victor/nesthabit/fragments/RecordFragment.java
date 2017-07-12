@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.data.RecordItem;
-import com.victor.nesthabit.listenners.OnNewRecordListenner;
 import com.victor.nesthabit.service.RecordingService;
 
 import org.litepal.crud.DataSupport;
@@ -29,7 +28,7 @@ import java.io.File;
 
 import static android.R.attr.id;
 
-public class RecordFragment extends DialogFragment implements OnNewRecordListenner {
+public class RecordFragment extends DialogFragment implements RecordingService.OnNewRecordListenner {
     private FloatingActionButton recordButton;
     private Chronometer chronometer;
     private TextView mRecordingPrompt;

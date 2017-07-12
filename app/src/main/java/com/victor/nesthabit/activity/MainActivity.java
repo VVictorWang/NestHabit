@@ -26,7 +26,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setUpViewPager(birdcageviewpager);
         maintable.setupWithViewPager(birdcageviewpager);
-        initEvent();
     }
 
     @Override
@@ -51,8 +50,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     protected void initData() {
 
     }
-
-    private void initEvent() {
+    @Override
+    protected void initEvent() {
         findViewById(R.id.header_image_pop).setOnClickListener(this);
     }
 

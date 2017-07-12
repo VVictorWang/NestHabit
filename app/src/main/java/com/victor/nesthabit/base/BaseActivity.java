@@ -24,13 +24,17 @@ public abstract class BaseActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         initView();
         initData();
+        initEvent();
     }
 
 
     protected abstract Activity getActivityToPush();
+
     protected abstract int getLayoutId();
 
     protected abstract void initView();
 
     protected abstract void initData();
+
+    protected abstract void initEvent();
 }

@@ -11,13 +11,14 @@ import android.view.ViewGroup;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.adapters.BirdCaseFragAdapter;
+import com.victor.nesthabit.contacts.BirdCageContact;
 import com.victor.nesthabit.data.BirdCageInfo;
+import com.victor.nesthabit.presenter.BirdCagePresenter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
-public class BirdCageFragment extends Fragment {
+public class BirdCageFragment extends Fragment implements BirdCageContact.View{
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -28,10 +29,17 @@ public class BirdCageFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
 
-    private List<BirdCageInfo> mBirdCageInfos = new ArrayList<>();
 
     private BirdCaseFragAdapter mBirdCaseFragAdapter;
+
+    private BirdCageContact.Presenter mPresenter;
     private View rootview;
+
+    @Override
+    public void setPresenter(BirdCageContact.Presenter presenter) {
+        mPresenter = presenter;
+    }
+
 
     public static BirdCageFragment newInstance(String param1, String param2) {
         BirdCageFragment fragment = new BirdCageFragment();
@@ -50,6 +58,7 @@ public class BirdCageFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         mActivity = this.getActivity();
+        mPresenter = new BirdCagePresenter(this);
     }
 
     @Override
@@ -65,8 +74,7 @@ public class BirdCageFragment extends Fragment {
             }
         }
         initView();
-        initData();
-
+        mPresenter.start();
         // Inflate the layout for this fragment
         return rootview;
     }
@@ -79,21 +87,12 @@ public class BirdCageFragment extends Fragment {
 
     }
 
-    private void initData() {
-        for (int i = 0; i < 10; i++) {
-            BirdCageInfo info = new BirdCageInfo();
-            info.setDay_insist(7);
-            info.setDay_total(100);
-            info.setInfo("早起的鸟儿有虫吃");
-            info.setPeople(15);
-            mBirdCageInfos.add(info);
-        }
 
+
+    @Override
+    public void showRecyclerview(List<BirdCageInfo> mBirdCageInfos) {
         mBirdCaseFragAdapter = new BirdCaseFragAdapter(mActivity, mRecyclerView, mBirdCageInfos);
         mRecyclerView.setAdapter(mBirdCaseFragAdapter);
         mBirdCaseFragAdapter.notifyDataSetChanged();
     }
-
-
-
 }

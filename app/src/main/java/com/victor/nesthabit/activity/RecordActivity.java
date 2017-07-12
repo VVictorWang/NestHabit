@@ -12,27 +12,31 @@ import android.view.View;
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.adapters.RecordListAdapter;
 import com.victor.nesthabit.base.BaseActivity;
+import com.victor.nesthabit.contacts.RecordContact;
 import com.victor.nesthabit.data.RecordItem;
 import com.victor.nesthabit.fragments.RecordFragment;
+import com.victor.nesthabit.presenter.RecordActivityPresenter;
 import com.victor.nesthabit.utils.ActivityManager;
 
 import org.litepal.crud.DataSupport;
 
 import java.util.List;
 
-public class RecordActivity extends BaseActivity {
+public class RecordActivity extends BaseActivity implements RecordContact.View{
 
     private View toolbarRecord;
     private RecyclerView record_list;
     private RecordListAdapter mRecordListAdapter;
     private List<RecordItem> mRecordItems;
     private FloatingActionButton mFloatingActionButton;
+    private RecordContact.Presenter mRecordActivityPresenter;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initEvent();
+        mRecordActivityPresenter = new RecordActivityPresenter(this);
+        mRecordActivityPresenter.start();
     }
 
     @Override
@@ -56,12 +60,10 @@ public class RecordActivity extends BaseActivity {
 
     @Override
     protected void initData() {
-        mRecordItems = DataSupport.findAll(RecordItem.class);
-        mRecordListAdapter = new RecordListAdapter(RecordActivity.this, mRecordItems);
-        record_list.setAdapter(mRecordListAdapter);
-    }
 
-    private void initEvent() {
+    }
+    @Override
+    protected  void initEvent() {
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,4 +74,15 @@ public class RecordActivity extends BaseActivity {
         });
     }
 
+    @Override
+    public void setPresenter(RecordContact.Presenter presenter) {
+        mRecordActivityPresenter = presenter;
+    }
+
+    @Override
+    public void showRecyclerview(List<RecordItem> mRecordItems) {
+        mRecordListAdapter = new RecordListAdapter(RecordActivity.this, mRecordItems);
+        record_list.setAdapter(mRecordListAdapter);
+        mRecordListAdapter.notifyDataSetChanged();
+    }
 }

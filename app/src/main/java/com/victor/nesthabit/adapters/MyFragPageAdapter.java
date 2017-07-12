@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by victor on 7/2/17.
  * email: chengyiwang@hustunique.com
- * blog: www.victorwang.sciencere
+ * blog:  www.victorwang.science
  */
 
 public class MyFragPageAdapter extends FragmentPagerAdapter{

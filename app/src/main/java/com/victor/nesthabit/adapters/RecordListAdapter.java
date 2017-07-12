@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.data.RecordItem;
 import com.victor.nesthabit.fragments.PlayMusicFragment;
-import com.victor.nesthabit.listenners.OnNewRecordListenner;
+import com.victor.nesthabit.service.RecordingService;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
  * blog: www.victorwang.science
  */
 
-public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.ListViewHolder> implements OnNewRecordListenner{
+public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.ListViewHolder> implements RecordingService.OnNewRecordListenner {
     private Context mContext;
     private List<RecordItem> mRecordItems;
     private static final String TAG = "RecordListAdapter";
