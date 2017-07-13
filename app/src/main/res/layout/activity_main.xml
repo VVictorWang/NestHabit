@@ -6,7 +6,7 @@
     android:id="@+id/drawerlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.victor.nesthabit.activity.MainActivity">
+    tools:context="com.victor.nesthabit.ui.activity.MainActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -1,4 +1,4 @@
-package com.victor.nesthabit.fragments;
+package com.victor.nesthabit.ui.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

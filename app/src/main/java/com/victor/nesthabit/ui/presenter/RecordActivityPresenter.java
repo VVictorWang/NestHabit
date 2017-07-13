@@ -1,6 +1,6 @@
-package com.victor.nesthabit.presenter;
+package com.victor.nesthabit.ui.presenter;
 
-import com.victor.nesthabit.contacts.RecordContact;
+import com.victor.nesthabit.ui.contacts.RecordContact;
 import com.victor.nesthabit.data.RecordItem;
 
 import org.litepal.crud.DataSupport;

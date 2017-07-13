@@ -1,4 +1,4 @@
-package com.victor.nesthabit.fragments;
+package com.victor.nesthabit.ui.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -10,10 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.adapters.BirdCaseFragAdapter;
-import com.victor.nesthabit.contacts.BirdCageContact;
+import com.victor.nesthabit.ui.adapters.BirdCaseFragAdapter;
+import com.victor.nesthabit.ui.contacts.BirdCageContact;
 import com.victor.nesthabit.data.BirdCageInfo;
-import com.victor.nesthabit.presenter.BirdCagePresenter;
+import com.victor.nesthabit.ui.presenter.BirdCagePresenter;
 
 import java.util.List;
 

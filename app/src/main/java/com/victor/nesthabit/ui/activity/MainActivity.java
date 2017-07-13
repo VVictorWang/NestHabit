@@ -1,4 +1,4 @@
-package com.victor.nesthabit.activity;
+package com.victor.nesthabit.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -9,10 +9,10 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.adapters.MyFragPageAdapter;
+import com.victor.nesthabit.ui.adapters.MyFragPageAdapter;
 import com.victor.nesthabit.base.BaseActivity;
 import com.victor.nesthabit.data.AlarmTime;
-import com.victor.nesthabit.fragments.BirdCageFragment;
+import com.victor.nesthabit.ui.fragments.BirdCageFragment;
 import com.victor.nesthabit.utils.AlarmManagerUtil;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener{
@@ -21,6 +21,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
     private android.support.design.widget.TabLayout maintable;
     private android.widget.RelativeLayout drawer;
     private DrawerLayout mDrawerLayout;
+    public static final String TAG = "@victor MainActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

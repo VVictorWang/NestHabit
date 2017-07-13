@@ -1,4 +1,4 @@
-package com.victor.nesthabit.fragments;
+package com.victor.nesthabit.ui.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -22,11 +22,7 @@ import com.victor.nesthabit.R;
 import com.victor.nesthabit.data.RecordItem;
 import com.victor.nesthabit.service.RecordingService;
 
-import org.litepal.crud.DataSupport;
-
 import java.io.File;
-
-import static android.R.attr.id;
 
 public class RecordFragment extends DialogFragment implements RecordingService.OnNewRecordListenner {
     private FloatingActionButton recordButton;

@@ -1,4 +1,4 @@
-package com.victor.nesthabit.activity;
+package com.victor.nesthabit.ui.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;

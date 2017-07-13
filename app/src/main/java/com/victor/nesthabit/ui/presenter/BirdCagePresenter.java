@@ -1,7 +1,7 @@
-package com.victor.nesthabit.presenter;
+package com.victor.nesthabit.ui.presenter;
 
 import com.victor.nesthabit.data.BirdCageInfo;
-import com.victor.nesthabit.contacts.BirdCageContact;
+import com.victor.nesthabit.ui.contacts.BirdCageContact;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.victor.nesthabit.activity.AlarmActivity;
+import com.victor.nesthabit.ui.activity.AlarmActivity;
 import com.victor.nesthabit.broadcast.AlarmReceiver;
 import com.victor.nesthabit.data.AlarmTime;
 

@@ -1,10 +1,10 @@
-package com.victor.nesthabit.adapters;
+package com.victor.nesthabit.ui.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.victor.nesthabit.fragments.BirdCageFragment;
+import com.victor.nesthabit.ui.fragments.BirdCageFragment;
 
 import java.util.ArrayList;
 import java.util.List;

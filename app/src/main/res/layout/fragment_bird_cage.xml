@@ -2,7 +2,7 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="com.victor.nesthabit.fragments.BirdCageFragment">
+             tools:context="com.victor.nesthabit.ui.fragments.BirdCageFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/birdcage_recyclerview"

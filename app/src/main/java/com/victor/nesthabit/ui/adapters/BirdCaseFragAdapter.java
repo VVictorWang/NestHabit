@@ -1,4 +1,4 @@
-package com.victor.nesthabit.adapters;
+package com.victor.nesthabit.ui.adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,9 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.activity.AlarmActivity;
-import com.victor.nesthabit.activity.NewBirdcageActivity;
-import com.victor.nesthabit.activity.RecordActivity;
+import com.victor.nesthabit.ui.activity.NewBirdcageActivity;
+import com.victor.nesthabit.ui.activity.RecordActivity;
 import com.victor.nesthabit.data.BirdCageInfo;
 import com.victor.nesthabit.utils.ActivityManager;
 

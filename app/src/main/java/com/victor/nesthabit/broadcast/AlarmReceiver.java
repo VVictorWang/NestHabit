@@ -17,15 +17,12 @@ public class AlarmReceiver extends BroadcastReceiver {
     private MediaPlayer mediaPlayer;
     private Vibrator vibrator;
 
-    private final  int SECONDLY = 1,MINUTELY = 2,HOURLY  = 3, DAILY = 4;
+    private final int SECONDLY = 1, MINUTELY = 2, HOURLY = 3, DAILY = 4;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         int id = intent.getIntExtra("id", 0);
         AlarmTime alarmTime = DataSupport.find(AlarmTime.class, (long) id);
-//        Dbhelper database = Dbhelper.getreminderDatabase(context);
-//        Cursor cursor = database.getItem(id);
-//        cursor.moveToFirst();
         int frequency = alarmTime.getFrequency();
         Calendar time = Calendar.getInstance();
         time.setTimeInMillis(alarmTime.getTimeInmillis());
@@ -44,15 +41,9 @@ public class AlarmReceiver extends BroadcastReceiver {
             }
             alarmTime.setTimeInmillis(time.getTimeInMillis());
             alarmTime.update(id);
-//            database.updateTime(id, time.getTimeInMillis());
             AlarmManagerUtil.setAlarm(context, alarmTime);
-//            Intent setAlarm = new Intent(context, AlarmService.class);
-//            setAlarm.putExtra("id", id);
-//            setAlarm.setAction(AlarmService.CREATE);
-//            context.startService(setAlarm);
+        }
+
     }
-
-
-}
 
 }

@@ -3,6 +3,7 @@ package com.victor.nesthabit;
 import android.app.Application;
 
 import com.victor.nesthabit.utils.AppUtils;
+import com.victor.nesthabit.utils.NetworkUtils;
 
 import org.litepal.LitePal;
 

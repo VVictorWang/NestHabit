@@ -1,4 +1,4 @@
-package com.victor.nesthabit.adapters;
+package com.victor.nesthabit.ui.adapters;
 
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.data.RecordItem;
-import com.victor.nesthabit.fragments.PlayMusicFragment;
+import com.victor.nesthabit.ui.fragments.PlayMusicFragment;
 import com.victor.nesthabit.service.RecordingService;
 
 import java.util.List;

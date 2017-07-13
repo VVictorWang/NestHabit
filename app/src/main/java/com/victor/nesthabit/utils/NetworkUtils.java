@@ -18,6 +18,7 @@ import android.os.IBinder;
 import android.support.annotation.RequiresApi;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.victor.nesthabit.service.NetworkService;
 
@@ -396,10 +397,13 @@ public class NetworkUtils {
         context.bindService(intent, new ServiceConnection() {
             @Override
             public void onServiceDisconnected(ComponentName name) {
+                Toast.makeText(context, "网络已断开", Toast.LENGTH_SHORT);
             }
 
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
+
+                Toast.makeText(context, "网络已连接", Toast.LENGTH_SHORT);
             }
         }, Context.BIND_AUTO_CREATE);
     }
