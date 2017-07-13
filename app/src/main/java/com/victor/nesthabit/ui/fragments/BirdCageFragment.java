@@ -11,14 +11,14 @@ import android.view.ViewGroup;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.ui.adapters.BirdCaseFragAdapter;
-import com.victor.nesthabit.ui.contacts.BirdCageContact;
+import com.victor.nesthabit.ui.contracts.BirdCageContract;
 import com.victor.nesthabit.data.BirdCageInfo;
 import com.victor.nesthabit.ui.presenter.BirdCagePresenter;
 
 import java.util.List;
 
 
-public class BirdCageFragment extends Fragment implements BirdCageContact.View{
+public class BirdCageFragment extends Fragment implements BirdCageContract.View{
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -32,11 +32,11 @@ public class BirdCageFragment extends Fragment implements BirdCageContact.View{
 
     private BirdCaseFragAdapter mBirdCaseFragAdapter;
 
-    private BirdCageContact.Presenter mPresenter;
+    private BirdCageContract.Presenter mPresenter;
     private View rootview;
 
     @Override
-    public void setPresenter(BirdCageContact.Presenter presenter) {
+    public void setPresenter(BirdCageContract.Presenter presenter) {
         mPresenter = presenter;
     }
 

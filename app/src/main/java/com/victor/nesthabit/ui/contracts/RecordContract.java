@@ -1,4 +1,4 @@
-package com.victor.nesthabit.ui.contacts;
+package com.victor.nesthabit.ui.contracts;
 
 import com.victor.nesthabit.base.BasePresenter;
 import com.victor.nesthabit.base.Baseview;
@@ -12,7 +12,7 @@ import java.util.List;
  * blog: www.victorwang.science                                            #
  */
 
-public class RecordContact {
+public interface RecordContract {
     public interface View extends Baseview<Presenter> {
         void showRecyclerview(List<RecordItem> mRecordItems);
 

@@ -1,4 +1,4 @@
-package com.victor.nesthabit.ui.contacts;
+package com.victor.nesthabit.ui.contracts;
 
 import com.victor.nesthabit.base.BasePresenter;
 import com.victor.nesthabit.base.Baseview;
@@ -12,12 +12,12 @@ import java.util.List;
  * blog: www.victorwang.science                                            #
  */
 
-public class BirdCageContact {
-    public interface View extends Baseview<Presenter> {
+public interface BirdCageContract {
+    interface View extends Baseview<Presenter> {
         void showRecyclerview(List<BirdCageInfo> mBirdCageInfos);
     }
 
-    public interface Presenter extends BasePresenter {
+     interface Presenter extends BasePresenter {
     }
 
 }
