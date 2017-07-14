@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.base.BaseActivity;
+import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.view.SwitchButton;
 
 public class NewBirdcageActivity extends BaseActivity {

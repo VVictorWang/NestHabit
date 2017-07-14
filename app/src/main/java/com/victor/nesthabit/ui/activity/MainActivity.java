@@ -10,7 +10,7 @@ import android.widget.RelativeLayout;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.ui.adapters.MyFragPageAdapter;
-import com.victor.nesthabit.base.BaseActivity;
+import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.data.AlarmTime;
 import com.victor.nesthabit.ui.fragments.BirdCageFragment;
 import com.victor.nesthabit.utils.AlarmManagerUtil;
@@ -77,5 +77,4 @@ public class MainActivity extends BaseActivity implements View.OnClickListener{
         adapter.addFragment(new BirdCageFragment(), "鸟窝");
         viewPager.setAdapter(adapter);
     }
-
 }

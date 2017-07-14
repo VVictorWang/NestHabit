@@ -23,7 +23,6 @@ public class RecordActivityPresenter implements RecordContract.Presenter {
 
     @Override
     public void start() {
-
         List<RecordItem> mRecordItems = DataSupport.findAll(RecordItem.class);
         mView.showRecyclerview(mRecordItems);
 

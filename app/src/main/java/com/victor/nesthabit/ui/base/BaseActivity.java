@@ -1,4 +1,4 @@
-package com.victor.nesthabit.base;
+package com.victor.nesthabit.ui.base;
 
 import android.app.Activity;
 import android.os.Bundle;

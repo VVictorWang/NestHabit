@@ -1,4 +1,4 @@
-package com.victor.nesthabit.base;
+package com.victor.nesthabit.ui.base;
 
 /**
  * Created by victor on 7/12/17.

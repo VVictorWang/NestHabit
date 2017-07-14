@@ -10,7 +10,7 @@ import android.view.View;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.ui.adapters.RecordListAdapter;
-import com.victor.nesthabit.base.BaseActivity;
+import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.ui.contracts.RecordContract;
 import com.victor.nesthabit.data.RecordItem;
 import com.victor.nesthabit.ui.fragments.RecordFragment;

@@ -7,7 +7,7 @@ import android.os.Message;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.base.BaseActivity;
+import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.utils.LogUtils;
 import com.victor.nesthabit.view.DragCircleImageView;
 

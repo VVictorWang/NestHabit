@@ -84,7 +84,12 @@ public class BirdCageFragment extends Fragment implements BirdCageContract.View{
         mRecyclerView = (RecyclerView) rootview.findViewById(R.id.birdcage_recyclerview);
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
     }
 
 

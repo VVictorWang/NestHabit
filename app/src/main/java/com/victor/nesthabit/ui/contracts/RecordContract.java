@@ -1,7 +1,7 @@
 package com.victor.nesthabit.ui.contracts;
 
-import com.victor.nesthabit.base.BasePresenter;
-import com.victor.nesthabit.base.Baseview;
+import com.victor.nesthabit.ui.base.BasePresenter;
+import com.victor.nesthabit.ui.base.Baseview;
 import com.victor.nesthabit.data.RecordItem;
 
 import java.util.List;
