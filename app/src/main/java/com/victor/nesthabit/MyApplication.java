@@ -1,8 +1,10 @@
 package com.victor.nesthabit;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.victor.nesthabit.utils.AppUtils;
+import com.victor.nesthabit.utils.LogUtils;
 import com.victor.nesthabit.utils.NetworkUtils;
 
 import org.litepal.LitePal;
@@ -19,5 +21,6 @@ public class MyApplication extends Application{
         super.onCreate();
         LitePal.initialize(this);
         AppUtils.init(this);
+        LogUtils.init(this);
     }
 }
