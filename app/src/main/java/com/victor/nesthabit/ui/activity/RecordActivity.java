@@ -54,10 +54,7 @@ public class RecordActivity extends BaseActivity implements RecordContract.View{
         record_list.setLayoutManager(linearLayoutManager);
     }
 
-    @Override
-    protected void initData() {
 
-    }
     @Override
     protected  void initEvent() {
         mFloatingActionButton.setOnClickListener(new View.OnClickListener() {

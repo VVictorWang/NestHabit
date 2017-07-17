@@ -55,10 +55,7 @@ public class AlarmActivity extends BaseActivity {
         });
     }
 
-    @Override
-    protected void initData() {
 
-    }
 
     @Override
     protected void initEvent() {

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.victor.nesthabit.ui.activity.LoginActivity">
+
+    <com.victor.nesthabit.view.CircleImageView
+        android:id="@+id/login_logo"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:src="@drawable/logo"
+        />
+
+    <RelativeLayout
+        android:id="@+id/login_way_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        >
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="1.5dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="80dp"
+            android:background="@color/gray"
+            />
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="1.5dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="240dp"
+            android:background="@color/gray"
+            />
+
+        <TextView
+            android:id="@+id/login_way"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="登录方式"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/login_qq"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/login_way_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_background_yellow"
+        android:elevation="5dp"
+        >
+
+        <ImageView
+            android:id="@+id/qq_logo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:src="@mipmap/ic_launcher"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/qq_logo"
+            android:text="QQ账号登录"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/login_weichat"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/login_qq"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_background_yellow"
+        android:elevation="5dp"
+        >
+
+        <ImageView
+            android:id="@+id/weichat_logo"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:src="@mipmap/ic_launcher"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/weichat_logo"
+            android:text="微信账号登录"
+            />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:text="鸟窝习惯"
+        />
+
+
+</RelativeLayout>

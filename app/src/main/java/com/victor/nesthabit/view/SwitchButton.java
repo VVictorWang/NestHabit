@@ -117,6 +117,7 @@ public class SwitchButton extends View {
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setStyle(Paint.Style.FILL);
         paint.setStrokeCap(Paint.Cap.ROUND);
+
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.SwitchButton);
         offBorderColor = typedArray.getColor(R.styleable.SwitchButton_offBorderColor, offBorderColor);
         onColor = typedArray.getColor(R.styleable.SwitchButton_onColor, onColor);
@@ -267,7 +268,7 @@ public class SwitchButton extends View {
 
 
     @Override
-    public void draw(Canvas canvas) {
+    public void onDraw(Canvas canvas) {
         rect.set(0, 0, getWidth(), getHeight());
         paint.setColor(borderColor);
         if (is_rect) {

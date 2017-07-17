@@ -21,8 +21,6 @@ public class MyFragPageAdapter extends FragmentPagerAdapter{
 
     public MyFragPageAdapter(FragmentManager fm) {
         super(fm);
-        mFragments.add(new BirdCageFragment());
-        mTitles.add("鸟窝");
     }
 
     public void addFragment(Fragment fragment, String title) {

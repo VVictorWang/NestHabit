@@ -156,16 +156,16 @@
             android:textSize="18dp"
             />
 
-        <com.victor.nesthabit.view.SwitchButton
-            android:id="@+id/limit_amount_toogle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="40dp"
-            app:spotColor="@color/white"
-            app:offColor="@color/gray"
-            app:onColor="@color/toogle_on"
-           />
+        <!--<com.victor.nesthabit.view.SwitchButton-->
+            <!--android:id="@+id/limit_amount_toogle"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_marginRight="40dp"-->
+            <!--app:spotColor="@color/white"-->
+            <!--app:offColor="@color/gray"-->
+            <!--app:onColor="@color/toogle_on"-->
+           <!--/>-->
 
     </RelativeLayout>
 

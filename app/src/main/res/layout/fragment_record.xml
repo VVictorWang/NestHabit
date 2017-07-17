@@ -25,7 +25,7 @@
         android:layout_marginTop="10dp"
         android:indeterminate="false"
         android:max="100"
-        android:progress="0"
+        android:progress="10"
         android:progressDrawable="@drawable/record_progress_bar_background"/>
 
 

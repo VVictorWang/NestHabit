@@ -27,34 +27,35 @@ public class BirdCaseFragAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private Context mContext;
     private RecyclerView mRecyclerView;
 
-    private List<BirdCageInfo> mBirdCageInfos ;
+    private List<BirdCageInfo> mBirdCageInfos;
 
     private static int NEWBIRDCAGE = 1;
     private static int BIRDCAGELIST = 2;
 
 
-    private  class ListViewHolder extends RecyclerView.ViewHolder {
+    private class ListViewHolder extends RecyclerView.ViewHolder {
         private ImageView birdcageListImage;
         private TextView birdcageListText;
-        private TextView birdcageListDay;
+        private TextView progress_text;
         private TextView people;
 
 
-       ListViewHolder(View itemView) {
+        ListViewHolder(View itemView) {
             super(itemView);
-            people = (TextView) itemView.findViewById(R.id.birdcage_list_people);
             birdcageListImage = (ImageView) itemView.findViewById(R.id.birdcage_list_image);
             birdcageListText = (TextView) itemView.findViewById(R.id.birdcage_list_text);
-            birdcageListDay = (TextView) itemView.findViewById(R.id.birdcage_list_day);
+            progress_text = (TextView) itemView.findViewById(R.id.progress_text);
+            people = (TextView) itemView.findViewById(R.id.people);
         }
 
     }
 
-    private  class NewBirdCageViewHolder extends RecyclerView.ViewHolder {
+    private class NewBirdCageViewHolder extends RecyclerView.ViewHolder {
         private ImageView create;
-       NewBirdCageViewHolder(View itemView) {
+
+        NewBirdCageViewHolder(View itemView) {
             super(itemView);
-           create = (ImageView) itemView.findViewById(R.id.creat_new);
+            create = (ImageView) itemView.findViewById(R.id.creat_new);
         }
     }
 
@@ -98,9 +99,9 @@ public class BirdCaseFragAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         int type = getItemViewType(position);
         if (type == BIRDCAGELIST) {
             BirdCageInfo info = mBirdCageInfos.get(position);
-            ((ListViewHolder)holder).birdcageListDay.setText(info.getDay_insist() + "/" + info.getDay_total() + "天");
-            ((ListViewHolder)holder).birdcageListText.setText(info.getInfo());
-            ((ListViewHolder)holder).people.setText(info.getPeople() + "人");
+            ((ListViewHolder) holder).progress_text.setText(info.getDay_insist() + "/" + info.getDay_total());
+            ((ListViewHolder) holder).birdcageListText.setText(info.getInfo());
+            ((ListViewHolder) holder).people.setText(info.getPeople() + "人");
         }
 
     }

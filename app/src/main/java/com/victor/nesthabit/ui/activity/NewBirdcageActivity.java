@@ -22,7 +22,7 @@ public class NewBirdcageActivity extends BaseActivity {
     private RelativeLayout beginTime;
     private TextView beginTimeTextTime;
     private RelativeLayout limitAmount;
-    private SwitchButton limitAmountToogle;
+//    private SwitchButton limitAmountToogle;
     private RelativeLayout limitAmountPeople;
 
     @Override
@@ -49,14 +49,11 @@ public class NewBirdcageActivity extends BaseActivity {
         beginTime = (RelativeLayout) findViewById(R.id.begin_time);
         beginTimeTextTime = (TextView) findViewById(R.id.begin_time_text_time);
         limitAmount = (RelativeLayout) findViewById(R.id.limit_amount);
-        limitAmountToogle = (SwitchButton) findViewById(R.id.limit_amount_toogle);
+//        limitAmountToogle = (SwitchButton) findViewById(R.id.limit_amount_toogle);
         limitAmountPeople = (RelativeLayout) findViewById(R.id.limit_amount_people);
     }
 
-    @Override
-    protected void initData() {
 
-    }
 
     private EditText getEditNewBirdcage() {
         return (EditText) findViewById(R.id.edit_new_birdcage);
