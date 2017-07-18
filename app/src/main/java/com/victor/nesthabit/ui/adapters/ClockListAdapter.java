@@ -1,6 +1,7 @@
 package com.victor.nesthabit.ui.adapters;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
+import com.victor.nesthabit.view.SwitchButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,33 +31,41 @@ import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
 public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyViewHolder> {
     private Context mContext;
     private List<List<String>> weekdays = new ArrayList<>();
+    private int white;
+    private int white_transparent;
+
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        private RelativeLayout titleLayout;
         private TextView remindTitle;
         private ImageView remindImage;
         private TextView remindTime;
         private RecyclerView remindList;
         private TextView remidTimeLeft;
+        private SwitchButton mSwitchButton;
+        private CardView mCardView;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            titleLayout = (RelativeLayout) itemView.findViewById(R.id.title_layout);
             remindTitle = (TextView) itemView.findViewById(R.id.remind_title);
             remindImage = (ImageView) itemView.findViewById(R.id.remind_image);
             remindTime = (TextView) itemView.findViewById(R.id.remind_time);
             remindList = (RecyclerView) itemView.findViewById(R.id.remind_list);
             remidTimeLeft = (TextView) itemView.findViewById(R.id.remid_time_left);
+            mSwitchButton = (SwitchButton) itemView.findViewById(R.id.toogle);
+            mCardView = (CardView) itemView.findViewById(R.id.clock_card);
         }
     }
 
     public ClockListAdapter(Context context) {
         mContext = context;
+        white = mContext.getResources().getColor(R.color.white);
+        white_transparent = mContext.getResources().getColor(R.color.while_transpante60);
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from((parent.getContext())).inflate(R.layout.remind_clock_list_adapter, null);
+        View view = LayoutInflater.from((parent.getContext())).inflate(R.layout
+                .remind_clock_list_adapter, null);
         return new MyViewHolder(view);
     }
 
@@ -70,15 +80,32 @@ public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyVi
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         holder.remindList.setLayoutManager(linearLayoutManager);
         holder.remindList.setAdapter(adpater);
+        if (position == 2) {
+            holder.remindImage.setImageDrawable(mContext.getDrawable(R.drawable.night));
+        }
+        holder.mSwitchButton.setOnToggleChanged(new SwitchButton.OnToggleChanged() {
+            @Override
+            public void onToggle(boolean on) {
+                if (on) {
+                    holder.mCardView.setBackgroundColor(white);
+                } else {
+                    holder.mCardView.setBackgroundColor(white_transparent);
+                    holder.remindImage.setImageDrawable(mContext.getDrawable(R.drawable.day_67));
+                    holder.mSwitchButton.setSpotColor(mContext.getResources().getColor(R.color
+                            .spot_off));
+                }
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return 1;
+        return 3;
     }
 
     private class ClockWeekAdpater extends RecyclerView.Adapter<ClockWeekAdpater.ViewHolder> {
         private List<String> list;
+
         class ViewHolder extends RecyclerView.ViewHolder {
             private TextView mTextView;
 
@@ -94,7 +121,8 @@ public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyVi
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.clock_week_adapter, null);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout
+                    .clock_week_adapter, null);
             return new ViewHolder(view);
         }
 

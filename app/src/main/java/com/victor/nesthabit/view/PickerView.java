@@ -17,7 +17,7 @@ import java.util.TimerTask;
 /**
  * 滚动选择器
  * 模仿原生android的时间选择器
- *
+ * <p>
  * Created by victor on 7/2/17.
  * email: chengyiwang@hustunique.com
  * blog: www.victorwang.science
@@ -28,7 +28,7 @@ public class PickerView extends View {
     /**
      * text之间间距和minTextSize之比
      */
-    public static final float MARGIN_ALPHA = 2.8f;
+    public static final float MARGIN_ALPHA = 1.5f;
     /**
      * 自动回滚到中间的速度
      */
@@ -41,8 +41,8 @@ public class PickerView extends View {
     private int mCurrentSelected;
     private Paint mPaint;
 
-    private float mMaxTextSize = 80;
-    private float mMinTextSize = 40;
+    private float mMaxTextSize = 120;
+    private float mMinTextSize = 60;
 
     private float mMaxTextAlpha = 255;
     private float mMinTextAlpha = 120;
@@ -158,8 +158,8 @@ public class PickerView extends View {
         mViewHeight = getMeasuredHeight();
         mViewWidth = getMeasuredWidth();
         // 按照View的高度计算字体大小
-        mMaxTextSize = mViewHeight / 4.0f;
-        mMinTextSize = mMaxTextSize / 2f;
+        mMaxTextSize = mViewHeight / 3.0f;
+        mMinTextSize = mMaxTextSize / 1.5f;
         isInit = true;
         invalidate();
     }

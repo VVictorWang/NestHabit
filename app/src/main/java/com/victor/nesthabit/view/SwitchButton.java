@@ -311,6 +311,11 @@ public class SwitchButton extends View {
         }
     }
 
+    public void setSpotColor(int color) {
+        spotColor = color;
+        invalidate();
+    }
+
     /**
      * 计算绘制位置
      * mapValueFromRangeToRange方法计算从当前位置相对于目标位置所对应的值

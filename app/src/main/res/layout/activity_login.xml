@@ -9,8 +9,8 @@
 
     <com.victor.nesthabit.view.CircleImageView
         android:id="@+id/login_logo"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
         android:src="@drawable/logo"
@@ -29,16 +29,9 @@
             android:layout_height="1.5dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="80dp"
-            android:background="@color/gray"
+            android:background="@color/text"
             />
 
-        <ImageView
-            android:layout_width="60dp"
-            android:layout_height="1.5dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="240dp"
-            android:background="@color/gray"
-            />
 
         <TextView
             android:id="@+id/login_way"
@@ -46,7 +39,19 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:text="登录方式"
+            android:textColor="@color/text"
+            android:textSize="18dp"
             />
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="1.5dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="17dp"
+            android:layout_toRightOf="@id/login_way"
+            android:background="@color/text"
+            />
+
     </RelativeLayout>
 
     <RelativeLayout
@@ -55,27 +60,29 @@
         android:layout_height="50dp"
         android:layout_below="@+id/login_way_layout"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:background="@drawable/btn_background_yellow"
         android:elevation="5dp"
         >
 
         <ImageView
             android:id="@+id/qq_logo"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="33dp"
+            android:layout_height="33dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/qq"
             />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/qq_logo"
-            android:text="QQ账号登录"
+            android:text="@string/qq_login"
+            android:textColor="@color/white"
+            android:textSize="18dp"
             />
     </RelativeLayout>
 
@@ -85,27 +92,29 @@
         android:layout_height="50dp"
         android:layout_below="@+id/login_qq"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="25dp"
         android:background="@drawable/btn_background_yellow"
         android:elevation="5dp"
         >
 
         <ImageView
             android:id="@+id/weichat_logo"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="33dp"
+            android:layout_height="33dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/wechat"
             />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/weichat_logo"
-            android:text="微信账号登录"
+            android:text="@string/wechat_login"
+            android:textColor="@color/white"
+            android:textSize="17dp"
             />
     </RelativeLayout>
 
@@ -114,9 +123,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="13dp"
         android:text="鸟窝习惯"
+        android:textColor="#b0bec5"
+        android:textSize="14dp"
         />
-
 
 </RelativeLayout>

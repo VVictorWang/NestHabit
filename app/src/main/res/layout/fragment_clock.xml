@@ -2,6 +2,7 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:background="#f7f8f9"
               android:orientation="vertical"
               tools:context="com.victor.nesthabit.ui.fragments.ClockFragment">
 
@@ -9,8 +10,8 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="@color/yellow"
-        >
+        android:background="@color/yellow_background"
+        android:elevation="5dp">
 
         <TextView
             android:layout_width="wrap_content"

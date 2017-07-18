@@ -47,6 +47,8 @@
         </activity>
         <activity android:name=".ui.activity.AddAlarmActivity">
         </activity>
+        <activity android:name=".ui.activity.MusicSettingActivity">
+        </activity>
     </application>
 
 </manifest>

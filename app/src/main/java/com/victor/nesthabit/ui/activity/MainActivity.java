@@ -4,12 +4,17 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.ui.adapters.MyFragPageAdapter;
 import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.ui.fragments.BirdCageFragment;
 import com.victor.nesthabit.ui.fragments.ClockFragment;
+import com.victor.nesthabit.utils.MusicManger;
+
+import static com.victor.nesthabit.utils.MusicManger.TAG;
+import static com.victor.nesthabit.utils.MusicManger.getMusic;
 
 public class MainActivity extends BaseActivity {
 
@@ -21,6 +26,10 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setUpViewPager(birdcageviewpager);
         maintable.setupWithViewPager(birdcageviewpager);
+        String[] names = MusicManger.getMusic(MainActivity.this);
+        for (int i = 0; i < names.length; i++) {
+            Log.e(TAG, names[i] + "   ");
+        }
     }
 
     @Override
