@@ -49,6 +49,14 @@
         </activity>
         <activity android:name=".ui.activity.MusicSettingActivity">
         </activity>
+        <activity android:name=".ui.activity.MusicProfileActivity">
+        </activity>
+        <activity android:name=".ui.activity.AddNestActivity">
+        </activity>
+        <activity android:name=".ui.activity.ProfileActivity">
+        </activity>
+        <activity android:name=".ui.activity.AdviceActivity">
+        </activity>
     </application>
 
 </manifest>

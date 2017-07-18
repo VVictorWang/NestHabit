@@ -3,16 +3,18 @@
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="175dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="14dp">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        app:cardCornerRadius="2dp"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true">
+        android:background="@color/white"
+        android:elevation="5dp"
+        app:cardCornerRadius="2dp"
+        >
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -24,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="130dp"
                 android:layout_centerHorizontal="true"
-                android:src="@mipmap/ic_launcher"/>
+                android:src="@drawable/picture_1"/>
 
             <RelativeLayout
                 android:id="@+id/title_layout"
@@ -35,21 +37,33 @@
                 >
 
                 <ImageView
-                    android:layout_width="4dp"
+                    android:layout_width="2dp"
                     android:layout_height="20dp"
-                    android:layout_marginLeft="5dp"
-                    android:src="@drawable/rectangle_red_small"
+                    android:layout_marginLeft="8dp"
+                    android:background="@color/red_progress"
                     />
 
                 <TextView
                     android:id="@+id/birdcage_list_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="12dp"
                     android:maxEms="6"
-                    android:singleLine="true"
+                    android:maxLines="1"
                     android:text="早起的鸟儿有虫吃"
-                    android:textSize="16dp"
+                    android:textColor="@color/text_clock"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    />
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/master"
                     />
             </RelativeLayout>
 
@@ -71,8 +85,8 @@
                     android:layout_marginRight="10dp"
                     android:max="100"
                     android:progress="40"
-                    android:progressBackgroundTint="@color/progress_background"
-                    android:progressTint="@color/red"
+                    android:progressBackgroundTint="@color/gray_progress"
+                    android:progressTint="@color/red_progress"
                     />
 
                 <TextView
@@ -82,49 +96,56 @@
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:text="40/100"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
                     />
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_below="@+id/progress_layout"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="5dp"
                 android:layout_marginLeft="10dp"
                 >
 
                 <com.victor.nesthabit.view.CircleImageView
                     android:id="@+id/avatar1"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@mipmap/ic_launcher"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/someone"
 
                     />
 
                 <com.victor.nesthabit.view.CircleImageView
                     android:id="@+id/avatar2"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="15dp"
-                    android:src="@mipmap/ic_launcher"
+                    android:src="@drawable/someone_2"
                     />
 
                 <com.victor.nesthabit.view.CircleImageView
                     android:id="@+id/avatar3"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="30dp"
-                    android:src="@mipmap/ic_launcher"
+                    android:src="@drawable/someone_3"
                     />
 
                 <TextView
+                    android:id="@+id/people"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="5dp"
-                    android:layout_marginTop="2dp"
                     android:layout_toRightOf="@+id/avatar3"
                     android:text="+15人"
-                    android:id="@+id/people"
+                    android:textColor="@color/mygray"
+                    android:textSize="12sp"
                     />
 
             </RelativeLayout>

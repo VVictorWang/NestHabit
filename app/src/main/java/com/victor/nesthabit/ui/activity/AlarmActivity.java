@@ -4,31 +4,35 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.ui.base.BaseActivity;
-import com.victor.nesthabit.utils.LogUtils;
-import com.victor.nesthabit.view.DragCircleImageView;
-
-import butterknife.BindView;
+import com.victor.nesthabit.view.DragTextView;
 
 public class AlarmActivity extends BaseActivity {
 
-    @BindView(R.id.slide_image)
-    DragCircleImageView slideImage;
-    @BindView(R.id.text_cancel)
-    TextView textCancel;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
         }
     };
+    private TextView time;
+    private TextView textView;
+    private android.widget.ImageView imagecancel;
+    private TextView textcancel;
+    private android.widget.ImageView imagepullof;
+    private com.victor.nesthabit.view.DragTextView dragtext;
+    private ImageView imagesnap;
+    public static final String TAG = "@victor AlarmActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -43,21 +47,23 @@ public class AlarmActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        slideImage = (DragCircleImageView) findViewById(R.id.slide_image);
-        textCancel = (TextView) findViewById(R.id.text_cancel);
-        slideImage.setDragListenner(new DragCircleImageView.DragListenner() {
-            @Override
-            public void onNodeSelect(int positionX) {
-                if (positionX >= textCancel.getLeft()) {
-                    LogUtils.d("Main: ", "平移");
-                }
-            }
-        });
+        this.imagesnap = (ImageView) findViewById(R.id.image_snap);
+        this.dragtext = (DragTextView) findViewById(R.id.drag_text);
+        this.imagecancel = (ImageView) findViewById(R.id.image_cancel);
+        this.textView = (TextView) findViewById(R.id.textView);
+        this.time = (TextView) findViewById(R.id.time);
     }
 
 
     @Override
     protected void initEvent() {
-
+        dragtext.setDragListenner(new DragTextView.DragListenner() {
+            @Override
+            public void onNodeSelect(int positionX) {
+                if (positionX >= imagesnap.getLeft() - 10) {
+                    Log.d(TAG, "平移");
+                }
+            }
+        });
     }
 }

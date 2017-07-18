@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/orange"
+    android:background="@color/red_background"
     tools:context="com.victor.nesthabit.ui.activity.AddAlarmActivity"
     >
 
@@ -56,8 +56,8 @@
             <com.victor.nesthabit.view.PickerView
                 android:id="@+id/pickview_hour"
                 android:layout_width="140dp"
-                android:layout_marginLeft="50dp"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="50dp"
                 android:gravity="right"
                 />
 
@@ -550,6 +550,8 @@
         android:background="@drawable/btn_background_yellow"
         android:text="@string/finish"
         android:textColor="@color/white"
+        android:textSize="18sp"
+        android:elevation="5dp"
 
         />
 

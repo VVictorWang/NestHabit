@@ -21,6 +21,11 @@
         android:id="@+id/main_table"
         android:layout_width="match_parent"
         android:layout_height="60dp"
+        app:tabGravity="fill"
+        app:tabIndicatorHeight="0dp"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@color/text"
+        app:tabTextColor="#B0BEC5"
         />
 
 

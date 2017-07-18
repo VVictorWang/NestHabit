@@ -2,6 +2,7 @@ package com.victor.nesthabit.ui.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -10,15 +11,20 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.victor.nesthabit.R;
+import com.victor.nesthabit.ui.activity.AddAlarmActivity;
+import com.victor.nesthabit.ui.activity.AddNestActivity;
+import com.victor.nesthabit.ui.activity.ProfileActivity;
 import com.victor.nesthabit.ui.adapters.BirdCaseFragAdapter;
 import com.victor.nesthabit.ui.contracts.BirdCageContract;
 import com.victor.nesthabit.data.BirdCageInfo;
 import com.victor.nesthabit.ui.presenter.BirdCagePresenter;
+import com.victor.nesthabit.utils.ActivityManager;
+import com.victor.nesthabit.view.CircleImageView;
 
 import java.util.List;
 
 
-public class BirdCageFragment extends Fragment implements BirdCageContract.View{
+public class BirdCageFragment extends Fragment implements BirdCageContract.View {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -28,6 +34,8 @@ public class BirdCageFragment extends Fragment implements BirdCageContract.View{
     private Activity mActivity;
 
     private RecyclerView mRecyclerView;
+    private FloatingActionButton add;
+    private CircleImageView setting;
 
 
     private BirdCaseFragAdapter mBirdCaseFragAdapter;
@@ -82,16 +90,24 @@ public class BirdCageFragment extends Fragment implements BirdCageContract.View{
 
     private void initView() {
         mRecyclerView = (RecyclerView) rootview.findViewById(R.id.birdcage_recyclerview);
-        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        add = (FloatingActionButton) rootview.findViewById(R.id.add);
+        setting = (CircleImageView) rootview.findViewById(R.id.setting);
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2,
+                StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setOnClickListener(new View.OnClickListener() {
+        add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                ActivityManager.startActivity(mActivity, AddNestActivity.class);
+            }
+        });
+        setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityManager.startActivity(mActivity, ProfileActivity.class);
             }
         });
     }
-
 
 
     @Override

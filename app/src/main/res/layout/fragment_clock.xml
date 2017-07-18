@@ -17,7 +17,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="闹钟"
+            android:text="@string/clock"
+            android:textColor="@color/text_clock"
+            android:textSize="18sp"
+            android:textStyle="bold"
             />
 
     </RelativeLayout>

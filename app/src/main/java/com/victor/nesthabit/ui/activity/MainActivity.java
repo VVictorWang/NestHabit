@@ -20,16 +20,12 @@ public class MainActivity extends BaseActivity {
 
     private android.support.v4.view.ViewPager birdcageviewpager;
     private android.support.design.widget.TabLayout maintable;
+    private TabLayout.Tab nest, clock;
     public static final String TAG = "@victor MainActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setUpViewPager(birdcageviewpager);
-        maintable.setupWithViewPager(birdcageviewpager);
-        String[] names = MusicManger.getMusic(MainActivity.this);
-        for (int i = 0; i < names.length; i++) {
-            Log.e(TAG, names[i] + "   ");
-        }
     }
 
     @Override
@@ -46,18 +42,55 @@ public class MainActivity extends BaseActivity {
     protected void initView() {
         this.maintable = (TabLayout) findViewById(R.id.main_table);
         this.birdcageviewpager = (ViewPager) findViewById(R.id.birdcage_view_pager);
+        setUpViewPager(birdcageviewpager);
+        maintable.setupWithViewPager(birdcageviewpager);
+        setTab();
     }
 
+    private void setTab() {
+        clock = maintable.getTabAt(0);
+        nest = maintable.getTabAt(1);
+        clock.setIcon(getResources().getDrawable(R.drawable.clock_clicked));
+        nest.setIcon(getResources().getDrawable(R.drawable.nest_normal));
+        birdcageviewpager.setCurrentItem(0);
+    }
 
     @Override
     protected void initEvent() {
+        maintable.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                if (tab == maintable.getTabAt(0)) {
+                    clock.setIcon(getResources().getDrawable(R.drawable.clock_clicked));
+                    birdcageviewpager.setCurrentItem(0);
+                } else if (tab == maintable.getTabAt(1)) {
+                    nest.setIcon(getResources().getDrawable(R.drawable.nest_click));
+                    birdcageviewpager.setCurrentItem(1);
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                if (tab == maintable.getTabAt(0)) {
+                    clock.setIcon(getResources().getDrawable(R.drawable.clock_unclick));
+                } else if (tab == maintable.getTabAt(1)) {
+                    nest.setIcon(getResources().getDrawable(R.drawable.nest_normal));
+                }
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
     }
 
     private void setUpViewPager(ViewPager viewPager) {
         MyFragPageAdapter adapter = new MyFragPageAdapter(getSupportFragmentManager());
-        adapter.addFragment(new BirdCageFragment(), "鸟窝");
-        adapter.addFragment(new ClockFragment(), "闹钟");
+        adapter.addFragment(new ClockFragment(),"闹钟");
+        adapter.addFragment(new BirdCageFragment(),"鸟窝");
         viewPager.setAdapter(adapter);
     }
 }

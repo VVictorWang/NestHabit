@@ -1,9 +1,13 @@
 package com.victor.nesthabit.view;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+
+import com.victor.nesthabit.R;
 
 
 /**
@@ -25,22 +29,39 @@ public class DragCircleImageView extends CircleImageView {
     private DragListenner mDragListenner;
     private float originX;
     private float originY;
+    private String text;
+    private int textColor;
+    private float textSize;
     public DragCircleImageView(Context context) {
         super(context);
     }
 
     public DragCircleImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        initView(context, context.obtainStyledAttributes(attrs, R.styleable.DragCircleImageView));
     }
 
     public DragCircleImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        initView(context, context.obtainStyledAttributes(attrs, R.styleable.DragCircleImageView));
+    }
+
+    private void initView(Context context,TypedArray a) {
+        text = a.getString(R.styleable.DragCircleImageView_text);
+        textColor = a.getColor(R.styleable.DragCircleImageView_textColor, context.getResources()
+                .getColor(R.color.white));
+        textSize = a.getDimension(R.styleable.DragCircleImageView_textSize, 20);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         init();
+        Paint paint = new Paint();
+        paint.setColor(textColor);
+        paint.setTextSize(textSize);
+        paint.setStyle(Paint.Style.FILL);
+        canvas.drawText(text, getWidth() / 2 - 10, getHeight() / 2, paint);
     }
 
     private void init() {

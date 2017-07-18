@@ -8,60 +8,88 @@
     tools:context="com.victor.nesthabit.ui.activity.AlarmActivity">
 
     <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="58dp"
+        android:text="07:59"
+        android:textColor="@color/text_color"
+        android:textSize="60sp"
+        android:textStyle="bold"
+        />
+
+    <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/time"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="107dp"
-        android:text="早起的鸟儿有虫吃"
-        android:textColor="@color/black"
-        android:textSize="20dp"/>
+        android:layout_marginTop="10dp"
+        android:text="我要早起"
+        android:textColor="@color/mygray"
+        android:textSize="30sp"
+        android:textStyle="bold"
 
-    <com.victor.nesthabit.view.DragCircleImageView
-        android:id="@+id/slide_image"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+
+        />
+
+    <com.victor.nesthabit.view.DragTextView
+        android:layout_width="170dp"
+        android:layout_height="160dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="150dp"
-        android:src="@drawable/ic_alarm_on_black_24dp"
+        android:layout_centerVertical="true"
+        android:background="@drawable/clock_button"
+        android:gravity="center"
+        android:paddingLeft="5dp"
+        android:paddingBottom="10dp"
+        android:text="@string/da_ka"
+        android:textColor="@color/white"
+        android:textSize="40sp"
+        android:id="@+id/drag_text"
         />
 
 
+    <ImageView
+        android:id="@+id/image_snap"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="12dp"
+        android:src="@drawable/right"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/image_snap"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/snap_short"
+        android:textColor="@color/mygray"
+        android:textSize="18dp"
+        />
 
     <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
         android:id="@+id/image_cancel"
-        android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
-        android:layout_marginLeft="320dp"
-        android:layout_marginTop="200dp"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="320dp"
-        android:layout_below="@+id/image_cancel"
-        android:textSize="15dp"
-        android:id="@+id/text_cancel"
-        android:text="取消"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="12dp"
+        android:src="@drawable/left"
         />
 
-    <ImageView
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/ic_keyboard_arrow_left_black_24dp"
-        android:layout_marginTop="200dp"
-        android:layout_marginLeft="20dp"
-        android:id="@+id/image_pull_of"
-        />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/image_pull_of"
-        android:layout_marginLeft="10dp"
-        android:text="推迟五分钟"
-        android:textSize="15dp"
+        android:layout_below="@+id/image_cancel"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/cancel"
+        android:textColor="#78909c"
+        android:textSize="18dp"
 
         />
     <!--app:layout_constraintLeft_toRightOf="@+id/slide_image"-->

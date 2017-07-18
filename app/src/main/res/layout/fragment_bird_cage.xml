@@ -4,18 +4,22 @@
                 android:layout_height="match_parent"
                 android:background="@color/white_background"
                 tools:context="com.victor.nesthabit.ui.fragments.BirdCageFragment">
+
     <RelativeLayout
-        android:layout_width="match_parent"
         android:id="@+id/toolbar"
-        android:layout_height="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
         android:background="@color/yellow_background"
+        android:elevation="5dp"
         >
 
         <com.victor.nesthabit.view.CircleImageView
-            android:id="@+id/header_image_pop"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@mipmap/ic_launcher"
+            android:id="@+id/setting"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="14dp"
+            android:src="@drawable/huang"
             />
 
         <TextView
@@ -23,11 +27,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:paddingTop="10dp"
-            android:text="我的鸟窝"
-            android:textColor="@color/black"
-            android:textSize="18dp"/>
-
+            android:layout_centerVertical="true"
+            android:text="@string/nest"
+            android:textColor="@color/text_clock"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            />
 
     </RelativeLayout>
 
@@ -36,6 +41,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/toolbar"
+        />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/add"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/ic_action_add"
         />
 
 </RelativeLayout>

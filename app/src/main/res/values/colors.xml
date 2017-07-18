@@ -14,13 +14,17 @@
     <color name="primary">#F44336</color>
     <color name="red">#de1d20</color>
     <color name="orange">#ed4444</color>
+    <color name="red_background">#FF8A85</color>
     <color name="yellow">#e1cd1a</color>
     <color name="yellow_background">#FCE58C</color>
     <color name="progress_background">#b3b3b3</color>
     <color name="name_color">#FCE58C</color>
     <color name="text">#78909c</color>
+    <color name="red_progress">#FA8073</color>
+    <color name="gray_progress">#B0BEC5</color>
     <color name="background">#FFFFFF</color>
     <color name="text_color">#5c6b73</color>
+    <color name="text_hint">#B0BEC5</color>
     <color name="fenge">#c9c6c6</color>
     <color name="mygray">#78909c</color>
     <color name="progressBackground">#ffb0bec5</color>

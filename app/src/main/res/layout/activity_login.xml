@@ -28,7 +28,7 @@
             android:layout_width="60dp"
             android:layout_height="1.5dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="80dp"
+            android:layout_marginLeft="75dp"
             android:background="@color/text"
             />
 

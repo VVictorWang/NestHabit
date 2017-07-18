@@ -10,6 +10,11 @@
         <attr name="animate" format="reference|boolean" />
         <attr name="isRect" format="reference|boolean" />
     </declare-styleable>
+    <declare-styleable name="DragCircleImageView">
+        <attr name="text" format="string"/>
+        <attr name="textSize" format="dimension"/>
+        <attr name="textColor" format="color"/>
+    </declare-styleable>
 
     <declare-styleable name="SlidedImageView">
         <attr name="siv_rate" format="float"/>
