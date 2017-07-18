@@ -64,6 +64,12 @@ public class ProfileActivity extends BaseActivity {
                 ActivityManager.startActivity(ProfileActivity.this, AdviceActivity.class);
             }
         });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityManager.finishActivity(ProfileActivity.this);
+            }
+        });
 
     }
 
