@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.ui.activity.AddAlarmActivity;
 import com.victor.nesthabit.ui.activity.AddNestActivity;
+import com.victor.nesthabit.ui.activity.NestSpecificActivity;
 import com.victor.nesthabit.ui.activity.ProfileActivity;
 import com.victor.nesthabit.ui.adapters.BirdCaseFragAdapter;
 import com.victor.nesthabit.ui.contracts.BirdCageContract;
@@ -98,7 +99,7 @@ public class BirdCageFragment extends Fragment implements BirdCageContract.View 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityManager.startActivity(mActivity, AddNestActivity.class);
+                ActivityManager.startActivity(mActivity, NestSpecificActivity.class);
             }
         });
         setting.setOnClickListener(new View.OnClickListener() {

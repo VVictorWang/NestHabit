@@ -57,6 +57,18 @@
         </activity>
         <activity android:name=".ui.activity.AdviceActivity">
         </activity>
+        <activity android:name=".ui.activity.NestSpecificActivity">
+        </activity>
+        <activity android:name=".ui.activity.RankActivity">
+        </activity>
+        <activity android:name=".ui.activity.MemberListActivity">
+        </activity>
+        <activity android:name=".ui.activity.NestGroupDetailActivity">
+        </activity>
+        <activity android:name=".ui.activity.AddRemindActivity">
+        </activity>
+        <activity android:name=".ui.activity.ChooseActivity">
+        </activity>
     </application>
 
 </manifest>

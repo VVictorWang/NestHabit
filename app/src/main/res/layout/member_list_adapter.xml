@@ -5,26 +5,28 @@
               android:orientation="vertical">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="75dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="12dp"
         >
 
         <com.victor.nesthabit.view.CircleImageView
             android:id="@+id/avatar"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:src="@mipmap/ic_launcher"
+            android:layout_width="74dp"
+            android:layout_height="74dp"
+            android:elevation="5dp"
+            android:src="@drawable/huang"
             />
 
         <ImageView
             android:id="@+id/delete"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_alignParentRight="true"
             android:layout_marginLeft="50dp"
-            android:src="@mipmap/ic_launcher"
-            android:visibility="gone"
+            android:elevation="5dp"
+            android:src="@drawable/delete"
             />
 
         <TextView
@@ -32,9 +34,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/avatar"
-            android:layout_marginLeft="8dp"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="5dp"
             android:text="黄思佳"
+            android:textColor="@color/mygray"
+            android:textSize="14dp"
             />
     </RelativeLayout>
 

@@ -2,13 +2,13 @@
 <resources>
     <!-- Switch Button -->
     <declare-styleable name="SwitchButton">
-        <attr name="swBorderWidth" format="reference|dimension" />
-        <attr name="offBorderColor" format="reference|color" />
-        <attr name="offColor" format="reference|color" />
-        <attr name="onColor" format="reference|color" />
-        <attr name="spotColor" format="reference|color" />
-        <attr name="animate" format="reference|boolean" />
-        <attr name="isRect" format="reference|boolean" />
+        <attr name="swBorderWidth" format="reference|dimension"/>
+        <attr name="offBorderColor" format="reference|color"/>
+        <attr name="offColor" format="reference|color"/>
+        <attr name="onColor" format="reference|color"/>
+        <attr name="spotColor" format="reference|color"/>
+        <attr name="animate" format="reference|boolean"/>
+        <attr name="isRect" format="reference|boolean"/>
     </declare-styleable>
 
     <declare-styleable name="SlidedImageView">

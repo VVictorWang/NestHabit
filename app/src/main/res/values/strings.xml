@@ -52,4 +52,19 @@
     <string name="advice_hint">我们将十分认真对待您的意见</string>
     <string name="contact_way">联系方式</string>
     <string name="phone_or_number">请留下您的电话或者QQ号</string>
+    <string name="da_ka_total">总打卡</string>
+    <string name="da_ka_cons">连续打卡</string>
+    <string name="rank">排行榜</string>
+    <string name="member_list">成员列表</string>
+    <string name="member">成员</string>
+    <string name="open_nest">开放鸟窝入口</string>
+    <string name="remind_friend">提醒朋友</string>
+    <string name="dissolve_nest">解散鸟窝</string>
+    <string name="quit_nest">退出鸟窝</string>
+    <string name="delete_member">将该成员从鸟窝中删除</string>
+    <string name="duixiang">对象</string>
+    <string name="start">起始</string>
+    <string name="end">结束</string>
+    <string name="long_record">长按录制</string>
+    <string name="input_number_limit">输入内容不超过80字</string>
 </resources>
