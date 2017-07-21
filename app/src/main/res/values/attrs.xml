@@ -6,9 +6,11 @@
         <attr name="offBorderColor" format="reference|color"/>
         <attr name="offColor" format="reference|color"/>
         <attr name="onColor" format="reference|color"/>
-        <attr name="spotColor" format="reference|color"/>
+        <attr name="spotColoroff" format="reference|color"/>
+        <attr name="spotColoron" format="reference|color"/>
         <attr name="animate" format="reference|boolean"/>
         <attr name="isRect" format="reference|boolean"/>
+        <attr name="marginHeight" format="dimension"/>
     </declare-styleable>
 
     <declare-styleable name="SlidedImageView">

@@ -53,6 +53,7 @@
                     android:layout_marginRight="14dp"
                     android:background="@null"
                     android:maxEms="8"
+                    android:textCursorDrawable="@drawable/cursor_drawable"
                     android:maxLines="1"
                     android:text="巴拉巴拉巴拉"
                     android:textColor="@color/mygray"
@@ -156,6 +157,7 @@
                     android:background="@null"
                     android:maxEms="8"
                     android:maxLines="1"
+                    android:textCursorDrawable="@drawable/cursor_drawable"
                     android:text="100"
                     android:textColor="@color/mygray"
                     android:textSize="16sp"
@@ -252,14 +254,16 @@
 
                 <com.victor.nesthabit.view.SwitchButton
                     android:id="@+id/limit_amount_toogle"
-                    android:layout_width="36dp"
-                    android:layout_height="18dp"
+                    android:layout_width="40dp"
+                    android:layout_height="20dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
-                    app:offColor="@color/progressBackground"
-                    app:onColor="@color/accent"
-                    app:spotColor="@color/name_color"
+                    app:marginHeight="15dp"
+                    app:offColor="@color/offcolor"
+                    app:onColor="@color/offcolor"
+                    app:spotColoroff="@color/spot_off"
+                    app:spotColoron="@color/name_color"
                     app:swBorderWidth="0dp"
                     />
 
@@ -301,6 +305,7 @@
                     android:maxEms="8"
                     android:maxLines="1"
                     android:text="100"
+                    android:textCursorDrawable="@drawable/cursor_drawable"
                     android:textColor="@color/mygray"
                     android:textSize="16sp"
                     />
@@ -335,14 +340,16 @@
 
                 <com.victor.nesthabit.view.SwitchButton
                     android:id="@+id/open_toogle"
-                    android:layout_width="36dp"
-                    android:layout_height="18dp"
+                    android:layout_width="40dp"
+                    android:layout_height="20dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
-                    app:offColor="@color/progressBackground"
-                    app:onColor="@color/accent"
-                    app:spotColor="@color/name_color"
+                    app:marginHeight="15dp"
+                    app:offColor="@color/offcolor"
+                    app:onColor="@color/offcolor"
+                    app:spotColoroff="@color/spot_off"
+                    app:spotColoron="@color/name_color"
                     app:swBorderWidth="0dp"
                     />
             </RelativeLayout>
@@ -397,7 +404,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|center_horizontal"
-            android:layout_marginLeft="10dp"
             android:text="@string/dissolve_nest"
             android:textColor="@color/redbtn"
             android:textSize="16sp"
@@ -412,7 +418,7 @@
         android:layout_width="match_parent"
         android:layout_height="30dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="70dp"
         >
 
         <View

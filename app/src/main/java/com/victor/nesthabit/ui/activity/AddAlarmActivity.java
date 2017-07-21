@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -19,14 +20,14 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 
-public class AddAlarmActivity extends BaseActivity {
+public class AddAlarmActivity extends BaseActivity implements View.OnClickListener{
 
 
     private RelativeLayout music_layout, title_layout;
     private PickerView pickview_hour, pickerview_minute;
     private TextView back;
     private CardView timepicker;
-    private TextView title;
+    private EditText title;
     private TextView sunday;
     private TextView monday;
     private TextView tuesday;
@@ -42,6 +43,7 @@ public class AddAlarmActivity extends BaseActivity {
     private TextView snaptime;
     private SwitchButton receivevoice;
     private SwitchButton receivetext;
+    private SwitchButton snaptoogle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,9 +81,10 @@ public class AddAlarmActivity extends BaseActivity {
         this.tuesday = (TextView) findViewById(R.id.tuesday);
         this.monday = (TextView) findViewById(R.id.monday);
         this.sunday = (TextView) findViewById(R.id.sunday);
-        this.title = (TextView) findViewById(R.id.title);
+        this.title = (EditText) findViewById(R.id.title);
         this.timepicker = (CardView) findViewById(R.id.time_picker);
         this.back = (TextView) findViewById(R.id.back);
+        snaptoogle = (SwitchButton) findViewById(R.id.snap_toogle);
         pickview_hour = (PickerView) findViewById(R.id.pickview_hour);
         pickerview_minute = (PickerView) findViewById(R.id.pickerview_minute);
         music_layout = (RelativeLayout) findViewById(R.id.music_layout);
@@ -103,6 +106,7 @@ public class AddAlarmActivity extends BaseActivity {
 
         pickview_hour.setData(hours);
         pickerview_minute.setData(minutes);
+        title.setSelection(title.getText().length());
     }
 
     @Override
@@ -125,7 +129,61 @@ public class AddAlarmActivity extends BaseActivity {
                 ActivityManager.finishActivity(AddAlarmActivity.this);
             }
         });
+        receivetext.setOnToggleChanged(new SwitchButton.OnToggleChanged() {
+            @Override
+            public void onToggle(boolean on) {
+
+            }
+        });
+        receivevoice.setOnToggleChanged(new SwitchButton.OnToggleChanged() {
+            @Override
+            public void onToggle(boolean on) {
+
+            }
+        });
+        snaptoogle.setOnToggleChanged(new SwitchButton.OnToggleChanged() {
+            @Override
+            public void onToggle(boolean on) {
+
+            }
+        });
+        sunday.setOnClickListener(this);
+        sunday.setTag("unchoosen");
+        monday.setOnClickListener(this);
+        monday.setTag("unchoosen");
+        tuesday.setOnClickListener(this);
+        tuesday.setTag("unchoosen");
+        wednesday.setOnClickListener(this);
+        wednesday.setTag("unchoosen");
+        thursday.setOnClickListener(this);
+        thursday.setTag("unchoosen");
+        friday.setOnClickListener(this);
+        friday.setTag("unchoosen");
+        saturday.setOnClickListener(this);
+        saturday.setTag("unchoosen");
     }
 
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.sunday:
+            case R.id.monday:
+            case R.id.tuesday:
+            case R.id.wednesday:
+            case R.id.thursday:
+            case R.id.friday:
+            case R.id.saturday:
+                if (v.getTag().equals("unchoosen")) {
+                    v.setBackground(getResources().getDrawable(R.drawable.circle_yellow));
+                    ((TextView) v).setTextColor(getResources().getColor(R.color.white));
+                    v.setTag("choosen");
+                } else if (v.getTag().equals("choosen")) {
+                    v.setBackground(getResources().getDrawable(R.drawable.gray_circle_stroke));
+                    ((TextView) v).setTextColor(getResources().getColor(R.color.secondary_text));
+                    v.setTag("unchoosen");
+                }
+                break;
+        }
+    }
 }

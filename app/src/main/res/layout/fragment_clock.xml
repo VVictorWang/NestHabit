@@ -7,28 +7,43 @@
               tools:context="com.victor.nesthabit.ui.fragments.ClockFragment">
 
     <RelativeLayout
-        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/yellow_background"
-        android:elevation="5dp">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/yellow_background"
+            android:elevation="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/clock"
+                android:textColor="@color/text_clock"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                />
+
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/clock_list"
+            android:layout_below="@+id/toolbar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/clock"
-            android:textColor="@color/text_clock"
-            android:textSize="18sp"
-            android:textStyle="bold"
             />
 
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/add"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="20dp"
+            android:src="@drawable/ic_action_add"
+            />
     </RelativeLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/clock_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        />
-
 </LinearLayout>

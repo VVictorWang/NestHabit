@@ -17,47 +17,39 @@ import com.victor.nesthabit.utils.ActivityManager;
 
 import java.util.List;
 
+import static com.victor.nesthabit.R.id.people;
+import static com.victor.nesthabit.R.id.progress_text;
+
 /**
  * Created by victor on 7/2/17.
  * email: chengyiwang@hustunique.com
  * blog: www.victorwang.science
  */
 
-public class BirdCaseFragAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class BirdCaseFragAdapter extends RecyclerView.Adapter<BirdCaseFragAdapter.ListViewHolder> {
     private Context mContext;
     private RecyclerView mRecyclerView;
 
     private List<BirdCageInfo> mBirdCageInfos;
 
-    private static int NEWBIRDCAGE = 1;
-    private static int BIRDCAGELIST = 2;
 
-
-    private static class ListViewHolder extends RecyclerView.ViewHolder {
+    static class ListViewHolder extends RecyclerView.ViewHolder {
         private ImageView birdcageListImage;
         private TextView birdcageListText;
-        private TextView progress_text;
-        private TextView people;
+        private TextView progresstext;
+        private TextView peoplea;
 
 
         ListViewHolder(View itemView) {
             super(itemView);
             birdcageListImage = (ImageView) itemView.findViewById(R.id.birdcage_list_image);
             birdcageListText = (TextView) itemView.findViewById(R.id.birdcage_list_text);
-            progress_text = (TextView) itemView.findViewById(R.id.progress_text);
-            people = (TextView) itemView.findViewById(R.id.people);
+            progresstext = (TextView) itemView.findViewById(progress_text);
+            peoplea = (TextView) itemView.findViewById(people);
         }
 
     }
 
-    private class NewBirdCageViewHolder extends RecyclerView.ViewHolder {
-        private ImageView create;
-
-        NewBirdCageViewHolder(View itemView) {
-            super(itemView);
-            create = (ImageView) itemView.findViewById(R.id.creat_new);
-        }
-    }
 
     public BirdCaseFragAdapter(Context context, RecyclerView recyclerView, List<BirdCageInfo>
             birdCageInfos) {
@@ -67,59 +59,35 @@ public class BirdCaseFragAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View view;
-        RecyclerView.ViewHolder holder;
-        if (viewType == NEWBIRDCAGE) {
-            view = inflater.inflate(R.layout.creat_birdcage, parent, false);
-            holder = new NewBirdCageViewHolder(view);
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ActivityManager.startActivity((Activity) mContext, AddAlarmActivity.class);
-                }
-            });
-        } else {
-            view = inflater.inflate(R.layout.birdcagelist, parent, false);
-            holder = new ListViewHolder(view);
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ActivityManager.startActivity((Activity) mContext, NestSpecificActivity.class);
-                }
-            });
-
-        }
+        ListViewHolder holder;
+        view = inflater.inflate(R.layout.birdcagelist, parent, false);
+        holder = new ListViewHolder(view);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityManager.startActivity((Activity) mContext, NestSpecificActivity.class);
+            }
+        });
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        int type = getItemViewType(position);
-        if (type == BIRDCAGELIST) {
-            BirdCageInfo info = mBirdCageInfos.get(position);
-            ((ListViewHolder) holder).progress_text.setText(info.getDay_insist() + "/" + info
-                    .getDay_total());
-            ((ListViewHolder) holder).birdcageListText.setText(info.getInfo());
-            ((ListViewHolder) holder).people.setText(info.getPeople() + "人");
-        }
+    public void onBindViewHolder(ListViewHolder holder, int position) {
+        BirdCageInfo info = mBirdCageInfos.get(position);
+        holder.progresstext.setText(info.getDay_insist() + "/" + info
+                .getDay_total());
+        holder.birdcageListText.setText(info.getInfo());
+        holder.peoplea.setText("+" + info.getPeople() + "人");
 
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if (position + 1 == getItemCount()) {
-            return NEWBIRDCAGE;
-        } else {
-            return BIRDCAGELIST;
-        }
     }
 
     @Override
     public int getItemCount() {
-        return mBirdCageInfos.size() + 1;
+        return mBirdCageInfos.size();
     }
 
 

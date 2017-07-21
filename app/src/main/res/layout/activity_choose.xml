@@ -98,9 +98,9 @@
                     </RelativeLayout>
 
                     <android.support.v7.widget.RecyclerView
+                        android:id="@+id/list"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/list"
                         android:layout_below="@+id/choose_friend"
                         android:layout_marginBottom="12dp"
                         />
@@ -145,13 +145,19 @@
                         android:background="#ECEFF1"
                         />
 
-                    <CalendarView
+                    <com.prolificinteractive.materialcalendarview.MaterialCalendarView
                         android:id="@+id/calendar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/choose_time"
                         android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="5dp"
+                        app:mcv_dateTextAppearance="?android:attr/textAppearance"
+                        app:mcv_firstDayOfWeek="sunday"
+                        app:mcv_monthLabels="@array/custom_month"
+                        app:mcv_showOtherDates="all"
+                        app:mcv_weekDayLabels="@array/custome_weekday"
+                        app:mcv_weekDayTextAppearance="?android:attr/textAppearanceMedium"
                         />
 
                 </RelativeLayout>
@@ -163,6 +169,7 @@
                 android:layout_height="50dp"
                 android:layout_below="@+id/layout_two"
                 android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/btn_background_yellow"
                 android:elevation="5dp"

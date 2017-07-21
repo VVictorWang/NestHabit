@@ -1,14 +1,20 @@
 package com.victor.nesthabit.ui.adapters;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.view.CircleImageView;
+
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
 
 /**
  * Created by victor on 7/20/17.
@@ -16,8 +22,10 @@ import com.victor.nesthabit.view.CircleImageView;
  * blog: www.victorwang.science                                            #
  */
 
-public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.MyViewHolder>{
+public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.MyViewHolder> {
     private boolean isChoose;
+    private Context mContext;
+
     static class MyViewHolder extends RecyclerView.ViewHolder {
         private CircleImageView avatar;
         private ImageView delete;
@@ -31,9 +39,11 @@ public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.My
         }
     }
 
-    public MemberListAdapter(boolean isChoose) {
+    public MemberListAdapter( Context context,boolean isChoose) {
         this.isChoose = isChoose;
+        mContext = context;
     }
+
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -50,6 +60,32 @@ public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.My
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+        if (!isChoose) {
+            holder.delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    View view = ((Activity)mContext).getLayoutInflater().inflate(R.layout.delete_dialog, null);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                    builder.setView(view);
+                    Button ok = (Button) view.findViewById(R.id.delete);
+                    Button cancel = (Button) view.findViewById(R.id.cancel);
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                    ok.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+                    cancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+                }
+            });
+        }
 
     }
 

@@ -81,6 +81,7 @@
                     android:hint="@string/daka_shi"
                     android:maxEms="8"
                     android:maxLines="1"
+                    android:textCursorDrawable="@drawable/cursor_drawable"
                     android:textColor="@color/text_color"
                     android:textColorHint="@color/gray_progress"
                     android:textSize="16sp"
@@ -123,6 +124,7 @@
                     android:background="@null"
                     android:gravity="center"
                     android:hint="@string/introduction_hint"
+                    android:textCursorDrawable="@drawable/cursor_drawable"
                     android:textColor="@color/secondary_text"
                     android:textColorHint="@color/gray_progress"
                     android:textSize="16dp"
@@ -177,6 +179,7 @@
                     android:hint="0~999"
                     android:maxEms="8"
                     android:maxLines="1"
+                    android:textCursorDrawable="@drawable/cursor_drawable"
                     android:textColor="@color/text_color"
                     android:textColorHint="@color/gray_progress"
                     android:textSize="17dp"
@@ -269,14 +272,16 @@
 
                 <com.victor.nesthabit.view.SwitchButton
                     android:id="@+id/limit_toggle"
-                    android:layout_width="36dp"
-                    android:layout_height="18dp"
+                    android:layout_width="40dp"
+                    android:layout_height="20dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
-                    app:offColor="@color/progressBackground"
-                    app:onColor="@color/accent"
-                    app:spotColor="@color/name_color"
+                    app:marginHeight="15dp"
+                    app:offColor="@color/offcolor"
+                    app:onColor="@color/offcolor"
+                    app:spotColoroff="@color/spot_off"
+                    app:spotColoron="@color/name_color"
                     app:swBorderWidth="0dp"
                     />
 
@@ -317,6 +322,7 @@
                     android:hint="1~100"
                     android:textColorHint="@color/gray_progress"
                     android:textSize="16sp"
+                    android:textCursorDrawable="@drawable/cursor_drawable"
                     />
 
             </RelativeLayout>

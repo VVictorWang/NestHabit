@@ -92,35 +92,53 @@
                     android:background="#ECEFF1"
                     />
             </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="105dp"
+                android:layout_below="@+id/voice_text_layout"
+                android:id="@+id/record_image_layout"
+                >
 
             <ImageView
                 android:id="@+id/record"
                 android:layout_width="104dp"
                 android:layout_height="104dp"
-                android:layout_below="@+id/voice_text_layout"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp"
                 android:elevation="5dp"
                 android:src="@drawable/tape"
                 />
 
+            <ImageView
+                android:id="@+id/play"
+                android:layout_width="104dp"
+                android:layout_height="104dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:elevation="5dp"
+                android:src="@drawable/play"
+                android:visibility="gone"
+                />
+            </RelativeLayout>
+
             <TextView
                 android:id="@+id/record_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/record"
+                android:layout_below="@+id/record_image_layout"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:text="@string/long_record"
                 android:textColor="@color/text"
                 android:textSize="12sp"
+
                 />
 
             <Chronometer
                 android:id="@+id/chronometer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/record"
+                android:layout_below="@+id/record_image_layout"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:textColor="@color/text"
@@ -178,6 +196,7 @@
             </RelativeLayout>
 
             <EditText
+                android:id="@+id/text_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text_text_layout"
@@ -187,6 +206,7 @@
                 android:background="@null"
                 android:hint="@string/input_number_limit"
                 android:textColor="@color/mygray"
+                android:textCursorDrawable="@drawable/cursor_drawable"
                 android:textSize="14sp"
                 />
 

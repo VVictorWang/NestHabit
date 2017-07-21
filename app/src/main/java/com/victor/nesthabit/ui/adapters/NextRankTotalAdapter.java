@@ -43,7 +43,7 @@ public class NextRankTotalAdapter extends RecyclerView.Adapter<NextRankTotalAdap
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        holder.rankNumber.setText("" + (position + 4));
+        holder.rankNumber.setText(String.format("%02d", (position + 4)));
     }
 
     @Override

@@ -15,6 +15,7 @@
     <color name="red">#de1d20</color>
     <color name="orange">#ed4444</color>
     <color name="red_background">#FF8A85</color>
+    <color name="offcolor">#A3BECC</color>
     <color name="yellow">#e1cd1a</color>
     <color name="yellow_background">#FCE58C</color>
     <color name="progress_background">#b3b3b3</color>

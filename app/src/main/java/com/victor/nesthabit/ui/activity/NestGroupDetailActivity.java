@@ -76,6 +76,12 @@ public class NestGroupDetailActivity extends BaseActivity {
         remind = (CardView) findViewById(R.id.layout_four);
         back = (ImageView) (toolbar.findViewById(R.id.back));
         title = (TextView) (toolbar.findViewById(R.id.title_text));
+        setToolbar();
+    }
+
+    private void setToolbar() {
+        title.setText("早起的鸟儿有虫吃");
+        (toolbar.findViewById(R.id.right_text)).setVisibility(View.INVISIBLE);
     }
 
     @Override

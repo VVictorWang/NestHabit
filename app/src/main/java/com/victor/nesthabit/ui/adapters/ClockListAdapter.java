@@ -4,13 +4,11 @@ import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
@@ -18,9 +16,6 @@ import com.victor.nesthabit.view.SwitchButton;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
 
 /**
  * Created by victor on 7/17/17.
@@ -88,11 +83,11 @@ public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyVi
             public void onToggle(boolean on) {
                 if (on) {
                     holder.mCardView.setBackgroundColor(white);
+
                 } else {
                     holder.mCardView.setBackgroundColor(white_transparent);
                     holder.remindImage.setImageDrawable(mContext.getDrawable(R.drawable.day_67));
-                    holder.mSwitchButton.setSpotColor(mContext.getResources().getColor(R.color
-                            .spot_off));
+
                 }
             }
         });

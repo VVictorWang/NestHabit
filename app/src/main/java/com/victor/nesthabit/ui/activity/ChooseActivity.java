@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.ui.adapters.MemberListAdapter;
 import com.victor.nesthabit.ui.base.BaseActivity;
@@ -25,7 +26,7 @@ public class ChooseActivity extends BaseActivity {
     private android.widget.RelativeLayout choosefriend;
     private android.support.v7.widget.CardView layoutone;
     private android.widget.TextView choosetime;
-    private android.widget.CalendarView calendar;
+    private MaterialCalendarView calendar;
     private android.support.v7.widget.CardView layouttwo;
     private android.widget.Button nextstep;
     private RecyclerView list;
@@ -50,7 +51,7 @@ public class ChooseActivity extends BaseActivity {
     protected void initView() {
         this.nextstep = (Button) findViewById(R.id.next_step);
         this.layouttwo = (CardView) findViewById(R.id.layout_two);
-        this.calendar = (CalendarView) findViewById(R.id.calendar);
+        this.calendar = (MaterialCalendarView) findViewById(R.id.calendar);
         this.choosetime = (TextView) findViewById(R.id.choose_time);
         this.layoutone = (CardView) findViewById(R.id.layout_one);
         this.choosefriend = (RelativeLayout) findViewById(R.id.choose_friend);
@@ -60,7 +61,7 @@ public class ChooseActivity extends BaseActivity {
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(6,
                 StaggeredGridLayoutManager.VERTICAL);
         list.setLayoutManager(layoutManager);
-        MemberListAdapter adapter = new MemberListAdapter(true);
+        MemberListAdapter adapter = new MemberListAdapter(ChooseActivity.this,true);
         list.setAdapter(adapter);
 
     }

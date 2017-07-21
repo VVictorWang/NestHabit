@@ -11,11 +11,12 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="14dp"
         android:layout_marginRight="14dp"
+        android:layout_marginBottom="10dp"
         android:background="@color/white"
         android:elevation="5dp"
         android:layout_marginTop="10dp"
         android:backgroundTint="@color/white"
-        app:cardCornerRadius="5dp"
+        app:cardCornerRadius="10dp"
         >
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"

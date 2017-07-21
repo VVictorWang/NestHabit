@@ -13,7 +13,7 @@ import com.victor.nesthabit.R;
 import com.victor.nesthabit.utils.ActivityManager;
 
 public class FirstActivity extends AppCompatActivity {
-    private int second = 2000;
+    private int second = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

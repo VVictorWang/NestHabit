@@ -22,7 +22,7 @@ import com.victor.nesthabit.R;
  * Created by victor on 7/2/17.
  * email: chengyiwang@hustunique.com
  * blog: www.victorwang.science
- *
+ * <p>
  * 切换开关
  */
 
@@ -45,6 +45,14 @@ public class SwitchButton extends View {
      * 手柄颜色
      */
     private int spotColor = Color.parseColor("#ffffff");
+    /**
+     * 手柄颜色(关闭)
+     */
+    private int spotColoroff = Color.parseColor("#ffffff");
+    /**
+     * 手柄颜色(开启)
+     */
+    private int spotColoron = Color.parseColor("#ffffff");
     /**
      * 边框颜色
      */
@@ -97,6 +105,7 @@ public class SwitchButton extends View {
     public int min_width = 50;//dp
     public int min_height = 25;//dp
 
+    private int margin_height = 0;
     private boolean is_touch = false;//判断是否是触摸状态
     private boolean is_rect = false;//判断是否是触摸状态
 
@@ -118,12 +127,19 @@ public class SwitchButton extends View {
         paint.setStyle(Paint.Style.FILL);
         paint.setStrokeCap(Paint.Cap.ROUND);
 
-        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.SwitchButton);
-        offBorderColor = typedArray.getColor(R.styleable.SwitchButton_offBorderColor, offBorderColor);
+        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable
+                .SwitchButton);
+        offBorderColor = typedArray.getColor(R.styleable.SwitchButton_offBorderColor,
+                offBorderColor);
         onColor = typedArray.getColor(R.styleable.SwitchButton_onColor, onColor);
-        spotColor = typedArray.getColor(R.styleable.SwitchButton_spotColor, spotColor);
+        margin_height = (int) typedArray.getDimension(R.styleable.SwitchButton_marginHeight, 0);
+        spotColoroff = typedArray.getColor(R.styleable.SwitchButton_spotColoroff, spotColor);
+        spotColoron = typedArray.getColor(R.styleable.SwitchButton_spotColoron, spotColor);
+        //默认关闭
+        spotColor = spotColoroff;
         offColor = typedArray.getColor(R.styleable.SwitchButton_offColor, offColor);
-        borderWidth = typedArray.getDimensionPixelSize(R.styleable.SwitchButton_swBorderWidth, borderWidth);
+        borderWidth = typedArray.getDimensionPixelSize(R.styleable.SwitchButton_swBorderWidth,
+                borderWidth);
         defaultAnimate = typedArray.getBoolean(R.styleable.SwitchButton_animate, defaultAnimate);
         is_rect = typedArray.getBoolean(R.styleable.SwitchButton_isRect, is_rect);
         typedArray.recycle();
@@ -141,7 +157,13 @@ public class SwitchButton extends View {
     public void toggle(boolean animate) {
         toggleOn = !toggleOn;
         takeEffect(animate);
-
+        if (toggleOn) {
+            spotColor = spotColoron;
+            invalidate();
+        } else {
+            spotColor = spotColoroff;
+            invalidate();
+        }
         if (listener != null) {
             listener.onToggle(toggleOn);
         }
@@ -212,11 +234,13 @@ public class SwitchButton extends View {
 
         Resources r = Resources.getSystem();
         if (widthMode == MeasureSpec.UNSPECIFIED || widthMode == MeasureSpec.AT_MOST) {
-            widthSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, min_width, r.getDisplayMetrics());//如果为指定大小宽最小50dp
+            widthSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, min_width, r
+                    .getDisplayMetrics());//如果为指定大小宽最小50dp
             widthMeasureSpec = MeasureSpec.makeMeasureSpec(widthSize, MeasureSpec.EXACTLY);
         }
         if (heightMode == MeasureSpec.UNSPECIFIED || heightMode == MeasureSpec.AT_MOST) {
-            heightSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, min_height, r.getDisplayMetrics());//如果为指定大小高最小25dp
+            heightSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, min_height,
+                    r.getDisplayMetrics());//如果为指定大小高最小25dp
             heightMeasureSpec = MeasureSpec.makeMeasureSpec(heightSize, MeasureSpec.EXACTLY);
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -269,7 +293,7 @@ public class SwitchButton extends View {
 
     @Override
     public void onDraw(Canvas canvas) {
-        rect.set(0, 0, getWidth(), getHeight());
+        rect.set(10, margin_height / 2, getWidth() - 10, getHeight() - margin_height / 2);
         paint.setColor(borderColor);
         if (is_rect) {
             canvas.drawRoundRect(rect, 0, 0, paint);
@@ -280,7 +304,9 @@ public class SwitchButton extends View {
 
         if (offLineWidth > 0) {
             final float cy = offLineWidth * 0.5f;
-            rect.set(spotX - cy - borderWidth, centerY - cy, endX + cy, centerY + cy);
+            rect.set(spotX - cy - borderWidth + 10, centerY - cy + margin_height / 2, endX + cy -
+                    10, centerY + cy -
+                    margin_height / 2);
             paint.setColor(offColor);
             if (is_rect) {
                 canvas.drawRoundRect(rect, 0, 0, paint);
@@ -292,15 +318,25 @@ public class SwitchButton extends View {
         final float spotR = spotSize * 0.5f;
         if (is_touch) {
             if (spotX < getWidth() / 2) {
-                rect.set(spotX - spotR - borderWidth, centerY - spotR, spotX + spotR + spotR / 8, centerY + spotR);
+                rect.set(spotX - spotR - borderWidth, centerY - spotR,
+                        spotX
+                                + spotR + spotR
+                                / 8, centerY + spotR);
             } else {
-                rect.set(spotX - spotR - spotR / 8, centerY - spotR, spotX + spotR + borderWidth, centerY + spotR);
+                rect.set(spotX - spotR - spotR / 8, centerY - spotR,
+                        spotX +
+                                spotR + borderWidth, centerY + spotR);
             }
         } else {
             if (spotX < getWidth() / 2) {
-                rect.set(spotX - spotR - borderWidth, centerY - spotR, spotX + spotR, centerY + spotR);
+                rect.set(spotX - spotR - borderWidth, centerY - spotR,
+                        spotX
+                                + spotR,
+                        centerY + spotR);
             } else {
-                rect.set(spotX - spotR, centerY - spotR, spotX + spotR + borderWidth, centerY + spotR);
+                rect.set(spotX - spotR, centerY - spotR, spotX + spotR +
+                                borderWidth,
+                        centerY + spotR);
             }
         }
         paint.setColor(spotColor);
@@ -377,7 +413,8 @@ public class SwitchButton extends View {
      * @param toHigh   the high end of the range to map to
      * @return the mapped value
      */
-    public static double mapValueFromRangeToRange(double value, double fromLow, double fromHigh, double toLow, double toHigh) {
+    public static double mapValueFromRangeToRange(double value, double fromLow, double fromHigh,
+                                                  double toLow, double toHigh) {
         double fromRangeSize = fromHigh - fromLow;
         double toRangeSize = toHigh - toLow;
         double valueScale = (value - fromLow) / fromRangeSize;

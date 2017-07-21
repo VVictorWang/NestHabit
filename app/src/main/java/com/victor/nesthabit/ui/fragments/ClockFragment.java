@@ -1,6 +1,7 @@
 package com.victor.nesthabit.ui.fragments;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,7 +11,9 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.victor.nesthabit.R;
+import com.victor.nesthabit.ui.activity.AddAlarmActivity;
 import com.victor.nesthabit.ui.adapters.ClockListAdapter;
+import com.victor.nesthabit.utils.ActivityManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,6 +28,7 @@ public class ClockFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private ClockListAdapter mAdapter;
     private View rootView;
+    private FloatingActionButton add;
 
 
     public ClockFragment() {
@@ -60,9 +64,16 @@ public class ClockFragment extends Fragment {
 
     private void initView() {
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.clock_list);
+        add = (FloatingActionButton) rootView.findViewById(R.id.add);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mAdapter = new ClockListAdapter(getContext());
         mRecyclerView.setAdapter(mAdapter);
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityManager.startActivity(getActivity(), AddAlarmActivity.class);
+            }
+        });
     }
 
 

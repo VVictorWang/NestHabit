@@ -58,7 +58,7 @@ public class RankActivity extends BaseActivity {
     private void setUpViewPager() {
         MyFragPageAdapter adapter = new MyFragPageAdapter(getSupportFragmentManager());
         adapter.addFragment(new RankTotalFragment(), "总打卡");
-        adapter.addFragment(new CommunicateFragment(), "连续打卡");
+        adapter.addFragment(new RankTotalFragment(), "连续打卡");
         viewpager.setAdapter(adapter);
         tab.setupWithViewPager(viewpager);
         setUpIndicatorWidth(tab, 30, 30);
