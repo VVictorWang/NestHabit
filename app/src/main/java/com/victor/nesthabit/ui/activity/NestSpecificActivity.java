@@ -24,8 +24,6 @@ import com.victor.nesthabit.view.CircleProgressBar;
 
 import java.lang.reflect.Field;
 
-import static android.R.attr.x;
-
 public class NestSpecificActivity extends BaseActivity {
 
     private android.widget.ImageView back;
@@ -109,6 +107,19 @@ public class NestSpecificActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 ActivityManager.startActivity(NestSpecificActivity.this, RankActivity.class);
+            }
+        });
+        introduction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityManager.startActivity(NestSpecificActivity.this, NestGroupDetailActivity
+                        .class);
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityManager.finishActivity(NestSpecificActivity.this);
             }
         });
 

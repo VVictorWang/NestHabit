@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
+import com.victor.nesthabit.ui.adapters.MemberListAdapter;
 import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.ui.contracts.BirdCageContract;
 import com.victor.nesthabit.utils.ActivityManager;
@@ -24,7 +26,6 @@ public class MemberListActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_member_list);
 
     }
 
@@ -43,6 +44,11 @@ public class MemberListActivity extends BaseActivity {
         this.list = (RecyclerView) findViewById(R.id.list);
         this.toolbar = findViewById(R.id.toolbar);
         setToolbar();
+        MemberListAdapter adapter = new MemberListAdapter(false);
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(4,
+                StaggeredGridLayoutManager.VERTICAL);
+        list.setLayoutManager(layoutManager);
+        list.setAdapter(adapter);
     }
 
     @Override

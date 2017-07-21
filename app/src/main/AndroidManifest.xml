@@ -20,7 +20,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.activity.MainActivity"/>
-        <activity android:name=".ui.activity.NewBirdcageActivity"/>
         <activity android:name=".ui.activity.RecordActivity"/>
         <activity android:name=".ui.activity.AlarmActivity"/>
 
@@ -57,7 +56,8 @@
         </activity>
         <activity android:name=".ui.activity.AdviceActivity">
         </activity>
-        <activity android:name=".ui.activity.NestSpecificActivity">
+        <activity android:name=".ui.activity.NestSpecificActivity"
+            android:windowSoftInputMode="adjustPan">
         </activity>
         <activity android:name=".ui.activity.RankActivity">
         </activity>

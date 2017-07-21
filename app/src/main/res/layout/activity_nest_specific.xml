@@ -77,7 +77,7 @@
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="140dp"
+                android:layout_height="160dp"
                 android:layout_marginLeft="14dp"
                 android:layout_marginRight="14dp"
                 android:layout_marginTop="2dp"
@@ -87,20 +87,20 @@
                 >
 
                 <RelativeLayout
-                    android:layout_width="120dp"
-                    android:layout_height="130dp"
+                    android:layout_width="130dp"
+                    android:layout_height="150dp"
                     android:layout_marginLeft="26dp">
 
                     <com.victor.nesthabit.view.CircleProgressBar
                         android:layout_width="match_parent"
-                        android:layout_height="120dp"
-                        android:layout_centerVertical="true"
+                        android:layout_height="130dp"
                         app:circle_color="@color/gray_progress"
-                        app:circle_width="20dp"
+                        android:layout_marginTop="5dp"
+                        app:circle_width="14dp"
                         app:current_progress="10"
                         app:max_progress="100"
                         app:progress_color1="@color/redbtn"
-                        app:progress_width="20dp"
+                        app:progress_width="14dp"
                         app:start_arc="90"
                         />
 
@@ -109,7 +109,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="35dp"
+                        android:layout_marginTop="40dp"
                         android:text="@string/da_ka_total"
                         android:textColor="@color/text_clock"
                         android:textSize="15sp"
@@ -131,8 +131,8 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_width="120dp"
-                    android:layout_height="130dp"
+                    android:layout_width="130dp"
+                    android:layout_height="150dp"
                     android:layout_gravity="right"
                     android:layout_marginRight="26dp"
                     >
@@ -140,14 +140,14 @@
                     <com.victor.nesthabit.view.CircleProgressBar
                         android:id="@+id/constant_progress"
                         android:layout_width="match_parent"
-                        android:layout_height="120dp"
-                        android:layout_centerVertical="true"
+                        android:layout_height="130dp"
+                        android:layout_marginTop="5dp"
                         app:circle_color="@color/gray_progress"
-                        app:circle_width="20dp"
+                        app:circle_width="14dp"
                         app:current_progress="10"
                         app:max_progress="100"
                         app:progress_color1="@color/redbtn"
-                        app:progress_width="20dp"
+                        app:progress_width="14dp"
                         app:start_arc="90"
                         />
 
@@ -156,7 +156,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="35dp"
+                        android:layout_marginTop="40dp"
                         android:text="@string/da_ka_cons"
                         android:textColor="@color/text_clock"
                         android:textSize="15sp"
@@ -184,7 +184,7 @@
                 android:layout_height="50dp"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="10dp"
-                android:layout_marginTop="120dp"
+                android:layout_marginTop="135dp"
                 android:background="@drawable/btn_background_red"
                 android:elevation="5dp"
                 android:gravity="center"
@@ -213,7 +213,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/head"
-        android:layout_marginTop="14dp"
+        android:layout_marginTop="10dp"
         />
 
 </RelativeLayout>

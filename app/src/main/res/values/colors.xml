@@ -24,6 +24,9 @@
     <color name="gray_progress">#B0BEC5</color>
     <color name="background">#FFFFFF</color>
     <color name="text_color">#5c6b73</color>
+    <color name="second_rank">#FFF3F3</color>
+
+    <color name="cursor">#5c6b73</color>
     <color name="text_hint">#B0BEC5</color>
     <color name="fenge">#c9c6c6</color>
     <color name="mygray">#78909c</color>

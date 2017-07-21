@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.victor.nesthabit.R;
+import com.victor.nesthabit.ui.adapters.RankAdapter;
 
 /**
  * Created by victor on 7/20/17.
@@ -47,5 +49,7 @@ public class RankTotalFragment extends Fragment{
 
     private void initView() {
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.list);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
+        mRecyclerView.setAdapter(new RankAdapter(mActivity));
     }
 }

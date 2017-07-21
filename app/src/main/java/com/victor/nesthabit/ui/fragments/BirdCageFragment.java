@@ -99,7 +99,7 @@ public class BirdCageFragment extends Fragment implements BirdCageContract.View 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityManager.startActivity(mActivity, NestSpecificActivity.class);
+                ActivityManager.startActivity(mActivity, AddNestActivity.class);
             }
         });
         setting.setOnClickListener(new View.OnClickListener() {

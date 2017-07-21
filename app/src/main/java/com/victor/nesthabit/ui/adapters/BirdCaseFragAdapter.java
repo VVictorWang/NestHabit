@@ -11,9 +11,7 @@ import android.widget.TextView;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.ui.activity.AddAlarmActivity;
-import com.victor.nesthabit.ui.activity.LoginActivity;
-import com.victor.nesthabit.ui.activity.NewBirdcageActivity;
-import com.victor.nesthabit.ui.activity.RecordActivity;
+import com.victor.nesthabit.ui.activity.NestSpecificActivity;
 import com.victor.nesthabit.data.BirdCageInfo;
 import com.victor.nesthabit.utils.ActivityManager;
 
@@ -61,7 +59,8 @@ public class BirdCaseFragAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
-    public BirdCaseFragAdapter(Context context, RecyclerView recyclerView, List<BirdCageInfo> birdCageInfos) {
+    public BirdCaseFragAdapter(Context context, RecyclerView recyclerView, List<BirdCageInfo>
+            birdCageInfos) {
         mContext = context;
         mRecyclerView = recyclerView;
         mBirdCageInfos = birdCageInfos;
@@ -88,7 +87,7 @@ public class BirdCaseFragAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ActivityManager.startActivity((Activity) mContext, LoginActivity.class);
+                    ActivityManager.startActivity((Activity) mContext, NestSpecificActivity.class);
                 }
             });
 
@@ -101,7 +100,8 @@ public class BirdCaseFragAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         int type = getItemViewType(position);
         if (type == BIRDCAGELIST) {
             BirdCageInfo info = mBirdCageInfos.get(position);
-            ((ListViewHolder) holder).progress_text.setText(info.getDay_insist() + "/" + info.getDay_total());
+            ((ListViewHolder) holder).progress_text.setText(info.getDay_insist() + "/" + info
+                    .getDay_total());
             ((ListViewHolder) holder).birdcageListText.setText(info.getInfo());
             ((ListViewHolder) holder).people.setText(info.getPeople() + "人");
         }

@@ -67,4 +67,9 @@
     <string name="end">结束</string>
     <string name="long_record">长按录制</string>
     <string name="input_number_limit">输入内容不超过80字</string>
+    <string name="choose">选择</string>
+    <string name="choose_friend">选择对象</string>
+    <string name="choose_day">选择时间</string>
+    <string name="next_step">下一步</string>
+    <string name="send">发送</string>
 </resources>

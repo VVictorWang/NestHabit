@@ -84,9 +84,8 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:max="100"
-                    android:progress="40"
-                    android:progressBackgroundTint="@color/gray_progress"
-                    android:progressTint="@color/red_progress"
+                    android:progress="30"
+                    android:progressDrawable="@drawable/progress_layer"
                     />
 
                 <TextView
