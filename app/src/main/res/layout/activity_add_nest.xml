@@ -81,9 +81,9 @@
                     android:hint="@string/daka_shi"
                     android:maxEms="8"
                     android:maxLines="1"
-                    android:textCursorDrawable="@drawable/cursor_drawable"
                     android:textColor="@color/text_color"
                     android:textColorHint="@color/gray_progress"
+                    android:textCursorDrawable="@drawable/cursor_drawable"
                     android:textSize="16sp"
                     />
 
@@ -124,9 +124,9 @@
                     android:background="@null"
                     android:gravity="center"
                     android:hint="@string/introduction_hint"
-                    android:textCursorDrawable="@drawable/cursor_drawable"
                     android:textColor="@color/secondary_text"
                     android:textColorHint="@color/gray_progress"
+                    android:textCursorDrawable="@drawable/cursor_drawable"
                     android:textSize="16dp"
                     />
 
@@ -179,9 +179,9 @@
                     android:hint="0~999"
                     android:maxEms="8"
                     android:maxLines="1"
-                    android:textCursorDrawable="@drawable/cursor_drawable"
                     android:textColor="@color/text_color"
                     android:textColorHint="@color/gray_progress"
+                    android:textCursorDrawable="@drawable/cursor_drawable"
                     android:textSize="17dp"
                     />
 
@@ -214,14 +214,15 @@
                     />
 
                 <TextView
+                    android:id="@+id/start_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="25dp"
+                    android:text="2017-07-12"
                     android:textColor="@color/text"
                     android:textSize="16sp"
-                    tools:text="2017-07-12"
                     />
 
                 <ImageView
@@ -313,6 +314,7 @@
                     />
 
                 <EditText
+                    android:id="@+id/amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -321,8 +323,8 @@
                     android:background="@null"
                     android:hint="1~100"
                     android:textColorHint="@color/gray_progress"
-                    android:textSize="16sp"
                     android:textCursorDrawable="@drawable/cursor_drawable"
+                    android:textSize="16sp"
                     />
 
             </RelativeLayout>
@@ -332,6 +334,7 @@
     </android.support.v7.widget.CardView>
 
     <Button
+        android:id="@+id/submit"
         android:layout_width="180dp"
         android:layout_height="50dp"
         android:layout_below="@+id/layout_three"
@@ -342,7 +345,6 @@
         android:text="@string/submit"
         android:textColor="@color/white"
         android:textSize="18sp"
-
         />
 
 </RelativeLayout>

@@ -17,6 +17,7 @@ import org.litepal.crud.DataSupport;
 import java.io.File;
 import java.io.IOException;
 import java.util.TimerTask;
+
 /*
 * 录音Service
 * Created by victor on 7/5/17.
@@ -34,6 +35,7 @@ public class RecordingService extends Service {
     private TimerTask mIncrementTimerTask = null;
     private long mElapsedMillis = 0;
     private static final String TAG = "RecordingService";
+
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -42,7 +44,6 @@ public class RecordingService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        mRecordItem = new RecordItem();
     }
 
     @Override
@@ -101,32 +102,39 @@ public class RecordingService extends Service {
 
     //停止录音
     public void stopRecording() {
-        mRecorder.stop();
-        mElapsedMillis = (System.currentTimeMillis() - mStartingTimeMillis);
-        mRecorder.release();
+        if (mRecorder != null) {
+            mRecorder.stop();
+            mElapsedMillis = (System.currentTimeMillis() - mStartingTimeMillis);
+            mRecorder.release();
 
-        mRecorder = null;
-        try {
-            mRecordItem.setName(mFileName);
-            mRecordItem.setFile_path(mFilePath);
-            mRecordItem.setLength((int) mElapsedMillis);
-            mRecordItem.setTime_added(System.currentTimeMillis());
-            mRecordItem.save();
-            if (sOnNewRecordListenner != null) {
-                //通知录音文件已缓存，以便弹出实时预览的窗口
-                sOnNewRecordListenner.onNewRecordAdded(mRecordItem);
+            mRecorder = null;
+            try {
+                mRecordItem = new RecordItem();
+                mRecordItem.setName(mFileName);
+                mRecordItem.setFile_path(mFilePath);
+                mRecordItem.setLength((int) mElapsedMillis);
+                mRecordItem.setTime_added(System.currentTimeMillis());
+                mRecordItem.save();
+                if (sOnNewRecordListenner != null) {
+                    //通知录音文件已缓存，以便弹出实时预览的窗口
+                    sOnNewRecordListenner.onNewRecordAdded(mRecordItem);
+                }
+            } catch (Exception e) {
+                LogUtils.e(LOG_TAG, "exception ", e);
             }
-        } catch (Exception e) {
-            LogUtils.e(LOG_TAG, "exception ", e);
         }
     }
+
     //设置监听器
     public static void setOnNewRecordListenner(OnNewRecordListenner listenner) {
         sOnNewRecordListenner = listenner;
     }
+
     public interface OnNewRecordListenner {
         void onNewRecordAdded(RecordItem item); //录音文件已缓存
+
         void onNewRecordAddedtoDataBase(RecordItem item); //录音文件实际保存
+
         void onRecordDeleted(RecordItem item); //录音文件删除
     }
 }

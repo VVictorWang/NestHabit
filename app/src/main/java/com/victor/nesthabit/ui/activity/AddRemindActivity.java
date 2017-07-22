@@ -2,9 +2,7 @@ package com.victor.nesthabit.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.view.MotionEvent;
@@ -17,18 +15,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.data.RecordItem;
 import com.victor.nesthabit.service.RecordingService;
 import com.victor.nesthabit.ui.base.BaseActivity;
+import com.victor.nesthabit.ui.model.AddRemindModel;
+import com.victor.nesthabit.ui.presenter.AddRemindPresenter;
 import com.victor.nesthabit.utils.ActivityManager;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-
-public class AddRemindActivity extends BaseActivity implements RecordingService
-        .OnNewRecordListenner {
-
+public class AddRemindActivity extends BaseActivity implements AddRemindModel.View, View
+        .OnClickListener {
     private android.widget.ImageView back;
     private android.widget.TextView recordagain;
     private android.widget.ImageView record;
@@ -37,22 +31,15 @@ public class AddRemindActivity extends BaseActivity implements RecordingService
     private android.widget.Button finish;
     private EditText textinput;
     private ImageView play;
-    private int mRecordPromptCount = 0;
-    private boolean finished = false;
-    private RecordItem mRecordItem = null;
-    private MediaPlayer mMediaPlayer = null;
     private Handler mHandler = new Handler();
-    private boolean isPlaying = false;
+    private AddRemindModel.Presenter mPresenter;
+    private Intent intent;
 
-    //stores minutes and seconds of the length of the file.
-    long minutes = 0;
-    long seconds = 0;
-    private int status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        RecordingService.setOnNewRecordListenner(this);
+        mPresenter = new AddRemindPresenter(this);
 
     }
 
@@ -85,10 +72,15 @@ public class AddRemindActivity extends BaseActivity implements RecordingService
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
-                        onRecord(true);
+                        mPresenter.onRecord(true);
                         break;
                     case MotionEvent.ACTION_UP:
-                        onRecord(false);
+                        mHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                mPresenter.onRecord(false);
+                            }
+                        }, 100);
                         record.setVisibility(View.GONE);
                         play.setVisibility(View.VISIBLE);
                         break;
@@ -96,201 +88,125 @@ public class AddRemindActivity extends BaseActivity implements RecordingService
                 return true;
             }
         });
-        play.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mRecordItem != null) {
-                    long itemDuration = mRecordItem.getLength();
-                    minutes = TimeUnit.MILLISECONDS.toMinutes(itemDuration);
-                    seconds = TimeUnit.MILLISECONDS.toSeconds(itemDuration)
-                            - TimeUnit.MINUTES.toSeconds(minutes);
-                    onPlay(isPlaying);
-                    isPlaying = !isPlaying;
-                }
-
-            }
-        });
-        recordagain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mRecordItem != null) {
-                    File file = new File(mRecordItem.getFile_path());
-                    file.delete();
-                    mRecordItem.delete();
-                    mRecordItem = null;
-                    play.setVisibility(View.GONE);
-                    record.setVisibility(View.VISIBLE);
-                    recordtext.setText(getString(R.string.long_record));
-                }
-            }
-        });
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ActivityManager.finishActivity(AddRemindActivity.this);
-            }
-        });
-        finish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
+        play.setOnClickListener(this);
+        recordagain.setOnClickListener(this);
+        back.setOnClickListener(this);
+        finish.setOnClickListener(this);
 
     }
-    /*
-  * 录音
-  * @param start 开始录音还是结束录音
-  * */
-    private void onRecord(boolean start) {
-        Intent intent = new Intent(AddRemindActivity.this, RecordingService.class);
-        if (start) {
-            // 开始录音
-            //mPauseButton.setVisibility(View.VISIBLE);
-            File folder = new File(Environment.getExternalStorageDirectory() + "/SoundRecorder");
-            if (!folder.exists()) {
-                //folder /SoundRecorder doesn't exist, create the folder
-                folder.mkdir();
-            }
-            //开始计时
-            chronometer.setVisibility(View.VISIBLE);
-            recordtext.setVisibility(View.INVISIBLE);
-            chronometer.setBase(SystemClock.elapsedRealtime());
-            chronometer.start();
-            //start RecordingService
-            startService(intent);
-            //keep screen on while recording
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        } else {
-            //stop recording
-            chronometer.stop();
-            chronometer.setBase(SystemClock.elapsedRealtime());
-            finished = true;
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.finish:
+                break;
+            case R.id.record_again:
+                mPresenter.recordAgain();
+                break;
+            case R.id.play:
+                mPresenter.Play();
+                break;
+            case R.id.back:
+                ActivityManager.finishActivity(getActivityToPush());
+                break;
+        }
+
+    }
+
+    @Override
+    public void setPresenter(AddRemindModel.Presenter presenter) {
+        mPresenter = presenter;
+    }
+
+    //开始录音服务
+    @Override
+    public void startService() {
+        intent = new Intent(AddRemindActivity.this, RecordingService.class);
+        startService(intent);
+    }
+
+    //结束录音服务
+    @Override
+    public void stopService() {
+        if (intent != null) {
             stopService(intent);
-            //allow the screen to turn off again once recording is finished
-            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
     }
 
-    // Play start/stop
-    private void onPlay(boolean isPlaying) {
-        if (!isPlaying) {
-            //currently MediaPlayer is not playing audio
-            if (mMediaPlayer == null) {
-                startPlaying(); //start from beginning
-            } else {
-                resumePlaying(); //resume the currently paused MediaPlayer
-            }
-
-        } else {
-            //pause the MediaPlayer
-            pausePlaying();
-        }
+    @Override
+    public void startChrometor() {
+        //开始计时
+        chronometer.setVisibility(View.VISIBLE);
+        recordtext.setVisibility(View.INVISIBLE);
+        chronometer.setBase(SystemClock.elapsedRealtime());
+        chronometer.start();
+        addWindowFlags();
     }
 
-    private void startPlaying() {
+    @Override
+    public void stopChrometor() {
+        chronometer.stop();
+        chronometer.setBase(SystemClock.elapsedRealtime());
+        clearWindowFlags();
+    }
+
+    @Override
+    public void setPauseImage() {
         play.setImageResource(R.drawable.pause);
-        updateSeekBar();
-        mMediaPlayer = new MediaPlayer();
-        try {
-            mMediaPlayer.setDataSource(mRecordItem.getFile_path());
-            mMediaPlayer.prepare();
-            mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    mMediaPlayer.start();
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                stopPlaying();
-            }
-        });
-
-
-        //keep screen on while playing audio
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
-
-
-    private void pausePlaying() {
+    @Override
+    public void setPlayImage() {
         play.setImageResource(R.drawable.play);
-        mHandler.removeCallbacks(mRunnable);
-        mMediaPlayer.pause();
     }
 
-    private void resumePlaying() {
-        play.setImageResource(R.drawable.pause);
-        mHandler.removeCallbacks(mRunnable);
-        mMediaPlayer.start();
-        updateSeekBar();
+    @Override
+    public void updateTime(Runnable runnable) {
+        mHandler.postDelayed(runnable, 1000);
+
     }
 
-    private void stopPlaying() {
-        play.setImageResource(R.drawable.play);
-        mHandler.removeCallbacks(mRunnable);
-        mMediaPlayer.stop();
-        mMediaPlayer.reset();
-        mMediaPlayer.release();
-        mMediaPlayer = null;
+    @Override
+    public void removeCallbacks(Runnable runnable) {
+        mHandler.removeCallbacks(runnable);
+    }
 
-        isPlaying = !isPlaying;
+    @Override
+    public void setRecordText(String text) {
+        recordtext.setText(text);
+    }
 
-        recordtext.setText(String.format("%02d:%02d", minutes, seconds));
+    @Override
+    public void hidePlayButtonshowRecord() {
+        play.setVisibility(View.GONE);
+        record.setVisibility(View.VISIBLE);
+    }
 
-        //allow the screen to turn off again once audio is finished playing
+    @Override
+    public void hideRecordButtonshowPlay() {
+        record.setVisibility(View.GONE);
+        play.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideChormetorShowText() {
+        chronometer.setVisibility(View.INVISIBLE);
+        recordtext.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideTextShowChrometor() {
+        recordtext.setVisibility(View.INVISIBLE);
+        chronometer.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void clearWindowFlags() {
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 
-
-
-
-    private Runnable mRunnable = new Runnable() {
-        @Override
-        public void run() {
-            if (mMediaPlayer != null) {
-                int mCurrentPosition = mMediaPlayer.getCurrentPosition();
-                //实时算出分钟、秒钟
-                long minutes = TimeUnit.MILLISECONDS.toMinutes(mCurrentPosition);
-                long seconds = TimeUnit.MILLISECONDS.toSeconds(mCurrentPosition)
-                        - TimeUnit.MINUTES.toSeconds(minutes);
-                recordtext.setText(String.format("%02d:%02d", minutes, seconds));
-                //在update方法里面实现每隔一秒钟更新一次
-                updateSeekBar();
-            }
-        }
-    };
-
-    private void updateSeekBar() {
-        mHandler.postDelayed(mRunnable, 1000);
-    }
-
     @Override
-    public void onNewRecordAdded(RecordItem item) {
-        mRecordItem = item;
-        long itemDuration = mRecordItem.getLength();
-        minutes = TimeUnit.MILLISECONDS.toMinutes(itemDuration);
-        seconds = TimeUnit.MILLISECONDS.toSeconds(itemDuration)
-                - TimeUnit.MINUTES.toSeconds(minutes);
-        chronometer.setVisibility(View.INVISIBLE);
-        recordtext.setVisibility(View.VISIBLE);
-        recordtext.setText(String.format("%02d:%02d", minutes, seconds));
-
-    }
-
-    @Override
-    public void onNewRecordAddedtoDataBase(RecordItem item) {
-
-    }
-
-    @Override
-    public void onRecordDeleted(RecordItem item) {
-
+    public void addWindowFlags() {
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     }
 }

@@ -1,16 +1,54 @@
 package com.victor.nesthabit.data;
 
+import org.litepal.crud.DataSupport;
+
 /**
  * Created by victor on 7/2/17.
  * email: chengyiwang@hustunique.com
  * blog: www.victorwang.science
  */
 
-public class BirdCageInfo {
+public class BirdCageInfo extends DataSupport{
+    private int id;
     private String info;
     private int day_total;
     private int day_insist;
     private int people;
+    private String start_time;
+    private String introduction;
+    private boolean limitNumber;
+
+    public boolean isLimitNumber() {
+        return limitNumber;
+    }
+
+    public void setLimitNumber(boolean limitNumber) {
+        this.limitNumber = limitNumber;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getStart_time() {
+        return start_time;
+    }
+
+    public void setStart_time(String start_time) {
+        this.start_time = start_time;
+    }
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
+    }
 
     public String getInfo() {
         return info;

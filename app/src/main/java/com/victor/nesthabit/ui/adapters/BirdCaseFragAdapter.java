@@ -13,6 +13,7 @@ import com.victor.nesthabit.R;
 import com.victor.nesthabit.ui.activity.AddAlarmActivity;
 import com.victor.nesthabit.ui.activity.NestSpecificActivity;
 import com.victor.nesthabit.data.BirdCageInfo;
+import com.victor.nesthabit.ui.presenter.AddNestPresenter;
 import com.victor.nesthabit.utils.ActivityManager;
 
 import java.util.List;
@@ -26,11 +27,17 @@ import static com.victor.nesthabit.R.id.progress_text;
  * blog: www.victorwang.science
  */
 
-public class BirdCaseFragAdapter extends RecyclerView.Adapter<BirdCaseFragAdapter.ListViewHolder> {
+public class BirdCaseFragAdapter extends RecyclerView.Adapter<BirdCaseFragAdapter.ListViewHolder> implements AddNestPresenter.OnCageDataChanged{
     private Context mContext;
     private RecyclerView mRecyclerView;
 
     private List<BirdCageInfo> mBirdCageInfos;
+
+    @Override
+    public void OnDataAdded(BirdCageInfo cageInfo) {
+        mBirdCageInfos.add(cageInfo);
+        notifyDataSetChanged();
+    }
 
 
     static class ListViewHolder extends RecyclerView.ViewHolder {
@@ -56,6 +63,7 @@ public class BirdCaseFragAdapter extends RecyclerView.Adapter<BirdCaseFragAdapte
         mContext = context;
         mRecyclerView = recyclerView;
         mBirdCageInfos = birdCageInfos;
+        AddNestPresenter.setOnCageDataChanged(this);
     }
 
     @Override
