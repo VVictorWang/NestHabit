@@ -11,11 +11,13 @@ import android.widget.TextView;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.ui.base.BaseActivity;
+import com.victor.nesthabit.ui.contract.NestGroupDetailContract;
+import com.victor.nesthabit.ui.presenter.NestGroupDetailPresenter;
 import com.victor.nesthabit.utils.ActivityManager;
 import com.victor.nesthabit.view.CircleImageView;
 import com.victor.nesthabit.view.SwitchButton;
 
-public class NestGroupDetailActivity extends BaseActivity {
+public class NestGroupDetailActivity extends BaseActivity implements NestGroupDetailContract.View{
 
     private View toolbar;
     private android.widget.EditText name;
@@ -36,10 +38,12 @@ public class NestGroupDetailActivity extends BaseActivity {
     private com.victor.nesthabit.view.CircleImageView moment;
     private ImageView back;
     private TextView title;
+    private NestGroupDetailContract.Presenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPresenter = new NestGroupDetailPresenter(this);
 
     }
 
@@ -110,6 +114,58 @@ public class NestGroupDetailActivity extends BaseActivity {
                 ActivityManager.finishActivity(NestGroupDetailActivity.this);
             }
         });
+        limitamounttoogle.setOnToggleChanged(new SwitchButton.OnToggleChanged() {
+            @Override
+            public void onToggle(boolean on) {
+
+            }
+        });
+        opentoogle.setOnToggleChanged(new SwitchButton.OnToggleChanged() {
+            @Override
+            public void onToggle(boolean on) {
+
+            }
+        });
+
+    }
+
+    @Override
+    public void setPresenter(NestGroupDetailContract.Presenter presenter) {
+        mPresenter = presenter;
+    }
+
+    @Override
+    public String getIntroduction() {
+        return name.getText().toString();
+    }
+
+    @Override
+    public int getChalengeDay() {
+        return Integer.valueOf(day.getText().toString());
+    }
+
+    @Override
+    public String getStartTime() {
+        return starttime.getText().toString();
+    }
+
+    @Override
+    public void setAmount(int amount) {
+
+    }
+
+    @Override
+    public boolean isLimited() {
+        return false;
+    }
+
+    @Override
+    public boolean isOpen() {
+        return false;
+    }
+
+    @Override
+    public void setMaxAmount(int amount) {
 
     }
 }

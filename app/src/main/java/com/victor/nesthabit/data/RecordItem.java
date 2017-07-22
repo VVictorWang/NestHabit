@@ -11,15 +11,34 @@ import org.litepal.crud.DataSupport;
  * blog: www.victorwang.science
  */
 
-public class RecordItem extends DataSupport implements Parcelable{
+public class RecordItem extends DataSupport implements Parcelable {
     private long id;
     private String name;
     private String file_path;
     private int length;
     private long time_added;
+    private boolean isVoice;
+    private String content;
+
+    public boolean isVoice() {
+        return isVoice;
+    }
+
+    public void setVoice(boolean voice) {
+        isVoice = voice;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 
     public RecordItem() {
     }
+
     public RecordItem(Parcel in) {
         id = in.readInt();
         name = in.readString();
@@ -27,7 +46,9 @@ public class RecordItem extends DataSupport implements Parcelable{
         length = in.readInt();
         time_added = in.readLong();
     }
-    public static final Parcelable.Creator<RecordItem> CREATOR = new Parcelable.Creator<RecordItem>() {
+
+    public static final Parcelable.Creator<RecordItem> CREATOR = new Parcelable
+            .Creator<RecordItem>() {
         public RecordItem createFromParcel(Parcel in) {
             return new RecordItem(in);
         }
@@ -40,12 +61,13 @@ public class RecordItem extends DataSupport implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt((int)id);
+        dest.writeInt((int) id);
         dest.writeString(name);
         dest.writeString(file_path);
         dest.writeInt(length);
         dest.writeLong(time_added);
     }
+
     @Override
     public int describeContents() {
         return 0;

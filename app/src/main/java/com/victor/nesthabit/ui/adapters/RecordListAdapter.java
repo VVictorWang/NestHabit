@@ -55,18 +55,18 @@ public class RecordListAdapter extends RecyclerView.Adapter<RecordListAdapter.Li
     public void onNewRecordAdded(RecordItem item) {
 
     }
-
-    @Override
-    public void onNewRecordAddedtoDataBase(RecordItem item) {
-        mRecordItems.add(item);
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public void onRecordDeleted(RecordItem item) {
-        mRecordItems.remove(item);
-        notifyDataSetChanged();
-    }
+//
+//    @Override
+//    public void onNewRecordAddedtoDataBase(RecordItem item) {
+//        mRecordItems.add(item);
+//        notifyDataSetChanged();
+//    }
+//
+//    @Override
+//    public void onRecordDeleted(RecordItem item) {
+//        mRecordItems.remove(item);
+//        notifyDataSetChanged();
+//    }
 
     @Override
     public ListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

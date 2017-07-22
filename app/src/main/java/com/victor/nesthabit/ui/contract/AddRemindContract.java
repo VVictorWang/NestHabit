@@ -1,4 +1,4 @@
-package com.victor.nesthabit.ui.model;
+package com.victor.nesthabit.ui.contract;
 
 import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.ui.base.Baseview;
@@ -9,7 +9,7 @@ import com.victor.nesthabit.ui.base.Baseview;
  * blog: www.victorwang.science                                            #
  */
 
-public interface AddRemindModel {
+public interface AddRemindContract {
     interface View extends Baseview<Presenter> {
         void startService();
 
@@ -40,13 +40,17 @@ public interface AddRemindModel {
         void clearWindowFlags();
 
         void addWindowFlags();
+
+        String getRemindText();
+
+        void finishActivity();
     }
 
     interface Presenter extends BasePresenter {
         void onRecord(boolean start);
 
 
-
+        void finish();
         void Play();
 
         void recordAgain();

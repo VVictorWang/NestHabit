@@ -114,6 +114,7 @@ public class RecordingService extends Service {
                 mRecordItem.setFile_path(mFilePath);
                 mRecordItem.setLength((int) mElapsedMillis);
                 mRecordItem.setTime_added(System.currentTimeMillis());
+                mRecordItem.setVoice(true);
                 mRecordItem.save();
                 if (sOnNewRecordListenner != null) {
                     //通知录音文件已缓存，以便弹出实时预览的窗口
@@ -133,8 +134,5 @@ public class RecordingService extends Service {
     public interface OnNewRecordListenner {
         void onNewRecordAdded(RecordItem item); //录音文件已缓存
 
-        void onNewRecordAddedtoDataBase(RecordItem item); //录音文件实际保存
-
-        void onRecordDeleted(RecordItem item); //录音文件删除
     }
 }

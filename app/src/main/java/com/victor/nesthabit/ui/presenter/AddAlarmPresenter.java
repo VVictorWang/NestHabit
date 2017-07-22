@@ -1,7 +1,7 @@
 package com.victor.nesthabit.ui.presenter;
 
 import com.victor.nesthabit.data.AlarmTime;
-import com.victor.nesthabit.ui.model.AddAlarmModel;
+import com.victor.nesthabit.ui.contract.AddAlarmContract;
 
 /**
  * Created by victor on 7/22/17.
@@ -9,12 +9,12 @@ import com.victor.nesthabit.ui.model.AddAlarmModel;
  * blog: www.victorwang.science                                            #
  */
 
-public class AddAlarmPresenter implements AddAlarmModel.Presenter {
-    private AddAlarmModel.View mView;
+public class AddAlarmPresenter implements AddAlarmContract.Presenter {
+    private AddAlarmContract.View mView;
     public static final String TAG = "@victor AlarmPresenter";
     private static OnDataChanged mOnDataChanged;
 
-    public AddAlarmPresenter(AddAlarmModel.View view) {
+    public AddAlarmPresenter(AddAlarmContract.View view) {
         mView = view;
         mView.setPresenter(this);
     }

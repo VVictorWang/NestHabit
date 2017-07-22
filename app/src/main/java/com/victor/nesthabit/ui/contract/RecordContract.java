@@ -1,8 +1,8 @@
-package com.victor.nesthabit.ui.model;
+package com.victor.nesthabit.ui.contract;
 
 import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.ui.base.Baseview;
-import com.victor.nesthabit.data.BirdCageInfo;
+import com.victor.nesthabit.data.RecordItem;
 
 import java.util.List;
 
@@ -12,12 +12,13 @@ import java.util.List;
  * blog: www.victorwang.science                                            #
  */
 
-public interface BirdCageModel {
-    interface View extends Baseview<Presenter> {
-        void showRecyclerview(List<BirdCageInfo> mBirdCageInfos);
+public interface RecordContract {
+     interface View extends Baseview<Presenter> {
+        void showRecyclerview(List<RecordItem> mRecordItems);
+
     }
 
      interface Presenter extends BasePresenter {
-    }
 
+    }
 }

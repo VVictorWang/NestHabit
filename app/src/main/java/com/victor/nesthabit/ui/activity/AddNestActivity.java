@@ -2,7 +2,6 @@ package com.victor.nesthabit.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.Button;
@@ -13,12 +12,12 @@ import android.widget.TextView;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.ui.base.BaseActivity;
-import com.victor.nesthabit.ui.model.AddNestModel;
+import com.victor.nesthabit.ui.contract.AddNestContract;
 import com.victor.nesthabit.ui.presenter.AddNestPresenter;
 import com.victor.nesthabit.utils.ActivityManager;
 import com.victor.nesthabit.view.SwitchButton;
 
-public class AddNestActivity extends BaseActivity implements AddNestModel.View {
+public class AddNestActivity extends BaseActivity implements AddNestContract.View {
 
     private android.widget.ImageView back;
     private android.widget.EditText name;
@@ -30,7 +29,7 @@ public class AddNestActivity extends BaseActivity implements AddNestModel.View {
     private android.support.v7.widget.CardView layouttwo;
     private com.victor.nesthabit.view.SwitchButton limittoggle;
     private Button submit;
-    private AddNestModel.Presenter mPresenter;
+    private AddNestContract.Presenter mPresenter;
     private boolean isAmountlimited;
 
     @Override
@@ -95,7 +94,7 @@ public class AddNestActivity extends BaseActivity implements AddNestModel.View {
     }
 
     @Override
-    public void setPresenter(AddNestModel.Presenter presenter) {
+    public void setPresenter(AddNestContract.Presenter presenter) {
         mPresenter = presenter;
     }
 

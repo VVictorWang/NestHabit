@@ -80,6 +80,10 @@ public class ActivityManager {
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
+    public static void startActivity(Activity activity,Intent intent) {
+        activity.startActivity(intent);
+        activity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+    }
 
     public static void finishActivity(Activity activity) {
         instance.popActivity(activity);

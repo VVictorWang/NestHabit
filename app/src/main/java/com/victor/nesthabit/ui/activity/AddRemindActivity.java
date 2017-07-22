@@ -17,11 +17,11 @@ import android.widget.TextView;
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.service.RecordingService;
 import com.victor.nesthabit.ui.base.BaseActivity;
-import com.victor.nesthabit.ui.model.AddRemindModel;
+import com.victor.nesthabit.ui.contract.AddRemindContract;
 import com.victor.nesthabit.ui.presenter.AddRemindPresenter;
 import com.victor.nesthabit.utils.ActivityManager;
 
-public class AddRemindActivity extends BaseActivity implements AddRemindModel.View, View
+public class AddRemindActivity extends BaseActivity implements AddRemindContract.View, View
         .OnClickListener {
     private android.widget.ImageView back;
     private android.widget.TextView recordagain;
@@ -32,7 +32,7 @@ public class AddRemindActivity extends BaseActivity implements AddRemindModel.Vi
     private EditText textinput;
     private ImageView play;
     private Handler mHandler = new Handler();
-    private AddRemindModel.Presenter mPresenter;
+    private AddRemindContract.Presenter mPresenter;
     private Intent intent;
 
 
@@ -99,6 +99,7 @@ public class AddRemindActivity extends BaseActivity implements AddRemindModel.Vi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.finish:
+                mPresenter.finish();
                 break;
             case R.id.record_again:
                 mPresenter.recordAgain();
@@ -114,7 +115,7 @@ public class AddRemindActivity extends BaseActivity implements AddRemindModel.Vi
     }
 
     @Override
-    public void setPresenter(AddRemindModel.Presenter presenter) {
+    public void setPresenter(AddRemindContract.Presenter presenter) {
         mPresenter = presenter;
     }
 
@@ -208,5 +209,15 @@ public class AddRemindActivity extends BaseActivity implements AddRemindModel.Vi
     @Override
     public void addWindowFlags() {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+    }
+
+    @Override
+    public String getRemindText() {
+        return textinput.getText().toString();
+    }
+
+    @Override
+    public void finishActivity() {
+        ActivityManager.finishActivity(getActivityToPush());
     }
 }

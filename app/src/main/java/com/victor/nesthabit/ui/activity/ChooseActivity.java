@@ -2,6 +2,7 @@ package com.victor.nesthabit.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -13,11 +14,18 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.victor.nesthabit.R;
+import com.victor.nesthabit.data.RecordItem;
 import com.victor.nesthabit.ui.adapters.MemberListAdapter;
 import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.utils.ActivityManager;
+
+import org.litepal.crud.DataSupport;
+
+import java.util.Calendar;
 
 public class ChooseActivity extends BaseActivity {
 
@@ -30,10 +38,15 @@ public class ChooseActivity extends BaseActivity {
     private android.support.v7.widget.CardView layouttwo;
     private android.widget.Button nextstep;
     private RecyclerView list;
+    private long id;
+    private RecordItem mRecordItem;
+    private CalendarDay mCalendarDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        id = getIntent().getLongExtra("id", 1);
+        mRecordItem = DataSupport.find(RecordItem.class, id);
 
     }
 
@@ -63,7 +76,8 @@ public class ChooseActivity extends BaseActivity {
         list.setLayoutManager(layoutManager);
         MemberListAdapter adapter = new MemberListAdapter(ChooseActivity.this,true);
         list.setAdapter(adapter);
-
+        calendar.state().edit().setMinimumDate(Calendar.getInstance().getTime()
+        ).commit();
     }
 
     @Override
@@ -72,6 +86,13 @@ public class ChooseActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 ActivityManager.finishActivity(ChooseActivity.this);
+            }
+        });
+        calendar.setOnDateChangedListener(new OnDateSelectedListener() {
+            @Override
+            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay
+                    date, boolean selected) {
+                mCalendarDay = date;
             }
         });
 

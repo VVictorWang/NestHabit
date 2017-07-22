@@ -52,16 +52,16 @@ public class RecordFragment extends DialogFragment implements RecordingService.O
         }
     }
 
-    //录音缓存文件实际保存，关闭录音界面
-    @Override
-    public void onNewRecordAddedtoDataBase(RecordItem item) {
-        dismiss();
-    }
-
-    @Override
-    public void onRecordDeleted(RecordItem item) {
-
-    }
+//    //录音缓存文件实际保存，关闭录音界面
+//    @Override
+//    public void onNewRecordAddedtoDataBase(RecordItem item) {
+//        dismiss();
+//    }
+//
+//    @Override
+//    public void onRecordDeleted(RecordItem item) {
+//
+//    }
 
     @NonNull
     @Override

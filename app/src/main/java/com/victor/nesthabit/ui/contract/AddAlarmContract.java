@@ -1,4 +1,4 @@
-package com.victor.nesthabit.ui.model;
+package com.victor.nesthabit.ui.contract;
 
 import com.victor.nesthabit.data.AlarmTime;
 import com.victor.nesthabit.ui.base.BasePresenter;
@@ -12,7 +12,7 @@ import java.util.List;
  * blog: www.victorwang.science                                            #
  */
 
-public interface AddAlarmModel {
+public interface AddAlarmContract {
     interface View extends Baseview<Presenter> {
         String getSeletedHour();
 

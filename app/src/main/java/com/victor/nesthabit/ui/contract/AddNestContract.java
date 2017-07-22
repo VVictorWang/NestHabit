@@ -1,4 +1,4 @@
-package com.victor.nesthabit.ui.model;
+package com.victor.nesthabit.ui.contract;
 
 import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.ui.base.Baseview;
@@ -9,7 +9,7 @@ import com.victor.nesthabit.ui.base.Baseview;
  * blog: www.victorwang.science                                            #
  */
 
-public interface AddNestModel {
+public interface AddNestContract {
     interface View extends Baseview<Presenter> {
         String getName();
 

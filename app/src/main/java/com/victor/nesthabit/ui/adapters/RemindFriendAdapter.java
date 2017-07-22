@@ -1,6 +1,10 @@
 package com.victor.nesthabit.ui.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.media.MediaPlayer;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +15,17 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
+import com.victor.nesthabit.data.RecordItem;
+import com.victor.nesthabit.ui.activity.ChooseActivity;
+import com.victor.nesthabit.ui.presenter.AddRemindPresenter;
+import com.victor.nesthabit.utils.ActivityManager;
 import com.victor.nesthabit.view.CircleImageView;
+
+import org.litepal.crud.DataSupport;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by victor on 7/20/17.
@@ -19,50 +33,52 @@ import com.victor.nesthabit.view.CircleImageView;
  * blog: www.victorwang.science                                            #
  */
 
-public class RemindFriendAdapter extends RecyclerView.Adapter<RemindFriendAdapter.MyViewHolder> {
+public class RemindFriendAdapter extends RecyclerView.Adapter<RemindFriendAdapter.MyViewHolder>
+        implements AddRemindPresenter.OnNewRecordChanged {
     private Context mContext;
+    private MediaPlayer mMediaPlayer;
+    private List<RecordItem> mRecordItems = new ArrayList<>();
+    private boolean isPlaying = false;
+
+    @Override
+    public void onNewAdded(RecordItem recordItem) {
+        mRecordItems.add(recordItem);
+        notifyDataSetChanged();
+    }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
         private CircleImageView play;
         private RelativeLayout voiceTextLayout;
         private TextView voiceTextStatus;
-        private RelativeLayout layoutTwo;
         private TextView duixiang;
         private ImageView avatar;
         private TextView name;
-        private RelativeLayout layoutThree;
-        private TextView startTimeText;
         private TextView startTime;
-        private RelativeLayout layoutFour;
-        private TextView endTimeText;
         private TextView endTime;
         private RelativeLayout contentLayout;
-        private TextView contentText;
         private TextView content;
+        private CardView mCardView;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             play = (CircleImageView) itemView.findViewById(R.id.play);
             voiceTextLayout = (RelativeLayout) itemView.findViewById(R.id.voice_text_layout);
             voiceTextStatus = (TextView) itemView.findViewById(R.id.voice_text_status);
-            layoutTwo = (RelativeLayout) itemView.findViewById(R.id.layout_two);
             duixiang = (TextView) itemView.findViewById(R.id.duixiang);
             avatar = (ImageView) itemView.findViewById(R.id.avatar);
             name = (TextView) itemView.findViewById(R.id.name);
-            layoutThree = (RelativeLayout) itemView.findViewById(R.id.layout_three);
-            startTimeText = (TextView) itemView.findViewById(R.id.start_time_text);
             startTime = (TextView) itemView.findViewById(R.id.start_time);
-            layoutFour = (RelativeLayout) itemView.findViewById(R.id.layout_four);
-            endTimeText = (TextView) itemView.findViewById(R.id.end_time_text);
             endTime = (TextView) itemView.findViewById(R.id.end_time);
             contentLayout = (RelativeLayout) itemView.findViewById(R.id.content_layout);
-            contentText = (TextView) itemView.findViewById(R.id.content_text);
             content = (TextView) itemView.findViewById(R.id.content);
+            mCardView = (CardView) itemView.findViewById(R.id.card);
         }
     }
 
     public RemindFriendAdapter(Context context) {
         mContext = context;
+        mRecordItems = DataSupport.findAll(RecordItem.class);
+        AddRemindPresenter.setOnNewRecordChanged(this);
     }
 
     @Override
@@ -74,16 +90,92 @@ public class RemindFriendAdapter extends RecyclerView.Adapter<RemindFriendAdapte
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        if (position % 3 == 0) {
+        RecordItem recordItem = mRecordItems.get(position);
+        if (!recordItem.isVoice()) {
             holder.contentLayout.setVisibility(View.VISIBLE);
             holder.voiceTextStatus.setText(mContext.getString(R.string.text_remind));
             holder.play.setVisibility(View.INVISIBLE);
+            holder.content.setText(recordItem.getContent());
+        } else {
+            holder.play.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onPlay(isPlaying, recordItem, holder.play);
+                    isPlaying = !isPlaying;
+                }
+            });
         }
+        holder.mCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, ChooseActivity.class);
+                intent.putExtra("id", recordItem.getId());
+                ActivityManager.startActivity((Activity) mContext, intent);
+            }
+        });
 
     }
 
+    private void onPlay(boolean isPlaying, RecordItem recordItem, CircleImageView play) {
+        if (!isPlaying) {
+            if (mMediaPlayer == null) {
+                startPlaying(recordItem, play); //start from beginning
+            } else {
+                resumePlaying(play); //resume the currently paused MediaPlayer
+            }
+
+        } else {
+            //pause the MediaPlayer
+            pausePlaying(play);
+        }
+    }
+
+    private void startPlaying(RecordItem recordItem, CircleImageView play) {
+        play.setImageResource(R.drawable.pause);
+        mMediaPlayer = new MediaPlayer();
+        try {
+            mMediaPlayer.setDataSource(recordItem.getFile_path());
+            mMediaPlayer.prepare();
+            mMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    mMediaPlayer.start();
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                stopPlaying(play);
+            }
+        });
+
+    }
+
+    private void pausePlaying(CircleImageView play) {
+        play.setImageResource(R.drawable.play);
+        mMediaPlayer.pause();
+    }
+
+    private void resumePlaying(CircleImageView play) {
+        play.setImageResource(R.drawable.pause);
+        mMediaPlayer.start();
+    }
+
+    private void stopPlaying(ImageView play) {
+        play.setImageResource(R.drawable.play);
+        mMediaPlayer.stop();
+        mMediaPlayer.reset();
+        mMediaPlayer.release();
+        mMediaPlayer = null;
+        isPlaying = !isPlaying;
+    }
+
+
     @Override
     public int getItemCount() {
-        return 10;
+        return mRecordItems.size();
     }
 }

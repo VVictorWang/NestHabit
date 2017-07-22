@@ -6,7 +6,7 @@ import android.os.Environment;
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.data.RecordItem;
 import com.victor.nesthabit.service.RecordingService;
-import com.victor.nesthabit.ui.model.AddRemindModel;
+import com.victor.nesthabit.ui.contract.AddRemindContract;
 import com.victor.nesthabit.utils.AppUtils;
 
 import java.io.File;
@@ -19,17 +19,18 @@ import java.util.concurrent.TimeUnit;
  * blog: www.victorwang.science                                            #
  */
 
-public class AddRemindPresenter implements AddRemindModel.Presenter, RecordingService
+public class AddRemindPresenter implements AddRemindContract.Presenter, RecordingService
         .OnNewRecordListenner {
-    private AddRemindModel.View mView;
+    private AddRemindContract.View mView;
     private MediaPlayer mMediaPlayer = null;
     private RecordItem mRecordItem = null;
     private boolean isPlaying = false;
+    private static OnNewRecordChanged sOnNewRecordChanged;
 
     long minutes = 0;
     long seconds = 0;
 
-    public AddRemindPresenter(AddRemindModel.View view) {
+    public AddRemindPresenter(AddRemindContract.View view) {
         mView = view;
         mView.setPresenter(this);
         RecordingService.setOnNewRecordListenner(this);
@@ -75,21 +76,6 @@ public class AddRemindPresenter implements AddRemindModel.Presenter, RecordingSe
         }
     }
 
-    public void onPlay(boolean isPlaying) {
-        if (!isPlaying) {
-            //currently MediaPlayer is not playing audio
-            if (mMediaPlayer == null) {
-                startPlaying(); //start from beginning
-            } else {
-                resumePlaying(); //resume the currently paused MediaPlayer
-            }
-
-        } else {
-            //pause the MediaPlayer
-            pausePlaying();
-        }
-    }
-
     @Override
     public void Play() {
         if (mRecordItem != null) {
@@ -113,6 +99,39 @@ public class AddRemindPresenter implements AddRemindModel.Presenter, RecordingSe
             mView.setRecordText(AppUtils.getResource().getString(R.string.long_record));
         }
     }
+
+    @Override
+    public void finish() {
+        if (mView.getRemindText() != null && !mView.getRemindText().equals("")) {
+            RecordItem recordItem = new RecordItem();
+            recordItem.setVoice(false);
+            recordItem.setContent(mView.getRemindText());
+            recordItem.save();
+            if (sOnNewRecordChanged != null) {
+                sOnNewRecordChanged.onNewAdded(recordItem);
+            }
+        }
+        if (mRecordItem != null && sOnNewRecordChanged != null) {
+            sOnNewRecordChanged.onNewAdded(mRecordItem);
+        }
+        mView.finishActivity();
+    }
+
+    public void onPlay(boolean isPlaying) {
+        if (!isPlaying) {
+            //currently MediaPlayer is not playing audio
+            if (mMediaPlayer == null) {
+                startPlaying(); //start from beginning
+            } else {
+                resumePlaying(); //resume the currently paused MediaPlayer
+            }
+
+        } else {
+            //pause the MediaPlayer
+            pausePlaying();
+        }
+    }
+
 
     private void startPlaying() {
         mView.setPauseImage();
@@ -178,13 +197,13 @@ public class AddRemindPresenter implements AddRemindModel.Presenter, RecordingSe
         mView.setRecordText(String.format("%02d:%02d", minutes, seconds));
     }
 
-    @Override
-    public void onNewRecordAddedtoDataBase(RecordItem item) {
-
+    public static void setOnNewRecordChanged(OnNewRecordChanged onNewRecordChanged) {
+        sOnNewRecordChanged = onNewRecordChanged;
     }
 
-    @Override
-    public void onRecordDeleted(RecordItem item) {
-
+    public interface OnNewRecordChanged {
+        void onNewAdded(RecordItem recordItem);
     }
+
+
 }

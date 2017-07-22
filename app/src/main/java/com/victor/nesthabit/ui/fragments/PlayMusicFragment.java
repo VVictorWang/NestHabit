@@ -155,46 +155,46 @@ public class PlayMusicFragment extends DialogFragment {
             }
         });
 
-        if (status == STATUS_WAIT_FOR_SAVING) {
-            save.setVisibility(View.VISIBLE);
-            give_up.setVisibility(View.VISIBLE);
-            save.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(getActivity(), getString(R.string.toast_recording_finish) + " " + item.getFile_path(), Toast.LENGTH_LONG).show();
-                    if (sOnNewRecordListenner != null) {
-                        sOnNewRecordListenner.onNewRecordAddedtoDataBase(item);
-                    }
-                    if (sRecordListenner != null) {
-                        sRecordListenner.onNewRecordAddedtoDataBase(item);
-                    }
-                    dismiss();
-                }
-            });
-        } else if (status == STATUS_SAVED) {
-            save.setVisibility(View.GONE);
-            give_up.setVisibility(View.VISIBLE);
-            give_up.setText("删除");
-        }
-        give_up.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                File file = new File(item.getFile_path());
-                file.delete();
-                if (sOnNewRecordListenner != null) {
-                    sOnNewRecordListenner.onRecordDeleted(item);
-                }
-                item.delete();
-                dismiss();
-            }
-        });
-
-
-        mFileNameTextView.setText(item.getName());
-        mFileLengthTextView.setText(String.format("%02d:%02d", minutes, seconds));
-        builder.setView(view);
-        // request a window without the title
-        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+//        if (status == STATUS_WAIT_FOR_SAVING) {
+//            save.setVisibility(View.VISIBLE);
+//            give_up.setVisibility(View.VISIBLE);
+//            save.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Toast.makeText(getActivity(), getString(R.string.toast_recording_finish) + " " + item.getFile_path(), Toast.LENGTH_LONG).show();
+//                    if (sOnNewRecordListenner != null) {
+//                        sOnNewRecordListenner.onNewRecordAddedtoDataBase(item);
+//                    }
+//                    if (sRecordListenner != null) {
+//                        sRecordListenner.onNewRecordAddedtoDataBase(item);
+//                    }
+//                    dismiss();
+//                }
+//            });
+//        } else if (status == STATUS_SAVED) {
+//            save.setVisibility(View.GONE);
+//            give_up.setVisibility(View.VISIBLE);
+//            give_up.setText("删除");
+//        }
+//        give_up.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                File file = new File(item.getFile_path());
+//                file.delete();
+//                if (sOnNewRecordListenner != null) {
+//                    sOnNewRecordListenner.onRecordDeleted(item);
+//                }
+//                item.delete();
+//                dismiss();
+//            }
+//        });
+//
+//
+//        mFileNameTextView.setText(item.getName());
+//        mFileLengthTextView.setText(String.format("%02d:%02d", minutes, seconds));
+//        builder.setView(view);
+//        // request a window without the title
+//        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
         return builder.create();
     }

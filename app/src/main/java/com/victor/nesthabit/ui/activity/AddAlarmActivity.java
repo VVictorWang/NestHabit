@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.data.AlarmTime;
 import com.victor.nesthabit.ui.base.BaseActivity;
-import com.victor.nesthabit.ui.model.AddAlarmModel;
+import com.victor.nesthabit.ui.contract.AddAlarmContract;
 import com.victor.nesthabit.ui.presenter.AddAlarmPresenter;
 import com.victor.nesthabit.utils.ActivityManager;
 import com.victor.nesthabit.utils.AlarmManagerUtil;
@@ -24,9 +24,7 @@ import com.victor.nesthabit.view.SwitchButton;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.ButterKnife;
-
-public class AddAlarmActivity extends BaseActivity implements View.OnClickListener, AddAlarmModel
+public class AddAlarmActivity extends BaseActivity implements View.OnClickListener, AddAlarmContract
         .View {
 
 
@@ -54,7 +52,7 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
     private Button finish;
 
     private String hour = null, minute = null;
-    private AddAlarmModel.Presenter mPresenter;
+    private AddAlarmContract.Presenter mPresenter;
     private List<Integer> weeks = new ArrayList<>();
     private boolean snapon, voice, remind;
 
@@ -253,7 +251,7 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
     }
 
     @Override
-    public void setPresenter(AddAlarmModel.Presenter presenter) {
+    public void setPresenter(AddAlarmContract.Presenter presenter) {
         mPresenter = presenter;
     }
 

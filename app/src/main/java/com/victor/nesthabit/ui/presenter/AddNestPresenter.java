@@ -1,7 +1,7 @@
 package com.victor.nesthabit.ui.presenter;
 
 import com.victor.nesthabit.data.BirdCageInfo;
-import com.victor.nesthabit.ui.model.AddNestModel;
+import com.victor.nesthabit.ui.contract.AddNestContract;
 
 /**
  * Created by victor on 7/22/17.
@@ -9,11 +9,11 @@ import com.victor.nesthabit.ui.model.AddNestModel;
  * blog: www.victorwang.science                                            #
  */
 
-public class AddNestPresenter implements AddNestModel.Presenter{
-    private AddNestModel.View mView;
+public class AddNestPresenter implements AddNestContract.Presenter{
+    private AddNestContract.View mView;
     public static OnCageDataChanged sOnCageDataChanged;
 
-    public AddNestPresenter(AddNestModel.View view) {
+    public AddNestPresenter(AddNestContract.View view) {
         mView = view;
         mView.setPresenter(this);
     }
