@@ -12,7 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
+import com.victor.nesthabit.data.AlarmTime;
+import com.victor.nesthabit.ui.presenter.AddAlarmPresenter;
+import com.victor.nesthabit.utils.DateUtils;
 import com.victor.nesthabit.view.SwitchButton;
+
+import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,11 +28,19 @@ import java.util.List;
  * blog: www.victorwang.science                                            #
  */
 
-public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyViewHolder> {
+public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyViewHolder> implements AddAlarmPresenter.OnDataChanged{
+    private static final String[] WEEK_DAYS = new String[]{"周日", "周一", "周二", "周三", "周四", "周五",
+            "周六"};
     private Context mContext;
-    private List<List<String>> weekdays = new ArrayList<>();
+    private List<AlarmTime> mAlarmTimes = new ArrayList<>();
     private int white;
     private int white_transparent;
+
+    @Override
+    public void OnDataAdded(AlarmTime alarmTime) {
+        mAlarmTimes.add(alarmTime);
+        notifyDataSetChanged();
+    }
 
 
     class MyViewHolder extends RecyclerView.ViewHolder {
@@ -55,6 +68,8 @@ public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyVi
         mContext = context;
         white = mContext.getResources().getColor(R.color.white);
         white_transparent = mContext.getResources().getColor(R.color.while_transpante60);
+        mAlarmTimes = DataSupport.findAll(AlarmTime.class);
+        AddAlarmPresenter.setOnDataChanged(this);
     }
 
     @Override
@@ -66,36 +81,57 @@ public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyVi
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        List<String> list = new ArrayList<>();
-        list.add("周一");
-        list.add("周五");
-        weekdays.add(list);
-        ClockWeekAdpater adpater = new ClockWeekAdpater(weekdays.get(position));
+        AlarmTime alarmTime = mAlarmTimes.get(position);
+        List<String> weekdays = new ArrayList<>();
+        List<Integer> weeks = alarmTime.getWeeks();
+        for (int i = 0; i < weeks.size(); i++) {
+            if (weeks.get(i)==1) {
+                weekdays.add(WEEK_DAYS[i]);
+            }
+        }
+        ClockWeekAdpater adpater = new ClockWeekAdpater(weekdays);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext);
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         holder.remindList.setLayoutManager(linearLayoutManager);
         holder.remindList.setAdapter(adpater);
-        if (position == 2) {
-            holder.remindImage.setImageDrawable(mContext.getDrawable(R.drawable.night));
-        }
+        holder.remindTime.setText(String.format("%02d:%02d", alarmTime.getHour(), alarmTime
+                .getMinute()));
+        handleImageOn(alarmTime, holder);
+        holder.remindTitle.setText(alarmTime.getTitle());
+
         holder.mSwitchButton.setOnToggleChanged(new SwitchButton.OnToggleChanged() {
             @Override
             public void onToggle(boolean on) {
                 if (on) {
                     holder.mCardView.setBackgroundColor(white);
+                    handleImageOn(alarmTime, holder);
 
                 } else {
                     holder.mCardView.setBackgroundColor(white_transparent);
-                    holder.remindImage.setImageDrawable(mContext.getDrawable(R.drawable.day_67));
+                    handleImageOff(alarmTime, holder);
 
                 }
             }
         });
     }
 
+    private void handleImageOn(AlarmTime alarmTime, MyViewHolder holder) {
+        if (DateUtils.isNight(alarmTime.getHour())) {
+            holder.remindImage.setImageDrawable(mContext.getDrawable(R.drawable.night));
+        } else
+            holder.remindImage.setImageDrawable(mContext.getDrawable(R.drawable.day));
+    }
+
+    private void handleImageOff(AlarmTime alarmTime, MyViewHolder holder) {
+        if (DateUtils.isNight(alarmTime.getHour())) {
+            holder.remindImage.setImageDrawable(mContext.getDrawable(R.drawable.night_19));
+        } else
+            holder.remindImage.setImageDrawable(mContext.getDrawable(R.drawable.day_67));
+    }
+
     @Override
     public int getItemCount() {
-        return 3;
+        return mAlarmTimes.size();
     }
 
     private class ClockWeekAdpater extends RecyclerView.Adapter<ClockWeekAdpater.ViewHolder> {
@@ -131,5 +167,7 @@ public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyVi
             return list.size();
         }
     }
+
+
 
 }

@@ -1,6 +1,6 @@
 package com.victor.nesthabit.ui.presenter;
 
-import com.victor.nesthabit.ui.contracts.RecordContract;
+import com.victor.nesthabit.ui.model.RecordModel;
 import com.victor.nesthabit.data.RecordItem;
 
 import org.litepal.crud.DataSupport;
@@ -13,10 +13,10 @@ import java.util.List;
  * blog: www.victorwang.science                                            #
  */
 
-public class RecordActivityPresenter implements RecordContract.Presenter {
-    private RecordContract.View mView;
+public class RecordActivityPresenter implements RecordModel.Presenter {
+    private RecordModel.View mView;
 
-    public RecordActivityPresenter(RecordContract.View view) {
+    public RecordActivityPresenter(RecordModel.View view) {
         mView = view;
         mView.setPresenter(this);
     }

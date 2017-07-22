@@ -2,7 +2,6 @@ package com.victor.nesthabit.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.ui.adapters.MusicListAdapter;
 import com.victor.nesthabit.ui.base.BaseActivity;
-import com.victor.nesthabit.ui.contracts.BirdCageContract;
 
 public class MusicProfileActivity extends BaseActivity {
 

@@ -1,6 +1,10 @@
 package com.victor.nesthabit.data;
 
+import android.content.Intent;
+
 import org.litepal.crud.DataSupport;
+
+import java.util.List;
 
 /**
  * Created by victor on 7/4/17.
@@ -8,27 +12,48 @@ import org.litepal.crud.DataSupport;
  * blog: www.victorwang.science
  */
 
-public class AlarmTime extends DataSupport{
-    private String time;
-    private int frequency;
+public class AlarmTime extends DataSupport {
+    private String title;
     private long id;
     private String alert_music;
-    private long timeInmillis;
+    private List<Integer> weeks;
+    private int hour;
+    private int minute;
+    private boolean isSnap;
+    private boolean receive_Voice;
+    private boolean receive_text;
 
-    public long getTimeInmillis() {
-        return timeInmillis;
+    public boolean isReceive_Voice() {
+        return receive_Voice;
     }
 
-    public void setTimeInmillis(long timeInmillis) {
-        this.timeInmillis = timeInmillis;
+    public void setReceive_Voice(boolean receive_Voice) {
+        this.receive_Voice = receive_Voice;
     }
 
-    public String getAlert_music() {
-        return alert_music;
+    public boolean isReceive_text() {
+        return receive_text;
     }
 
-    public void setAlert_music(String alert_music) {
-        this.alert_music = alert_music;
+    public void setReceive_text(boolean receive_text) {
+        this.receive_text = receive_text;
+    }
+
+    public boolean isSnap() {
+
+        return isSnap;
+    }
+
+    public void setSnap(boolean snap) {
+        isSnap = snap;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public long getId() {
@@ -39,19 +64,35 @@ public class AlarmTime extends DataSupport{
         this.id = id;
     }
 
-    public String getTime() {
-        return time;
+    public String getAlert_music() {
+        return alert_music;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setAlert_music(String alert_music) {
+        this.alert_music = alert_music;
     }
 
-    public int getFrequency() {
-        return frequency;
+    public List<Integer> getWeeks() {
+        return weeks;
     }
 
-    public void setFrequency(int frequency) {
-        this.frequency = frequency;
+    public void setWeeks(List<Integer> weeks) {
+        this.weeks = weeks;
+    }
+
+    public int getHour() {
+        return hour;
+    }
+
+    public void setHour(int hour) {
+        this.hour = hour;
+    }
+
+    public int getMinute() {
+        return minute;
+    }
+
+    public void setMinute(int minute) {
+        this.minute = minute;
     }
 }

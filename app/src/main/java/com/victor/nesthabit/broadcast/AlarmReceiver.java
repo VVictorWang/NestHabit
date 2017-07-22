@@ -21,28 +21,28 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        int id = intent.getIntExtra("id", 0);
-        AlarmTime alarmTime = DataSupport.find(AlarmTime.class, (long) id);
-        int frequency = alarmTime.getFrequency();
-        Calendar time = Calendar.getInstance();
-        time.setTimeInMillis(alarmTime.getTimeInmillis());
-        //根据重复次数设置闹钟提醒
-        if (frequency > 0) {
-            if (frequency == SECONDLY) {
-                time.add(Calendar.SECOND, 1);
-            }
-            if (frequency == MINUTELY) {
-                time.add(Calendar.MINUTE, 1);
-            }
-            if (frequency == HOURLY) {
-                time.add(Calendar.HOUR, 1);
-            } else if (frequency == DAILY) {
-                time.add(Calendar.DATE, 1);
-            }
-            alarmTime.setTimeInmillis(time.getTimeInMillis());
-            alarmTime.update(id);
-            AlarmManagerUtil.setAlarm(context, alarmTime);
-        }
+//        int id = intent.getIntExtra("id", 0);
+//        AlarmTime alarmTime = DataSupport.find(AlarmTime.class, (long) id);
+//        int frequency = alarmTime.getFrequency();
+//        Calendar time = Calendar.getInstance();
+//        time.setTimeInMillis(alarmTime.getTimeInmillis());
+//        //根据重复次数设置闹钟提醒
+//        if (frequency > 0) {
+//            if (frequency == SECONDLY) {
+//                time.add(Calendar.SECOND, 1);
+//            }
+//            if (frequency == MINUTELY) {
+//                time.add(Calendar.MINUTE, 1);
+//            }
+//            if (frequency == HOURLY) {
+//                time.add(Calendar.HOUR, 1);
+//            } else if (frequency == DAILY) {
+//                time.add(Calendar.DATE, 1);
+//            }
+//            alarmTime.setTimeInmillis(time.getTimeInMillis());
+//            alarmTime.update(id);
+//            AlarmManagerUtil.setAlarm(context, alarmTime);
+//        }
 
     }
 

@@ -2,7 +2,6 @@ package com.victor.nesthabit.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.ui.adapters.MemberListAdapter;
 import com.victor.nesthabit.ui.base.BaseActivity;
-import com.victor.nesthabit.ui.contracts.BirdCageContract;
 import com.victor.nesthabit.utils.ActivityManager;
 
 public class MemberListActivity extends BaseActivity {

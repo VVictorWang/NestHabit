@@ -1,6 +1,7 @@
 package com.victor.nesthabit.ui.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,6 +24,7 @@ public class MusicSettingActivity extends BaseActivity {
     private android.widget.RelativeLayout toolbar;
     private RecyclerView musiclist;
     private CardView musiclayout;
+    private TextView finish;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,7 @@ public class MusicSettingActivity extends BaseActivity {
         this.toolbar = (RelativeLayout) findViewById(R.id.toolbar);
         this.titletext = (TextView) findViewById(R.id.title_text);
         this.back = (ImageView) findViewById(R.id.back);
+        finish = (TextView) findViewById(R.id.right_text);
         musiclist.setLayoutManager(new LinearLayoutManager(MusicSettingActivity.this));
         adapter = new MusicSettingAdapter(MusicSettingActivity.this);
         musiclist.setAdapter(adapter);
@@ -59,7 +62,24 @@ public class MusicSettingActivity extends BaseActivity {
                 ActivityManager.finishActivity(getActivityToPush());
             }
         });
+        finish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResultData();
+                ActivityManager.finishActivity(getActivityToPush());
+            }
+        });
     }
+
+    public void setResultData() {
+        Intent intent = new Intent();
+        if (adapter != null && adapter.getMusicName() != null) {
+            intent.putExtra("name", adapter.getMusicName());
+            setResult(111, intent);
+        } else
+            setResult(112);
+    }
+
 
 
     /**

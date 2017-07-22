@@ -1,7 +1,7 @@
 package com.victor.nesthabit.ui.presenter;
 
 import com.victor.nesthabit.data.BirdCageInfo;
-import com.victor.nesthabit.ui.contracts.BirdCageContract;
+import com.victor.nesthabit.ui.model.BirdCageModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,9 +12,9 @@ import java.util.List;
  * blog: www.victorwang.science                                            #
  */
 
-public class BirdCagePresenter implements BirdCageContract.Presenter {
-    private final BirdCageContract.View mView;
-    public BirdCagePresenter(BirdCageContract.View view) {
+public class BirdCagePresenter implements BirdCageModel.Presenter {
+    private final BirdCageModel.View mView;
+    public BirdCagePresenter(BirdCageModel.View view) {
         mView = view;
         mView.setPresenter(this);
     }

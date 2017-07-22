@@ -11,21 +11,21 @@ import android.view.View;
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.ui.adapters.RecordListAdapter;
 import com.victor.nesthabit.ui.base.BaseActivity;
-import com.victor.nesthabit.ui.contracts.RecordContract;
+import com.victor.nesthabit.ui.model.RecordModel;
 import com.victor.nesthabit.data.RecordItem;
 import com.victor.nesthabit.ui.fragments.RecordFragment;
 import com.victor.nesthabit.ui.presenter.RecordActivityPresenter;
 
 import java.util.List;
 
-public class RecordActivity extends BaseActivity implements RecordContract.View{
+public class RecordActivity extends BaseActivity implements RecordModel.View{
 
     private View toolbarRecord;
     private RecyclerView record_list;
     private RecordListAdapter mRecordListAdapter;
     private List<RecordItem> mRecordItems;
     private FloatingActionButton mFloatingActionButton;
-    private RecordContract.Presenter mRecordActivityPresenter;
+    private RecordModel.Presenter mRecordActivityPresenter;
 
 
     @Override
@@ -68,7 +68,7 @@ public class RecordActivity extends BaseActivity implements RecordContract.View{
     }
 
     @Override
-    public void setPresenter(RecordContract.Presenter presenter) {
+    public void setPresenter(RecordModel.Presenter presenter) {
         mRecordActivityPresenter = presenter;
     }
 

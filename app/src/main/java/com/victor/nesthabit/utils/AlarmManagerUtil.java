@@ -10,6 +10,9 @@ import com.victor.nesthabit.ui.activity.AlarmActivity;
 import com.victor.nesthabit.broadcast.AlarmReceiver;
 import com.victor.nesthabit.data.AlarmTime;
 
+import java.util.Calendar;
+import java.util.List;
+
 import static android.R.attr.id;
 
 /**
@@ -19,14 +22,20 @@ import static android.R.attr.id;
  */
 
 public class AlarmManagerUtil {
-    public static void cancelAlarm(Context context,  AlarmTime alarmTime) {
+    private static int[] WEEKS = new int[]{Calendar.SUNDAY, Calendar.MONDAY, Calendar.TUESDAY,
+            Calendar
+                    .WEDNESDAY, Calendar.THURSDAY, Calendar.FEBRUARY, Calendar.SATURDAY};
+    public static final int intervalMillis = 24 * 3600 * 1000 * 7;
+
+    public static void cancelAlarm(Context context, AlarmTime alarmTime) {
         AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.putExtra("id", alarmTime.getId());
         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
         Intent intent2 = new Intent(context, AlarmActivity.class);
         intent2.putExtra("alert", alarmTime.getAlert_music());
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent2,
+                PendingIntent.FLAG_UPDATE_CURRENT);
         alarm.cancel(pendingIntent);
     }
 
@@ -35,15 +44,32 @@ public class AlarmManagerUtil {
      */
     public static void setAlarm(Context context, AlarmTime alarmTime) {
 
-        AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(context, AlarmReceiver.class);
-        intent.putExtra("id", alarmTime.getId());
-        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+        AlarmManager alarm = null;
         Intent intent2 = new Intent(context, AlarmActivity.class);
         intent2.putExtra("alert", alarmTime.getAlert_music());
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
-        long timeInMilliseconds = alarmTime.getTimeInmillis();
-        alarm.set(AlarmManager.RTC_WAKEUP, timeInMilliseconds, pendingIntent);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent2,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        List<Integer> weeks = alarmTime.getWeeks();
+        for (int i = 0; i < weeks.size(); i++) {
+            if (weeks.get(i) == 1) {
+                Calendar calendar = Calendar.getInstance();
+                calendar.setFirstDayOfWeek(Calendar.SUNDAY);
+                calendar.set(Calendar.DAY_OF_WEEK, WEEKS[i]);
+                calendar.set(Calendar.HOUR, alarmTime.getHour());
+                calendar.set(Calendar.MINUTE, alarmTime.getMinute());
+                calendar.set(Calendar.SECOND, 0);
+                calendar.set(Calendar.MILLISECOND, 0);
+                alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                alarm.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                        intervalMillis, pendingIntent);
+            }
+        }
+
+//        Intent intent = new Intent(context, AlarmReceiver.class);
+//        intent.putExtra("id", alarmTime.getId());
+//        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+
+
 //        Intent alarm = new Intent(context, AlarmService.class);
 //        alarm.setAction(AlarmService.CREATE);
 //        alarm.putExtra("id", 8);

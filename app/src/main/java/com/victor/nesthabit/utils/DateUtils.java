@@ -36,6 +36,22 @@ public class DateUtils {
         return sdf.format(new Date(time));
     }
 
+    public static long getTimeinMills(int hour,int minute) {
+        Date date = new Date(System.currentTimeMillis());
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(date.getYear(), date.getMonth(),date.getDate(), hour, minute);
+        return calendar.getTimeInMillis();
+    }
+
+    public static boolean isNight(int hour) {
+        if (hour > 19 || hour < 6) {
+            return true;
+        }
+        return false;
+    }
+
+
+
     /**
      * 获取当前日期
      *

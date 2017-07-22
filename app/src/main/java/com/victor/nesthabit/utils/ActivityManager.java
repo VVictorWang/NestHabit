@@ -66,6 +66,13 @@ public class ActivityManager {
         }
     }
 
+    public static void startActivityForResult(Activity activity, Class<?> cls,int requestCode) {
+        Intent intent = new Intent();
+        intent.setClass(activity, cls);
+        activity.startActivityForResult(intent, requestCode);
+        activity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+
+    }
 
     public static void startActivity(Activity activity, Class<?> cls) {
         Intent intent = new Intent();

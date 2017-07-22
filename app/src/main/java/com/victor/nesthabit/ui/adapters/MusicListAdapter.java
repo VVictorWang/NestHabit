@@ -132,5 +132,11 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.MyVi
         }
     }
 
+    public String getMusic() {
+        MyViewHolder holder = (MyViewHolder) mRecyclerView.findViewHolderForAdapterPosition
+                (tickedposition);
+        return holder.name.getText().toString();
+
+    }
 
 }
