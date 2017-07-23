@@ -5,6 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.victor.nesthabit.R;
 
@@ -37,7 +41,15 @@ public class DaKaWallAdapater extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+        if (position == 0) {
+            if (holder instanceof DataViewHoler) {
+                ((DataViewHoler) holder).viewFirst.setVisibility(View.INVISIBLE);
+            } else {
+                ((ContentViewHolder)holder).viewFirst.setVisibility(View.INVISIBLE);
+            }
+        } else if (position == getItemCount()) {
+            ((ContentViewHolder) holder).viewlast.setVisibility(View.INVISIBLE);
+        }
 
     }
 
@@ -60,16 +72,39 @@ public class DaKaWallAdapater extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
     static class DataViewHoler extends RecyclerView.ViewHolder {
+        private TextView viewFirst;
+        private ImageView yellowCircle;
+        private TextView date;
         public DataViewHoler(View itemView) {
             super(itemView);
+            viewFirst = (TextView) itemView.findViewById(R.id.view_first);
+            yellowCircle = (ImageView) itemView.findViewById(R.id.yellow_circle);
+            date = (TextView) itemView.findViewById(R.id.date);
         }
     }
 
     static class ContentViewHolder extends RecyclerView.ViewHolder {
+        private RelativeLayout leftLayout;
+        private TextView viewFirst;
+        private ImageView avatar;
+        private TextView name;
+        private TextView time;
+        private TextView text;
+        private TextView viewlast;
         public ContentViewHolder(View itemView) {
             super(itemView);
+            leftLayout = (RelativeLayout) itemView.findViewById(R.id.left_layout);
+            viewFirst = (TextView) itemView.findViewById(R.id.view_first);
+            avatar = (ImageView) itemView.findViewById(R.id.avatar);
+            name = (TextView) itemView.findViewById(R.id.name);
+            time = (TextView) itemView.findViewById(R.id.time);
+            text = (TextView) itemView.findViewById(R.id.text);
+            viewlast = (TextView) itemView.findViewById(R.id.view_last);
         }
     }
+
+
+
 
 
 }

@@ -92,10 +92,11 @@
                     android:layout_marginLeft="26dp">
 
                     <com.victor.nesthabit.view.CircleProgressBar
+                        android:id="@+id/total_progress"
                         android:layout_width="match_parent"
                         android:layout_height="130dp"
-                        app:circle_color="@color/gray_progress"
                         android:layout_marginTop="5dp"
+                        app:circle_color="@color/gray_progress"
                         app:circle_width="14dp"
                         app:current_progress="10"
                         app:max_progress="100"

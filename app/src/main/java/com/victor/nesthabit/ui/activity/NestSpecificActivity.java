@@ -16,15 +16,17 @@ import android.widget.TextView;
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.ui.adapters.MyFragPageAdapter;
 import com.victor.nesthabit.ui.base.BaseActivity;
+import com.victor.nesthabit.ui.contract.NestSpecificContract;
 import com.victor.nesthabit.ui.fragments.CommunicateFragment;
 import com.victor.nesthabit.ui.fragments.DaKaWallFragment;
+import com.victor.nesthabit.ui.presenter.NsetSpecificPresenter;
 import com.victor.nesthabit.utils.ActivityManager;
 import com.victor.nesthabit.utils.AppUtils;
 import com.victor.nesthabit.view.CircleProgressBar;
 
 import java.lang.reflect.Field;
 
-public class NestSpecificActivity extends BaseActivity {
+public class NestSpecificActivity extends BaseActivity implements NestSpecificContract.View {
 
     private android.widget.ImageView back;
     private android.widget.TextView headertext;
@@ -32,17 +34,19 @@ public class NestSpecificActivity extends BaseActivity {
     private android.widget.ImageView introduction;
     private android.widget.RelativeLayout toolbar;
     private android.widget.TextView dakatotalnumber;
-    private com.victor.nesthabit.view.CircleProgressBar constantprogress;
+    private com.victor.nesthabit.view.CircleProgressBar constantprogress, totalprogress;
     private android.widget.TextView dakaconsnumber;
     private android.widget.Button daka;
     private android.support.design.widget.TabLayout tab;
     private android.widget.RelativeLayout toplayout;
     private android.support.v4.view.ViewPager viewpager;
     private RelativeLayout head;
+    private NestSpecificContract.Presenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPresenter = new NsetSpecificPresenter(this);
 
     }
 
@@ -71,14 +75,16 @@ public class NestSpecificActivity extends BaseActivity {
         this.headertext = (TextView) findViewById(R.id.header_text);
         this.back = (ImageView) findViewById(R.id.back);
         head = (RelativeLayout) findViewById(R.id.head);
+        totalprogress = (CircleProgressBar) findViewById(R.id.total_progress);
         setUpViewPager();
     }
 
     @Override
     protected void initEvent() {
         head.setOnTouchListener(new View.OnTouchListener() {
-//            private int lastX;
+            //            private int lastX;
             private int lastY;
+
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 //                int x = (int) event.getX();
@@ -122,6 +128,12 @@ public class NestSpecificActivity extends BaseActivity {
                 ActivityManager.finishActivity(NestSpecificActivity.this);
             }
         });
+        daka.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.checkin();
+            }
+        });
 
     }
 
@@ -133,6 +145,7 @@ public class NestSpecificActivity extends BaseActivity {
         tab.setupWithViewPager(viewpager);
         setUpIndicatorWidth(tab, 30, 30);
     }
+
     private void setUpIndicatorWidth(TabLayout tabLayout, int marginLeft, int marginRight) {
         Class<?> tabLayoutClass = tabLayout.getClass();
         Field tabStrip = null;
@@ -151,9 +164,10 @@ public class NestSpecificActivity extends BaseActivity {
             for (int i = 0; i < layout.getChildCount(); i++) {
                 View child = layout.getChildAt(i);
                 child.setPadding(0, 0, 0, 0);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.MATCH_PARENT, 1);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout
+                        .LayoutParams.MATCH_PARENT, 1);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                    params.setMarginStart( dpToPx(marginLeft));
+                    params.setMarginStart(dpToPx(marginLeft));
                     params.setMarginEnd(dpToPx(marginRight));
                 }
                 child.setLayoutParams(params);
@@ -163,14 +177,49 @@ public class NestSpecificActivity extends BaseActivity {
             e.printStackTrace();
         }
     }
+
     /**
      * 将dp转换成px
      *
      * @param dp
      * @return
      */
-    public  int dpToPx(int dp) {
+    public int dpToPx(int dp) {
         return (int) (dp * AppUtils.getAppContext().getResources().getDisplayMetrics().density);
     }
 
+    @Override
+    public void setPresenter(NestSpecificContract.Presenter presenter) {
+        mPresenter = presenter;
+    }
+
+    @Override
+    public void setTotalday(int totalday) {
+        dakatotalnumber.setText(String.valueOf(totalday));
+    }
+
+    @Override
+    public int getTotalday() {
+        return Integer.valueOf(dakatotalnumber.getText().toString());
+    }
+
+    @Override
+    public void setConstantDay(int constantDay) {
+        dakaconsnumber.setText(String.valueOf(constantDay));
+    }
+
+    @Override
+    public int getConstantDay() {
+        return Integer.valueOf(dakaconsnumber.getText().toString());
+    }
+
+    @Override
+    public void setTotalProgress(float progress) {
+        totalprogress.setCurrentProgress(progress);
+    }
+
+    @Override
+    public void setConstantProgresss(float progresss) {
+        constantprogress.setCurrentProgress(progresss);
+    }
 }
