@@ -21,7 +21,7 @@ public interface NestSpecificContract {
 
         void setTotalProgress(float progress);
 
-        void setConstantProg89resss(float progresss);
+        void setConstantProgresss(float progresss);
     }
 
     interface Presenter extends BasePresenter {

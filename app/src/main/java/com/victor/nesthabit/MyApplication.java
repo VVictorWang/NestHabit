@@ -3,6 +3,8 @@ package com.victor.nesthabit;
 import android.app.Application;
 import android.util.Log;
 
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.victor.nesthabit.utils.AppUtils;
 import com.victor.nesthabit.utils.LogUtils;
 import com.victor.nesthabit.utils.NetworkUtils;
@@ -22,5 +24,6 @@ public class MyApplication extends Application{
         LitePal.initialize(this);
         AppUtils.init(this);
         LogUtils.init(this);
+
     }
 }

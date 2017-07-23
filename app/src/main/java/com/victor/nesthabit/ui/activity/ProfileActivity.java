@@ -9,7 +9,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXTextObject;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.victor.nesthabit.R;
+import com.victor.nesthabit.data.GlobalData;
 import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.utils.ActivityManager;
 import com.victor.nesthabit.view.CircleImageView;
@@ -26,10 +32,13 @@ public class ProfileActivity extends BaseActivity {
     private com.victor.nesthabit.view.CircleImageView wtchat;
     private com.victor.nesthabit.view.CircleImageView moment;
 
+    private IWXAPI mIWXAPI;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        mIWXAPI =  WXAPIFactory.createWXAPI(this, GlobalData.APP_ID_WECHAT, true);
+        mIWXAPI.registerApp(GlobalData.APP_ID_WECHAT);
     }
 
     @Override
@@ -71,6 +80,21 @@ public class ProfileActivity extends BaseActivity {
             }
         });
 
+        wtchat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WXTextObject textObject = new WXTextObject();
+                textObject.text = "Hello wrold";
+                WXMediaMessage mediaMessage = new WXMediaMessage();
+                mediaMessage.mediaObject = textObject;
+                mediaMessage.description = "Hello wrold";
+                SendMessageToWX.Req req  = new SendMessageToWX.Req();
+                req.transaction = "text";
+                req.message = mediaMessage;
+                req.scene = SendMessageToWX.Req.WXSceneTimeline;
+                mIWXAPI.sendReq(req);
+            }
+        });
     }
 
 }
