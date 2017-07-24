@@ -169,6 +169,10 @@ public class SwitchButton extends View {
         }
     }
 
+    public boolean getToogle() {
+        return toggleOn;
+    }
+
     public void toggleOn() {
         setToggleOn();
         if (listener != null) {
@@ -197,6 +201,8 @@ public class SwitchButton extends View {
     public void setToggleOn(boolean animate) {
         toggleOn = true;
         takeEffect(animate);
+        spotColor = spotColoron;
+        invalidate();
     }
 
     /**
@@ -209,6 +215,8 @@ public class SwitchButton extends View {
     public void setToggleOff(boolean animate) {
         toggleOn = false;
         takeEffect(animate);
+        spotColor = spotColoroff;
+        invalidate();
     }
 
     /**

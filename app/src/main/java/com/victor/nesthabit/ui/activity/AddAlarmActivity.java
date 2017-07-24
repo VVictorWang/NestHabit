@@ -18,6 +18,7 @@ import com.victor.nesthabit.ui.contract.AddAlarmContract;
 import com.victor.nesthabit.ui.presenter.AddAlarmPresenter;
 import com.victor.nesthabit.utils.ActivityManager;
 import com.victor.nesthabit.utils.AlarmManagerUtil;
+import com.victor.nesthabit.utils.DateUtils;
 import com.victor.nesthabit.view.PickerView;
 import com.victor.nesthabit.view.SwitchButton;
 
@@ -30,7 +31,7 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
 
     private RelativeLayout music_layout, title_layout;
     private PickerView pickview_hour, pickerview_minute;
-    private TextView back;
+    private TextView back, titletext, nestname;
     private CardView timepicker;
     private EditText title;
     private TextView sunday;
@@ -51,17 +52,18 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
     private SwitchButton snaptoogle;
     private Button finish;
 
-    private String hour = null, minute = null;
     private AddAlarmContract.Presenter mPresenter;
     private List<Integer> weeks = new ArrayList<>();
-    private boolean snapon, voice, remind;
+    private long id = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPresenter = new AddAlarmPresenter(this);
+        if (getIntent() != null)
+            id = getIntent().getLongExtra("id", -1);
         initWeeks();
-
+        mPresenter.start();
     }
 
     private void initWeeks() {
@@ -100,30 +102,49 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
         this.title = (EditText) findViewById(R.id.title);
         this.timepicker = (CardView) findViewById(R.id.time_picker);
         this.back = (TextView) findViewById(R.id.back);
+        titletext = (TextView) findViewById(R.id.title_text);
+        nestname = (TextView) findViewById(R.id.nest_name);
         finish = (Button) findViewById(R.id.finish);
         snaptoogle = (SwitchButton) findViewById(R.id.snap_toogle);
         pickview_hour = (PickerView) findViewById(R.id.pickview_hour);
         pickerview_minute = (PickerView) findViewById(R.id.pickerview_minute);
         music_layout = (RelativeLayout) findViewById(R.id.music_layout);
         title_layout = (RelativeLayout) findViewById(R.id.title_layout);
+        initData();
+    }
+
+    private void initData() {
         List<String> hours = new ArrayList<>();
         for (int i = 0; i < 24; i++) {
-            if (i < 10) {
-                hours.add("0" + i);
-            } else
-                hours.add("" + i);
+            hours.add(String.format("%02d", i));
         }
         List<String> minutes = new ArrayList<>();
-        for (int i = 0; i <= 60; i++) {
-            if (i < 10) {
-                minutes.add("0" + i);
-            } else
-                minutes.add("" + i);
+        for (int i = 0; i < 60; i++) {
+            minutes.add(String.format("%02d", i));
         }
-
         pickview_hour.setData(hours);
         pickerview_minute.setData(minutes);
-        title.setSelection(title.getText().length());
+    }
+
+
+    @Override
+    public void setEditToobar() {
+        titletext.setText(getString(R.string.edit_alarm));
+    }
+
+    @Override
+    public void clearText() {
+        setEditTitle("");
+        title.setHint(getString(R.string.edit_your_title));
+        setNestname("");
+        nestname.setHint(getString(R.string.please_choose));
+        setMusic("");
+        music.setHint(getString(R.string.please_choose));
+    }
+
+    @Override
+    public long getIntentId() {
+        return id;
     }
 
     @Override
@@ -147,36 +168,7 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
                 ActivityManager.finishActivity(getActivityToPush());
             }
         });
-        receivetext.setOnToggleChanged(new SwitchButton.OnToggleChanged() {
-            @Override
-            public void onToggle(boolean on) {
-                remind = on;
-            }
-        });
-        receivevoice.setOnToggleChanged(new SwitchButton.OnToggleChanged() {
-            @Override
-            public void onToggle(boolean on) {
-                voice = on;
-            }
-        });
-        snaptoogle.setOnToggleChanged(new SwitchButton.OnToggleChanged() {
-            @Override
-            public void onToggle(boolean on) {
-                snapon = on;
-            }
-        });
-        pickview_hour.setOnSelectListener(new PickerView.onSelectListener() {
-            @Override
-            public void onSelect(String text) {
-                hour = text;
-            }
-        });
-        pickerview_minute.setOnSelectListener(new PickerView.onSelectListener() {
-            @Override
-            public void onSelect(String text) {
-                minute = text;
-            }
-        });
+
         finish.setOnClickListener(this);
         sunday.setOnClickListener(this);
         sunday.setTag("unchoosen");
@@ -257,12 +249,22 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public String getSeletedHour() {
-        return hour;
+        return pickview_hour.getSeletedString();
+    }
+
+    @Override
+    public void setSeletedHour(String hour) {
+        pickview_hour.setSelected(hour);
     }
 
     @Override
     public String getSeletedMinute() {
-        return minute;
+        return pickerview_minute.getSeletedString();
+    }
+
+    @Override
+    public void setSeletedMinute(String minute) {
+        pickerview_minute.setSelected(minute);
     }
 
     @Override
@@ -276,6 +278,34 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
     }
 
     @Override
+    public void setEditTitle(String titletext) {
+        title.setText(titletext);
+        if (titletext != null) {
+            title.setSelection(title.getText().length());
+        }
+    }
+
+    @Override
+    public void setEditTitleError() {
+        title.setError(getString(R.string.edit_your_title));
+    }
+
+    @Override
+    public String getNestName() {
+        return nestname.getText().toString();
+    }
+
+    @Override
+    public void setNestname(String Nestname) {
+        nestname.setText(Nestname);
+    }
+
+    @Override
+    public void setNestError() {
+        nestname.setError(getString(R.string.please_choose));
+    }
+
+    @Override
     public String getMusic() {
         return music.getText().toString();
     }
@@ -286,18 +316,47 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
     }
 
     @Override
+    public void setMusicError() {
+        music.setError(getString(R.string.please_choose));
+    }
+
+    @Override
     public boolean getSnap() {
-        return snapon;
+        return snaptoogle.getToogle();
+    }
+
+    @Override
+    public void setSnap(boolean isSnap) {
+        if (isSnap) {
+            snaptoogle.toggleOn();
+        } else
+            snaptoogle.toggleOff();
     }
 
     @Override
     public boolean getVoice() {
-        return voice;
+        return receivevoice.getToogle();
+    }
+
+    @Override
+    public void setVoice(boolean isVoice) {
+        if (isVoice) {
+            receivevoice.toggleOn();
+        } else
+            receivevoice.toggleOff();
     }
 
     @Override
     public boolean getRemindText() {
-        return remind;
+        return receivetext.getToogle();
+    }
+
+    @Override
+    public void setRemindText(boolean isRemindText) {
+        if (isRemindText) {
+            receivetext.toggleOn();
+        } else
+            receivetext.toggleOff();
     }
 
     @Override

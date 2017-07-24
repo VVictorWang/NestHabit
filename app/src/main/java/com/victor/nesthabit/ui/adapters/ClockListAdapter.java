@@ -1,6 +1,8 @@
 package com.victor.nesthabit.ui.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +15,9 @@ import android.widget.TextView;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.data.AlarmTime;
+import com.victor.nesthabit.ui.activity.AddAlarmActivity;
 import com.victor.nesthabit.ui.presenter.AddAlarmPresenter;
+import com.victor.nesthabit.utils.ActivityManager;
 import com.victor.nesthabit.utils.DateUtils;
 import com.victor.nesthabit.view.SwitchButton;
 
@@ -39,6 +43,12 @@ public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyVi
     @Override
     public void OnDataAdded(AlarmTime alarmTime) {
         mAlarmTimes.add(alarmTime);
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public void OnDataModified() {
+        mAlarmTimes = DataSupport.findAll(AlarmTime.class);
         notifyDataSetChanged();
     }
 
@@ -111,6 +121,14 @@ public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyVi
                     handleImageOff(alarmTime, holder);
 
                 }
+            }
+        });
+        holder.mCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, AddAlarmActivity.class);
+                intent.putExtra("id", alarmTime.getId());
+                ActivityManager.startActivity((Activity) mContext, intent);
             }
         });
     }

@@ -5,6 +5,8 @@ import org.json.JSONObject;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
+import static com.victor.nesthabit.R.id.head;
+
 /**
  * Created by victor on 7/23/17.
  * email: chengyiwang@hustunique.com
@@ -13,7 +15,7 @@ import okhttp3.RequestBody;
 
 public class JsonRequestBody {
 
-    private static MediaType sMediaType = MediaType.parse("application/json");
+    private static final MediaType sMediaType = MediaType.parse("application/json");
 
     public static RequestBody getJsonRegister(String username, String password) {
         JSONObject jsonObject = new JSONObject();
@@ -54,8 +56,14 @@ public class JsonRequestBody {
         return RequestBody.create(sMediaType, jsonObject.toString());
     }
 
-    public static RequestBody getNickname(String nickname, String header) {
-        return RequestBody.create(sMediaType, header);
+    public static RequestBody getNickname(String nickname) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("nickname", nickname);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return RequestBody.create(sMediaType, jsonObject.toString());
     }
 
     public static RequestBody getNest(String[] id) {
@@ -67,6 +75,10 @@ public class JsonRequestBody {
         }
         return RequestBody.create(sMediaType, jsonObject.toString());
     }
+
+
+
+
 
 
 }

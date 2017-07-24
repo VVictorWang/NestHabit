@@ -15,9 +15,13 @@ public interface AddNestContract {
     interface View extends Baseview<Presenter> {
         String getName();
 
+        void showNameError();
+
         String getIntroduction();
 
-        int getDay();
+        String getDay();
+
+        void showDayError();
 
         String getStartTime();
 
@@ -25,7 +29,9 @@ public interface AddNestContract {
 
         boolean IsAmountLimited();
 
-        int getAmount();
+        String getAmount();
+
+        void showAmountError();
 
         void finishActivity();
 

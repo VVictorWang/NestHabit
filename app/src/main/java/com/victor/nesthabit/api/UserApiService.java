@@ -28,8 +28,7 @@ import retrofit2.http.Path;
 public interface UserApiService {
     @POST("user/{username}/session")
     Observable<Response<LoginResponse>> login(@Path("username") String username, @Body
-            RequestBody
-            loginReq);
+            RequestBody loginReq);
 
     @DELETE("user/{username}/session")
     Observable<Response<MsgResponse>> logout(@Path("username") String username, @Header
@@ -42,6 +41,10 @@ public interface UserApiService {
 
 
     @POST("user")
+    Observable<Response<UserInfo>> changeNickname(@Body RequestBody body, @Header(GlobalData
+            .HEADER_AU) String header);
+
+    @POST("user")
     Observable<Response<RegisterResponse>> register(@Body RequestBody registerBody);
 
     @POST("nest")
@@ -51,6 +54,10 @@ public interface UserApiService {
     @DELETE("nest/{id}")
     Observable<Response<MsgResponse>> deleteNest(@Path("id") String id, @Header(GlobalData
             .HEADER_AU) String header);
+
+    @POST("nest/{id}")
+    Observable<Response<NestInfo>> changeNest(@Path("id") String id, @Body RequestBody body,
+                                              @Header(GlobalData.HEADER_AU) String header);
 
     @DELETE("nest/{id}/members/{member_username}")
     Observable<Response<NestInfo>> deleteMember(@Path("id") String id, @Path("member_username")
@@ -67,4 +74,6 @@ public interface UserApiService {
     @GET("user/{username}/joined_nests")
     Observable<Response<JoinedNests>> getNestList(@Path("username") String username, @Header
             (GlobalData.HEADER_AU) String header);
+
+
 }

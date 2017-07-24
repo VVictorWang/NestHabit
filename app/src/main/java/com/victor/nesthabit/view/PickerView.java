@@ -100,6 +100,10 @@ public class PickerView extends View {
             mSelectListener.onSelect(mDataList.get(mCurrentSelected));
     }
 
+    public String getSeletedString() {
+        return mDataList.get(mCurrentSelected);
+    }
+
     public void setData(List<String> datas) {
         mDataList = datas;
         mCurrentSelected = datas.size() / 2;

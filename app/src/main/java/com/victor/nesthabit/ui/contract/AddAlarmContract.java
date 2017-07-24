@@ -14,28 +14,57 @@ import java.util.List;
 
 public interface AddAlarmContract {
     interface View extends Baseview<Presenter> {
+        void setEditToobar();
+
+        void clearText();
+
+        long getIntentId();
+
         String getSeletedHour();
 
+        void setSeletedHour(String hour);
+
+
         String getSeletedMinute();
+
+        void setSeletedMinute(String minute);
 
         List<Integer> getSeletedWeek();
 
         String getEditTitle();
+
+        void setEditTitle(String titletext);
+
+        void setEditTitleError();
+
+        String getNestName();
+
+        void setNestname(String Nestname);
+
+        void setNestError();
 
         String getMusic();
 
 
         boolean getSnap();
 
+        void setSnap(boolean isSnap);
+
         boolean getVoice();
 
+        void setVoice(boolean isVoice);
+
         boolean getRemindText();
+
+        void setRemindText(boolean isRemindText);
 
         void finishActivity();
 
         void setAlarm(AlarmTime alarm);
 
         void setMusic(String name);
+
+        void setMusicError();
     }
 
     interface Presenter extends BasePresenter {

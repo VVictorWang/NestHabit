@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -66,16 +67,22 @@ public class UserApi {
         return mApiService.getUserInfor(username, authorization);
     }
 
+    public Observable<Response<UserInfo>> changeNickname(String nickname, String header) {
+        return mApiService.changeNickname(JsonRequestBody.getNickname(nickname), header);
+    }
+
     public Observable<Response<AddNestResponse>> addNest(String name, String desc, int
-            member_limit, long
-                                                                 start_time, int days, boolean
-                                                                 isOpen, String header) {
+            member_limit, long start_time, int days, boolean isOpen, String header) {
         return mApiService.addNest(JsonRequestBody.getAddNest(name, desc, member_limit,
                 start_time, days, isOpen), header);
     }
 
     public Observable<Response<MsgResponse>> deleteNest(String id, String header) {
         return mApiService.deleteNest(id, header);
+    }
+
+    public Observable<Response<NestInfo>> changeNest(String id, RequestBody body, String header) {
+        return mApiService.changeNest(id, body, header);
     }
 
     public Observable<Response<NestInfo>> deleteMember(String nestId, String membername, String

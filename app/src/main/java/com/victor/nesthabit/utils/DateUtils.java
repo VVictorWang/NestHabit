@@ -2,8 +2,10 @@ package com.victor.nesthabit.utils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import static com.victor.nesthabit.R.id.date;
 
@@ -74,6 +76,19 @@ public class DateUtils {
         }
         return result;
     }
+
+    public static String getCurrentHour() {
+        Date date = getCurDate();
+        DateFormat format = new SimpleDateFormat("hh");
+        return format.format(date);
+    }
+
+    public static String getCurrentMinute() {
+        Date date = getCurDate();
+        DateFormat format = new SimpleDateFormat("mm");
+        return format.format(date);
+    }
+
 
 
     /**

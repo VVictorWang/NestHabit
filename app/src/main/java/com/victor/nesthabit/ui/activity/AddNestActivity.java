@@ -37,7 +37,6 @@ public class AddNestActivity extends BaseActivity implements AddNestContract.Vie
     private com.victor.nesthabit.view.SwitchButton limittoggle;
     private Button submit;
     private AddNestContract.Presenter mPresenter;
-    private boolean isAmountlimited;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +80,10 @@ public class AddNestActivity extends BaseActivity implements AddNestContract.Vie
         limittoggle.setOnToggleChanged(new SwitchButton.OnToggleChanged() {
             @Override
             public void onToggle(boolean on) {
-                isAmountlimited = on;
+                if (on) {
+                    amount.setEnabled(true);
+                } else
+                    amount.setEnabled(false);
             }
         });
 
@@ -138,13 +140,23 @@ public class AddNestActivity extends BaseActivity implements AddNestContract.Vie
     }
 
     @Override
+    public void showNameError() {
+        name.setError(getString(R.string.can_not_be_empty));
+    }
+
+    @Override
     public String getIntroduction() {
         return introduction.getText().toString();
     }
 
     @Override
-    public int getDay() {
-        return Integer.valueOf(day.getText().toString());
+    public String getDay() {
+        return day.getText().toString();
+    }
+
+    @Override
+    public void showDayError() {
+        day.setError(getString(R.string.can_not_be_empty));
     }
 
     @Override
@@ -159,12 +171,17 @@ public class AddNestActivity extends BaseActivity implements AddNestContract.Vie
 
     @Override
     public boolean IsAmountLimited() {
-        return isAmountlimited;
+        return limittoggle.getToogle();
     }
 
     @Override
-    public int getAmount() {
-        return Integer.valueOf(amount.getText().toString());
+    public String getAmount() {
+        return amount.getText().toString();
+    }
+
+    @Override
+    public void showAmountError() {
+        amount.setError(getString(R.string.can_not_be_empty));
     }
 
     @Override

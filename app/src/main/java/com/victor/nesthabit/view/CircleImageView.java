@@ -25,8 +25,8 @@ import io.reactivex.Flowable;
  * Created by victor on 7/2/17.
  * email: chengyiwang@hustunique.com
  * blog: www.victorwang.science
- *
- *
+ * <p>
+ * <p>
  * 圆形的ImageView
  */
 
@@ -72,10 +72,13 @@ public class CircleImageView extends android.support.v7.widget.AppCompatImageVie
     public CircleImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView, defStyle, 0);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CircleImageView,
+                defStyle, 0);
         // 自定义原型图片边框属性
-        mBorderWidth = a.getDimensionPixelSize(R.styleable.CircleImageView_border_width, DEFAULT_BORDER_WIDTH); // 边框大小
-        mBorderColor = a.getColor(R.styleable.CircleImageView_border_color, DEFAULT_BORDER_COLOR); // 边框颜色
+        mBorderWidth = a.getDimensionPixelSize(R.styleable.CircleImageView_border_width,
+                DEFAULT_BORDER_WIDTH); // 边框大小
+        mBorderColor = a.getColor(R.styleable.CircleImageView_border_color, DEFAULT_BORDER_COLOR)
+        ; // 边框颜色
         a.recycle();
         init();
     }
@@ -97,7 +100,8 @@ public class CircleImageView extends android.support.v7.widget.AppCompatImageVie
     @Override
     public void setScaleType(ScaleType scaleType) {
         if (scaleType != SCALE_TYPE) {
-            throw new IllegalArgumentException(String.format("ScaleType %s not supported.", scaleType));
+            throw new IllegalArgumentException(String.format("ScaleType %s not supported.",
+                    scaleType));
         }
     }
 
@@ -194,9 +198,11 @@ public class CircleImageView extends android.support.v7.widget.AppCompatImageVie
             Bitmap bitmap;
 
             if (drawable instanceof ColorDrawable) {
-                bitmap = Bitmap.createBitmap(COLORDRAWABLE_DIMENSION, COLORDRAWABLE_DIMENSION, BITMAP_CONFIG);
+                bitmap = Bitmap.createBitmap(COLORDRAWABLE_DIMENSION, COLORDRAWABLE_DIMENSION,
+                        BITMAP_CONFIG);
             } else {
-                bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), BITMAP_CONFIG);
+                bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable
+                        .getIntrinsicHeight(), BITMAP_CONFIG);
             }
 
             Canvas canvas = new Canvas(bitmap);
@@ -229,9 +235,11 @@ public class CircleImageView extends android.support.v7.widget.AppCompatImageVie
         mBitmapWidth = mBitmap.getWidth();
 
         mBorderRect.set(0, 0, getWidth(), getHeight());
-        mBorderRadius = Math.min((mBorderRect.height() - mBorderWidth) / 2, (mBorderRect.width() - mBorderWidth) / 2);
+        mBorderRadius = Math.min((mBorderRect.height() - mBorderWidth) / 2, (mBorderRect.width()
+                - mBorderWidth) / 2);
 
-        mDrawableRect.set(mBorderWidth, mBorderWidth, mBorderRect.width() - mBorderWidth, mBorderRect.height() - mBorderWidth);
+        mDrawableRect.set(mBorderWidth, mBorderWidth, mBorderRect.width() - mBorderWidth,
+                mBorderRect.height() - mBorderWidth);
         mDrawableRadius = Math.min(mDrawableRect.height() / 2, mDrawableRect.width() / 2);
         updateShaderMatrix();
         invalidate();
@@ -252,7 +260,8 @@ public class CircleImageView extends android.support.v7.widget.AppCompatImageVie
             dy = (mDrawableRect.height() - mBitmapHeight * scale) * 0.5f;
         }
         mShaderMatrix.setScale(scale, scale);
-        mShaderMatrix.postTranslate((int) (dx + 0.5f) + mBorderWidth, (int) (dy + 0.5f) + mBorderWidth);
+        mShaderMatrix.postTranslate((int) (dx + 0.5f) + mBorderWidth, (int) (dy + 0.5f) +
+                mBorderWidth);
 
         mBitmapShader.setLocalMatrix(mShaderMatrix);
     }
