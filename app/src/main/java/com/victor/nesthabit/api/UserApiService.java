@@ -2,6 +2,7 @@ package com.victor.nesthabit.api;
 
 import com.victor.nesthabit.data.AddNestResponse;
 import com.victor.nesthabit.data.GlobalData;
+import com.victor.nesthabit.data.JoinedNests;
 import com.victor.nesthabit.data.LoginResponse;
 import com.victor.nesthabit.data.MsgResponse;
 import com.victor.nesthabit.data.NestInfo;
@@ -26,12 +27,12 @@ import retrofit2.http.Path;
 
 public interface UserApiService {
     @POST("user/{username}/session")
-    Observable<Response<LoginResponse>> getLogin(@Path("username") String username, @Body
+    Observable<Response<LoginResponse>> login(@Path("username") String username, @Body
             RequestBody
             loginReq);
 
     @DELETE("user/{username}/session")
-    Observable<Response<MsgResponse>> getLogout(@Path("username") String username, @Header
+    Observable<Response<MsgResponse>> logout(@Path("username") String username, @Header
             (GlobalData.HEADER_AU) String header);
 
 
@@ -41,17 +42,29 @@ public interface UserApiService {
 
 
     @POST("user")
-    Observable<Response<RegisterResponse>> getRegister(@Body RequestBody registerBody);
+    Observable<Response<RegisterResponse>> register(@Body RequestBody registerBody);
 
     @POST("nest")
-    Observable<Response<AddNestResponse>> getAddNset(@Body RequestBody body, @Header(GlobalData
+    Observable<Response<AddNestResponse>> addNest(@Body RequestBody body, @Header(GlobalData
             .HEADER_AU) String header);
 
     @DELETE("nest/{id}")
-    Observable<Response<MsgResponse>> getDeleteNest(@Path("id") String id, @Header(GlobalData
+    Observable<Response<MsgResponse>> deleteNest(@Path("id") String id, @Header(GlobalData
             .HEADER_AU) String header);
 
     @DELETE("nest/{id}/members/{member_username}")
     Observable<Response<NestInfo>> deleteMember(@Path("id") String id, @Path("member_username")
             String membername, @Header(GlobalData.HEADER_AU) String header);
+
+    @POST("user/{username}/joined_nests")
+    Observable<Response<JoinedNests>> enterNest(@Path("username") String username, @Body
+            RequestBody body, @Header(GlobalData.HEADER_AU) String header);
+
+    @DELETE("user/{username}/joined_nests")
+    Observable<Response<JoinedNests>> quitNest(@Path("username") String username, @Body
+            RequestBody body, @Header(GlobalData.HEADER_AU) String header);
+
+    @GET("user/{username}/joined_nests")
+    Observable<Response<JoinedNests>> getNestList(@Path("username") String username, @Header
+            (GlobalData.HEADER_AU) String header);
 }

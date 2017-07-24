@@ -10,7 +10,6 @@ import com.victor.nesthabit.R;
 import com.victor.nesthabit.api.UserApi;
 import com.victor.nesthabit.data.GlobalData;
 import com.victor.nesthabit.data.LoginResponse;
-import com.victor.nesthabit.data.RegisterResponse;
 import com.victor.nesthabit.ui.base.BaseActivity;
 
 import java.io.ByteArrayOutputStream;
@@ -18,7 +17,6 @@ import java.io.InputStream;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
-import io.reactivex.Scheduler;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
@@ -59,7 +57,7 @@ public class LoginActivity extends BaseActivity {
 
                 UserApi userApi = new UserApi(new OkHttpClient());
                 Observable<retrofit2.Response<LoginResponse>> responseObservable = userApi
-                        .getLogin("swwwe", "1234");
+                        .login("swwwe", "1234");
 
                 responseObservable.subscribeOn(Schedulers.newThread())
                         .observeOn(Schedulers.newThread())

@@ -11,7 +11,7 @@ import okhttp3.RequestBody;
  * blog: www.victorwang.science                                            #
  */
 
-public class RequestBodyGenerate {
+public class JsonRequestBody {
 
     private static MediaType sMediaType = MediaType.parse("application/json");
 
@@ -53,4 +53,20 @@ public class RequestBodyGenerate {
         }
         return RequestBody.create(sMediaType, jsonObject.toString());
     }
+
+    public static RequestBody getNickname(String nickname, String header) {
+        return RequestBody.create(sMediaType, header);
+    }
+
+    public static RequestBody getNest(String[] id) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("nests", id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return RequestBody.create(sMediaType, jsonObject.toString());
+    }
+
+
 }

@@ -1,23 +1,31 @@
 package com.victor.nesthabit.ui.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.prolificinteractive.materialcalendarview.CalendarDay;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.ui.contract.NestGroupDetailContract;
 import com.victor.nesthabit.ui.presenter.NestGroupDetailPresenter;
 import com.victor.nesthabit.utils.ActivityManager;
+import com.victor.nesthabit.utils.DateUtils;
 import com.victor.nesthabit.view.CircleImageView;
 import com.victor.nesthabit.view.SwitchButton;
 
-public class NestGroupDetailActivity extends BaseActivity implements NestGroupDetailContract.View{
+import java.util.Calendar;
+
+public class NestGroupDetailActivity extends BaseActivity implements NestGroupDetailContract.View {
 
     private View toolbar;
     private android.widget.EditText name;
@@ -98,7 +106,34 @@ public class NestGroupDetailActivity extends BaseActivity implements NestGroupDe
         starttimelayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityManager.startActivity(NestGroupDetailActivity.this, ChooseActivity.class);
+                View view = LayoutInflater.from(getActivityToPush()).inflate(R.layout
+                        .calendar_dialog, null);
+                Button ensure = (Button) view.findViewById(R.id.ensure);
+                Button cancel = (Button) view.findViewById(R.id.cancel);
+                MaterialCalendarView calendarView = (MaterialCalendarView) view.findViewById(R.id
+                        .calendar);
+                calendarView.state().edit().setMinimumDate(Calendar.getInstance().getTime()
+                ).commit();
+                calendarView.setSelectedDate(CalendarDay.from(DateUtils.StringToDate(getStartTime
+                        ())));
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivityToPush());
+                builder.setView(view);
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                ensure.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setStartTime(DateUtils.DatetoString(calendarView.getSelectedDate().getDate
+                                ()));
+                        dialog.dismiss();
+                    }
+                });
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
             }
         });
         remind.setOnClickListener(new View.OnClickListener() {
@@ -147,6 +182,11 @@ public class NestGroupDetailActivity extends BaseActivity implements NestGroupDe
     @Override
     public String getStartTime() {
         return starttime.getText().toString();
+    }
+
+    @Override
+    public void setStartTime(String date) {
+        starttime.setText(date);
     }
 
     @Override

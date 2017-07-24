@@ -1,8 +1,11 @@
 package com.victor.nesthabit.utils;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import static com.victor.nesthabit.R.id.date;
 
 /**
  * Created by victor on 7/2/17.
@@ -36,10 +39,10 @@ public class DateUtils {
         return sdf.format(new Date(time));
     }
 
-    public static long getTimeinMills(int hour,int minute) {
+    public static long getTimeinMills(int hour, int minute) {
         Date date = new Date(System.currentTimeMillis());
         Calendar calendar = Calendar.getInstance();
-        calendar.set(date.getYear(), date.getMonth(),date.getDate(), hour, minute);
+        calendar.set(date.getYear(), date.getMonth(), date.getDate(), hour, minute);
         return calendar.getTimeInMillis();
     }
 
@@ -50,6 +53,27 @@ public class DateUtils {
         return false;
     }
 
+    public static String DatetoString(Date date) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String result = null;
+        try {
+            result = dateFormat.format(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public static Date StringToDate(String dateString) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date result = null;
+        try {
+            result = dateFormat.parse(dateString);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 
 
     /**

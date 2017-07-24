@@ -78,6 +78,7 @@ public class ChooseActivity extends BaseActivity {
         list.setAdapter(adapter);
         calendar.state().edit().setMinimumDate(Calendar.getInstance().getTime()
         ).commit();
+        calendar.setSelectionMode(MaterialCalendarView.SELECTION_MODE_MULTIPLE);
     }
 
     @Override

@@ -72,6 +72,7 @@
     <string name="choose_day">选择时间</string>
     <string name="next_step">下一步</string>
     <string name="send">发送</string>
+    <string name="ensure">确认</string>
     <string-array name="custome_weekday">
         <item>日</item>
         <item>一</item>

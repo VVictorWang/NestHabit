@@ -17,6 +17,8 @@ public interface NestGroupDetailContract {
 
         String getStartTime();
 
+        void setStartTime(String date);
+
         void setAmount(int amount);
 
         boolean isLimited();
