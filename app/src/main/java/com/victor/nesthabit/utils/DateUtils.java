@@ -89,6 +89,11 @@ public class DateUtils {
         return format.format(date);
     }
 
+    public static long stringToLong(String dateString) {
+        Date date = StringToDate(dateString);
+        return date.getTime();
+    }
+
 
 
     /**

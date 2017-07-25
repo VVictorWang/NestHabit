@@ -1,5 +1,7 @@
 package com.victor.nesthabit.api;
 
+import com.victor.nesthabit.utils.safe.Base64Cipher;
+
 import org.json.JSONObject;
 
 import okhttp3.MediaType;
@@ -21,6 +23,7 @@ public class JsonRequestBody {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("username", username);
+            password = Base64Cipher.encrypt(password);
             jsonObject.put("password", password);
         } catch (Exception e) {
             e.printStackTrace();
@@ -31,6 +34,7 @@ public class JsonRequestBody {
     public static RequestBody getJsonLogin(String password) {
         JSONObject jsonObject = new JSONObject();
         try {
+            password = Base64Cipher.encrypt(password);
             jsonObject.put("password", password);
             jsonObject.put("client_id", "android_client_87542701");
             jsonObject.put("client_secret", "385trd4m");
@@ -76,9 +80,26 @@ public class JsonRequestBody {
         return RequestBody.create(sMediaType, jsonObject.toString());
     }
 
-
-
-
+    public static RequestBody getAlarm(String title, int[] repeate, int music_id, int
+            duration_level, int volume_level, int nap_level, String bind_to_nest, boolean
+                                               willing_music, boolean willing_text, int[] time) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("title", title);
+            jsonObject.put("repeat", repeate);
+            jsonObject.put("music_id", music_id);
+            jsonObject.put("duration_level", duration_level);
+            jsonObject.put("volume_level", volume_level);
+            jsonObject.put("nap_level", nap_level);
+            jsonObject.put("bind_to_nest", bind_to_nest);
+            jsonObject.put("willing_music", willing_music);
+            jsonObject.put("willing_text", willing_text);
+            jsonObject.put("time", time);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return RequestBody.create(sMediaType, jsonObject.toString());
+    }
 
 
 }

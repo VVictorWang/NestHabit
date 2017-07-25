@@ -1,25 +1,29 @@
 package com.victor.nesthabit.ui.contract;
 
-import com.victor.nesthabit.data.NestInfo;
 import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.ui.base.Baseview;
 
-import java.util.List;
-
 /**
- * Created by victor on 7/12/17.
+ * Created by victor on 7/25/17.
  * email: chengyiwang@hustunique.com
  * blog: www.victorwang.science                                            #
  */
 
-public interface BirdCageContract {
+public interface MainContract {
     interface View extends Baseview<Presenter> {
-        void showRecyclerview(List<NestInfo> mBirdCageInfos);
+        void setUpViewPager();
 
-        long getUserId();
+        void setTab();
+
+        void showProgress();
+
+        void hideProgress();
+
+        void saveUserId(long userid);
+
     }
 
-     interface Presenter extends BasePresenter {
-    }
+    interface Presenter extends BasePresenter {
 
+    }
 }

@@ -11,12 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.victor.nesthabit.R;
+import com.victor.nesthabit.data.NestInfo;
 import com.victor.nesthabit.ui.activity.AddNestActivity;
-import com.victor.nesthabit.ui.activity.LoginActivity;
 import com.victor.nesthabit.ui.activity.ProfileActivity;
 import com.victor.nesthabit.ui.adapters.BirdCaseFragAdapter;
 import com.victor.nesthabit.ui.contract.BirdCageContract;
-import com.victor.nesthabit.data.BirdCageInfo;
 import com.victor.nesthabit.ui.presenter.BirdCagePresenter;
 import com.victor.nesthabit.utils.ActivityManager;
 import com.victor.nesthabit.view.CircleImageView;
@@ -25,11 +24,10 @@ import java.util.List;
 
 
 public class BirdCageFragment extends Fragment implements BirdCageContract.View {
-    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM1 = "userId";
     private static final String ARG_PARAM2 = "param2";
 
-    private String mParam1;
-    private String mParam2;
+    private long userId = -1;
 
     private Activity mActivity;
 
@@ -49,11 +47,10 @@ public class BirdCageFragment extends Fragment implements BirdCageContract.View 
     }
 
 
-    public static BirdCageFragment newInstance(String param1, String param2) {
+    public static BirdCageFragment newInstance(long userId) {
         BirdCageFragment fragment = new BirdCageFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putLong(ARG_PARAM1, userId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -62,8 +59,7 @@ public class BirdCageFragment extends Fragment implements BirdCageContract.View 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            userId = getArguments().getLong(ARG_PARAM1);
         }
         mActivity = this.getActivity();
         mPresenter = new BirdCagePresenter(this);
@@ -111,9 +107,14 @@ public class BirdCageFragment extends Fragment implements BirdCageContract.View 
 
 
     @Override
-    public void showRecyclerview(List<BirdCageInfo> mBirdCageInfos) {
+    public void showRecyclerview(List<NestInfo> mBirdCageInfos) {
         mBirdCaseFragAdapter = new BirdCaseFragAdapter(mActivity, mRecyclerView, mBirdCageInfos);
         mRecyclerView.setAdapter(mBirdCaseFragAdapter);
         mBirdCaseFragAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public long getUserId() {
+        return userId;
     }
 }

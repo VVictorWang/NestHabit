@@ -8,25 +8,30 @@ import android.util.Base64;
  * blog: www.victorwang.science
  */
 
-public class Base64Cipher extends Cipher {
-    private Cipher cipher;
+public class Base64Cipher {
 
     public Base64Cipher() {
     }
 
-    public Base64Cipher(Cipher cipher) {
-        this.cipher = cipher;
-    }
 
-    @Override
-    public byte[] decrypt(byte[] res) {
-        if (cipher != null) res = cipher.decrypt(res);
+    public static byte[] decrypt(byte[] res) {
         return Base64.decode(res, Base64.DEFAULT);
     }
 
-    @Override
-    public byte[] encrypt(byte[] res) {
-        if (cipher != null) res = cipher.encrypt(res);
+    public static byte[] encrypt(byte[] res) {
         return Base64.encode(res, Base64.DEFAULT);
     }
+
+    public static String encrypt(String res) {
+        try {
+            byte[] temp = ByteUtils.objectToByte(res);
+            byte[] result = encrypt(temp);
+            return HexUtils.encodeHexStr(result, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
 }

@@ -1,5 +1,7 @@
 package com.victor.nesthabit.data;
 
+import org.litepal.crud.DataSupport;
+
 import java.lang.reflect.Member;
 import java.util.List;
 
@@ -9,7 +11,7 @@ import java.util.List;
  * blog: www.victorwang.science                                            #
  */
 
-public class NestInfo {
+public class NestInfo extends DataSupport{
     /**
      * _id : 597431a9f6ded6062862d268
      * name : aaaaaaa
@@ -30,19 +32,38 @@ public class NestInfo {
      * /581583075164355.png","nickname":"a"}]
      */
 
+    private long id;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     private String _id;
     private String name;
     private String desc;
     private int members_limit;
-    private int start_time;
+    private long start_time;
     private int challenge_days;
     private boolean open;
     private String cover_image;
-    private int created_time;
+    private long created_time;
     private String creator;
     private String owner;
     private int members_amount;
     private List<UserInfo> members;
+    private int day_insist;
+
+    public int getDay_insist() {
+        return day_insist;
+    }
+
+    public void setDay_insist(int day_insist) {
+        this.day_insist = day_insist;
+    }
 
     public String get_id() {
         return _id;
@@ -76,11 +97,11 @@ public class NestInfo {
         this.members_limit = members_limit;
     }
 
-    public int getStart_time() {
+    public long getStart_time() {
         return start_time;
     }
 
-    public void setStart_time(int start_time) {
+    public void setStart_time(long start_time) {
         this.start_time = start_time;
     }
 
@@ -108,11 +129,11 @@ public class NestInfo {
         this.cover_image = cover_image;
     }
 
-    public int getCreated_time() {
+    public long getCreated_time() {
         return created_time;
     }
 
-    public void setCreated_time(int created_time) {
+    public void setCreated_time(long created_time) {
         this.created_time = created_time;
     }
 

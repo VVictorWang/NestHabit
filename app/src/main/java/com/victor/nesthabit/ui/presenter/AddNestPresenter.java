@@ -1,8 +1,9 @@
 package com.victor.nesthabit.ui.presenter;
 
-import com.victor.nesthabit.data.BirdCageInfo;
+import com.victor.nesthabit.data.NestInfo;
 import com.victor.nesthabit.ui.contract.AddNestContract;
 import com.victor.nesthabit.utils.CheckUtils;
+import com.victor.nesthabit.utils.DateUtils;
 
 /**
  * Created by victor on 7/22/17.
@@ -33,19 +34,18 @@ public class AddNestPresenter implements AddNestContract.Presenter {
         } else if (mView.IsAmountLimited() && CheckUtils.isEmpty(mView.getAmount())) {
             mView.showAmountError();
         } else {
-            BirdCageInfo info = new BirdCageInfo();
-            info.setInfo(mView.getName());
-            info.setIntroduction(mView.getIntroduction());
-            info.setDay_total(Integer.valueOf(mView.getDay()));
-            info.setStart_time(mView.getStartTime());
-            info.setLimitNumber(mView.IsAmountLimited());
+            NestInfo nestInfo = new NestInfo();
+            nestInfo.setName(mView.getName());
+            nestInfo.setDesc(mView.getIntroduction());
+            nestInfo.setChallenge_days(Integer.valueOf(mView.getDay()));
+            nestInfo.setStart_time(DateUtils.stringToLong(mView.getStartTime()));
             if (mView.IsAmountLimited()) {
-                info.setPeople(Integer.valueOf(mView.getAmount()));
+                nestInfo.setMembers_limit(Integer.valueOf(mView.getAmount()));
             } else
-                info.setPeople(1000);
-            info.save();
+                nestInfo.setMembers_limit(0);
+            nestInfo.save();
             if (sOnCageDataChanged != null) {
-                sOnCageDataChanged.OnDataAdded(info);
+                sOnCageDataChanged.OnDataAdded(nestInfo);
             }
             mView.finishActivity();
         }
@@ -57,6 +57,6 @@ public class AddNestPresenter implements AddNestContract.Presenter {
     }
 
     public interface OnCageDataChanged {
-        void OnDataAdded(BirdCageInfo cageInfo);
+        void OnDataAdded(NestInfo cageInfo);
     }
 }

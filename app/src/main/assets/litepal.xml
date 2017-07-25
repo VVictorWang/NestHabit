@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <litepal>
     <dbname value="demo" />
-    <version value="5" />
+    <version value="6" />
 
     <list>
         <mapping class="com.victor.nesthabit.data.AlarmTime"/>
         <mapping class="com.victor.nesthabit.data.RecordItem"/>
-        <mapping class="com.victor.nesthabit.data.BirdCageInfo"/>
+        <mapping class="com.victor.nesthabit.data.NestInfo"/>
     </list>
 
 </litepal>

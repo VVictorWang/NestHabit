@@ -10,9 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.ui.activity.AddAlarmActivity;
+import com.victor.nesthabit.data.NestInfo;
 import com.victor.nesthabit.ui.activity.NestSpecificActivity;
-import com.victor.nesthabit.data.BirdCageInfo;
 import com.victor.nesthabit.ui.presenter.AddNestPresenter;
 import com.victor.nesthabit.utils.ActivityManager;
 
@@ -31,10 +30,10 @@ public class BirdCaseFragAdapter extends RecyclerView.Adapter<BirdCaseFragAdapte
     private Context mContext;
     private RecyclerView mRecyclerView;
 
-    private List<BirdCageInfo> mBirdCageInfos;
+    private List<NestInfo> mBirdCageInfos;
 
     @Override
-    public void OnDataAdded(BirdCageInfo cageInfo) {
+    public void OnDataAdded(NestInfo cageInfo) {
         mBirdCageInfos.add(cageInfo);
         notifyDataSetChanged();
     }
@@ -58,7 +57,7 @@ public class BirdCaseFragAdapter extends RecyclerView.Adapter<BirdCaseFragAdapte
     }
 
 
-    public BirdCaseFragAdapter(Context context, RecyclerView recyclerView, List<BirdCageInfo>
+    public BirdCaseFragAdapter(Context context, RecyclerView recyclerView, List<NestInfo>
             birdCageInfos) {
         mContext = context;
         mRecyclerView = recyclerView;
@@ -85,11 +84,11 @@ public class BirdCaseFragAdapter extends RecyclerView.Adapter<BirdCaseFragAdapte
 
     @Override
     public void onBindViewHolder(ListViewHolder holder, int position) {
-        BirdCageInfo info = mBirdCageInfos.get(position);
+        NestInfo info = mBirdCageInfos.get(position);
         holder.progresstext.setText(info.getDay_insist() + "/" + info
-                .getDay_total());
-        holder.birdcageListText.setText(info.getInfo());
-        holder.peoplea.setText("+" + info.getPeople() + "人");
+                .getChallenge_days());
+        holder.birdcageListText.setText(info.getName());
+        holder.peoplea.setText("+" + info.getMembers_amount() + "人");
 
     }
 

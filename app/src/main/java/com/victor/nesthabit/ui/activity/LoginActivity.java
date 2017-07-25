@@ -10,7 +10,11 @@ import com.victor.nesthabit.R;
 import com.victor.nesthabit.api.UserApi;
 import com.victor.nesthabit.data.GlobalData;
 import com.victor.nesthabit.data.LoginResponse;
+import com.victor.nesthabit.data.RegisterResponse;
 import com.victor.nesthabit.ui.base.BaseActivity;
+import com.victor.nesthabit.utils.ActivityManager;
+import com.victor.nesthabit.utils.PrefsUtils;
+import com.victor.nesthabit.utils.safe.Base64Cipher;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -54,19 +58,16 @@ public class LoginActivity extends BaseActivity {
         loginqq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                UserApi userApi = new UserApi(new OkHttpClient());
-                Observable<retrofit2.Response<LoginResponse>> responseObservable = userApi
-                        .login("swwwe", "1234");
-
-                responseObservable.subscribeOn(Schedulers.newThread())
-                        .observeOn(Schedulers.newThread())
+                UserApi userApi = UserApi.getInstance();
+                Observable<retrofit2.Response<LoginResponse>> response = userApi.login("test",
+                        "12345");
+                response.subscribeOn(Schedulers.newThread())
+                        .observeOn(Schedulers.io())
                         .doOnNext(new Consumer<retrofit2.Response<LoginResponse>>() {
                             @Override
                             public void accept(@NonNull retrofit2.Response<LoginResponse>
                                                        loginResponseResponse) throws Exception {
-                                Log.d(TAG, "code: " + loginResponseResponse.code());
-                                Log.d(TAG, "data: " + loginResponseResponse.body().getMsg());
+
                             }
                         })
                         .subscribe(new Observer<retrofit2.Response<LoginResponse>>() {
@@ -78,34 +79,14 @@ public class LoginActivity extends BaseActivity {
                             @Override
                             public void onNext(@NonNull retrofit2.Response<LoginResponse>
                                                        loginResponseResponse) {
-                                Log.d(TAG, loginResponseResponse.code() + "");
-                                Log.d(TAG, loginResponseResponse.body().getMsg());
-                                new Thread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        OkHttpClient client = new OkHttpClient();
-                                        Request request = new Request.Builder().url(GlobalData.BASE_URL +
-                                                "user/swwwe/info").header("Authorization",loginResponseResponse.body().getAuthorization()).get().build();
-                                        try {
-
-                                            Response response = client.newCall(request).execute();
-                                            InputStream inputStream = response.body().byteStream();
-                                            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                                            byte[] data = new byte[1028];
-                                            int count = -1;
-                                            while ((count = inputStream.read(data, 0, 1028)) != -1) {
-                                                outputStream.write(data, 0, count);
-                                            }
-                                            data = null;
-                                            Log.d(TAG, "code: " + response.code());
-                                            Log.d(TAG, "data: " + new String(outputStream.toByteArray()));
-
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                        }
-
-                                    }
-                                }).start();
+                                Log.d(TAG, "code" + loginResponseResponse.code());
+                                if (loginResponseResponse.code() == 200) {
+                                    PrefsUtils.putValue(LoginActivity.this, GlobalData
+                                            .AUTHORIZATION, loginResponseResponse.body()
+                                            .getAuthorization());
+                                    ActivityManager.startActivity(LoginActivity.this, MainActivity
+                                            .class);
+                                }
 
                             }
 
@@ -120,8 +101,80 @@ public class LoginActivity extends BaseActivity {
                             }
                         });
 
+//                                new Thread(new Runnable() {
+//                                    @Override
+//                                    public void run() {
+//                                        OkHttpClient client = new OkHttpClient();
+//                                        Request request = new Request.Builder().url(GlobalData
+// .BASE_URL +
+//                                                "user/swwwe/info").header("Authorization",
+// loginResponseResponse.body().getAuthorization()).get().build();
+//                                        try {
+//
+//                                            Response response = client.newCall(request).execute();
+//                                            InputStream inputStream = response.body()
+// .byteStream();
+//                                            ByteArrayOutputStream outputStream = new
+// ByteArrayOutputStream();
+//                                            byte[] data = new byte[1028];
+//                                            int count = -1;
+//                                            while ((count = inputStream.read(data, 0, 1028)) !=
+// -1) {
+//                                                outputStream.write(data, 0, count);
+//                                            }
+//                                            data = null;
+//                                            Log.d(TAG, "code: " + response.code());
+//                                            Log.d(TAG, "data: " + new String(outputStream
+// .toByteArray()));
+//
+//                                        } catch (Exception e) {
+//                                            e.printStackTrace();
+//                                        }
+//
+//                                    }
+//                                }).start();
+//
+//                            }
+
 
 //
+            }
+        });
+        loginweichat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserApi api = UserApi.getInstance();
+                Observable<retrofit2.Response<RegisterResponse>> responseObservable = api
+                        .register("test", "12345");
+                responseObservable.subscribeOn(Schedulers.newThread())
+                        .subscribe(new Observer<retrofit2.Response<RegisterResponse>>() {
+                            @Override
+                            public void onSubscribe(@NonNull Disposable d) {
+
+                            }
+
+                            @Override
+                            public void onNext(@NonNull retrofit2.Response<RegisterResponse>
+                                                       registerResponseResponse) {
+                                Log.d(TAG, registerResponseResponse.code() + "");
+                                if (registerResponseResponse.code() == 200) {
+                                    Log.d(TAG, registerResponseResponse.body().getUsername());
+                                    PrefsUtils.putValue(LoginActivity.this, GlobalData.USERNAME,
+                                            registerResponseResponse.body().getUsername());
+                                }
+
+                            }
+
+                            @Override
+                            public void onError(@NonNull Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onComplete() {
+
+                            }
+                        });
             }
         });
     }

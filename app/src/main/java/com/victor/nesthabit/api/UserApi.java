@@ -1,6 +1,7 @@
 package com.victor.nesthabit.api;
 
 import com.victor.nesthabit.data.AddNestResponse;
+import com.victor.nesthabit.data.AlarmResponse;
 import com.victor.nesthabit.data.GlobalData;
 import com.victor.nesthabit.data.JoinedNests;
 import com.victor.nesthabit.data.LoginResponse;
@@ -102,6 +103,21 @@ public class UserApi {
 
     public Observable<Response<JoinedNests>> getNestList(String username, String header) {
         return mApiService.getNestList(username, header);
+    }
+
+    public Observable<Response<AlarmResponse>> addAlarm(String title, int[] repeate, int
+            music_id, int duration_level, int volume_level, int nap_level, String bind_to_nest,
+                                                        boolean willing_music, boolean
+                                                                willing_text, int[] time, String
+                                                                id, String username, String
+                                                                header) {
+        return mApiService.addAlarm(id, username, JsonRequestBody.getAlarm(title, repeate,
+                music_id, duration_level, volume_level, nap_level, bind_to_nest, willing_music,
+                willing_text, time), header);
+    }
+
+    public Observable<Response<AlarmResponse>> getAlarm(String id, String header) {
+        return mApiService.getAlarm(id, header);
     }
 
 

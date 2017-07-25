@@ -1,5 +1,7 @@
 package com.victor.nesthabit.data;
 
+import org.litepal.crud.DataSupport;
+
 import java.util.List;
 
 /**
@@ -8,7 +10,7 @@ import java.util.List;
  * blog: www.victorwang.science                                            #
  */
 
-public class UserInfo {
+public class UserInfo extends DataSupport{
 
     /**
      * username : swwwe
@@ -19,12 +21,21 @@ public class UserInfo {
      * nickname :
      */
 
+    private long id;
     private String username;
     private String avatar;
     private String nickname;
     private List<Nests> joined_nests;
     private List<String> uploaded_musics;
     private List<String> alarm_clocks;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getUsername() {
         return username;
@@ -50,7 +61,7 @@ public class UserInfo {
         this.nickname = nickname;
     }
 
-    public List<?> getJoined_nests() {
+    public List<Nests> getJoined_nests() {
         return joined_nests;
     }
 

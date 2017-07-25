@@ -72,10 +72,8 @@ public class RecordingService extends Service {
         mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
         //输出频道选为1
         mRecorder.setAudioChannels(1);
-        if (PrefsUtils.getPrefHighQuality(this)) {
-            mRecorder.setAudioSamplingRate(44100);
-            mRecorder.setAudioEncodingBitRate(192000);
-        }
+        mRecorder.setAudioSamplingRate(44100);
+        mRecorder.setAudioEncodingBitRate(192000);
         try {
             mRecorder.prepare();
             mRecorder.start();

@@ -2,7 +2,9 @@ package com.victor.nesthabit.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.victor.nesthabit.utils.safe.Base64Cipher;
 import com.victor.nesthabit.utils.safe.ByteUtils;
@@ -16,118 +18,87 @@ import com.victor.nesthabit.utils.safe.HexUtils;
  */
 
 public class PrefsUtils {
-    private static String PREF_HIGH_QUALITY = "pref_high_quality";
+    /**
+     * 移除SharedPreference
+     */
+    public static final void RemoveValue(Context context, String key) {
+        SharedPreferences.Editor editor = getSharedPreference(context).edit();
+        editor.remove(key);
+        boolean result = editor.commit();
+        if (!result) {
+            Log.e("移除Shared", "save " + key + " failed");
+        }
+    }
 
-    private SharedPreferences sp;
-    public static final String KEY_PK_HOME = "msg_pk_home";
-    public static final String KEY_PK_NEW = "msg_pk_new";
-
-    public PrefsUtils(Context context, String fileName) {
-        sp = context.getSharedPreferences(fileName, Context.MODE_PRIVATE);
+    private static final SharedPreferences getSharedPreference(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     /**
-     * *************** get ******************
+     * 获取SharedPreference 值
      */
-
-    public String getString(String key, String defValue) {
-        return sp.getString(key, defValue);
+    public static final String getValue(Context context, String key, String defaultValu) {
+        return getSharedPreference(context).getString(key, defaultValu);
     }
 
-    public boolean getBoolean(String key, boolean defValue) {
-        return sp.getBoolean(key, defValue);
+    public static final Boolean getBooleanValue(Context context, String key, boolean defaultValue) {
+        return getSharedPreference(context).getBoolean(key, defaultValue);
     }
 
-    public float getFloat(String key, float defValue) {
-        return sp.getFloat(key, defValue);
+    public static final void putBooleanValue(Context context, String key,
+                                             boolean bl) {
+        SharedPreferences.Editor edit = getSharedPreference(context).edit();
+        edit.putBoolean(key, bl);
+        edit.commit();
     }
 
-    public int getInt(String key, int defValue) {
-        return sp.getInt(key, defValue);
+    public static final int getIntValue(Context context, String key, int defaultValue) {
+        return getSharedPreference(context).getInt(key, defaultValue);
     }
 
-    public long getLong(String key, long defValue) {
-        return sp.getLong(key, defValue);
+    public static final long getLongValue(Context context, String key,
+                                          long default_data) {
+        return getSharedPreference(context).getLong(key, default_data);
     }
 
-    public Object get(String key) {
-        return get(key, (Cipher) null);
+    public static final boolean putLongValue(Context context, String key,
+                                             Long value) {
+        SharedPreferences.Editor editor = getSharedPreference(context).edit();
+        editor.putLong(key, value);
+        return editor.commit();
     }
 
-    public Object get(String key, Cipher cipher) {
-        try {
-            String hex = getString(key, (String) null);
-            if (hex == null)
-                return null;
-            byte[] bytes = HexUtils.decodeHex(hex.toCharArray());
-            if (cipher != null)
-                bytes = cipher.decrypt(bytes);
-            Object obj = ByteUtils.byteToObject(bytes);
-            return obj;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+    public static final Boolean hasValue(Context context, String key) {
+        return getSharedPreference(context).contains(key);
     }
 
     /**
-     * *************** put ******************
+     * 设置SharedPreference 值
      */
-    public void put(String key, Object ser) {
-        put(key, ser, null);
-        put("","", new Base64Cipher());
-    }
-
-    public void put(String key, Object obj, Cipher cipher) {
-        try {
-            if (obj == null) {
-                sp.edit().remove(key).commit();
-            } else {
-                byte[] bytes = ByteUtils.objectToByte(obj);
-                if (cipher != null)
-                    bytes = cipher.encrypt(bytes);
-                put(key, HexUtils.encodeHexStr(bytes));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+    public static final boolean putValue(Context context, String key,
+                                         String value) {
+        value = value == null ? "" : value;
+        SharedPreferences.Editor editor = getSharedPreference(context).edit();
+        editor.putString(key, value);
+        boolean result = editor.commit();
+        if (!result) {
+            return false;
         }
+        return true;
     }
 
-    public void putString(String key, String value) {
-        if (value == null) {
-            sp.edit().remove(key).commit();
-        } else {
-            sp.edit().putString(key, value).commit();
+    /**
+     * 设置SharedPreference 值
+     */
+    public static final boolean putIntValue(Context context, String key,
+                                            int value) {
+        SharedPreferences.Editor editor = getSharedPreference(context).edit();
+        editor.putInt(key, value);
+        boolean result = editor.commit();
+        if (!result) {
+            return false;
         }
+        return true;
     }
 
-    public void putBoolean(String key, boolean value) {
-        sp.edit().putBoolean(key, value).commit();
-    }
-
-    public void putFloat(String key, float value) {
-        sp.edit().putFloat(key, value).commit();
-    }
-
-    public void putLong(String key, long value) {
-        sp.edit().putLong(key, value).commit();
-    }
-
-    public void putInt(String key, int value) {
-        sp.edit().putInt(key, value).commit();
-    }
-
-
-
-    public static void setPrefHighQuality(Context context, boolean isEnabled) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean(PREF_HIGH_QUALITY, isEnabled);
-        editor.apply();
-    }
-
-    public static boolean getPrefHighQuality(Context context) {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return preferences.getBoolean(PREF_HIGH_QUALITY, false);
-    }
 }
