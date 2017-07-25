@@ -8,16 +8,12 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.ui.adapters.MyFragPageAdapter;
+import com.victor.nesthabit.ui.adapter.MyFragPageAdapter;
 import com.victor.nesthabit.ui.base.BaseActivity;
-import com.victor.nesthabit.ui.fragments.CommunicateFragment;
-import com.victor.nesthabit.ui.fragments.DaKaWallFragment;
-import com.victor.nesthabit.ui.fragments.RankTotalFragment;
-import com.victor.nesthabit.utils.AppUtils;
+import com.victor.nesthabit.ui.fragment.RankTotalFragment;
+import com.victor.nesthabit.util.AppUtils;
 
 import java.lang.reflect.Field;
 
@@ -34,7 +30,7 @@ public class RankActivity extends BaseActivity {
     }
 
     @Override
-    protected Activity getActivityToPush() {
+    protected Activity getActivity() {
         return RankActivity.this;
     }
 

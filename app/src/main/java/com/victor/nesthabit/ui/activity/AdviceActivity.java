@@ -2,17 +2,14 @@ package com.victor.nesthabit.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.ui.base.BaseActivity;
-import com.victor.nesthabit.utils.ActivityManager;
+import com.victor.nesthabit.util.ActivityManager;
 
 public class AdviceActivity extends BaseActivity {
 
@@ -26,7 +23,7 @@ public class AdviceActivity extends BaseActivity {
     }
 
     @Override
-    protected Activity getActivityToPush() {
+    protected Activity getActivity() {
         return AdviceActivity.this;
 
     }

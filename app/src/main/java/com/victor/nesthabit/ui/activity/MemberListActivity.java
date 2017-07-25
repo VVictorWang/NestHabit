@@ -9,9 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.ui.adapters.MemberListAdapter;
+import com.victor.nesthabit.ui.adapter.MemberListAdapter;
 import com.victor.nesthabit.ui.base.BaseActivity;
-import com.victor.nesthabit.utils.ActivityManager;
+import com.victor.nesthabit.util.ActivityManager;
 
 public class MemberListActivity extends BaseActivity {
 
@@ -28,7 +28,7 @@ public class MemberListActivity extends BaseActivity {
     }
 
     @Override
-    protected Activity getActivityToPush() {
+    protected Activity getActivity() {
         return MemberListActivity.this;
     }
 

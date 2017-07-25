@@ -16,9 +16,8 @@ import com.victor.nesthabit.data.AlarmTime;
 import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.ui.contract.AddAlarmContract;
 import com.victor.nesthabit.ui.presenter.AddAlarmPresenter;
-import com.victor.nesthabit.utils.ActivityManager;
-import com.victor.nesthabit.utils.AlarmManagerUtil;
-import com.victor.nesthabit.utils.DateUtils;
+import com.victor.nesthabit.util.ActivityManager;
+import com.victor.nesthabit.util.AlarmManagerUtil;
 import com.victor.nesthabit.view.PickerView;
 import com.victor.nesthabit.view.SwitchButton;
 
@@ -73,7 +72,7 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
     }
 
     @Override
-    protected Activity getActivityToPush() {
+    protected Activity getActivity() {
         return AddAlarmActivity.this;
     }
 
@@ -152,20 +151,20 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
         music_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityManager.startActivityForResult(getActivityToPush(), MusicSettingActivity
+                ActivityManager.startActivityForResult(getActivity(), MusicSettingActivity
                         .class, 222);
             }
         });
         title_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityManager.startActivity(getActivityToPush(), AlarmActivity.class);
+                ActivityManager.startActivity(getActivity(), AlarmActivity.class);
             }
         });
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityManager.finishActivity(getActivityToPush());
+                ActivityManager.finishActivity(getActivity());
             }
         });
 
@@ -361,12 +360,12 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void finishActivity() {
-        ActivityManager.finishActivity(getActivityToPush());
+        ActivityManager.finishActivity(getActivity());
     }
 
     @Override
     public void setAlarm(AlarmTime alarm) {
-        AlarmManagerUtil.setAlarm(getActivityToPush(), alarm);
+        AlarmManagerUtil.setAlarm(getActivity(), alarm);
     }
 
 

@@ -41,7 +41,7 @@ public class AlarmActivity extends BaseActivity {
     }
 
     @Override
-    protected Activity getActivityToPush() {
+    protected Activity getActivity() {
         return AlarmActivity.this;
     }
 

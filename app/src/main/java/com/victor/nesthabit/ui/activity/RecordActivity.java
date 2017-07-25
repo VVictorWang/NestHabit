@@ -9,11 +9,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.ui.adapters.RecordListAdapter;
+import com.victor.nesthabit.ui.adapter.RecordListAdapter;
 import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.ui.contract.RecordContract;
 import com.victor.nesthabit.data.RecordItem;
-import com.victor.nesthabit.ui.fragments.RecordFragment;
+import com.victor.nesthabit.ui.fragment.RecordFragment;
 import com.victor.nesthabit.ui.presenter.RecordActivityPresenter;
 
 import java.util.List;
@@ -41,7 +41,7 @@ public class RecordActivity extends BaseActivity implements RecordContract.View{
     }
 
     @Override
-    protected Activity getActivityToPush() {
+    protected Activity getActivity() {
         return RecordActivity.this;
     }
 

@@ -12,12 +12,8 @@ import com.victor.nesthabit.data.GlobalData;
 import com.victor.nesthabit.data.LoginResponse;
 import com.victor.nesthabit.data.RegisterResponse;
 import com.victor.nesthabit.ui.base.BaseActivity;
-import com.victor.nesthabit.utils.ActivityManager;
-import com.victor.nesthabit.utils.PrefsUtils;
-import com.victor.nesthabit.utils.safe.Base64Cipher;
-
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
+import com.victor.nesthabit.util.ActivityManager;
+import com.victor.nesthabit.util.PrefsUtils;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -25,9 +21,6 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class LoginActivity extends BaseActivity {
 
@@ -180,7 +173,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     @Override
-    protected Activity getActivityToPush() {
+    protected Activity getActivity() {
         return LoginActivity.this;
     }
 }

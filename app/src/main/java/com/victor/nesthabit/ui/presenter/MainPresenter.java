@@ -6,8 +6,8 @@ import com.victor.nesthabit.api.UserApi;
 import com.victor.nesthabit.data.GlobalData;
 import com.victor.nesthabit.data.UserInfo;
 import com.victor.nesthabit.ui.contract.MainContract;
-import com.victor.nesthabit.utils.AppUtils;
-import com.victor.nesthabit.utils.PrefsUtils;
+import com.victor.nesthabit.util.AppUtils;
+import com.victor.nesthabit.util.PrefsUtils;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -15,8 +15,6 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Response;
-
-import static com.victor.nesthabit.view.PickerView.TAG;
 
 /**
  * Created by victor on 7/25/17.
@@ -57,10 +55,10 @@ public class MainPresenter implements MainContract.Presenter {
                             userInfoResponse.body().save();
                             mView.saveUserId(userInfoResponse.body().getId());
                             if (sNestDateBegin != null) {
-                                sNestDateBegin.begin();
+                                sNestDateBegin.begin(userInfoResponse.body().getId());
                             }
                             if (sClockDataBegin != null) {
-                                sClockDataBegin.begin();
+                                sClockDataBegin.begin(userInfoResponse.body().getId());
                             }
                         }
                     }
@@ -87,12 +85,12 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     interface ClockDataBegin {
-        void begin();
+        void begin(long id);
     }
 
 
     interface NestDateBegin {
-        void begin();
+        void begin(long id);
     }
 
 }

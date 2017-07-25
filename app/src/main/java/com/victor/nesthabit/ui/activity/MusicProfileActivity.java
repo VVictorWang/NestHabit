@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.ui.adapters.MusicListAdapter;
+import com.victor.nesthabit.ui.adapter.MusicListAdapter;
 import com.victor.nesthabit.ui.base.BaseActivity;
 
 public class MusicProfileActivity extends BaseActivity {
@@ -24,7 +24,7 @@ public class MusicProfileActivity extends BaseActivity {
     }
 
     @Override
-    protected Activity getActivityToPush() {
+    protected Activity getActivity() {
         return MusicProfileActivity.this;
     }
     @Override

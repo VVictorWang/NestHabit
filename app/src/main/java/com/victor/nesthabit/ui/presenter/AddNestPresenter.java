@@ -2,8 +2,8 @@ package com.victor.nesthabit.ui.presenter;
 
 import com.victor.nesthabit.data.NestInfo;
 import com.victor.nesthabit.ui.contract.AddNestContract;
-import com.victor.nesthabit.utils.CheckUtils;
-import com.victor.nesthabit.utils.DateUtils;
+import com.victor.nesthabit.util.CheckUtils;
+import com.victor.nesthabit.util.DateUtils;
 
 /**
  * Created by victor on 7/22/17.

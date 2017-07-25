@@ -9,8 +9,7 @@ import android.util.Log;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.data.RecordItem;
-import com.victor.nesthabit.utils.LogUtils;
-import com.victor.nesthabit.utils.PrefsUtils;
+import com.victor.nesthabit.util.LogUtils;
 
 import org.litepal.crud.DataSupport;
 

@@ -7,13 +7,13 @@ import android.support.v4.view.ViewPager;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.data.GlobalData;
-import com.victor.nesthabit.ui.adapters.MyFragPageAdapter;
+import com.victor.nesthabit.ui.adapter.MyFragPageAdapter;
 import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.ui.contract.MainContract;
-import com.victor.nesthabit.ui.fragments.BirdCageFragment;
-import com.victor.nesthabit.ui.fragments.ClockFragment;
+import com.victor.nesthabit.ui.fragment.NestListFragment;
+import com.victor.nesthabit.ui.fragment.ClockListFragment;
 import com.victor.nesthabit.ui.presenter.MainPresenter;
-import com.victor.nesthabit.utils.PrefsUtils;
+import com.victor.nesthabit.util.PrefsUtils;
 
 public class MainActivity extends BaseActivity implements MainContract.View {
 
@@ -37,7 +37,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     }
 
     @Override
-    protected Activity getActivityToPush() {
+    protected Activity getActivity() {
         return MainActivity.this;
     }
 
@@ -89,8 +89,8 @@ public class MainActivity extends BaseActivity implements MainContract.View {
 
     private void setUpViewPager() {
         MyFragPageAdapter adapter = new MyFragPageAdapter(getSupportFragmentManager());
-        adapter.addFragment(new ClockFragment(), "闹钟");
-        adapter.addFragment(new BirdCageFragment(), "鸟窝");
+        adapter.addFragment(new ClockListFragment(), "闹钟");
+        adapter.addFragment(new NestListFragment(), "鸟窝");
         birdcageviewpager.setAdapter(adapter);
         maintable.setupWithViewPager(birdcageviewpager);
     }

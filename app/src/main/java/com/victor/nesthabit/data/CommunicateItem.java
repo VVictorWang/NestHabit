@@ -8,7 +8,7 @@ import org.litepal.crud.DataSupport;
  * blog: www.victorwang.science                                            #
  */
 
-public class CommunicateItem extends DataSupport{
+public class CommunicateItem extends DataSupport {
     private String message;
     private int type;
     private String owner;

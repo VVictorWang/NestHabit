@@ -1,13 +1,10 @@
 package com.victor.nesthabit;
 
 import android.app.Application;
-import android.util.Log;
 
-import com.tencent.mm.opensdk.openapi.IWXAPI;
-import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-import com.victor.nesthabit.utils.AppUtils;
-import com.victor.nesthabit.utils.LogUtils;
-import com.victor.nesthabit.utils.NetworkUtils;
+import com.victor.nesthabit.util.AppUtils;
+import com.victor.nesthabit.util.LogUtils;
+import com.victor.nesthabit.util.NetworkUtils;
 
 import org.litepal.LitePal;
 
@@ -17,13 +14,13 @@ import org.litepal.LitePal;
  * blog: www.victorwang.science
  */
 
-public class MyApplication extends Application{
+public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
         LitePal.initialize(this);
         AppUtils.init(this);
         LogUtils.init(this);
-
+        NetworkUtils.startNetService(this);
     }
 }

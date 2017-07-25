@@ -18,8 +18,8 @@ import com.victor.nesthabit.R;
 import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.ui.contract.AddNestContract;
 import com.victor.nesthabit.ui.presenter.AddNestPresenter;
-import com.victor.nesthabit.utils.ActivityManager;
-import com.victor.nesthabit.utils.DateUtils;
+import com.victor.nesthabit.util.ActivityManager;
+import com.victor.nesthabit.util.DateUtils;
 import com.victor.nesthabit.view.SwitchButton;
 
 import java.util.Calendar;
@@ -45,7 +45,7 @@ public class AddNestActivity extends BaseActivity implements AddNestContract.Vie
     }
 
     @Override
-    protected Activity getActivityToPush() {
+    protected Activity getActivity() {
         return AddNestActivity.this;
     }
 
@@ -96,7 +96,7 @@ public class AddNestActivity extends BaseActivity implements AddNestContract.Vie
         beginlayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View view = LayoutInflater.from(getActivityToPush()).inflate(R.layout
+                View view = LayoutInflater.from(getActivity()).inflate(R.layout
                         .calendar_dialog, null);
                 Button ensure = (Button) view.findViewById(R.id.ensure);
                 Button cancel = (Button) view.findViewById(R.id.cancel);
@@ -106,7 +106,7 @@ public class AddNestActivity extends BaseActivity implements AddNestContract.Vie
                 ).commit();
                 calendarView.setSelectedDate(CalendarDay.from(DateUtils.StringToDate(getStartTime
                         ())));
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivityToPush());
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setView(view);
                 AlertDialog dialog = builder.create();
                 dialog.show();
@@ -186,6 +186,6 @@ public class AddNestActivity extends BaseActivity implements AddNestContract.Vie
 
     @Override
     public void finishActivity() {
-        ActivityManager.finishActivity(getActivityToPush());
+        ActivityManager.finishActivity(getActivity());
     }
 }

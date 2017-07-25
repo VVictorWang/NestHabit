@@ -3,16 +3,12 @@ package com.victor.nesthabit.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.data.GlobalData;
-import com.victor.nesthabit.utils.ActivityManager;
-import com.victor.nesthabit.utils.PrefsUtils;
+import com.victor.nesthabit.util.ActivityManager;
+import com.victor.nesthabit.util.PrefsUtils;
 
 public class FirstActivity extends AppCompatActivity {
     private int second = 1000;

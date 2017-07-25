@@ -7,7 +7,7 @@ import com.victor.nesthabit.R;
 import com.victor.nesthabit.data.RecordItem;
 import com.victor.nesthabit.service.RecordingService;
 import com.victor.nesthabit.ui.contract.AddRemindContract;
-import com.victor.nesthabit.utils.AppUtils;
+import com.victor.nesthabit.util.AppUtils;
 
 import java.io.File;
 import java.io.IOException;

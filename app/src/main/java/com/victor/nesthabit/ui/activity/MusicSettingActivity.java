@@ -12,9 +12,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.ui.adapters.MusicSettingAdapter;
+import com.victor.nesthabit.ui.adapter.MusicSettingAdapter;
 import com.victor.nesthabit.ui.base.BaseActivity;
-import com.victor.nesthabit.utils.ActivityManager;
+import com.victor.nesthabit.util.ActivityManager;
 
 public class MusicSettingActivity extends BaseActivity {
 
@@ -38,7 +38,7 @@ public class MusicSettingActivity extends BaseActivity {
     }
 
     @Override
-    protected Activity getActivityToPush() {
+    protected Activity getActivity() {
         return MusicSettingActivity.this;
     }
 
@@ -59,14 +59,14 @@ public class MusicSettingActivity extends BaseActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityManager.finishActivity(getActivityToPush());
+                ActivityManager.finishActivity(getActivity());
             }
         });
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setResultData();
-                ActivityManager.finishActivity(getActivityToPush());
+                ActivityManager.finishActivity(getActivity());
             }
         });
     }

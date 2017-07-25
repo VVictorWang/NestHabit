@@ -14,14 +14,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.ui.adapters.MyFragPageAdapter;
+import com.victor.nesthabit.ui.adapter.MyFragPageAdapter;
 import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.ui.contract.NestSpecificContract;
-import com.victor.nesthabit.ui.fragments.CommunicateFragment;
-import com.victor.nesthabit.ui.fragments.DaKaWallFragment;
+import com.victor.nesthabit.ui.fragment.CommunicateFragment;
+import com.victor.nesthabit.ui.fragment.DaKaWallFragment;
 import com.victor.nesthabit.ui.presenter.NsetSpecificPresenter;
-import com.victor.nesthabit.utils.ActivityManager;
-import com.victor.nesthabit.utils.AppUtils;
+import com.victor.nesthabit.util.ActivityManager;
+import com.victor.nesthabit.util.AppUtils;
 import com.victor.nesthabit.view.CircleProgressBar;
 
 import java.lang.reflect.Field;
@@ -51,7 +51,7 @@ public class NestSpecificActivity extends BaseActivity implements NestSpecificCo
     }
 
     @Override
-    protected Activity getActivityToPush() {
+    protected Activity getActivity() {
         return NestSpecificActivity.this;
     }
 

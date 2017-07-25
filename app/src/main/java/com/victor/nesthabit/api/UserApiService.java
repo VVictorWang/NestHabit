@@ -2,6 +2,7 @@ package com.victor.nesthabit.api;
 
 import com.victor.nesthabit.data.AddNestResponse;
 import com.victor.nesthabit.data.AlarmResponse;
+import com.victor.nesthabit.data.AlarmTime;
 import com.victor.nesthabit.data.GlobalData;
 import com.victor.nesthabit.data.JoinedNests;
 import com.victor.nesthabit.data.LoginResponse;
@@ -84,4 +85,12 @@ public interface UserApiService {
     @GET("alarm_clock/{id}")
     Observable<Response<AlarmResponse>> getAlarm(@Path("id") String id, @Header(GlobalData
             .HEADER_AU) String header);
+
+    @DELETE("alarm_clock/{id}")
+    Observable<Response<MsgResponse>> deleteAlarm(@Path("id") String id, @Header(GlobalData
+            .HEADER_AU) String header);
+
+    @POST("alarm_clock/{id}")
+    Observable<Response<NestInfo>> changeAlarm(@Path("id") String id, @Body RequestBody body,
+                                               @Header(GlobalData.HEADER_AU) String header);
 }

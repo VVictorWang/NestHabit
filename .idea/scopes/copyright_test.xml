@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="copyright_test" pattern="src[app]:com.victor.nesthabit.api.*" />
+</component>

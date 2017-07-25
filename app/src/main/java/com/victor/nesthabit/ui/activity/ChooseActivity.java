@@ -3,13 +3,11 @@ package com.victor.nesthabit.ui.activity;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CalendarView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -19,9 +17,9 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.data.RecordItem;
-import com.victor.nesthabit.ui.adapters.MemberListAdapter;
+import com.victor.nesthabit.ui.adapter.MemberListAdapter;
 import com.victor.nesthabit.ui.base.BaseActivity;
-import com.victor.nesthabit.utils.ActivityManager;
+import com.victor.nesthabit.util.ActivityManager;
 
 import org.litepal.crud.DataSupport;
 
@@ -51,7 +49,7 @@ public class ChooseActivity extends BaseActivity {
     }
 
     @Override
-    protected Activity getActivityToPush() {
+    protected Activity getActivity() {
         return ChooseActivity.this;
     }
 

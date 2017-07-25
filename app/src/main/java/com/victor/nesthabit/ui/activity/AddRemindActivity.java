@@ -19,7 +19,7 @@ import com.victor.nesthabit.service.RecordingService;
 import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.ui.contract.AddRemindContract;
 import com.victor.nesthabit.ui.presenter.AddRemindPresenter;
-import com.victor.nesthabit.utils.ActivityManager;
+import com.victor.nesthabit.util.ActivityManager;
 
 public class AddRemindActivity extends BaseActivity implements AddRemindContract.View, View
         .OnClickListener {
@@ -44,7 +44,7 @@ public class AddRemindActivity extends BaseActivity implements AddRemindContract
     }
 
     @Override
-    protected Activity getActivityToPush() {
+    protected Activity getActivity() {
         return AddRemindActivity.this;
     }
 
@@ -108,7 +108,7 @@ public class AddRemindActivity extends BaseActivity implements AddRemindContract
                 mPresenter.Play();
                 break;
             case R.id.back:
-                ActivityManager.finishActivity(getActivityToPush());
+                ActivityManager.finishActivity(getActivity());
                 break;
         }
 
@@ -218,6 +218,6 @@ public class AddRemindActivity extends BaseActivity implements AddRemindContract
 
     @Override
     public void finishActivity() {
-        ActivityManager.finishActivity(getActivityToPush());
+        ActivityManager.finishActivity(getActivity());
     }
 }

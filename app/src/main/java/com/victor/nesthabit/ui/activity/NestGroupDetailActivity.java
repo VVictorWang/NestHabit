@@ -18,8 +18,8 @@ import com.victor.nesthabit.R;
 import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.ui.contract.NestGroupDetailContract;
 import com.victor.nesthabit.ui.presenter.NestGroupDetailPresenter;
-import com.victor.nesthabit.utils.ActivityManager;
-import com.victor.nesthabit.utils.DateUtils;
+import com.victor.nesthabit.util.ActivityManager;
+import com.victor.nesthabit.util.DateUtils;
 import com.victor.nesthabit.view.CircleImageView;
 import com.victor.nesthabit.view.SwitchButton;
 
@@ -56,7 +56,7 @@ public class NestGroupDetailActivity extends BaseActivity implements NestGroupDe
     }
 
     @Override
-    protected Activity getActivityToPush() {
+    protected Activity getActivity() {
         return NestGroupDetailActivity.this;
     }
 
@@ -106,7 +106,7 @@ public class NestGroupDetailActivity extends BaseActivity implements NestGroupDe
         starttimelayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View view = LayoutInflater.from(getActivityToPush()).inflate(R.layout
+                View view = LayoutInflater.from(getActivity()).inflate(R.layout
                         .calendar_dialog, null);
                 Button ensure = (Button) view.findViewById(R.id.ensure);
                 Button cancel = (Button) view.findViewById(R.id.cancel);
@@ -116,7 +116,7 @@ public class NestGroupDetailActivity extends BaseActivity implements NestGroupDe
                 ).commit();
                 calendarView.setSelectedDate(CalendarDay.from(DateUtils.StringToDate(getStartTime
                         ())));
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivityToPush());
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setView(view);
                 AlertDialog dialog = builder.create();
                 dialog.show();

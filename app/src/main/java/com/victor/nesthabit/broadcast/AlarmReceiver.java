@@ -6,13 +6,6 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
 
-import com.victor.nesthabit.data.AlarmTime;
-import com.victor.nesthabit.utils.AlarmManagerUtil;
-
-import org.litepal.crud.DataSupport;
-
-import java.util.Calendar;
-
 public class AlarmReceiver extends BroadcastReceiver {
     private MediaPlayer mediaPlayer;
     private Vibrator vibrator;

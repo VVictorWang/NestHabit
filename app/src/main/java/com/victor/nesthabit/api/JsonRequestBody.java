@@ -1,13 +1,11 @@
 package com.victor.nesthabit.api;
 
-import com.victor.nesthabit.utils.safe.Base64Cipher;
+import com.victor.nesthabit.util.safe.Base64Cipher;
 
 import org.json.JSONObject;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
-
-import static com.victor.nesthabit.R.id.head;
 
 /**
  * Created by victor on 7/23/17.

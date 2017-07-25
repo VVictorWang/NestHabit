@@ -120,5 +120,12 @@ public class UserApi {
         return mApiService.getAlarm(id, header);
     }
 
+    public Observable<Response<MsgResponse>> deleteAlarm(String id, String header) {
+        return mApiService.deleteAlarm(id, header);
+    }
+
+    public Observable<Response<NestInfo>> changeAlarm(String id, RequestBody body, String header) {
+        return mApiService.changeAlarm(id, body, header);
+    }
 
 }

@@ -1,15 +1,11 @@
 package com.victor.nesthabit.ui.presenter;
 
-import android.content.ContentValues;
-
 import com.victor.nesthabit.data.AlarmTime;
 import com.victor.nesthabit.ui.contract.AddAlarmContract;
-import com.victor.nesthabit.utils.CheckUtils;
-import com.victor.nesthabit.utils.DateUtils;
+import com.victor.nesthabit.util.CheckUtils;
+import com.victor.nesthabit.util.DateUtils;
 
 import org.litepal.crud.DataSupport;
-
-import static android.R.attr.id;
 
 /**
  * Created by victor on 7/22/17.

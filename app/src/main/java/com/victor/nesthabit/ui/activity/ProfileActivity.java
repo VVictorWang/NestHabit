@@ -2,12 +2,10 @@ package com.victor.nesthabit.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
@@ -17,7 +15,7 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.data.GlobalData;
 import com.victor.nesthabit.ui.base.BaseActivity;
-import com.victor.nesthabit.utils.ActivityManager;
+import com.victor.nesthabit.util.ActivityManager;
 import com.victor.nesthabit.view.CircleImageView;
 
 public class ProfileActivity extends BaseActivity {
@@ -42,7 +40,7 @@ public class ProfileActivity extends BaseActivity {
     }
 
     @Override
-    protected Activity getActivityToPush() {
+    protected Activity getActivity() {
         return ProfileActivity.this;
     }
 
