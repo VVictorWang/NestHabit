@@ -27,7 +27,6 @@ public class MusicProfileActivity extends BaseActivity {
     protected Activity getActivityToPush() {
         return MusicProfileActivity.this;
     }
-
     @Override
     protected int getLayoutId() {
         return R.layout.activity_music_profile;

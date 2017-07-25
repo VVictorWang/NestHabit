@@ -27,6 +27,8 @@ import static com.victor.nesthabit.view.PickerView.TAG;
 public class MainPresenter implements MainContract.Presenter {
     private MainContract.View mView;
     public static final String TAG = "@victor MainPresenter";
+    private static NestDateBegin sNestDateBegin;
+    private static ClockDataBegin sClockDataBegin;
 
     public MainPresenter(MainContract.View view) {
         mView = view;
@@ -46,7 +48,6 @@ public class MainPresenter implements MainContract.Presenter {
                 .subscribe(new Observer<Response<UserInfo>>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
-
                     }
 
                     @Override
@@ -55,8 +56,12 @@ public class MainPresenter implements MainContract.Presenter {
                         if (userInfoResponse.code() == 200) {
                             userInfoResponse.body().save();
                             mView.saveUserId(userInfoResponse.body().getId());
-                            mView.hideProgress();
-                            mView.setUpViewPager();
+                            if (sNestDateBegin != null) {
+                                sNestDateBegin.begin();
+                            }
+                            if (sClockDataBegin != null) {
+                                sClockDataBegin.begin();
+                            }
                         }
                     }
 
@@ -70,5 +75,24 @@ public class MainPresenter implements MainContract.Presenter {
 
                     }
                 });
+
     }
+
+    public static void setNestDateBegin(NestDateBegin nestDateBegin) {
+        sNestDateBegin = nestDateBegin;
+    }
+
+    public static void setClockDataBegin(ClockDataBegin clockDataBegin) {
+        sClockDataBegin = clockDataBegin;
+    }
+
+    interface ClockDataBegin {
+        void begin();
+    }
+
+
+    interface NestDateBegin {
+        void begin();
+    }
+
 }

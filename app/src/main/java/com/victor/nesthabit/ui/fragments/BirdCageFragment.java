@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.victor.nesthabit.R;
+import com.victor.nesthabit.data.GlobalData;
 import com.victor.nesthabit.data.NestInfo;
 import com.victor.nesthabit.ui.activity.AddNestActivity;
 import com.victor.nesthabit.ui.activity.ProfileActivity;
@@ -18,6 +19,7 @@ import com.victor.nesthabit.ui.adapters.BirdCaseFragAdapter;
 import com.victor.nesthabit.ui.contract.BirdCageContract;
 import com.victor.nesthabit.ui.presenter.BirdCagePresenter;
 import com.victor.nesthabit.utils.ActivityManager;
+import com.victor.nesthabit.utils.PrefsUtils;
 import com.victor.nesthabit.view.CircleImageView;
 
 import java.util.List;
@@ -103,6 +105,7 @@ public class BirdCageFragment extends Fragment implements BirdCageContract.View 
                 ActivityManager.startActivity(mActivity, ProfileActivity.class);
             }
         });
+
     }
 
 
@@ -115,6 +118,6 @@ public class BirdCageFragment extends Fragment implements BirdCageContract.View 
 
     @Override
     public long getUserId() {
-        return userId;
+        return PrefsUtils.getLongValue(mActivity, GlobalData.USER_ID, -1);
     }
 }

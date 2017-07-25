@@ -11,16 +11,22 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import com.victor.nesthabit.R;
+import com.victor.nesthabit.data.AlarmTime;
 import com.victor.nesthabit.ui.activity.AddAlarmActivity;
 import com.victor.nesthabit.ui.adapters.ClockListAdapter;
+import com.victor.nesthabit.ui.contract.ClockContract;
+import com.victor.nesthabit.ui.presenter.ClockPresenter;
 import com.victor.nesthabit.utils.ActivityManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 
-public class ClockFragment extends Fragment {
+public class ClockFragment extends Fragment implements ClockContract.View {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
@@ -29,6 +35,7 @@ public class ClockFragment extends Fragment {
     private ClockListAdapter mAdapter;
     private View rootView;
     private FloatingActionButton add;
+    private ClockContract.Presenter mPresenter;
 
 
     public ClockFragment() {
@@ -51,6 +58,7 @@ public class ClockFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        mPresenter = new ClockPresenter(this);
     }
 
     @Override
@@ -66,7 +74,7 @@ public class ClockFragment extends Fragment {
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.clock_list);
         add = (FloatingActionButton) rootView.findViewById(R.id.add);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new ClockListAdapter(getContext());
+        mAdapter = new ClockListAdapter(getContext(), new ArrayList<>());
         mRecyclerView.setAdapter(mAdapter);
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,5 +88,17 @@ public class ClockFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+    }
+
+    @Override
+    public void setPresenter(ClockContract.Presenter presenter) {
+        mPresenter = presenter;
+    }
+
+    @Override
+    public void showRecyclerView(List<AlarmTime> time) {
+        mAdapter = new ClockListAdapter(getContext(), time);
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
     }
 }

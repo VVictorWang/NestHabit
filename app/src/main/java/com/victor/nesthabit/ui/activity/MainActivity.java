@@ -1,12 +1,9 @@
 package com.victor.nesthabit.ui.activity;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.widget.ProgressBar;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.data.GlobalData;
@@ -16,11 +13,7 @@ import com.victor.nesthabit.ui.contract.MainContract;
 import com.victor.nesthabit.ui.fragments.BirdCageFragment;
 import com.victor.nesthabit.ui.fragments.ClockFragment;
 import com.victor.nesthabit.ui.presenter.MainPresenter;
-import com.victor.nesthabit.utils.MusicManger;
 import com.victor.nesthabit.utils.PrefsUtils;
-
-import static com.victor.nesthabit.utils.MusicManger.TAG;
-import static com.victor.nesthabit.utils.MusicManger.getMusic;
 
 public class MainActivity extends BaseActivity implements MainContract.View {
 
@@ -29,8 +22,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     private TabLayout.Tab nest, clock;
     public static final String TAG = "@victor MainActivity";
     private MainContract.Presenter mPresenter;
-//    private ProgressDialog mProgressDialog = new ProgressDialog(MainActivity.this);
-    private long userId = -1;
+    //    private ProgressDialog mProgressDialog = new ProgressDialog(MainActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,8 +87,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         mPresenter = presenter;
     }
 
-    @Override
-    public void setUpViewPager() {
+    private void setUpViewPager() {
         MyFragPageAdapter adapter = new MyFragPageAdapter(getSupportFragmentManager());
         adapter.addFragment(new ClockFragment(), "闹钟");
         adapter.addFragment(new BirdCageFragment(), "鸟窝");
@@ -104,8 +95,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         maintable.setupWithViewPager(birdcageviewpager);
     }
 
-    @Override
-    public void setTab() {
+    private void setTab() {
         clock = maintable.getTabAt(0);
         nest = maintable.getTabAt(1);
         clock.setIcon(getResources().getDrawable(R.drawable.clock_clicked));
@@ -127,7 +117,6 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     @Override
     public void saveUserId(long userid) {
         PrefsUtils.putLongValue(MainActivity.this, GlobalData.USER_ID, userid);
-        userId = userid;
     }
 
 

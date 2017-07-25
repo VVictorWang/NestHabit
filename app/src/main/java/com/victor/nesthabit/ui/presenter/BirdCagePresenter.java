@@ -29,18 +29,23 @@ import static com.victor.nesthabit.R.string.nest;
  * blog: www.victorwang.science                                            #
  */
 
-public class BirdCagePresenter implements BirdCageContract.Presenter {
+public class BirdCagePresenter implements BirdCageContract.Presenter, MainPresenter.NestDateBegin {
     private final BirdCageContract.View mView;
     private List<NestInfo> nestInfos = new ArrayList<>();
 
     public BirdCagePresenter(BirdCageContract.View view) {
         mView = view;
         mView.setPresenter(this);
+        MainPresenter.setNestDateBegin(this);
     }
 
     @Override
     public void start() {
 
+    }
+
+    @Override
+    public void begin() {
         UserInfo info = DataSupport.find(UserInfo.class, mView.getUserId());
         List<Nests> nestses = info.getJoined_nests();
         UserApi api = UserApi.getInstance();

@@ -32,7 +32,8 @@ import java.util.List;
  * blog: www.victorwang.science                                            #
  */
 
-public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyViewHolder> implements AddAlarmPresenter.OnDataChanged{
+public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyViewHolder>
+        implements AddAlarmPresenter.OnDataChanged {
     private static final String[] WEEK_DAYS = new String[]{"周日", "周一", "周二", "周三", "周四", "周五",
             "周六"};
     private Context mContext;
@@ -74,11 +75,11 @@ public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyVi
         }
     }
 
-    public ClockListAdapter(Context context) {
+    public ClockListAdapter(Context context, List<AlarmTime> alarmTimes) {
         mContext = context;
         white = mContext.getResources().getColor(R.color.white);
         white_transparent = mContext.getResources().getColor(R.color.while_transpante60);
-        mAlarmTimes = DataSupport.findAll(AlarmTime.class);
+        mAlarmTimes = alarmTimes;
         AddAlarmPresenter.setOnDataChanged(this);
     }
 
@@ -95,7 +96,7 @@ public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyVi
         List<String> weekdays = new ArrayList<>();
         List<Integer> weeks = alarmTime.getWeeks();
         for (int i = 0; i < weeks.size(); i++) {
-            if (weeks.get(i)==1) {
+            if (weeks.get(i) == 1) {
                 weekdays.add(WEEK_DAYS[i]);
             }
         }
@@ -185,7 +186,6 @@ public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyVi
             return list.size();
         }
     }
-
 
 
 }
