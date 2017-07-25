@@ -29,7 +29,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     private TabLayout.Tab nest, clock;
     public static final String TAG = "@victor MainActivity";
     private MainContract.Presenter mPresenter;
-    private ProgressDialog mProgressDialog = new ProgressDialog(this);
+//    private ProgressDialog mProgressDialog = new ProgressDialog(MainActivity.this);
     private long userId = -1;
 
     @Override
@@ -53,6 +53,8 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     protected void initView() {
         this.maintable = (TabLayout) findViewById(R.id.main_table);
         this.birdcageviewpager = (ViewPager) findViewById(R.id.birdcage_view_pager);
+        setUpViewPager();
+        setTab();
     }
 
 
@@ -97,7 +99,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     public void setUpViewPager() {
         MyFragPageAdapter adapter = new MyFragPageAdapter(getSupportFragmentManager());
         adapter.addFragment(new ClockFragment(), "闹钟");
-        adapter.addFragment(BirdCageFragment.newInstance(userId), "鸟窝");
+        adapter.addFragment(new BirdCageFragment(), "鸟窝");
         birdcageviewpager.setAdapter(adapter);
         maintable.setupWithViewPager(birdcageviewpager);
     }
@@ -113,12 +115,12 @@ public class MainActivity extends BaseActivity implements MainContract.View {
 
     @Override
     public void showProgress() {
-        mProgressDialog.show();
+//        mProgressDialog.show();
     }
 
     @Override
     public void hideProgress() {
-        mProgressDialog.dismiss();
+//        mProgressDialog.dismiss();
 
     }
 

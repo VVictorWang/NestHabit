@@ -84,6 +84,8 @@ public class LoginActivity extends BaseActivity {
                                     PrefsUtils.putValue(LoginActivity.this, GlobalData
                                             .AUTHORIZATION, loginResponseResponse.body()
                                             .getAuthorization());
+                                    PrefsUtils.putValue(LoginActivity.this, GlobalData.USERNAME,
+                                            "test");
                                     ActivityManager.startActivity(LoginActivity.this, MainActivity
                                             .class);
                                 }
@@ -158,9 +160,7 @@ public class LoginActivity extends BaseActivity {
                                                        registerResponseResponse) {
                                 Log.d(TAG, registerResponseResponse.code() + "");
                                 if (registerResponseResponse.code() == 200) {
-                                    Log.d(TAG, registerResponseResponse.body().getUsername());
-                                    PrefsUtils.putValue(LoginActivity.this, GlobalData.USERNAME,
-                                            registerResponseResponse.body().getUsername());
+
                                 }
 
                             }

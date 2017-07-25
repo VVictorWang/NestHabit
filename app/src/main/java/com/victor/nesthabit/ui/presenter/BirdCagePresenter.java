@@ -17,8 +17,11 @@ import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Response;
+
+import static com.victor.nesthabit.R.string.nest;
 
 /**
  * Created by victor on 7/12/17.
@@ -40,13 +43,22 @@ public class BirdCagePresenter implements BirdCageContract.Presenter {
 
         UserInfo info = DataSupport.find(UserInfo.class, mView.getUserId());
         List<Nests> nestses = info.getJoined_nests();
-
         UserApi api = UserApi.getInstance();
         Observable<Response<JoinedNests>> responseObservable = api.getNestList(GlobalData
                 .USERNAME, GlobalData.AUTHORIZATION);
-        responseObservable.subscribeOn(Schedulers.newThread());
-
-
+        responseObservable.subscribeOn(Schedulers.newThread()).subscribe(joinedNestsResponse -> {
+            if (joinedNestsResponse.code() == 200 && nestses != null) {
+                nestInfos = joinedNestsResponse.body().getJoined_nests();
+                for (NestInfo nestInfo : nestInfos) {
+                    for (Nests nests : nestses) {
+                        if (nestInfo.get_id().equals(nests.get_id())) {
+                            nestInfo.setDay_insist(nests.getKept_days());
+                        }
+                    }
+                    nestInfo.save();
+                }
+            }
+        });
         mView.showRecyclerview(nestInfos);
     }
 }
