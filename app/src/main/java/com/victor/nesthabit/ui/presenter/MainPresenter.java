@@ -9,6 +9,8 @@ import com.victor.nesthabit.ui.contract.MainContract;
 import com.victor.nesthabit.util.AppUtils;
 import com.victor.nesthabit.util.PrefsUtils;
 
+import org.litepal.crud.DataSupport;
+
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
@@ -36,6 +38,7 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void start() {
         mView.showProgress();
+        Log.d(TAG, "start");
         UserApi api = UserApi.getInstance();
         Observable<Response<UserInfo>> responseObservable = api.getUserInfo(PrefsUtils.getValue
                         (AppUtils.getAppContext(), GlobalData.USERNAME, "null"),
@@ -52,10 +55,12 @@ public class MainPresenter implements MainContract.Presenter {
                     public void onNext(@NonNull Response<UserInfo> userInfoResponse) {
                         Log.d(TAG, "code: " + userInfoResponse.code());
                         if (userInfoResponse.code() == 200) {
+                            DataSupport.deleteAll(UserInfo.class);
                             userInfoResponse.body().save();
                             mView.saveUserId(userInfoResponse.body().getId());
                             if (sNestDateBegin != null) {
                                 sNestDateBegin.begin(userInfoResponse.body().getId());
+                                Log.d(TAG, "nestbegin");
                             }
                             if (sClockDataBegin != null) {
                                 sClockDataBegin.begin(userInfoResponse.body().getId());

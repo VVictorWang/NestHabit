@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.victor.nesthabit.util.ActivityManager;
 import com.victor.nesthabit.util.PrefsUtils;
 import com.victor.nesthabit.view.CircleImageView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -41,6 +43,8 @@ public class NestListFragment extends Fragment implements NestListContract.View 
 
     private NestListContract.Presenter mPresenter;
     private View rootview;
+    private List<NestInfo> mNestInfos;
+    public static final String TAG = "@victor NestList";
 
     @Override
     public void setPresenter(NestListContract.Presenter presenter) {
@@ -63,6 +67,7 @@ public class NestListFragment extends Fragment implements NestListContract.View 
 //        }
         mActivity = this.getActivity();
         mPresenter = new NestListPresenter(this);
+        Log.d(TAG, "onCreate");
     }
 
     @Override
@@ -79,7 +84,7 @@ public class NestListFragment extends Fragment implements NestListContract.View 
         }
         initView();
         mPresenter.start();
-        // Inflate the layout for this fragment
+        Log.d(TAG, "onCreateView");
         return rootview;
     }
 
@@ -91,6 +96,9 @@ public class NestListFragment extends Fragment implements NestListContract.View 
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2,
                 StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
+        mNestInfos = new ArrayList<>();
+        mNestListFragAdapter = new NestListFragAdapter(mActivity, mRecyclerView, mNestInfos);
+        mRecyclerView.setAdapter(mNestListFragAdapter);
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,9 +117,11 @@ public class NestListFragment extends Fragment implements NestListContract.View 
 
     @Override
     public void showRecyclerview(List<NestInfo> mBirdCageInfos) {
-        mNestListFragAdapter = new NestListFragAdapter(mActivity, mRecyclerView, mBirdCageInfos);
-        mRecyclerView.setAdapter(mNestListFragAdapter);
-        mNestListFragAdapter.notifyDataSetChanged();
+        Log.d(TAG, "showrecylerview");
+//        if (mNestListFragAdapter != null) {
+//            mNestListFragAdapter.addData(mBirdCageInfos);
+//            Log.d(TAG, "add");
+//        }
     }
 
     @Override

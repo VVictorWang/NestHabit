@@ -2,18 +2,15 @@ package com.victor.nesthabit.data;
 
 import org.litepal.crud.DataSupport;
 
-import java.lang.reflect.Member;
 import java.util.List;
 
-import static android.R.attr.id;
-
 /**
- * Created by victor on 7/23/17.
+ * Created by victor on 7/26/17.
  * email: chengyiwang@hustunique.com
  * blog: www.victorwang.science                                            #
  */
 
-public class NestInfo  {
+public class MyNestInfo extends DataSupport {
     /**
      * _id : 597431a9f6ded6062862d268
      * name : aaaaaaa
@@ -34,7 +31,8 @@ public class NestInfo  {
      * /581583075164355.png","nickname":"a"}]
      */
 
-    private String _id;
+    private long id;
+    private String myid;
     private String name;
     private String desc;
     private int members_limit;
@@ -49,6 +47,13 @@ public class NestInfo  {
     private List<UserInfo> members;
     private int day_insist;
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public int getDay_insist() {
         return day_insist;
@@ -59,11 +64,11 @@ public class NestInfo  {
     }
 
     public String get_id() {
-        return _id;
+        return myid;
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
+    public void set_id(String myid) {
+        this.myid = myid;
     }
 
     public String getName() {
