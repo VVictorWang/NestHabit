@@ -1,5 +1,7 @@
 package com.victor.nesthabit.util;
 
+import com.victor.nesthabit.data.AlarmResponse;
+import com.victor.nesthabit.data.AlarmTime;
 import com.victor.nesthabit.data.MyNestInfo;
 import com.victor.nesthabit.data.NestInfo;
 
@@ -79,5 +81,39 @@ public class DataCloneUtil {
             }
         }
         return reslut;
+    }
+
+    public static AlarmTime cloneAlarmRestoTime(AlarmResponse response) {
+        AlarmTime alarmTime = new AlarmTime();
+        alarmTime.setSnap(response.getNap_level() == 1 ? true : false);
+        alarmTime.setTitle(response.getTitle());
+        alarmTime.setReceive_Voice(response.isWilling_music());
+        alarmTime.setReceive_text(response.isWilling_text());
+        alarmTime.setHour(response.getTime().get(0));
+        alarmTime.setMinute(response.getTime().get(0));
+        List<Integer> repeat = response.getRepeat();
+        List<Integer> weeks = new ArrayList<>();
+        for (int i = 0; i < 7; i++) {
+            weeks.add(0);
+        }
+        for (int i : repeat) {
+            weeks.set(i, 1);
+        }
+        alarmTime.setWeeks(weeks);
+        alarmTime.setMusic_id(response.getMusic_id());
+        alarmTime.setBind_to_nest(response.getBind_to_nest());
+        alarmTime.setCreat_time(response.getCreated_time());
+        return alarmTime;
+    }
+
+    public static AlarmResponse cloneTimeToAlarmRes(AlarmTime alarmtime) {
+        AlarmResponse result = new AlarmResponse();
+        result.setCreated_time(alarmtime.getCreat_time());
+        result.setBind_to_nest(alarmtime.getBind_to_nest());
+        result.setTitle(alarmtime.getTitle());
+        result.setDuration_level(1);
+
+
+        return result;
     }
 }

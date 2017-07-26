@@ -2,7 +2,9 @@ package com.victor.nesthabit.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.Button;
@@ -239,6 +241,23 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
             v.setTag("unchoosen");
             weeks.set(i, 0);
         }
+    }
+
+    private boolean containsInProfile(String music) {
+        Cursor cursor = getActivity().getContentResolver().query(MediaStore.Audio.Media
+                .EXTERNAL_CONTENT_URI, null, null, null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+            while (cursor.moveToNext()) {
+                String name = cursor.getString(cursor.getColumnIndex
+                        (MediaStore.Audio.Media
+                                .TITLE));
+                if (name.equals(music))
+                    return true;
+
+            }
+        }
+        return false;
     }
 
     @Override

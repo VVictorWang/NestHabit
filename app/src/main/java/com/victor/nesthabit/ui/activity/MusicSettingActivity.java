@@ -71,7 +71,7 @@ public class MusicSettingActivity extends BaseActivity {
         });
     }
 
-    public void setResultData() {
+    private void setResultData() {
         Intent intent = new Intent();
         if (adapter != null && adapter.getMusicName() != null) {
             intent.putExtra("name", adapter.getMusicName());
@@ -80,7 +80,17 @@ public class MusicSettingActivity extends BaseActivity {
             setResult(112);
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case 222:
+                if (resultCode == 111) {
+                    setResult(111, data);
+                    ActivityManager.finishActivity(getActivity());
+                }
+                break;
+        }
+    }
 
     /**
      * activity暂停时停止播放

@@ -53,7 +53,8 @@ public class MusicSettingAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ActivityManager.startActivity((Activity) mContext, MusicProfileActivity.class);
+                    ActivityManager.startActivityForResult((Activity) mContext,
+                            MusicProfileActivity.class, 222);
                 }
             });
             return new ProfileViewHolder(view);

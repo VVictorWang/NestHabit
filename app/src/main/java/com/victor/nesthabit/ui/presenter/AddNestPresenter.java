@@ -2,12 +2,21 @@ package com.victor.nesthabit.ui.presenter;
 
 import android.util.Log;
 
+import com.victor.nesthabit.api.UserApi;
+import com.victor.nesthabit.data.AddNestResponse;
+import com.victor.nesthabit.data.GlobalData;
 import com.victor.nesthabit.data.MyNestInfo;
 import com.victor.nesthabit.data.NestInfo;
 import com.victor.nesthabit.ui.contract.AddNestContract;
+import com.victor.nesthabit.util.AppUtils;
 import com.victor.nesthabit.util.CheckUtils;
 import com.victor.nesthabit.util.DataCloneUtil;
 import com.victor.nesthabit.util.DateUtils;
+import com.victor.nesthabit.util.PrefsUtils;
+
+import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
+import retrofit2.Response;
 
 /**
  * Created by victor on 7/22/17.
@@ -48,8 +57,17 @@ public class AddNestPresenter implements AddNestContract.Presenter {
                 nestInfo.setMembers_limit(Integer.valueOf(mView.getAmount()));
             } else
                 nestInfo.setMembers_limit(0);
-            boolean c = nestInfo.save();
-            Log.d(TAG, "save: " + c);
+            nestInfo.save();
+            Observable<Response<AddNestResponse>> responseObservable = UserApi.getInstance()
+                    .addNest(nestInfo.getName(), nestInfo.getDesc(), nestInfo
+                                    .getMembers_limit(), nestInfo.getStart_time(), nestInfo
+                                    .getChallenge_days(),
+                            false, PrefsUtils.getValue(AppUtils.getAppContext(), GlobalData
+                                    .AUTHORIZATION, "null"));
+            responseObservable.subscribeOn(Schedulers.newThread())
+                    .subscribe(addNestResponseResponse -> {
+                        Log.d(TAG, addNestResponseResponse.code() + " code");
+                    });
             if (sOnCageDataChanged != null) {
                 sOnCageDataChanged.OnDataAdded(DataCloneUtil.cloneMynestToNest(nestInfo));
             }

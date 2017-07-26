@@ -16,6 +16,7 @@ import com.victor.nesthabit.R;
 import com.victor.nesthabit.data.AlarmTime;
 import com.victor.nesthabit.ui.activity.AddAlarmActivity;
 import com.victor.nesthabit.ui.presenter.AddAlarmPresenter;
+import com.victor.nesthabit.ui.presenter.ClockListPresenter;
 import com.victor.nesthabit.util.ActivityManager;
 import com.victor.nesthabit.util.DateUtils;
 import com.victor.nesthabit.view.SwitchButton;
@@ -32,7 +33,7 @@ import java.util.List;
  */
 
 public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyViewHolder>
-        implements AddAlarmPresenter.OnDataChanged {
+        implements AddAlarmPresenter.OnDataChanged, ClockListPresenter.onAlarmAdded {
     private static final String[] WEEK_DAYS = new String[]{"周日", "周一", "周二", "周三", "周四", "周五",
             "周六"};
     private Context mContext;
@@ -49,6 +50,12 @@ public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyVi
     @Override
     public void OnDataModified() {
         mAlarmTimes = DataSupport.findAll(AlarmTime.class);
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public void AlarmAdded(AlarmTime alarmTime) {
+        mAlarmTimes.add(alarmTime);
         notifyDataSetChanged();
     }
 
@@ -80,6 +87,7 @@ public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyVi
         white_transparent = mContext.getResources().getColor(R.color.while_transpante60);
         mAlarmTimes = alarmTimes;
         AddAlarmPresenter.setOnDataChanged(this);
+        ClockListPresenter.setOnAlarmAdded(this);
     }
 
     @Override

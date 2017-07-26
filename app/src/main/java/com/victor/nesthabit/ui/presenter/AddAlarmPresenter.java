@@ -1,11 +1,19 @@
 package com.victor.nesthabit.ui.presenter;
 
+import com.victor.nesthabit.api.UserApi;
+import com.victor.nesthabit.data.AlarmResponse;
 import com.victor.nesthabit.data.AlarmTime;
 import com.victor.nesthabit.ui.contract.AddAlarmContract;
 import com.victor.nesthabit.util.CheckUtils;
 import com.victor.nesthabit.util.DateUtils;
 
 import org.litepal.crud.DataSupport;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import io.reactivex.Observable;
+import retrofit2.Response;
 
 /**
  * Created by victor on 7/22/17.
@@ -56,8 +64,6 @@ public class AddAlarmPresenter implements AddAlarmContract.Presenter {
             mView.setMusicError();
         } else if (CheckUtils.isEmpty(mView.getEditTitle())) {
             mView.setEditTitleError();
-        } else if (CheckUtils.isEmpty(mView.getNestName())) {
-            mView.setNestError();
         } else {
             alarmTime.setAlert_music(mView.getMusic());
             alarmTime.setTitle(mView.getEditTitle());
@@ -65,6 +71,21 @@ public class AddAlarmPresenter implements AddAlarmContract.Presenter {
             alarmTime.setReceive_Voice(mView.getVoice());
             alarmTime.setSnap(mView.getSnap());
             alarmTime.save();
+            List<Integer> weeks = mView.getSeletedWeek();
+            List<Integer> repeat = new ArrayList<>();
+            for (int i : weeks) {
+                if (weeks.get(i) == 1) {
+                    repeat.add(i);
+                }
+            }
+            int[] re = new int[repeat.size()];
+            for (int i = 0; i < repeat.size(); i++) {
+                re[i] = repeat.get(i);
+            }
+//            Observable<Response<AlarmResponse>> observable = UserApi.getInstance().addAlarm
+//                    (alarmTime.getTitle(), re, "2342", 1, 2, 1, "21321", alarmTime
+//                            .isReceive_Voice(), alarmTime.isReceive_text(), new int[]{alarmTime.getHour(),alarmTime.getMinute()
+//                    },)
             if (mOnDataChanged != null) {
                 if (mAlarmTime != null) {
                     mAlarmTime.delete();

@@ -105,7 +105,7 @@ public class UserApi {
         return mApiService.getNestList(username, header);
     }
 
-    public Observable<Response<AlarmResponse>> addAlarm(String title, int[] repeate, int
+    public Observable<Response<AlarmResponse>> addAlarm(String title, int[] repeate, String
             music_id, int duration_level, int volume_level, int nap_level, String bind_to_nest,
                                                         boolean willing_music, boolean
                                                                 willing_text, int[] time, String

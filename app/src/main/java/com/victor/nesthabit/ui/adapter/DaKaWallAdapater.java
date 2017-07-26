@@ -38,13 +38,19 @@ public class DaKaWallAdapater extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof DataViewHoler) {
+            ((DataViewHoler) holder).viewFirst.setVisibility(View.VISIBLE);
+        } else {
+            ((ContentViewHolder) holder).viewFirst.setVisibility(View.VISIBLE);
+            ((ContentViewHolder) holder).viewlast.setVisibility(View.VISIBLE);
+        }
         if (position == 0) {
             if (holder instanceof DataViewHoler) {
                 ((DataViewHoler) holder).viewFirst.setVisibility(View.INVISIBLE);
             } else {
-                ((ContentViewHolder)holder).viewFirst.setVisibility(View.INVISIBLE);
+                ((ContentViewHolder) holder).viewFirst.setVisibility(View.INVISIBLE);
             }
-        } else if (position == getItemCount()) {
+        } else if (position == (getItemCount() - 1)) {
             ((ContentViewHolder) holder).viewlast.setVisibility(View.INVISIBLE);
         }
 
@@ -72,6 +78,7 @@ public class DaKaWallAdapater extends RecyclerView.Adapter<RecyclerView.ViewHold
         private TextView viewFirst;
         private ImageView yellowCircle;
         private TextView date;
+
         public DataViewHoler(View itemView) {
             super(itemView);
             viewFirst = (TextView) itemView.findViewById(R.id.view_first);
@@ -88,6 +95,7 @@ public class DaKaWallAdapater extends RecyclerView.Adapter<RecyclerView.ViewHold
         private TextView time;
         private TextView text;
         private TextView viewlast;
+
         public ContentViewHolder(View itemView) {
             super(itemView);
             leftLayout = (RelativeLayout) itemView.findViewById(R.id.left_layout);
@@ -99,9 +107,6 @@ public class DaKaWallAdapater extends RecyclerView.Adapter<RecyclerView.ViewHold
             viewlast = (TextView) itemView.findViewById(R.id.view_last);
         }
     }
-
-
-
 
 
 }

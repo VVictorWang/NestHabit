@@ -17,11 +17,30 @@ public class AlarmTime extends DataSupport {
     private long id;
     private String alert_music;
     private List<Integer> weeks;
+    private String music_id;
     private int hour;
     private int minute;
     private boolean isSnap;
     private boolean receive_Voice;
     private boolean receive_text;
+    private String bind_to_nest;
+    private long creat_time;
+
+    public long getCreat_time() {
+        return creat_time;
+    }
+
+    public void setCreat_time(long creat_time) {
+        this.creat_time = creat_time;
+    }
+
+    public String getBind_to_nest() {
+        return bind_to_nest;
+    }
+
+    public void setBind_to_nest(String bind_to_nest) {
+        this.bind_to_nest = bind_to_nest;
+    }
 
     public boolean isReceive_Voice() {
         return receive_Voice;
@@ -29,6 +48,14 @@ public class AlarmTime extends DataSupport {
 
     public void setReceive_Voice(boolean receive_Voice) {
         this.receive_Voice = receive_Voice;
+    }
+
+    public String getMusic_id() {
+        return music_id;
+    }
+
+    public void setMusic_id(String music_id) {
+        this.music_id = music_id;
     }
 
     public boolean isReceive_text() {

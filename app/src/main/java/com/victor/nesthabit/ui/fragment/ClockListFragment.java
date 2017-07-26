@@ -17,6 +17,8 @@ import com.victor.nesthabit.ui.contract.ClockListContract;
 import com.victor.nesthabit.ui.presenter.ClockListPresenter;
 import com.victor.nesthabit.util.ActivityManager;
 
+import org.litepal.crud.DataSupport;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +56,7 @@ public class ClockListFragment extends Fragment implements ClockListContract.Vie
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         mPresenter = new ClockListPresenter(this);
+
     }
 
     @Override
@@ -62,6 +65,7 @@ public class ClockListFragment extends Fragment implements ClockListContract.Vie
         // Inflate the layout for this fragment
         rootView = inflater.inflate(R.layout.fragment_clock, container, false);
         initView();
+        mPresenter.start();
         return rootView;
     }
 

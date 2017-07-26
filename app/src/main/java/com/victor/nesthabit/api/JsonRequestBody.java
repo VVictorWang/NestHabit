@@ -49,7 +49,7 @@ public class JsonRequestBody {
             jsonObject.put("name", name);
             jsonObject.put("desc", desc);
             jsonObject.put("members_limit", member_limit);
-            jsonObject.put("start_time", start_time);
+            jsonObject.put("start_time", (int)start_time);
             jsonObject.put("challenge_days", days);
             jsonObject.put("open", isOpen);
         } catch (Exception e) {
@@ -78,7 +78,7 @@ public class JsonRequestBody {
         return RequestBody.create(sMediaType, jsonObject.toString());
     }
 
-    public static RequestBody getAlarm(String title, int[] repeate, int music_id, int
+    public static RequestBody getAlarm(String title, int[] repeate, String music_id, int
             duration_level, int volume_level, int nap_level, String bind_to_nest, boolean
                                                willing_music, boolean willing_text, int[] time) {
         JSONObject jsonObject = new JSONObject();

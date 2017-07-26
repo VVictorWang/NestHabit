@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import com.victor.nesthabit.R;
 
+import static android.os.Build.VERSION_CODES.M;
+
 /**
  * Created by victor on 7/18/17.
  * email: chengyiwang@hustunique.com
@@ -26,7 +28,7 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.MyVi
     private Context mContext;
     private RecyclerView mRecyclerView;
     private Cursor mCursor;
-    private int tickedposition = 0;
+    private MyViewHolder tickedHoler;
     private boolean isProfile;
     private MediaPlayer mMediaPlayer;
     public static final String TAG = "@victor ListAdapter";
@@ -40,6 +42,9 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.MyVi
             mCursor = context.getContentResolver().query(MediaStore.Audio.Media
                             .INTERNAL_CONTENT_URI, null, null,
                     null, null);
+        } else {
+            mCursor = context.getContentResolver().query(MediaStore.Audio.Media
+                    .EXTERNAL_CONTENT_URI, null, null, null, null);
         }
     }
 
@@ -52,16 +57,15 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.MyVi
 
     }
 
-    private void notifyOthers(int position) {
-        MyViewHolder holder = (MyViewHolder) mRecyclerView.findViewHolderForAdapterPosition
-                (tickedposition);
-        holder.isChecked.setVisibility(View.INVISIBLE);
-        tickedposition = position;
+    private void notifyOthers(MyViewHolder holder) {
+        tickedHoler.isChecked.setVisibility(View.INVISIBLE);
+        holder.isChecked.setVisibility(View.VISIBLE);
+        tickedHoler = holder;
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        if (!isProfile && mCursor != null) {
+        if (mCursor != null) {
             mCursor.moveToPosition(position);
             holder.name.setText(mCursor.getString(mCursor.getColumnIndex
                     (MediaStore.Audio.Media
@@ -72,16 +76,16 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.MyVi
                     if (holder.isChecked.getVisibility() == View.INVISIBLE) {
                         holder.isChecked.setVisibility(View.VISIBLE);
                         mCursor.moveToPosition(position);
-                        notifyOthers(position);
+                        notifyOthers(holder);
                         String data = mCursor.getString(mCursor.getColumnIndex(MediaStore.Audio
                                 .Media.DATA));
                         playMusic(data);
                     }
                 }
             });
-            if (position == 0 && !isProfile) {
-                tickedposition = 0;
-                ((MyViewHolder) holder).isChecked.setVisibility(View.VISIBLE);
+            if (position == 0) {
+                tickedHoler = holder;
+                holder.isChecked.setVisibility(View.VISIBLE);
                 mCursor.moveToFirst();
                 String data = mCursor.getString(mCursor.getColumnIndex(MediaStore.Audio
                         .Media.DATA));
@@ -105,10 +109,10 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.MyVi
 
     @Override
     public int getItemCount() {
-        if (!isProfile) {
+        if (mCursor != null)
             return mCursor.getCount();
-        } else
-            return 1;
+        else
+            return 0;
     }
 
     public void stopPlaying() {
@@ -133,9 +137,8 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.MyVi
     }
 
     public String getMusic() {
-        MyViewHolder holder = (MyViewHolder) mRecyclerView.findViewHolderForAdapterPosition
-                (tickedposition);
-        return holder.name.getText().toString();
+
+        return tickedHoler.name.getText().toString();
 
     }
 

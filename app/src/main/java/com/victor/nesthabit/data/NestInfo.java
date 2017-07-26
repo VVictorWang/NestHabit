@@ -13,7 +13,7 @@ import static android.R.attr.id;
  * blog: www.victorwang.science                                            #
  */
 
-public class NestInfo  {
+public class NestInfo {
     /**
      * _id : 597431a9f6ded6062862d268
      * name : aaaaaaa

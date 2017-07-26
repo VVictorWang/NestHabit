@@ -34,7 +34,7 @@ public class AlarmResponse {
     private String bind_to_nest;
     private boolean willing_music;
     private boolean willing_text;
-    private int created_time;
+    private long created_time;
     private String owner;
     private String _id;
     private List<Integer> time;
@@ -104,11 +104,11 @@ public class AlarmResponse {
         this.willing_text = willing_text;
     }
 
-    public int getCreated_time() {
+    public long getCreated_time() {
         return created_time;
     }
 
-    public void setCreated_time(int created_time) {
+    public void setCreated_time(long created_time) {
         this.created_time = created_time;
     }
 
