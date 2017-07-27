@@ -2,7 +2,10 @@ package com.victor.nesthabit.ui.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,8 +36,8 @@ public class NestListFragAdapter extends RecyclerView.Adapter<NestListFragAdapte
         implements AddNestPresenter.OnCageDataChanged, NestListPresenter.onNestInfoAdded {
     private Context mContext;
     private RecyclerView mRecyclerView;
-
     private List<NestInfo> mBirdCageInfos;
+    public static final String TAG = "@victor NestLisAdapter";
 
     @Override
     public void OnDataAdded(NestInfo cageInfo) {
@@ -55,6 +58,7 @@ public class NestListFragAdapter extends RecyclerView.Adapter<NestListFragAdapte
         private TextView birdcageListText;
         private TextView progresstext;
         private TextView peoplea;
+        private CardView mCardView;
 
 
         ListViewHolder(View itemView) {
@@ -62,7 +66,8 @@ public class NestListFragAdapter extends RecyclerView.Adapter<NestListFragAdapte
             birdcageListImage = (ImageView) itemView.findViewById(R.id.birdcage_list_image);
             birdcageListText = (TextView) itemView.findViewById(R.id.birdcage_list_text);
             progresstext = (TextView) itemView.findViewById(progress_text);
-            peoplea = (TextView) itemView.findViewById(people);
+            peoplea = (TextView) itemView.findViewById(R.id.people);
+            mCardView = (CardView) itemView.findViewById(R.id.card);
         }
 
     }
@@ -85,12 +90,6 @@ public class NestListFragAdapter extends RecyclerView.Adapter<NestListFragAdapte
         ListViewHolder holder;
         view = inflater.inflate(R.layout.birdcagelist, parent, false);
         holder = new ListViewHolder(view);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ActivityManager.startActivity((Activity) mContext, NestSpecificActivity.class);
-            }
-        });
         return holder;
     }
 
@@ -101,6 +100,15 @@ public class NestListFragAdapter extends RecyclerView.Adapter<NestListFragAdapte
                 .getChallenge_days());
         holder.birdcageListText.setText(info.getName());
         holder.peoplea.setText("+" + info.getMembers_amount() + "人");
+        holder.mCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, NestSpecificActivity.class);
+                intent.putExtra("id", info.get_id());
+                Log.d(TAG, info.get_id());
+                ActivityManager.startActivity((Activity) mContext, intent);
+            }
+        });
 
     }
 

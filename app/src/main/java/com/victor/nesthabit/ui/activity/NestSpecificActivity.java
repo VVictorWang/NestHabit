@@ -42,12 +42,17 @@ public class NestSpecificActivity extends BaseActivity implements NestSpecificCo
     private android.support.v4.view.ViewPager viewpager;
     private RelativeLayout head;
     private NestSpecificContract.Presenter mPresenter;
+    private String id = null;
+    private long myid = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getIntent() != null) {
+            id = getIntent().getStringExtra("id");
+        }
         mPresenter = new NsetSpecificPresenter(this);
-
+        mPresenter.start();
     }
 
     @Override
@@ -211,6 +216,16 @@ public class NestSpecificActivity extends BaseActivity implements NestSpecificCo
     @Override
     public int getConstantDay() {
         return Integer.valueOf(dakaconsnumber.getText().toString());
+    }
+
+    @Override
+    public String getNestId() {
+        return id;
+    }
+
+    @Override
+    public void setId(long id) {
+        myid = id;
     }
 
     @Override

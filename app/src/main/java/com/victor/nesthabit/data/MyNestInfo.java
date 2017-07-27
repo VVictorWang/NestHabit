@@ -63,11 +63,11 @@ public class MyNestInfo extends DataSupport {
         this.day_insist = day_insist;
     }
 
-    public String get_id() {
+    public String getMyid() {
         return myid;
     }
 
-    public void set_id(String myid) {
+    public void setMyid(String myid) {
         this.myid = myid;
     }
 

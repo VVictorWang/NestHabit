@@ -21,6 +21,7 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Response;
 
 public class LoginActivity extends BaseActivity {
 
@@ -56,11 +57,18 @@ public class LoginActivity extends BaseActivity {
                         "12345");
                 response.subscribeOn(Schedulers.newThread())
                         .observeOn(Schedulers.io())
-                        .doOnNext(new Consumer<retrofit2.Response<LoginResponse>>() {
+                        .doOnNext(new Consumer<Response<LoginResponse>>() {
                             @Override
-                            public void accept(@NonNull retrofit2.Response<LoginResponse>
+                            public void accept(@NonNull Response<LoginResponse>
                                                        loginResponseResponse) throws Exception {
-
+                                Log.d(TAG, "code" + loginResponseResponse.code());
+                                if (loginResponseResponse.code() == 200) {
+                                    PrefsUtils.putValue(LoginActivity.this, GlobalData
+                                            .AUTHORIZATION, loginResponseResponse.body()
+                                            .getAuthorization());
+                                    PrefsUtils.putValue(LoginActivity.this, GlobalData.USERNAME,
+                                            "test");
+                                }
                             }
                         })
                         .subscribe(new Observer<retrofit2.Response<LoginResponse>>() {
@@ -72,13 +80,7 @@ public class LoginActivity extends BaseActivity {
                             @Override
                             public void onNext(@NonNull retrofit2.Response<LoginResponse>
                                                        loginResponseResponse) {
-                                Log.d(TAG, "code" + loginResponseResponse.code());
                                 if (loginResponseResponse.code() == 200) {
-                                    PrefsUtils.putValue(LoginActivity.this, GlobalData
-                                            .AUTHORIZATION, loginResponseResponse.body()
-                                            .getAuthorization());
-                                    PrefsUtils.putValue(LoginActivity.this, GlobalData.USERNAME,
-                                            "test");
                                     ActivityManager.startActivity(LoginActivity.this, MainActivity
                                             .class);
                                 }
@@ -152,9 +154,7 @@ public class LoginActivity extends BaseActivity {
                             public void onNext(@NonNull retrofit2.Response<RegisterResponse>
                                                        registerResponseResponse) {
                                 Log.d(TAG, registerResponseResponse.code() + "");
-                                if (registerResponseResponse.code() == 200) {
 
-                                }
 
                             }
 

@@ -78,6 +78,10 @@ public class UserApi {
                 start_time, days, isOpen), header);
     }
 
+    public Observable<Response<NestInfo>> getNestInfo(String id, String header) {
+        return mApiService.getNestInfo(id, header);
+    }
+
     public Observable<Response<MsgResponse>> deleteNest(String id, String header) {
         return mApiService.deleteNest(id, header);
     }

@@ -19,6 +19,10 @@ public interface NestSpecificContract {
 
         int getConstantDay();
 
+        String getNestId();
+
+        void setId(long id);
+
         void setTotalProgress(float progress);
 
         void setConstantProgresss(float progresss);

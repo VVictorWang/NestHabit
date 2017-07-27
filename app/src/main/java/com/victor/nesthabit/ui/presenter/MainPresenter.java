@@ -15,6 +15,7 @@ import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Response;
 
@@ -38,7 +39,6 @@ public class MainPresenter implements MainContract.Presenter {
     @Override
     public void start() {
         mView.showProgress();
-        Log.d(TAG, "start");
         UserApi api = UserApi.getInstance();
         Observable<Response<UserInfo>> responseObservable = api.getUserInfo(PrefsUtils.getValue
                         (AppUtils.getAppContext(), GlobalData.USERNAME, "null"),
@@ -46,6 +46,18 @@ public class MainPresenter implements MainContract.Presenter {
         Log.d(TAG, PrefsUtils.getValue
                 (AppUtils.getAppContext(), GlobalData.USERNAME, "null"));
         responseObservable.subscribeOn(Schedulers.newThread())
+                .observeOn(Schedulers.io())
+                .doOnNext(new Consumer<Response<UserInfo>>() {
+                    @Override
+                    public void accept(@NonNull Response<UserInfo> userInfoResponse) throws
+                            Exception {
+                        Log.d(TAG, "code: " + userInfoResponse.code());
+                        if (userInfoResponse.code() == 200) {
+                            DataSupport.deleteAll(UserInfo.class);
+                            userInfoResponse.body().save();
+                        }
+                    }
+                })
                 .subscribe(new Observer<Response<UserInfo>>() {
                     @Override
                     public void onSubscribe(@NonNull Disposable d) {
@@ -55,8 +67,6 @@ public class MainPresenter implements MainContract.Presenter {
                     public void onNext(@NonNull Response<UserInfo> userInfoResponse) {
                         Log.d(TAG, "code: " + userInfoResponse.code());
                         if (userInfoResponse.code() == 200) {
-                            DataSupport.deleteAll(UserInfo.class);
-                            userInfoResponse.body().save();
                             mView.saveUserId(userInfoResponse.body().getId());
                             if (sNestDateBegin != null) {
                                 sNestDateBegin.begin(userInfoResponse.body().getId());

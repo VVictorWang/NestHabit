@@ -18,6 +18,7 @@
         android:background="@color/white"
         android:elevation="5dp"
         app:cardCornerRadius="10dp"
+        android:id="@+id/card"
         >
 
         <RelativeLayout

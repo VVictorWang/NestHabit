@@ -21,10 +21,13 @@ public class DataCloneUtil {
         nestInfo.setMembers_limit(info.getMembers_limit());
         nestInfo.setStart_time(info.getStart_time());
         nestInfo.setCreated_time(info.getCreated_time());
-        nestInfo.setMembers(info.getMembers());
         nestInfo.setChallenge_days(info.getChallenge_days());
         nestInfo.setName(info.getName());
         nestInfo.setDesc(info.getDesc());
+        nestInfo.set_id(info.getMyid());
+        nestInfo.setMembers_amount(info.getMembers_amount());
+        nestInfo.setCreator(info.getCreator());
+        nestInfo.setOwner(info.getOwner());
         nestInfo.setCover_image(info.getCover_image());
         return nestInfo;
     }
@@ -35,10 +38,13 @@ public class DataCloneUtil {
         nestInfo.setMembers_limit(info.getMembers_limit());
         nestInfo.setStart_time(info.getStart_time());
         nestInfo.setCreated_time(info.getCreated_time());
-        nestInfo.setMembers(info.getMembers());
         nestInfo.setChallenge_days(info.getChallenge_days());
         nestInfo.setName(info.getName());
         nestInfo.setDesc(info.getDesc());
+        nestInfo.setMyid(info.get_id());
+        nestInfo.setMembers_amount(info.getMembers_amount());
+        nestInfo.setCreator(info.getCreator());
+        nestInfo.setOwner(info.getOwner());
         nestInfo.setCover_image(info.getCover_image());
         return nestInfo;
     }
@@ -56,7 +62,12 @@ public class DataCloneUtil {
                 nestInfo.setChallenge_days(nnestInfo.getChallenge_days());
                 nestInfo.setName(nnestInfo.getName());
                 nestInfo.setDesc(nnestInfo.getDesc());
+                nestInfo.setMyid(nnestInfo.get_id());
+                nestInfo.setMembers_amount(nnestInfo.getMembers_amount());
+                nestInfo.setCreator(nnestInfo.getCreator());
+                nestInfo.setOwner(nnestInfo.getOwner());
                 nestInfo.setCover_image(nnestInfo.getCover_image());
+
                 reslut.add(nestInfo);
             }
         }
@@ -77,6 +88,10 @@ public class DataCloneUtil {
                 nestInfo.setName(nnestInfo.getName());
                 nestInfo.setDesc(nnestInfo.getDesc());
                 nestInfo.setCover_image(nnestInfo.getCover_image());
+                nestInfo.set_id(nnestInfo.getMyid());
+                nestInfo.setMembers_amount(nnestInfo.getMembers_amount());
+                nestInfo.setCreator(nnestInfo.getCreator());
+                nestInfo.setOwner(nnestInfo.getOwner());
                 reslut.add(nestInfo);
             }
         }
