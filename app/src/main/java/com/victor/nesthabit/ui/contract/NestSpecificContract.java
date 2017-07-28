@@ -23,6 +23,10 @@ public interface NestSpecificContract {
 
         void setId(long id);
 
+        void setToolbar(String title);
+
+        void setMaxProgress(float progress);
+
         void setTotalProgress(float progress);
 
         void setConstantProgresss(float progresss);

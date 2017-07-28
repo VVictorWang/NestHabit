@@ -26,6 +26,8 @@ import com.victor.nesthabit.view.CircleProgressBar;
 
 import java.lang.reflect.Field;
 
+import static android.R.attr.max;
+
 public class NestSpecificActivity extends BaseActivity implements NestSpecificContract.View {
 
     private android.widget.ImageView back;
@@ -226,6 +228,17 @@ public class NestSpecificActivity extends BaseActivity implements NestSpecificCo
     @Override
     public void setId(long id) {
         myid = id;
+    }
+
+    @Override
+    public void setToolbar(String title) {
+        headertext.setText(title);
+    }
+
+    @Override
+    public void setMaxProgress(float progress) {
+        totalprogress.setMaxProgress((int) progress);
+        constantprogress.setMaxProgress((int) progress);
     }
 
     @Override

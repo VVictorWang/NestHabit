@@ -17,6 +17,7 @@ import com.victor.nesthabit.util.PrefsUtils;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
@@ -55,8 +56,8 @@ public class LoginActivity extends BaseActivity {
                 UserApi userApi = UserApi.getInstance();
                 Observable<retrofit2.Response<LoginResponse>> response = userApi.login("test",
                         "12345");
-                response.subscribeOn(Schedulers.newThread())
-                        .observeOn(Schedulers.io())
+                response.subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
                         .doOnNext(new Consumer<Response<LoginResponse>>() {
                             @Override
                             public void accept(@NonNull Response<LoginResponse>

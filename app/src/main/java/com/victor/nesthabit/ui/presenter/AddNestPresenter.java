@@ -17,6 +17,7 @@ import com.victor.nesthabit.util.PrefsUtils;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
@@ -64,13 +65,13 @@ public class AddNestPresenter implements AddNestContract.Presenter {
                 nestInfo.setMembers_limit(0);
 
             Observable<Response<AddNestResponse>> responseObservable = UserApi.getInstance()
-                    .addNest(nestInfo.getName(), nestInfo.getDesc(), nestInfo
-                                    .getMembers_limit(), nestInfo.getStart_time(), nestInfo
+                    .addNest(nestInfo.getName(), nestInfo.getDesc(), nestInfo.getMembers_limit(),
+                            nestInfo.getStart_time(), nestInfo
                                     .getChallenge_days(),
                             false, PrefsUtils.getValue(AppUtils.getAppContext(), GlobalData
                                     .AUTHORIZATION, "null"));
-            responseObservable.subscribeOn(Schedulers.newThread())
-                    .observeOn(Schedulers.io())
+            responseObservable.subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
                     .doOnNext(new Consumer<Response<AddNestResponse>>() {
                         @Override
                         public void accept(@NonNull Response<AddNestResponse>

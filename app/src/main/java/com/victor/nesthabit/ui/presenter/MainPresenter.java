@@ -13,6 +13,7 @@ import org.litepal.crud.DataSupport;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
@@ -43,10 +44,9 @@ public class MainPresenter implements MainContract.Presenter {
         Observable<Response<UserInfo>> responseObservable = api.getUserInfo(PrefsUtils.getValue
                         (AppUtils.getAppContext(), GlobalData.USERNAME, "null"),
                 PrefsUtils.getValue(AppUtils.getAppContext(), GlobalData.AUTHORIZATION, "null"));
-        Log.d(TAG, PrefsUtils.getValue
-                (AppUtils.getAppContext(), GlobalData.USERNAME, "null"));
-        responseObservable.subscribeOn(Schedulers.newThread())
-                .observeOn(Schedulers.io())
+        Log.d(TAG, PrefsUtils.getValue(AppUtils.getAppContext(), GlobalData.USERNAME, "null"));
+        responseObservable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(new Consumer<Response<UserInfo>>() {
                     @Override
                     public void accept(@NonNull Response<UserInfo> userInfoResponse) throws

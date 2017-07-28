@@ -49,7 +49,7 @@ public class JsonRequestBody {
             jsonObject.put("name", name);
             jsonObject.put("desc", desc);
             jsonObject.put("members_limit", member_limit);
-            jsonObject.put("start_time", (int)start_time);
+            jsonObject.put("start_time", (int) start_time);
             jsonObject.put("challenge_days", days);
             jsonObject.put("open", isOpen);
         } catch (Exception e) {

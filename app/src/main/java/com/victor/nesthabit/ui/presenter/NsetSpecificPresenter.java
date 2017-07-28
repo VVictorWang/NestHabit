@@ -15,6 +15,9 @@ import org.litepal.crud.DataSupport;
 import java.util.List;
 
 import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Response;
 
@@ -27,6 +30,7 @@ import retrofit2.Response;
 public class NsetSpecificPresenter implements NestSpecificContract.Presenter{
     private NestSpecificContract.View mView;
     public static final String TAG = "@victor NsetSpecific";
+    private MyNestInfo mMyNestInfo;
 
     public NsetSpecificPresenter(NestSpecificContract.View view) {
         mView = view;
@@ -40,17 +44,32 @@ public class NsetSpecificPresenter implements NestSpecificContract.Presenter{
             Observable<Response<NestInfo>> observable = UserApi.getInstance().getNestInfo(id,
                     Utils.getHeader());
             observable.subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnNext(new Consumer<Response<NestInfo>>() {
+                        @Override
+                        public void accept(@NonNull Response<NestInfo> nestInfoResponse) throws Exception {
+
+                        }
+                    })
                     .subscribe(nestInfoResponse -> {
                         Log.d(TAG, "code nest:" + nestInfoResponse.code());
                         if (nestInfoResponse.code() == 200) {
                             List<MyNestInfo> nestInfos = DataSupport.findAll(MyNestInfo.class);
-                            MyNestInfo info = null;
                             for (MyNestInfo nestInfo : nestInfos) {
+                                Log.d(TAG, "info id: " + nestInfo.getMyid());
+                                Log.d(TAG, "responce id :" + nestInfoResponse.body().get_id());
                                 if (nestInfo.getMyid().equals(nestInfoResponse.body().get_id())) {
-                                    info = nestInfo;
+                                    mMyNestInfo = nestInfo;
                                 }
                             }
-                            mView.setId(info.getId());
+                            if (mMyNestInfo != null) {
+                                mView.setId(mMyNestInfo.getId());
+                                mView.setToolbar(mMyNestInfo.getName());
+                                mView.setTotalday(mMyNestInfo.getDay_insist());
+                                mView.setMaxProgress(mMyNestInfo.getChallenge_days());
+                                mView.setTotalProgress((mMyNestInfo.getDay_insist() + 20));
+                                mView.setConstantProgresss(mMyNestInfo.getDay_insist() + 10);
+                            }
                         }
                     });
         }
@@ -60,6 +79,8 @@ public class NsetSpecificPresenter implements NestSpecificContract.Presenter{
     public void checkin() {
         mView.setTotalday(mView.getTotalday() + 1);
         mView.setConstantDay(mView.getConstantDay() + 1);
+        mView.setTotalProgress(mView.getTotalday());
+        mView.setConstantProgresss(mView.getConstantDay());
     }
 
 }

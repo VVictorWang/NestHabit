@@ -57,7 +57,7 @@ public class ClockListPresenter implements ClockListContract.Presenter, MainPres
     public void begin(long id) {
         UserInfo info = DataSupport.find(UserInfo.class, id);
         List<String> alarmids = new ArrayList<>();
-        if (info != null) {
+        if (info != null && info.getAlarm_clocks() != null) {
             alarmids = info.getAlarm_clocks();
         }
         if (!alarmids.isEmpty()) {
