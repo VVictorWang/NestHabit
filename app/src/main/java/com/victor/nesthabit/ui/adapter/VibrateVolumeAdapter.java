@@ -1,15 +1,25 @@
 package com.victor.nesthabit.ui.adapter;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.view.SwitchButton;
+
+import static android.os.Build.VERSION_CODES.M;
 
 /**
  * Created by victor on 7/21/17.
@@ -18,8 +28,12 @@ import com.victor.nesthabit.view.SwitchButton;
  */
 
 public class VibrateVolumeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    public static final int VIBRATE_TYPE = 1;
-    public static final int VOLUME_TYPE = 2;
+    private static final int VIBRATE_TYPE = 1;
+    private static final int VOLUME_TYPE = 2;
+    private static final int PROFILE_MUSIC = 3;
+    private Context mContext;
+    private int profileposiition = -1;
+    private MediaPlayer mMediaPlayer;
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -29,27 +43,90 @@ public class VibrateVolumeAdapter extends RecyclerView.Adapter<RecyclerView.View
         } else if (viewType == VOLUME_TYPE) {
             return new VolumeViewHoler(LayoutInflater.from(parent.getContext()).inflate(R.layout
                     .volume_layout, null));
+        } else if (viewType == PROFILE_MUSIC) {
+            return new MusicListAdapter.MyViewHolder(LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.music_list_adapter, null));
         }
         return null;
+    }
+
+    public VibrateVolumeAdapter(Context context, int profileposiition) {
+        mContext = context;
+        this.profileposiition = profileposiition;
     }
 
     @Override
     public int getItemViewType(int position) {
         if (position == 0) {
             return VIBRATE_TYPE;
-        } else
+        } else if (position == 1) {
             return VOLUME_TYPE;
+        } else {
+            return PROFILE_MUSIC;
+        }
 
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        int type = getItemViewType(position);
+        if (type == VOLUME_TYPE) {
+            ((VolumeViewHoler) holder).progressBar.setOnSeekBarChangeListener(new SeekBar
+                    .OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    AudioManager manager = (AudioManager
+                            ) mContext.getSystemService(Context.AUDIO_SERVICE);
+                    manager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, AudioManager
+                            .FLAG_PLAY_SOUND);
+                    ((VolumeViewHoler) holder).percent.setText(progress + "%");
+                }
 
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+
+                }
+            });
+        } else if (type == PROFILE_MUSIC && profileposiition != -1) {
+            Cursor cursor = mContext.getContentResolver().query(MediaStore.Audio.Media
+                    .EXTERNAL_CONTENT_URI, null, null, null, null);
+            cursor.moveToPosition(profileposiition);
+            ((MusicListAdapter.MyViewHolder) holder).isChecked.setVisibility(View.VISIBLE);
+            ((MusicListAdapter.MyViewHolder) holder).name.setText(cursor.getString(cursor
+                    .getColumnIndex(MediaStore.Audio.Media
+                            .TITLE)));
+            playMusic(cursor.getString(cursor.getColumnIndex(MediaStore.Audio
+                    .Media.DATA)));
+
+        }
+    }
+
+    private void playMusic(String data) {
+        Uri uri = Uri.parse(data);
+        mMediaPlayer = MediaPlayer.create(mContext, uri);
+        mMediaPlayer.setLooping(true);
+        mMediaPlayer.start();
+    }
+
+    public void stopMusic() {
+        if (mMediaPlayer != null && mMediaPlayer.isPlaying()) {
+            mMediaPlayer.stop();
+            mMediaPlayer = null;
+        }
     }
 
     @Override
     public int getItemCount() {
-        return 2;
+        if (profileposiition == -1) {
+            return 2;
+        } else {
+            return 3;
+        }
     }
 
     static class ViberateViewHoler extends RecyclerView.ViewHolder {
@@ -62,15 +139,13 @@ public class VibrateVolumeAdapter extends RecyclerView.Adapter<RecyclerView.View
     }
 
     static class VolumeViewHoler extends RecyclerView.ViewHolder {
-        private CardView vibrateLayout;
-        private RelativeLayout volumeLayout;
         private SeekBar progressBar;
+        private TextView percent;
 
         public VolumeViewHoler(View itemView) {
             super(itemView);
-            vibrateLayout = (CardView) itemView.findViewById(R.id.vibrate_layout);
-            volumeLayout = (RelativeLayout) itemView.findViewById(R.id.volume_layout);
             progressBar = (SeekBar) itemView.findViewById(R.id.progress_bar);
+            percent = (TextView) itemView.findViewById(R.id.volume_percent);
         }
     }
 }

@@ -25,10 +25,13 @@ public class MusicSettingAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private Context mContext;
     public static final String TAG = "@victor ListAdapter";
     private MusicListAdapter mMusicListAdapter;
+    private int profileposition = -1;
+    private VibrateVolumeAdapter mVibrateVolumeAdapter;
 
 
-    public MusicSettingAdapter(Context context) {
+    public MusicSettingAdapter(Context context,int profileposition) {
         mContext = context;
+        this.profileposition = profileposition;
     }
 
     @Override
@@ -73,13 +76,15 @@ public class MusicSettingAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((MyViewHolder) holder).mRecyclerView.setLayoutManager(new LinearLayoutManager
                     (mContext));
             mMusicListAdapter = new MusicListAdapter(mContext, ((MyViewHolder) holder)
-                    .mRecyclerView, false);
+                    .mRecyclerView, false,profileposition);
             ((MyViewHolder) holder).mRecyclerView.setAdapter(mMusicListAdapter);
 
         } else if (type == VIBRATE_VOLUME_TYPE) {
             ((VibrateVolumeViewHoler) holder).mRecyclerView.setLayoutManager(new
                     LinearLayoutManager(mContext));
-            ((VibrateVolumeViewHoler) holder).mRecyclerView.setAdapter(new VibrateVolumeAdapter());
+            mVibrateVolumeAdapter = new VibrateVolumeAdapter
+                    (mContext, profileposition);
+            ((VibrateVolumeViewHoler) holder).mRecyclerView.setAdapter(mVibrateVolumeAdapter);
         }
 
 
@@ -88,6 +93,9 @@ public class MusicSettingAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public void stopPlaying() {
         if (mMusicListAdapter != null) {
             mMusicListAdapter.stopPlaying();
+        }
+        if (mVibrateVolumeAdapter != null) {
+            mVibrateVolumeAdapter.stopMusic();
         }
     }
 

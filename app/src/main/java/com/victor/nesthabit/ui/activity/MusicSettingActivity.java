@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
+import com.victor.nesthabit.data.Musicdata;
 import com.victor.nesthabit.ui.adapter.MusicSettingAdapter;
 import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.util.ActivityManager;
@@ -25,11 +26,14 @@ public class MusicSettingActivity extends BaseActivity {
     private RecyclerView musiclist;
     private CardView musiclayout;
     private TextView finish;
+    private int profileposition = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        if (getIntent() != null ) {
+            profileposition = getIntent().getIntExtra("profile", -1);
+        }
     }
 
     @Override
@@ -50,7 +54,7 @@ public class MusicSettingActivity extends BaseActivity {
         this.back = (ImageView) findViewById(R.id.back);
         finish = (TextView) findViewById(R.id.right_text);
         musiclist.setLayoutManager(new LinearLayoutManager(MusicSettingActivity.this));
-        adapter = new MusicSettingAdapter(MusicSettingActivity.this);
+        adapter = new MusicSettingAdapter(MusicSettingActivity.this, profileposition);
         musiclist.setAdapter(adapter);
     }
 

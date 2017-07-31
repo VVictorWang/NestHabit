@@ -32,12 +32,15 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.MyVi
     private boolean isProfile;
     private MediaPlayer mMediaPlayer;
     public static final String TAG = "@victor ListAdapter";
+    private int profileposition = -1;
 
 
-    public MusicListAdapter(Context context, RecyclerView recyclerView, boolean isProfile) {
+    public MusicListAdapter(Context context, RecyclerView recyclerView, boolean isProfile, int
+            profileposition) {
         mContext = context;
         mRecyclerView = recyclerView;
         this.isProfile = isProfile;
+        this.profileposition = profileposition;
         if (!isProfile) {
             mCursor = context.getContentResolver().query(MediaStore.Audio.Media
                             .INTERNAL_CONTENT_URI, null, null,
@@ -58,7 +61,9 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.MyVi
     }
 
     private void notifyOthers(MyViewHolder holder) {
-        tickedHoler.isChecked.setVisibility(View.INVISIBLE);
+        if (tickedHoler != null) {
+            tickedHoler.isChecked.setVisibility(View.INVISIBLE);
+        }
         holder.isChecked.setVisibility(View.VISIBLE);
         tickedHoler = holder;
     }
@@ -83,7 +88,7 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.MyVi
                     }
                 }
             });
-            if (position == 0) {
+            if (profileposition == -1 && position == 0) {
                 tickedHoler = holder;
                 holder.isChecked.setVisibility(View.VISIBLE);
                 mCursor.moveToFirst();
@@ -123,10 +128,10 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.MyVi
     }
 
 
-    static class MyViewHolder extends RecyclerView.ViewHolder {
-        private TextView name;
-        private ImageView isChecked;
-        private RelativeLayout mRelativeLayout;
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView name;
+        public ImageView isChecked;
+        public RelativeLayout mRelativeLayout;
 
         MyViewHolder(View itemView) {
             super(itemView);
@@ -137,9 +142,9 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.MyVi
     }
 
     public String getMusic() {
-
         return tickedHoler.name.getText().toString();
 
     }
+
 
 }

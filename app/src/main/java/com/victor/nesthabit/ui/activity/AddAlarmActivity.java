@@ -1,11 +1,18 @@
 package com.victor.nesthabit.ui.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,6 +32,8 @@ import com.victor.nesthabit.view.SwitchButton;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.victor.nesthabit.R.color.cursor;
 
 public class AddAlarmActivity extends BaseActivity implements View.OnClickListener, AddAlarmContract
         .View {
@@ -56,7 +65,7 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
     private AddAlarmContract.Presenter mPresenter;
     private List<Integer> weeks = new ArrayList<>();
     private long id = -1;
-
+    public static final String TAG = "@victor AddAlarmActi";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -151,10 +160,24 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void initEvent() {
         music_layout.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
-                ActivityManager.startActivityForResult(getActivity(), MusicSettingActivity
-                        .class, 222);
+                Intent intent = new Intent(AddAlarmActivity.this, MusicSettingActivity.class);
+                if (!(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) ==
+                        PackageManager
+                                .PERMISSION_GRANTED)) {
+                    requestPermissions(new String[]{Manifest.permission
+                            .READ_EXTERNAL_STORAGE}, 101);
+                } else {
+                    int position = containsInProfile(getMusic());
+                    Log.d(TAG, "position : " + position);
+                    if (position != -1) {
+                        intent.putExtra("profile", position);
+                    }
+                    ActivityManager.startActivityForResult(getActivity(), intent, 222);
+                }
+
             }
         });
         title_layout.setOnClickListener(new View.OnClickListener() {
@@ -167,6 +190,12 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onClick(View v) {
                 ActivityManager.finishActivity(getActivity());
+            }
+        });
+        cagelayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityManager.startActivity(getActivity(), ChooseNestActivity.class);
             }
         });
 
@@ -243,9 +272,13 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
-    private boolean containsInProfile(String music) {
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private int containsInProfile(String music) {
         Cursor cursor = getActivity().getContentResolver().query(MediaStore.Audio.Media
                 .EXTERNAL_CONTENT_URI, null, null, null, null);
+        boolean c = cursor == null;
+        Log.d(TAG, "cursor: " + c);
         if (cursor != null) {
             cursor.moveToFirst();
             while (cursor.moveToNext()) {
@@ -253,11 +286,12 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
                         (MediaStore.Audio.Media
                                 .TITLE));
                 if (name.equals(music))
-                    return true;
+                    return cursor.getPosition();
 
             }
         }
-        return false;
+
+        return -1;
     }
 
     @Override

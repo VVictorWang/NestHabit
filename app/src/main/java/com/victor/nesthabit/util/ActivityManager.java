@@ -71,6 +71,11 @@ public class ActivityManager {
         activity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
 
     }
+    public static void startActivityForResult(Activity activity, Intent intent,int requestCode) {
+        activity.startActivityForResult(intent, requestCode);
+        activity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+
+    }
 
     public static void startActivity(Activity activity, Class<?> cls) {
         Intent intent = new Intent();

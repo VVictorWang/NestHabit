@@ -69,6 +69,7 @@ public class NsetSpecificPresenter implements NestSpecificContract.Presenter{
                                 mView.setMaxProgress(mMyNestInfo.getChallenge_days());
                                 mView.setTotalProgress((mMyNestInfo.getDay_insist() + 20));
                                 mView.setConstantProgresss(mMyNestInfo.getDay_insist() + 10);
+
                             }
                         }
                     });

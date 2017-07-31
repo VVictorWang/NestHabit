@@ -91,6 +91,7 @@ public class NestListFragment extends Fragment implements NestListContract.View 
 
     private void initView() {
         mRecyclerView = (RecyclerView) rootview.findViewById(R.id.birdcage_recyclerview);
+        (rootview.findViewById(R.id.right_text)).setVisibility(View.INVISIBLE);
         add = (FloatingActionButton) rootview.findViewById(R.id.add);
         setting = (CircleImageView) rootview.findViewById(R.id.setting);
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2,

@@ -22,7 +22,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.activity.MainActivity"/>
-        <activity android:name=".ui.activity.RecordActivity"/>
         <activity android:name=".ui.activity.AlarmActivity"/>
 
         <service
@@ -71,6 +70,8 @@
         <activity android:name=".ui.activity.AddRemindActivity">
         </activity>
         <activity android:name=".ui.activity.ChooseActivity">
+        </activity>
+        <activity android:name=".ui.activity.ChooseNestActivity">
         </activity>
     </application>
 
