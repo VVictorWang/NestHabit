@@ -78,6 +78,12 @@
     <string name="please_choose">请选择</string>
     <string name="can_not_be_empty">不能为空</string>
     <string name="choose_nest">选择鸟窝</string>
+    <string name="share_hint">说点什么吧</string>
+    <string name="publish">发布</string>
+    <string name="share_and_record">记录和分享</string>
+    <string name="share_successfully">记录并发布成功</string>
+    <string name="share_to_other">分享到社交圈</string>
+    <string name="add_success">创建成功</string>
     <string-array name="custome_weekday">
         <item>日</item>
         <item>一</item>

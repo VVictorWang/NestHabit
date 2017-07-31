@@ -73,6 +73,10 @@
         </activity>
         <activity android:name=".ui.activity.ChooseNestActivity">
         </activity>
+        <activity android:name=".ui.activity.ShareActivity">
+        </activity>
+        <activity android:name=".ui.activity.ShareSuccessActivity">
+        </activity>
     </application>
 
 </manifest>
