@@ -1,5 +1,6 @@
 package com.victor.nesthabit.ui.presenter;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.victor.nesthabit.api.UserApi;
@@ -8,17 +9,21 @@ import com.victor.nesthabit.data.UserInfo;
 import com.victor.nesthabit.ui.contract.MainContract;
 import com.victor.nesthabit.util.AppUtils;
 import com.victor.nesthabit.util.PrefsUtils;
+import com.victor.nesthabit.util.RxUtil;
+import com.victor.nesthabit.util.Utils;
 
 import org.litepal.crud.DataSupport;
 
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
+import java.util.function.Consumer;
+
 import retrofit2.Response;
+import rx.Observable;
+import rx.Observer;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
+import static com.victor.nesthabit.util.RxUtil.rxCacheBeanHelper;
 
 /**
  * Created by victor on 7/25/17.
@@ -41,53 +46,26 @@ public class MainPresenter implements MainContract.Presenter {
     public void start() {
         mView.showProgress();
         UserApi api = UserApi.getInstance();
-        Observable<Response<UserInfo>> responseObservable = api.getUserInfo(PrefsUtils.getValue
-                        (AppUtils.getAppContext(), GlobalData.USERNAME, "null"),
-                PrefsUtils.getValue(AppUtils.getAppContext(), GlobalData.AUTHORIZATION, "null"));
-        Log.d(TAG, PrefsUtils.getValue(AppUtils.getAppContext(), GlobalData.USERNAME, "null"));
-        responseObservable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(new Consumer<Response<UserInfo>>() {
-                    @Override
-                    public void accept(@NonNull Response<UserInfo> userInfoResponse) throws
-                            Exception {
-                        Log.d(TAG, "code: " + userInfoResponse.code());
-                        if (userInfoResponse.code() == 200) {
-                            DataSupport.deleteAll(UserInfo.class);
-                            userInfoResponse.body().save();
-                        }
-                    }
-                })
-                .subscribe(new Observer<Response<UserInfo>>() {
-                    @Override
-                    public void onSubscribe(@NonNull Disposable d) {
-                    }
-
-                    @Override
-                    public void onNext(@NonNull Response<UserInfo> userInfoResponse) {
-                        Log.d(TAG, "code: " + userInfoResponse.code());
-                        if (userInfoResponse.code() == 200) {
-                            mView.saveUserId(userInfoResponse.body().getId());
-                            if (sNestDateBegin != null) {
-                                sNestDateBegin.begin(userInfoResponse.body().getId());
-                                Log.d(TAG, "nestbegin");
-                            }
-                            if (sClockDataBegin != null) {
-                                sClockDataBegin.begin(userInfoResponse.body().getId());
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
+        String key = Utils.createAcacheKey("get-userinfo",Utils.getUsername());
+        Observable<UserInfo> responseObservable = api.getUserInfo(Utils.getUsername(),
+                Utils.getHeader()).compose(RxUtil.<UserInfo>rxCacheBeanHelper(key));
+//        Subscription subscription = Observable.concat(RxUtil.rxCreateDiskObservable(key,Response<UserInfo>.getClass()))
+        
+//        if (userInfoResponse.code() == 200) {
+//            DataSupport.deleteAll(UserInfo.class);
+//            userInfoResponse.body().save();
+//        }
+//        Log.d(TAG, "code: " + userInfoResponse.code());
+//        if (userInfoResponse.code() == 200) {
+//            mView.saveUserId(userInfoResponse.body().getId());
+//            if (sNestDateBegin != null) {
+//                sNestDateBegin.begin(userInfoResponse.body().getId());
+//                Log.d(TAG, "nestbegin");
+//            }
+//            if (sClockDataBegin != null) {
+//                sClockDataBegin.begin(userInfoResponse.body().getId());
+//            }
+//        }
 
     }
 

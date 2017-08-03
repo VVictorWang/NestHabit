@@ -1,6 +1,7 @@
 package com.victor.nesthabit.ui.adapter;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -9,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -44,6 +46,7 @@ public class RemindFriendAdapter extends RecyclerView.Adapter<RemindFriendAdapte
         mRecordItems.add(recordItem);
         notifyDataSetChanged();
     }
+
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
         private CircleImageView play;
@@ -112,7 +115,33 @@ public class RemindFriendAdapter extends RecyclerView.Adapter<RemindFriendAdapte
                 ActivityManager.startActivity((Activity) mContext, intent);
             }
         });
-
+        holder.mCardView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                View view = LayoutInflater.from(mContext).inflate(R.layout.delete_dialog, null);
+                TextView textView = (TextView) view.findViewById(R.id.delete_text);
+                Button cancel = (Button) view.findViewById(R.id.cancel);
+                Button ensure = (Button) view.findViewById(R.id.delete);
+                textView.setText(mContext.getString(R.string.delete_remind));
+                AlertDialog dialog = new AlertDialog.Builder(mContext).setView(view).create();
+                dialog.show();
+                ensure.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mRecordItems.remove(recordItem);
+                        notifyDataSetChanged();
+                        dialog.dismiss();
+                    }
+                });
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                return false;
+            }
+        });
     }
 
     private void onPlay(boolean isPlaying, RecordItem recordItem, CircleImageView play) {

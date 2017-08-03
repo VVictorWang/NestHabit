@@ -72,7 +72,7 @@ public class ChooseActivity extends BaseActivity {
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(6,
                 StaggeredGridLayoutManager.VERTICAL);
         list.setLayoutManager(layoutManager);
-        MemberListAdapter adapter = new MemberListAdapter(ChooseActivity.this,true);
+        MemberListAdapter adapter = new MemberListAdapter(ChooseActivity.this, true, false);
         list.setAdapter(adapter);
         calendar.state().edit().setMinimumDate(Calendar.getInstance().getTime()
         ).commit();
@@ -92,6 +92,13 @@ public class ChooseActivity extends BaseActivity {
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay
                     date, boolean selected) {
                 mCalendarDay = date;
+            }
+        });
+        choosefriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ActivityManager.startActivityForResult(getActivity(), ChooseFriendActivity.class,
+                        123);
             }
         });
 

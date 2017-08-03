@@ -12,13 +12,13 @@ import com.victor.nesthabit.data.UserInfo;
 
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Observable;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Observable;
 
 
 /**
@@ -34,7 +34,7 @@ public class UserApi {
     public UserApi(OkHttpClient client) {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(GlobalData.BASE_URL)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
@@ -52,64 +52,64 @@ public class UserApi {
         return instance;
     }
 
-    public Observable<Response<RegisterResponse>> register(String username, String password) {
+    public Observable<RegisterResponse> register(String username, String password) {
         return mApiService.register(JsonRequestBody.getJsonRegister(username, password));
     }
 
-    public Observable<Response<LoginResponse>> login(String username, String paswword) {
+    public Observable<LoginResponse> login(String username, String paswword) {
         return mApiService.login(username, JsonRequestBody.getJsonLogin(paswword));
     }
 
-    public Observable<Response<MsgResponse>> logout(String username, String authorization) {
+    public Observable<MsgResponse> logout(String username, String authorization) {
         return mApiService.logout(username, authorization);
     }
 
-    public Observable<Response<UserInfo>> getUserInfo(String username, String authorization) {
+    public Observable<UserInfo> getUserInfo(String username, String authorization) {
         return mApiService.getUserInfor(username, authorization);
     }
 
-    public Observable<Response<UserInfo>> changeNickname(String nickname, String header) {
+    public Observable<UserInfo> changeNickname(String nickname, String header) {
         return mApiService.changeNickname(JsonRequestBody.getNickname(nickname), header);
     }
 
-    public Observable<Response<AddNestResponse>> addNest(String name, String desc, int
+    public Observable<AddNestResponse> addNest(String name, String desc, int
             member_limit, long start_time, int days, boolean isOpen, String header) {
         return mApiService.addNest(JsonRequestBody.getAddNest(name, desc, member_limit,
                 start_time, days, isOpen), header);
     }
 
-    public Observable<Response<NestInfo>> getNestInfo(String id, String header) {
+    public Observable<NestInfo> getNestInfo(String id, String header) {
         return mApiService.getNestInfo(id, header);
     }
 
-    public Observable<Response<MsgResponse>> deleteNest(String id, String header) {
+    public Observable<MsgResponse> deleteNest(String id, String header) {
         return mApiService.deleteNest(id, header);
     }
 
-    public Observable<Response<NestInfo>> changeNest(String id, RequestBody body, String header) {
+    public Observable<NestInfo> changeNest(String id, RequestBody body, String header) {
         return mApiService.changeNest(id, body, header);
     }
 
-    public Observable<Response<NestInfo>> deleteMember(String nestId, String membername, String
+    public Observable<NestInfo> deleteMember(String nestId, String membername, String
             header) {
         return mApiService.deleteMember(nestId, membername, header);
     }
 
-    public Observable<Response<JoinedNests>> enterNest(String username, String[] nests, String
+    public Observable<JoinedNests> enterNest(String username, String[] nests, String
             header) {
         return mApiService.enterNest(username, JsonRequestBody.getNest(nests), header);
     }
 
-    public Observable<Response<JoinedNests>> quitNset(String username, String[] nests, String
+    public Observable<JoinedNests> quitNset(String username, String[] nests, String
             header) {
         return mApiService.quitNest(username, JsonRequestBody.getNest(nests), header);
     }
 
-    public Observable<Response<JoinedNests>> getNestList(String username, String header) {
+    public Observable<JoinedNests> getNestList(String username, String header) {
         return mApiService.getNestList(username, header);
     }
 
-    public Observable<Response<AlarmResponse>> addAlarm(String title, int[] repeate, String
+    public Observable<AlarmResponse> addAlarm(String title, int[] repeate, String
             music_id, int duration_level, int volume_level, int nap_level, String bind_to_nest,
                                                         boolean willing_music, boolean
                                                                 willing_text, int[] time, String
@@ -120,15 +120,15 @@ public class UserApi {
                 willing_text, time), header);
     }
 
-    public Observable<Response<AlarmResponse>> getAlarm(String id, String header) {
+    public Observable<AlarmResponse> getAlarm(String id, String header) {
         return mApiService.getAlarm(id, header);
     }
 
-    public Observable<Response<MsgResponse>> deleteAlarm(String id, String header) {
+    public Observable<MsgResponse> deleteAlarm(String id, String header) {
         return mApiService.deleteAlarm(id, header);
     }
 
-    public Observable<Response<NestInfo>> changeAlarm(String id, RequestBody body, String header) {
+    public Observable<NestInfo> changeAlarm(String id, RequestBody body, String header) {
         return mApiService.changeAlarm(id, body, header);
     }
 

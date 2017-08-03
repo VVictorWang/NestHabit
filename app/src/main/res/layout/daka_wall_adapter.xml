@@ -31,12 +31,12 @@
             />
 
         <TextView
+            android:id="@+id/view_last"
             android:layout_width="3dp"
             android:layout_height="match_parent"
             android:layout_below="@+id/avatar"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="21dp"
-            android:id="@+id/view_last"
+            android:layout_marginTop="10dp"
             android:background="@color/name_color"
             />
 
@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="12dp"
             android:layout_toRightOf="@+id/avatar"
             android:text="黄思佳"
             android:textColor="@color/mygray"
@@ -57,7 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="12dp"
             android:layout_toRightOf="@+id/name"
             android:text="07:33"
             android:textColor="@color/mygray"
@@ -73,8 +73,10 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="3dp"
             android:layout_toRightOf="@+id/avatar"
-            android:background="@drawable/bubble"
+            android:background="@drawable/bubble_others"
             android:gravity="center_vertical"
+            android:letterSpacing="0.1"
+            android:lineSpacingMultiplier="1.2"
             android:padding="8dp"
             android:text="今天按时早起了，美好的一天"
             android:textColor="#FEFEFE"

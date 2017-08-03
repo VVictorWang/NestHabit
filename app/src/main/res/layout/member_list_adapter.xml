@@ -5,16 +5,26 @@
               android:orientation="vertical">
 
     <RelativeLayout
-        android:layout_width="75dp"
+        android:layout_width="78dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
         android:layout_marginTop="12dp"
         >
+        <com.victor.nesthabit.view.CircleImageView
+            android:id="@+id/avatar_choosen"
+            android:layout_width="76dp"
+            android:layout_height="77dp"
+            android:elevation="5dp"
+            android:src="@color/red"
+            android:visibility="invisible"
+            />
 
         <com.victor.nesthabit.view.CircleImageView
             android:id="@+id/avatar"
             android:layout_width="74dp"
             android:layout_height="74dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginTop="1.5dp"
             android:elevation="5dp"
             android:src="@drawable/huang"
             />

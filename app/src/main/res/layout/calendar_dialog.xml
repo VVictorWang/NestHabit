@@ -7,7 +7,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="450dp">
+        android:layout_height="355dp">
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
@@ -15,11 +15,46 @@
             app:cardCornerRadius="10dp"
             >
 
+
+            <RelativeLayout
+                android:id="@+id/head_layout"
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="@string/start_time"
+                    android:textColor="@color/text_clock"
+                    android:textSize="16sp"
+                    />
+
+                <TextView
+                    android:id="@+id/finish"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:text="@string/finish"
+                    />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/fenge"
+                    />
+            </RelativeLayout>
+
             <com.prolificinteractive.materialcalendarview.MaterialCalendarView
                 android:id="@+id/calendar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_height="300dp"
+                android:layout_marginTop="40dp"
                 app:mcv_dateTextAppearance="?android:attr/textAppearance"
                 app:mcv_firstDayOfWeek="sunday"
                 app:mcv_monthLabels="@array/custom_month"
@@ -28,35 +63,7 @@
                 app:mcv_weekDayTextAppearance="?android:attr/textAppearanceMedium"
                 />
 
-            <Button
-                android:id="@+id/ensure"
-                android:layout_width="110dp"
-                android:layout_height="50dp"
-                android:layout_gravity="bottom"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="34dp"
-                android:background="@drawable/btn_background_red"
-                android:elevation="5dp"
-                android:text="@string/ensure"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                />
 
-            <Button
-                android:id="@+id/cancel"
-                android:layout_width="110dp"
-                android:layout_height="50dp"
-                android:layout_gravity="bottom|right"
-                android:layout_marginBottom="10dp"
-                android:layout_marginRight="34dp"
-                android:background="@drawable/btn_background_gray"
-                android:elevation="5dp"
-                android:text="@string/cancel"
-                android:textColor="@color/white"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                />
         </android.support.v7.widget.CardView>
     </RelativeLayout>
 

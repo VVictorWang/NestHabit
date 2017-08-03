@@ -1,5 +1,6 @@
 package com.victor.nesthabit.ui.presenter;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.victor.nesthabit.api.UserApi;
@@ -14,15 +15,13 @@ import com.victor.nesthabit.util.DataCloneUtil;
 import com.victor.nesthabit.util.DateUtils;
 import com.victor.nesthabit.util.PrefsUtils;
 
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.Scheduler;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
+import java.util.function.Consumer;
+
 import retrofit2.Response;
+import rx.Observable;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by victor on 7/22/17.
@@ -64,59 +63,31 @@ public class AddNestPresenter implements AddNestContract.Presenter {
             } else
                 nestInfo.setMembers_limit(0);
 
-            Observable<Response<AddNestResponse>> responseObservable = UserApi.getInstance()
+            Observable<AddNestResponse> responseObservable = UserApi.getInstance()
                     .addNest(nestInfo.getName(), nestInfo.getDesc(), nestInfo.getMembers_limit(),
                             nestInfo.getStart_time(), nestInfo
                                     .getChallenge_days(),
                             false, PrefsUtils.getValue(AppUtils.getAppContext(), GlobalData
                                     .AUTHORIZATION, "null"));
-            responseObservable.subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .doOnNext(new Consumer<Response<AddNestResponse>>() {
-                        @Override
-                        public void accept(@NonNull Response<AddNestResponse>
-                                                   addNestResponseResponse) throws Exception {
-                            Log.d(TAG, addNestResponseResponse.code() + " code");
-                            if (addNestResponseResponse.code() == 200) {
-                                nestInfo.setMyid(addNestResponseResponse.body().get_id());
-                                Log.d(TAG, addNestResponseResponse.body().get_id());
-                                nestInfo.setCreated_time(addNestResponseResponse.body()
-                                        .getCreated_time());
-                                nestInfo.setCreator(addNestResponseResponse.body().getCreator());
-                                nestInfo.setOwner(addNestResponseResponse.body().getOwner());
-                                nestInfo.setMembers_amount(addNestResponseResponse.body()
-                                        .getMembers_amount());
-                                nestInfo.save();
-                            }
-                        }
-                    })
-                    .subscribe(new Observer<Response<AddNestResponse>>() {
-                        @Override
-                        public void onSubscribe(@NonNull Disposable d) {
+//            Log.d(TAG, addNestResponseResponse.code() + " code");
+//            if (addNestResponseResponse.code() == 200) {
+//                nestInfo.setMyid(addNestResponseResponse.body().get_id());
+//                Log.d(TAG, addNestResponseResponse.body().get_id());
+//                nestInfo.setCreated_time(addNestResponseResponse.body()
+//                        .getCreated_time());
+//                nestInfo.setCreator(addNestResponseResponse.body().getCreator());
+//                nestInfo.setOwner(addNestResponseResponse.body().getOwner());
+//                nestInfo.setMembers_amount(addNestResponseResponse.body()
+//                        .getMembers_amount());
+//                nestInfo.save();
+//            }
 
-                        }
-
-                        @Override
-                        public void onNext(@NonNull Response<AddNestResponse>
-                                                   addNestResponseResponse) {
-                            Log.d(TAG, nestInfo.getMyid());
-                            if (sOnCageDataChanged != null) {
-                                sOnCageDataChanged.OnDataAdded(DataCloneUtil.cloneMynestToNest
-                                        (nestInfo));
-                            }
-                            mView.finishActivity();
-                        }
-
-                        @Override
-                        public void onError(@NonNull Throwable e) {
-
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    });
+//            Log.d(TAG, nestInfo.getMyid());
+//            if (sOnCageDataChanged != null) {
+//                sOnCageDataChanged.OnDataAdded(DataCloneUtil.cloneMynestToNest
+//                        (nestInfo));
+//            }
+//            mView.finishActivity();
         }
     }
 

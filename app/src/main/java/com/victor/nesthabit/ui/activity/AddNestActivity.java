@@ -99,8 +99,7 @@ public class AddNestActivity extends BaseActivity implements AddNestContract.Vie
             public void onClick(View v) {
                 View view = LayoutInflater.from(getActivity()).inflate(R.layout
                         .calendar_dialog, null);
-                Button ensure = (Button) view.findViewById(R.id.ensure);
-                Button cancel = (Button) view.findViewById(R.id.cancel);
+                TextView finish = (TextView) view.findViewById(R.id.finish);
                 MaterialCalendarView calendarView = (MaterialCalendarView) view.findViewById(R.id
                         .calendar);
                 calendarView.state().edit().setMinimumDate(Calendar.getInstance().getTime()
@@ -111,20 +110,15 @@ public class AddNestActivity extends BaseActivity implements AddNestContract.Vie
                 builder.setView(view);
                 AlertDialog dialog = builder.create();
                 dialog.show();
-                ensure.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        setStartTime(DateUtils.DatetoString(calendarView.getSelectedDate().getDate
-                                ()));
-                        dialog.dismiss();
-                    }
-                });
-                cancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
+               finish.setOnClickListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View v) {
+                       setStartTime(DateUtils.DatetoString(calendarView.getSelectedDate().getDate
+                               ()));
+                       dialog.dismiss();
+                   }
+               });
+
             }
         });
 

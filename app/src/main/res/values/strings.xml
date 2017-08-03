@@ -84,6 +84,7 @@
     <string name="share_successfully">记录并发布成功</string>
     <string name="share_to_other">分享到社交圈</string>
     <string name="add_success">创建成功</string>
+    <string name="delete_remind">将该提醒从列表中删除</string>
     <string-array name="custome_weekday">
         <item>日</item>
         <item>一</item>

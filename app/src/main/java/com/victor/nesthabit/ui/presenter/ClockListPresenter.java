@@ -17,11 +17,9 @@ import org.litepal.crud.DataSupport;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Observable;
-import io.reactivex.schedulers.Schedulers;
 import retrofit2.Response;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
+import rx.Observable;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by victor on 7/25/17.
@@ -62,20 +60,17 @@ public class ClockListPresenter implements ClockListContract.Presenter, MainPres
         }
         if (!alarmids.isEmpty()) {
             for (String alarmid : alarmids) {
-                Observable<Response<AlarmResponse>> responseObservable = UserApi.getInstance()
+                Observable<AlarmResponse> responseObservable = UserApi.getInstance()
                         .getAlarm(alarmid, PrefsUtils.getValue(AppUtils.getAppContext(),
                                 GlobalData.AUTHORIZATION, "null"));
                 responseObservable.subscribeOn(Schedulers.newThread())
                         .subscribe(alarmResponseResponse -> {
-                            Log.d(TAG, "alarm code: " + alarmResponseResponse.code());
-                            if (alarmResponseResponse.code() == 200) {
-                                AlarmResponse response = alarmResponseResponse.body();
+                                AlarmResponse response = alarmResponseResponse;
                                 AlarmTime alarmTime = DataCloneUtil.cloneAlarmRestoTime(response);
                                 alarmTime.save();
                                 if (sOnAlarmAdded != null) {
                                     sOnAlarmAdded.AlarmAdded(alarmTime);
                                 }
-                            }
                         });
             }
         }

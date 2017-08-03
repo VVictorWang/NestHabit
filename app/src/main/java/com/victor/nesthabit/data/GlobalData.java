@@ -1,5 +1,7 @@
 package com.victor.nesthabit.data;
 
+import com.victor.nesthabit.util.AppUtils;
+
 /**
  * Created by victor on 7/23/17.
  * email: chengyiwang@hustunique.com
@@ -20,4 +22,5 @@ public interface GlobalData {
     public static final String USERNAME = "username";
 
     public static final String USER_ID = "User_id";
+    public static final String PATH_DATA = AppUtils.getAppContext().getExternalCacheDir().getPath();
 }

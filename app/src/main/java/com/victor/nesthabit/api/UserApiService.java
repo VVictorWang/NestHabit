@@ -10,7 +10,6 @@ import com.victor.nesthabit.data.NestInfo;
 import com.victor.nesthabit.data.RegisterResponse;
 import com.victor.nesthabit.data.UserInfo;
 
-import io.reactivex.Observable;
 import okhttp3.RequestBody;
 import retrofit2.Response;
 import retrofit2.http.Body;
@@ -19,6 +18,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import rx.Observable;
 
 /**
  * Created by victor on 7/23/17.
@@ -28,72 +28,72 @@ import retrofit2.http.Path;
 
 public interface UserApiService {
     @POST("user/{username}/session")
-    Observable<Response<LoginResponse>> login(@Path("username") String username, @Body
+    Observable<LoginResponse> login(@Path("username") String username, @Body
             RequestBody loginReq);
 
     @DELETE("user/{username}/session")
-    Observable<Response<MsgResponse>> logout(@Path("username") String username, @Header
+    Observable<MsgResponse> logout(@Path("username") String username, @Header
             (GlobalData.HEADER_AU) String header);
 
 
     @GET("user/{username}/info")
-    Observable<Response<UserInfo>> getUserInfor(@Path("username") String username, @Header
+    Observable<UserInfo> getUserInfor(@Path("username") String username, @Header
             (GlobalData.HEADER_AU) String authorization);
 
 
     @POST("user")
-    Observable<Response<UserInfo>> changeNickname(@Body RequestBody body, @Header(GlobalData
+    Observable<UserInfo> changeNickname(@Body RequestBody body, @Header(GlobalData
             .HEADER_AU) String header);
 
     @POST("user")
-    Observable<Response<RegisterResponse>> register(@Body RequestBody registerBody);
+    Observable<RegisterResponse> register(@Body RequestBody registerBody);
 
     @POST("nest")
-    Observable<Response<AddNestResponse>> addNest(@Body RequestBody body, @Header(GlobalData
+    Observable<AddNestResponse> addNest(@Body RequestBody body, @Header(GlobalData
             .HEADER_AU) String header);
 
     @DELETE("nest/{id}")
-    Observable<Response<MsgResponse>> deleteNest(@Path("id") String id, @Header(GlobalData
+    Observable<MsgResponse> deleteNest(@Path("id") String id, @Header(GlobalData
             .HEADER_AU) String header);
 
     @POST("nest/{id}")
-    Observable<Response<NestInfo>> changeNest(@Path("id") String id, @Body RequestBody body,
+    Observable<NestInfo> changeNest(@Path("id") String id, @Body RequestBody body,
                                               @Header(GlobalData.HEADER_AU) String header);
 
     @DELETE("nest/{id}/members/{member_username}")
-    Observable<Response<NestInfo>> deleteMember(@Path("id") String id, @Path("member_username")
+    Observable<NestInfo> deleteMember(@Path("id") String id, @Path("member_username")
             String membername, @Header(GlobalData.HEADER_AU) String header);
 
     @POST("user/{username}/joined_nests")
-    Observable<Response<JoinedNests>> enterNest(@Path("username") String username, @Body
+    Observable<JoinedNests> enterNest(@Path("username") String username, @Body
             RequestBody body, @Header(GlobalData.HEADER_AU) String header);
 
     @DELETE("user/{username}/joined_nests")
-    Observable<Response<JoinedNests>> quitNest(@Path("username") String username, @Body
+    Observable<JoinedNests> quitNest(@Path("username") String username, @Body
             RequestBody body, @Header(GlobalData.HEADER_AU) String header);
 
     @GET("user/{username}/joined_nests")
-    Observable<Response<JoinedNests>> getNestList(@Path("username") String username, @Header
+    Observable<JoinedNests> getNestList(@Path("username") String username, @Header
             (GlobalData.HEADER_AU) String header);
 
 
     @POST("nest/{id}/members/{member_username}")
-    Observable<Response<AlarmResponse>> addAlarm(@Path("id") String id, @Path("member_username")
+    Observable<AlarmResponse> addAlarm(@Path("id") String id, @Path("member_username")
             String username, @Body RequestBody body, @Header(GlobalData.HEADER_AU) String header);
 
     @GET("alarm_clock/{id}")
-    Observable<Response<AlarmResponse>> getAlarm(@Path("id") String id, @Header(GlobalData
+    Observable<AlarmResponse> getAlarm(@Path("id") String id, @Header(GlobalData
             .HEADER_AU) String header);
 
     @DELETE("alarm_clock/{id}")
-    Observable<Response<MsgResponse>> deleteAlarm(@Path("id") String id, @Header(GlobalData
+    Observable<MsgResponse> deleteAlarm(@Path("id") String id, @Header(GlobalData
             .HEADER_AU) String header);
 
     @POST("alarm_clock/{id}")
-    Observable<Response<NestInfo>> changeAlarm(@Path("id") String id, @Body RequestBody body,
+    Observable<NestInfo> changeAlarm(@Path("id") String id, @Body RequestBody body,
                                                @Header(GlobalData.HEADER_AU) String header);
 
     @GET("nest/{id}?list_members=1")
-    Observable<Response<NestInfo>> getNestInfo(@Path("id") String id, @Header(GlobalData
+    Observable<NestInfo> getNestInfo(@Path("id") String id, @Header(GlobalData
             .HEADER_AU) String header);
 }

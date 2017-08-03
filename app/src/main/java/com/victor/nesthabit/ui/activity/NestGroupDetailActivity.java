@@ -25,6 +25,8 @@ import com.victor.nesthabit.view.SwitchButton;
 
 import java.util.Calendar;
 
+import static com.victor.nesthabit.R.string.ensure;
+
 public class NestGroupDetailActivity extends BaseActivity implements NestGroupDetailContract.View {
 
     private View toolbar;
@@ -108,8 +110,7 @@ public class NestGroupDetailActivity extends BaseActivity implements NestGroupDe
             public void onClick(View v) {
                 View view = LayoutInflater.from(getActivity()).inflate(R.layout
                         .calendar_dialog, null);
-                Button ensure = (Button) view.findViewById(R.id.ensure);
-                Button cancel = (Button) view.findViewById(R.id.cancel);
+                TextView finish = (TextView) view.findViewById(R.id.finish);
                 MaterialCalendarView calendarView = (MaterialCalendarView) view.findViewById(R.id
                         .calendar);
                 calendarView.state().edit().setMinimumDate(Calendar.getInstance().getTime()
@@ -120,17 +121,11 @@ public class NestGroupDetailActivity extends BaseActivity implements NestGroupDe
                 builder.setView(view);
                 AlertDialog dialog = builder.create();
                 dialog.show();
-                ensure.setOnClickListener(new View.OnClickListener() {
+                finish.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         setStartTime(DateUtils.DatetoString(calendarView.getSelectedDate().getDate
                                 ()));
-                        dialog.dismiss();
-                    }
-                });
-                cancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
                         dialog.dismiss();
                     }
                 });

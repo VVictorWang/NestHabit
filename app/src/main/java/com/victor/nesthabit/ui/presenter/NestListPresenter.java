@@ -19,11 +19,9 @@ import org.litepal.crud.DataSupport;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Observable;
-import io.reactivex.schedulers.Schedulers;
 import retrofit2.Response;
-
-import static android.icu.lang.UCharacter.GraphemeClusterBreak.T;
+import rx.Observable;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by victor on 7/12/17.
@@ -59,12 +57,12 @@ public class NestListPresenter implements NestListContract.Presenter, MainPresen
         Log.d(TAG, "begin");
         List<Nests> nestses = info.getJoined_nests();
         UserApi api = UserApi.getInstance();
-        Observable<Response<JoinedNests>> responseObservable = api.getNestList(PrefsUtils
+        Observable<JoinedNests> responseObservable = api.getNestList(PrefsUtils
                 .getValue(AppUtils.getAppContext(), GlobalData.USERNAME, "null"), PrefsUtils
                 .getValue(AppUtils.getAppContext(), GlobalData.AUTHORIZATION, "null"));
         responseObservable.subscribeOn(Schedulers.newThread()).subscribe(joinedNestsResponse -> {
-            if (joinedNestsResponse.code() == 200 && nestses != null) {
-                nestInfos = joinedNestsResponse.body().getJoined_nests();
+            if ( nestses != null) {
+                nestInfos = joinedNestsResponse.getJoined_nests();
                 for (NestInfo nestInfo : nestInfos) {
                     for (Nests nests : nestses) {
                         if (nestInfo.get_id().equals(nests.get_id())) {

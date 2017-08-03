@@ -2,6 +2,7 @@ package com.victor.nesthabit.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
@@ -14,15 +15,16 @@ import com.victor.nesthabit.data.RegisterResponse;
 import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.util.ActivityManager;
 import com.victor.nesthabit.util.PrefsUtils;
+import com.victor.nesthabit.util.RxUtil;
 
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
+import java.util.function.Consumer;
+
 import retrofit2.Response;
+import rx.Observable;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 public class LoginActivity extends BaseActivity {
 
@@ -54,50 +56,38 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 UserApi userApi = UserApi.getInstance();
-                Observable<retrofit2.Response<LoginResponse>> response = userApi.login("test",
+                Observable<LoginResponse> response = userApi.login("test",
                         "12345");
                 response.subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .doOnNext(new Consumer<Response<LoginResponse>>() {
+                        .doOnNext(new Action1<LoginResponse>() {
                             @Override
-                            public void accept(@NonNull Response<LoginResponse>
-                                                       loginResponseResponse) throws Exception {
-                                Log.d(TAG, "code" + loginResponseResponse.code());
-                                if (loginResponseResponse.code() == 200) {
-                                    PrefsUtils.putValue(LoginActivity.this, GlobalData
-                                            .AUTHORIZATION, loginResponseResponse.body()
-                                            .getAuthorization());
-                                    PrefsUtils.putValue(LoginActivity.this, GlobalData.USERNAME,
-                                            "test");
-                                }
+                            public void call(LoginResponse loginResponse) {
+                                PrefsUtils.putValue(LoginActivity.this, GlobalData
+                                        .AUTHORIZATION, loginResponse.getAuthorization());
+                                PrefsUtils.putValue(LoginActivity.this, GlobalData.USERNAME,
+                                        "test");
                             }
                         })
-                        .subscribe(new Observer<retrofit2.Response<LoginResponse>>() {
+                        .subscribe(new Observer<LoginResponse>() {
                             @Override
-                            public void onSubscribe(@NonNull Disposable d) {
+                            public void onCompleted() {
 
                             }
 
                             @Override
-                            public void onNext(@NonNull retrofit2.Response<LoginResponse>
-                                                       loginResponseResponse) {
-                                if (loginResponseResponse.code() == 200) {
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onNext(LoginResponse loginResponseResponse) {
                                     ActivityManager.startActivity(LoginActivity.this, MainActivity
                                             .class);
-                                }
-
-                            }
-
-                            @Override
-                            public void onError(@NonNull Throwable e) {
-
-                            }
-
-                            @Override
-                            public void onComplete() {
 
                             }
                         });
+
 
 //                                new Thread(new Runnable() {
 //                                    @Override
@@ -142,33 +132,8 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 UserApi api = UserApi.getInstance();
-                Observable<retrofit2.Response<RegisterResponse>> responseObservable = api
+                Observable<RegisterResponse> responseObservable = api
                         .register("test", "12345");
-                responseObservable.subscribeOn(Schedulers.newThread())
-                        .subscribe(new Observer<retrofit2.Response<RegisterResponse>>() {
-                            @Override
-                            public void onSubscribe(@NonNull Disposable d) {
-
-                            }
-
-                            @Override
-                            public void onNext(@NonNull retrofit2.Response<RegisterResponse>
-                                                       registerResponseResponse) {
-                                Log.d(TAG, registerResponseResponse.code() + "");
-
-
-                            }
-
-                            @Override
-                            public void onError(@NonNull Throwable e) {
-
-                            }
-
-                            @Override
-                            public void onComplete() {
-
-                            }
-                        });
             }
         });
     }

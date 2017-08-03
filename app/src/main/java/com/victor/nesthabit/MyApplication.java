@@ -15,12 +15,18 @@ import org.litepal.LitePal;
  */
 
 public class MyApplication extends Application {
+    private static MyApplication sInstance;
     @Override
     public void onCreate() {
         super.onCreate();
+        sInstance = this;
         LitePal.initialize(this);
         AppUtils.init(this);
         LogUtils.init(this);
         NetworkUtils.startNetService(this);
+    }
+
+    public static MyApplication getInstance() {
+        return sInstance;
     }
 }
