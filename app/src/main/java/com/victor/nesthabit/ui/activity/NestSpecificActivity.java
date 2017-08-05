@@ -138,8 +138,7 @@ public class NestSpecificActivity extends BaseActivity implements NestSpecificCo
         daka.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                mPresenter.checkin();
-                ActivityManager.startActivity(getActivity(), ShareActivity.class);
+                mPresenter.checkin();
             }
         });
 

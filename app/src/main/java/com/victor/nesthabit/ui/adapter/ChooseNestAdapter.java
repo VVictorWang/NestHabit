@@ -88,9 +88,7 @@ public class ChooseNestAdapter extends RecyclerView.Adapter<ChooseNestAdapter.Li
                 if (holder.redborder.getVisibility() == View.INVISIBLE) {
                     holder.redborder.setVisibility(View.VISIBLE);
                     if (tickholer != null) {
-                        if (tickholer != holder) {
-                            tickholer.redborder.setVisibility(View.INVISIBLE);
-                        }
+                        tickholer.redborder.setVisibility(View.INVISIBLE);
                         tickholer = holder;
                     }else
                         tickholer = holder;
@@ -99,13 +97,6 @@ public class ChooseNestAdapter extends RecyclerView.Adapter<ChooseNestAdapter.Li
             }
         });
 
-    }
-
-    public String getNestName() {
-        if (tickholer != null) {
-            return tickholer.birdcageListText.getText().toString();
-        }
-        return null;
     }
 
     @Override

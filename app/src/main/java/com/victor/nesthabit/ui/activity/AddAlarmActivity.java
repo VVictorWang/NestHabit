@@ -195,7 +195,7 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
         cagelayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityManager.startActivityForResult(getActivity(), ChooseNestActivity.class,123);
+                ActivityManager.startActivity(getActivity(), ChooseNestActivity.class);
             }
         });
 
@@ -222,11 +222,6 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
             case 222:
                 if (resultCode == 111) {
                     setMusic(data.getStringExtra("name"));
-                }
-                break;
-            case 123:
-                if (resultCode == 123) {
-                    setNestname(data.getStringExtra("nestname"));
                 }
                 break;
         }

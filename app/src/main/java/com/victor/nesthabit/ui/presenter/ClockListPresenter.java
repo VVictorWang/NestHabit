@@ -1,24 +1,27 @@
 package com.victor.nesthabit.ui.presenter;
 
-import android.util.Log;
-
 import com.victor.nesthabit.api.UserApi;
 import com.victor.nesthabit.data.AlarmResponse;
 import com.victor.nesthabit.data.AlarmTime;
 import com.victor.nesthabit.data.GlobalData;
 import com.victor.nesthabit.data.UserInfo;
+import com.victor.nesthabit.ui.base.RxPresenter;
 import com.victor.nesthabit.ui.contract.ClockListContract;
 import com.victor.nesthabit.util.AppUtils;
 import com.victor.nesthabit.util.DataCloneUtil;
 import com.victor.nesthabit.util.PrefsUtils;
+import com.victor.nesthabit.util.RxUtil;
+import com.victor.nesthabit.util.Utils;
 
 import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Response;
 import rx.Observable;
+import rx.Observer;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
@@ -27,7 +30,7 @@ import rx.schedulers.Schedulers;
  * blog: www.victorwang.science                                            #
  */
 
-public class ClockListPresenter implements ClockListContract.Presenter, MainPresenter
+public class ClockListPresenter extends RxPresenter implements ClockListContract.Presenter, MainPresenter
         .ClockDataBegin {
     private ClockListContract.View mView;
     public static final String TAG = "@victor ClockListPrese";
@@ -60,18 +63,39 @@ public class ClockListPresenter implements ClockListContract.Presenter, MainPres
         }
         if (!alarmids.isEmpty()) {
             for (String alarmid : alarmids) {
+                String key = Utils.createAcacheKey("get_alarm_byid", alarmid);
                 Observable<AlarmResponse> responseObservable = UserApi.getInstance()
-                        .getAlarm(alarmid, PrefsUtils.getValue(AppUtils.getAppContext(),
-                                GlobalData.AUTHORIZATION, "null"));
-                responseObservable.subscribeOn(Schedulers.newThread())
-                        .subscribe(alarmResponseResponse -> {
-                                AlarmResponse response = alarmResponseResponse;
-                                AlarmTime alarmTime = DataCloneUtil.cloneAlarmRestoTime(response);
-                                alarmTime.save();
-                                if (sOnAlarmAdded != null) {
-                                    sOnAlarmAdded.AlarmAdded(alarmTime);
-                                }
+                        .getAlarm(alarmid, Utils.getHeader()).compose(RxUtil
+                                .<AlarmResponse>rxCacheBeanHelper(key));
+                Subscription subscription = Observable.concat(RxUtil.rxCreateDiskObservable(key,
+                        AlarmResponse.class), responseObservable)
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<AlarmResponse>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onNext(AlarmResponse alarmResponse) {
+
+                            }
                         });
+                addSubscribe(subscription);
+//                responseObservable.subscribeOn(Schedulers.newThread())
+//                        .subscribe(alarmResponseResponse -> {
+//                            AlarmResponse response = alarmResponseResponse;
+//                            AlarmTime alarmTime = DataCloneUtil.cloneAlarmRestoTime(response);
+//                            alarmTime.save();
+//                            if (sOnAlarmAdded != null) {
+//                                sOnAlarmAdded.AlarmAdded(alarmTime);
+//                            }
+//                        });
             }
         }
 

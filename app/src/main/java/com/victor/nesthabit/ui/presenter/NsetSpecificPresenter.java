@@ -7,6 +7,7 @@ import com.victor.nesthabit.api.UserApi;
 import com.victor.nesthabit.data.MyNestInfo;
 import com.victor.nesthabit.data.NestInfo;
 import com.victor.nesthabit.ui.contract.NestSpecificContract;
+import com.victor.nesthabit.util.RxUtil;
 import com.victor.nesthabit.util.Utils;
 
 import org.litepal.crud.DataSupport;
@@ -16,6 +17,8 @@ import java.util.function.Consumer;
 
 import retrofit2.Response;
 import rx.Observable;
+import rx.Observer;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -39,8 +42,28 @@ public class NsetSpecificPresenter implements NestSpecificContract.Presenter{
     public void start() {
         String id = mView.getNestId();
         if (id != null) {
+            String key = Utils.createAcacheKey("get_nestinfo", id);
             Observable<NestInfo> observable = UserApi.getInstance().getNestInfo(id,
-                    Utils.getHeader());
+                    Utils.getHeader()).compose(RxUtil.<NestInfo>rxCacheBeanHelper(key));
+            Subscription subscription = Observable.concat(RxUtil.rxCreateDiskObservable(key,
+                    NestInfo.class), observable)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<NestInfo>() {
+                        @Override
+                        public void onCompleted() {
+                            
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(NestInfo nestInfo) {
+
+                        }
+                    });
 //            Log.d(TAG, "code nest:" + nestInfoResponse.code());
 //            if (nestInfoResponse.code() == 200) {
 //                List<MyNestInfo> nestInfos = DataSupport.findAll(MyNestInfo.class);
