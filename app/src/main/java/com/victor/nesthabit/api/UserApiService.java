@@ -2,6 +2,8 @@ package com.victor.nesthabit.api;
 
 import com.victor.nesthabit.data.AddNestResponse;
 import com.victor.nesthabit.data.AlarmResponse;
+import com.victor.nesthabit.data.DakaResponse;
+import com.victor.nesthabit.data.DateOfNest;
 import com.victor.nesthabit.data.GlobalData;
 import com.victor.nesthabit.data.JoinedNests;
 import com.victor.nesthabit.data.LoginResponse;
@@ -96,4 +98,13 @@ public interface UserApiService {
     @GET("nest/{id}?list_members=1")
     Observable<NestInfo> getNestInfo(@Path("id") String id, @Header(GlobalData
             .HEADER_AU) String header);
+
+    @GET("user/{username}/nest/{nest_id}/punches")
+    Observable<DateOfNest> getDateOfNest(@Path("username") String username, @Path("nest_id")
+            String nestid,@Header(GlobalData.HEADER_AU) String header);
+
+    @POST("punch")
+    Observable<DakaResponse> daka(@Body RequestBody body, @Header(GlobalData.HEADER_AU) String
+            header);
+
 }

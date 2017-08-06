@@ -1,9 +1,11 @@
 package com.victor.nesthabit.ui.presenter;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.StringDef;
 import android.util.Log;
 
 import com.victor.nesthabit.api.UserApi;
+import com.victor.nesthabit.data.DateOfNest;
 import com.victor.nesthabit.data.MyNestInfo;
 import com.victor.nesthabit.data.NestInfo;
 import com.victor.nesthabit.ui.contract.NestSpecificContract;
@@ -51,7 +53,7 @@ public class NsetSpecificPresenter implements NestSpecificContract.Presenter{
                     .subscribe(new Observer<NestInfo>() {
                         @Override
                         public void onCompleted() {
-                            
+
                         }
 
                         @Override
@@ -61,9 +63,36 @@ public class NsetSpecificPresenter implements NestSpecificContract.Presenter{
 
                         @Override
                         public void onNext(NestInfo nestInfo) {
-
+                            mView.setToolbar(nestInfo.getName());
                         }
                     });
+
+            String datekey = Utils.createAcacheKey("get_nest_days", id);
+            Observable<DateOfNest> nestObservable = UserApi.getInstance().getDateOfNest(Utils
+                    .getUsername(), id, Utils.getHeader()).compose(RxUtil
+                    .<DateOfNest>rxCacheListHelper(datekey));
+            Subscription datesub = Observable.concat(RxUtil.rxCreateDiskObservable(datekey,
+                    DateOfNest.class), nestObservable)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<DateOfNest>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                        }
+
+                        @Override
+                        public void onNext(DateOfNest dateOfNest) {
+                            List<String> days = dateOfNest.getDays();
+
+                        }
+                    })
+                    ;
+
 //            Log.d(TAG, "code nest:" + nestInfoResponse.code());
 //            if (nestInfoResponse.code() == 200) {
 //                List<MyNestInfo> nestInfos = DataSupport.findAll(MyNestInfo.class);

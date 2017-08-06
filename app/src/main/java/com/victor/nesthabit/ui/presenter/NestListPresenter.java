@@ -3,6 +3,7 @@ package com.victor.nesthabit.ui.presenter;
 import android.util.Log;
 
 import com.victor.nesthabit.api.UserApi;
+import com.victor.nesthabit.data.DateOfNest;
 import com.victor.nesthabit.data.GlobalData;
 import com.victor.nesthabit.data.JoinedNests;
 import com.victor.nesthabit.data.MyNestInfo;
@@ -13,6 +14,8 @@ import com.victor.nesthabit.ui.contract.NestListContract;
 import com.victor.nesthabit.util.AppUtils;
 import com.victor.nesthabit.util.DataCloneUtil;
 import com.victor.nesthabit.util.PrefsUtils;
+import com.victor.nesthabit.util.RxUtil;
+import com.victor.nesthabit.util.Utils;
 
 import org.litepal.crud.DataSupport;
 
@@ -21,6 +24,9 @@ import java.util.List;
 
 import retrofit2.Response;
 import rx.Observable;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -57,9 +63,13 @@ public class NestListPresenter implements NestListContract.Presenter, MainPresen
         Log.d(TAG, "begin");
         List<Nests> nestses = info.getJoined_nests();
         UserApi api = UserApi.getInstance();
-        Observable<JoinedNests> responseObservable = api.getNestList(PrefsUtils
-                .getValue(AppUtils.getAppContext(), GlobalData.USERNAME, "null"), PrefsUtils
-                .getValue(AppUtils.getAppContext(), GlobalData.AUTHORIZATION, "null"));
+        String key = Utils.createAcacheKey("get_nest_list", id);
+        Observable<JoinedNests> responseObservable = api.getNestList(Utils.getUsername(), Utils
+                .getHeader()).compose(RxUtil.<JoinedNests>rxCacheListHelper(key));
+        Observable observable = Observable.concat(RxUtil.rxCreateDiskObservable(key,
+                JoinedNests.class), responseObservable)
+                .observeOn(AndroidSchedulers.mainThread());
+
         responseObservable.subscribeOn(Schedulers.newThread()).subscribe(joinedNestsResponse -> {
             if ( nestses != null) {
                 nestInfos = joinedNestsResponse.getJoined_nests();

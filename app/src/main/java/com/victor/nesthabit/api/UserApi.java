@@ -2,6 +2,8 @@ package com.victor.nesthabit.api;
 
 import com.victor.nesthabit.data.AddNestResponse;
 import com.victor.nesthabit.data.AlarmResponse;
+import com.victor.nesthabit.data.DakaResponse;
+import com.victor.nesthabit.data.DateOfNest;
 import com.victor.nesthabit.data.GlobalData;
 import com.victor.nesthabit.data.JoinedNests;
 import com.victor.nesthabit.data.LoginResponse;
@@ -14,7 +16,6 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -111,10 +112,10 @@ public class UserApi {
 
     public Observable<AlarmResponse> addAlarm(String title, int[] repeate, String
             music_id, int duration_level, int volume_level, int nap_level, String bind_to_nest,
-                                                        boolean willing_music, boolean
-                                                                willing_text, int[] time, String
-                                                                id, String username, String
-                                                                header) {
+                                              boolean willing_music, boolean
+                                                      willing_text, int[] time, String
+                                                      id, String username, String
+                                                      header) {
         return mApiService.addAlarm(id, username, JsonRequestBody.getAlarm(title, repeate,
                 music_id, duration_level, volume_level, nap_level, bind_to_nest, willing_music,
                 willing_text, time), header);
@@ -130,6 +131,14 @@ public class UserApi {
 
     public Observable<NestInfo> changeAlarm(String id, RequestBody body, String header) {
         return mApiService.changeAlarm(id, body, header);
+    }
+
+    public Observable<DateOfNest> getDateOfNest(String username, String nestid, String header) {
+        return mApiService.getDateOfNest(username, nestid, header);
+    }
+
+    public Observable<DakaResponse> daka(String nestid, String header) {
+        return mApiService.daka(JsonRequestBody.getTargetNest(nestid), header);
     }
 
 }

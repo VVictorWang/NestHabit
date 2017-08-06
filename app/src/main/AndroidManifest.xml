@@ -75,12 +75,15 @@
         </activity>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         <activity android:name=".ui.activity.ShareActivity">
         </activity>
         <activity android:name=".ui.activity.ShareSuccessActivity">
         </activity>
         <activity android:name=".ui.activity.ChooseFriendActivity">
         </activity>
+=======
+>>>>>>> parent of 402203e... add ShareActvity
 =======
 >>>>>>> parent of 402203e... add ShareActvity
 =======

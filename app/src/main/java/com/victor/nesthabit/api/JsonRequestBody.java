@@ -99,5 +99,15 @@ public class JsonRequestBody {
         return RequestBody.create(sMediaType, jsonObject.toString());
     }
 
+    public static RequestBody getTargetNest(String nestid) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("target_nest", nestid);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return RequestBody.create(sMediaType, jsonObject.toString());
+    }
+
 
 }

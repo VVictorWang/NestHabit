@@ -80,6 +80,7 @@
     <string name="choose_nest">选择鸟窝</string>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     <string name="share_hint">说点什么吧</string>
     <string name="publish">发布</string>
     <string name="share_and_record">记录和分享</string>
@@ -87,6 +88,8 @@
     <string name="share_to_other">分享到社交圈</string>
     <string name="add_success">创建成功</string>
     <string name="delete_remind">将该提醒从列表中删除</string>
+=======
+>>>>>>> parent of 402203e... add ShareActvity
 =======
 >>>>>>> parent of 402203e... add ShareActvity
 =======
