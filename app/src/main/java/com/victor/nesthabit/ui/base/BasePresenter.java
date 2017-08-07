@@ -8,4 +8,6 @@ package com.victor.nesthabit.ui.base;
 
 public interface BasePresenter {
     void start();
+
+    void unscribe();
 }

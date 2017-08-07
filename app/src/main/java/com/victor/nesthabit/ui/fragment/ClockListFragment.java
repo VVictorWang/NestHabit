@@ -100,4 +100,10 @@ public class ClockListFragment extends Fragment implements ClockListContract.Vie
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.unscribe();
+    }
 }

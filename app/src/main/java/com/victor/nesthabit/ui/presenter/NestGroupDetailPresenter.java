@@ -20,4 +20,9 @@ public class NestGroupDetailPresenter implements NestGroupDetailContract.Present
     public void start() {
 
     }
+
+    @Override
+    public void unscribe() {
+
+    }
 }

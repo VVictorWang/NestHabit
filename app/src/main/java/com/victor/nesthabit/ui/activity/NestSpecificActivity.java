@@ -250,4 +250,10 @@ public class NestSpecificActivity extends BaseActivity implements NestSpecificCo
     public void setConstantProgresss(float progresss) {
         constantprogress.setCurrentProgress(progresss);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.unscribe();
+    }
 }

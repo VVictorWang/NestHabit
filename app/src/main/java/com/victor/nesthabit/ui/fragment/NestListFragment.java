@@ -129,4 +129,10 @@ public class NestListFragment extends Fragment implements NestListContract.View 
     public long getUserId() {
         return PrefsUtils.getLongValue(mActivity, GlobalData.USER_ID, -1);
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.unscribe();
+    }
 }

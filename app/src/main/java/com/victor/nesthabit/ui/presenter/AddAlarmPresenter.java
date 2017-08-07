@@ -1,7 +1,5 @@
 package com.victor.nesthabit.ui.presenter;
 
-import com.victor.nesthabit.api.UserApi;
-import com.victor.nesthabit.data.AlarmResponse;
 import com.victor.nesthabit.data.AlarmTime;
 import com.victor.nesthabit.ui.contract.AddAlarmContract;
 import com.victor.nesthabit.util.CheckUtils;
@@ -11,9 +9,6 @@ import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.reactivex.Observable;
-import retrofit2.Response;
 
 /**
  * Created by victor on 7/22/17.
@@ -54,16 +49,23 @@ public class AddAlarmPresenter implements AddAlarmContract.Presenter {
     }
 
     @Override
+    public void unscribe() {
+
+    }
+
+    @Override
     public void finish() {
 
         AlarmTime alarmTime = new AlarmTime();
         alarmTime.setWeeks(mView.getSeletedWeek());
         alarmTime.setHour(Integer.valueOf(mView.getSeletedHour()));
         alarmTime.setMinute(Integer.valueOf(mView.getSeletedMinute()));
-        if (CheckUtils.isEmpty(mView.getMusic())) {
-            mView.setMusicError();
-        } else if (CheckUtils.isEmpty(mView.getEditTitle())) {
+        if (CheckUtils.isEmpty(mView.getEditTitle())) {
             mView.setEditTitleError();
+        } else if (CheckUtils.isEmpty(mView.getNestName())) {
+            mView.setNestError();
+        } else if (CheckUtils.isEmpty(mView.getMusic())) {
+            mView.setMusicError();
         } else {
             alarmTime.setAlert_music(mView.getMusic());
             alarmTime.setTitle(mView.getEditTitle());
@@ -84,7 +86,8 @@ public class AddAlarmPresenter implements AddAlarmContract.Presenter {
             }
 //            Observable<Response<AlarmResponse>> observable = UserApi.getInstance().addAlarm
 //                    (alarmTime.getTitle(), re, "2342", 1, 2, 1, "21321", alarmTime
-//                            .isReceive_Voice(), alarmTime.isReceive_text(), new int[]{alarmTime.getHour(),alarmTime.getMinute()
+//                            .isReceive_Voice(), alarmTime.isReceive_text(), new int[]{alarmTime
+// .getHour(),alarmTime.getMinute()
 //                    },)
             if (mOnDataChanged != null) {
                 if (mAlarmTime != null) {

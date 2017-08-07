@@ -45,6 +45,11 @@ public class AddNestPresenter implements AddNestContract.Presenter {
     }
 
     @Override
+    public void unscribe() {
+
+    }
+
+    @Override
     public void finish() {
         if (CheckUtils.isEmpty(mView.getName())) {
             mView.showNameError();

@@ -5,15 +5,19 @@ import android.support.annotation.StringDef;
 import android.util.Log;
 
 import com.victor.nesthabit.api.UserApi;
+import com.victor.nesthabit.data.DakaResponse;
 import com.victor.nesthabit.data.DateOfNest;
 import com.victor.nesthabit.data.MyNestInfo;
 import com.victor.nesthabit.data.NestInfo;
+import com.victor.nesthabit.ui.base.RxPresenter;
 import com.victor.nesthabit.ui.contract.NestSpecificContract;
+import com.victor.nesthabit.util.DateUtils;
 import com.victor.nesthabit.util.RxUtil;
 import com.victor.nesthabit.util.Utils;
 
 import org.litepal.crud.DataSupport;
 
+import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -24,13 +28,15 @@ import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+import static com.victor.nesthabit.R.id.date;
+
 /**
  * Created by victor on 7/23/17.
  * email: chengyiwang@hustunique.com
  * blog: www.victorwang.science                                            #
  */
 
-public class NsetSpecificPresenter implements NestSpecificContract.Presenter{
+public class NsetSpecificPresenter extends RxPresenter implements NestSpecificContract.Presenter{
     private NestSpecificContract.View mView;
     public static final String TAG = "@victor NsetSpecific";
     private MyNestInfo mMyNestInfo;
@@ -64,9 +70,10 @@ public class NsetSpecificPresenter implements NestSpecificContract.Presenter{
                         @Override
                         public void onNext(NestInfo nestInfo) {
                             mView.setToolbar(nestInfo.getName());
+                            mView.setMaxProgress(nestInfo.getChallenge_days());
                         }
                     });
-
+            addSubscribe(subscription);
             String datekey = Utils.createAcacheKey("get_nest_days", id);
             Observable<DateOfNest> nestObservable = UserApi.getInstance().getDateOfNest(Utils
                     .getUsername(), id, Utils.getHeader()).compose(RxUtil
@@ -88,36 +95,31 @@ public class NsetSpecificPresenter implements NestSpecificContract.Presenter{
                         @Override
                         public void onNext(DateOfNest dateOfNest) {
                             List<String> days = dateOfNest.getDays();
+                            List<Date> daysof = DateUtils.sortDateDesc(DateUtils.formatStrings
+                                    (days));
+                            if (daysof != null) {
+                                mView.setTotalday(daysof.size());
+                                mView.setTotalProgress((float) daysof.size());
+                                mView.setConstantDay(DateUtils.getConstantDays(daysof));
+                                mView.setConstantProgresss(mView.getConstantDay());
+                            }
 
                         }
-                    })
-                    ;
-
-//            Log.d(TAG, "code nest:" + nestInfoResponse.code());
-//            if (nestInfoResponse.code() == 200) {
-//                List<MyNestInfo> nestInfos = DataSupport.findAll(MyNestInfo.class);
-//                for (MyNestInfo nestInfo : nestInfos) {
-//                    Log.d(TAG, "info id: " + nestInfo.getMyid());
-//                    Log.d(TAG, "responce id :" + nestInfoResponse.body().get_id());
-//                    if (nestInfo.getMyid().equals(nestInfoResponse.body().get_id())) {
-//                        mMyNestInfo = nestInfo;
-//                    }
-//                }
-//                if (mMyNestInfo != null) {
-//                    mView.setId(mMyNestInfo.getId());
-//                    mView.setToolbar(mMyNestInfo.getName());
-//                    mView.setTotalday(mMyNestInfo.getDay_insist());
-//                    mView.setMaxProgress(mMyNestInfo.getChallenge_days());
-//                    mView.setTotalProgress((mMyNestInfo.getDay_insist() + 20));
-//                    mView.setConstantProgresss(mMyNestInfo.getDay_insist() + 10);
-//
-//                }
-//            }
+                    });
+            addSubscribe(datesub);
         }
     }
 
     @Override
+    public void unscribe() {
+        unSubscribe();
+    }
+
+    @Override
     public void checkin() {
+        Observable<DakaResponse> dakaResponseObservable = UserApi.getInstance().daka(mView
+                .getNestId(), Utils.getHeader());
+
         mView.setTotalday(mView.getTotalday() + 1);
         mView.setConstantDay(mView.getConstantDay() + 1);
         mView.setTotalProgress(mView.getTotalday());

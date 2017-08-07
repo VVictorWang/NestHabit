@@ -3,31 +3,25 @@ package com.victor.nesthabit.ui.presenter;
 import android.util.Log;
 
 import com.victor.nesthabit.api.UserApi;
-import com.victor.nesthabit.data.DateOfNest;
-import com.victor.nesthabit.data.GlobalData;
 import com.victor.nesthabit.data.JoinedNests;
 import com.victor.nesthabit.data.MyNestInfo;
 import com.victor.nesthabit.data.NestInfo;
 import com.victor.nesthabit.data.Nests;
 import com.victor.nesthabit.data.UserInfo;
+import com.victor.nesthabit.ui.base.RxPresenter;
 import com.victor.nesthabit.ui.contract.NestListContract;
-import com.victor.nesthabit.util.AppUtils;
 import com.victor.nesthabit.util.DataCloneUtil;
-import com.victor.nesthabit.util.PrefsUtils;
 import com.victor.nesthabit.util.RxUtil;
 import com.victor.nesthabit.util.Utils;
 
 import org.litepal.crud.DataSupport;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Response;
 import rx.Observable;
+import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by victor on 7/12/17.
@@ -35,9 +29,9 @@ import rx.schedulers.Schedulers;
  * blog: www.victorwang.science                                            #
  */
 
-public class NestListPresenter implements NestListContract.Presenter, MainPresenter.NestDateBegin {
+public class NestListPresenter extends RxPresenter implements NestListContract.Presenter,
+        MainPresenter.NestDateBegin {
     private final NestListContract.View mView;
-    private List<NestInfo> nestInfos = new ArrayList<>();
     public static final String TAG = "@victor NestListPresen";
     private static onNestInfoAdded sOnNestInfoAdded;
 
@@ -58,6 +52,11 @@ public class NestListPresenter implements NestListContract.Presenter, MainPresen
     }
 
     @Override
+    public void unscribe() {
+        unSubscribe();
+    }
+
+    @Override
     public void begin(long id) {
         UserInfo info = DataSupport.find(UserInfo.class, id);
         Log.d(TAG, "begin");
@@ -70,25 +69,30 @@ public class NestListPresenter implements NestListContract.Presenter, MainPresen
                 JoinedNests.class), responseObservable)
                 .observeOn(AndroidSchedulers.mainThread());
 
-        responseObservable.subscribeOn(Schedulers.newThread()).subscribe(joinedNestsResponse -> {
-            if ( nestses != null) {
-                nestInfos = joinedNestsResponse.getJoined_nests();
-                for (NestInfo nestInfo : nestInfos) {
-                    for (Nests nests : nestses) {
-                        if (nestInfo.get_id().equals(nests.get_id())) {
-                            nestInfo.setDay_insist(nests.getKept_days());
+        Subscription subscription = observable
+                .subscribe(new Observer<JoinedNests>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(JoinedNests joinedNests) {
+                        List<NestInfo> nestInfos = joinedNests.getJoined_nests();
+                        if (nestInfos != null && !nestInfos.isEmpty() && sOnNestInfoAdded != null) {
+                            sOnNestInfoAdded.addNestInfos(nestInfos);
                         }
                     }
-                    MyNestInfo myNestInfo = DataCloneUtil.cloneNestToMyNest(nestInfo);
-                    myNestInfo.save();
-                }
-            }
-        });
-        if (sOnNestInfoAdded != null && !nestInfos.isEmpty()) {
-            sOnNestInfoAdded.addNestInfos(nestInfos);
-        }
-//        mView.showRecyclerview(nestInfos);
+                });
+        addSubscribe(subscription);
+
     }
+
 
     public static void setOnNestInfoAdded(onNestInfoAdded onnestInfoAdded) {
         sOnNestInfoAdded = onnestInfoAdded;

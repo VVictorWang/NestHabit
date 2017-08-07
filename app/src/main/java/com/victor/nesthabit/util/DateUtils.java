@@ -2,8 +2,10 @@ package com.victor.nesthabit.util;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by victor on 7/2/17.
@@ -88,6 +90,52 @@ public class DateUtils {
     public static long stringToLong(String dateString) {
         Date date = StringToDate(dateString);
         return date.getTime();
+    }
+
+    public static List<Date> formatStrings(List<String> dateString) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        if (dateString != null && !dateString.isEmpty()) {
+            List<Date> result = new ArrayList<>();
+            for (String datestr : dateString) {
+                try {
+                    result.add(format.parse(datestr));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            return result;
+        }
+        return null;
+    }
+
+    public static List<Date> sortDateDesc(List<Date> origin) {
+        List<Date> result = origin;
+        if (origin != null && !origin.isEmpty()) {
+            for (int i = 0; i < result.size(); i++) {
+                for (int j = i + 1; j < result.size(); j++) {
+                    if (result.get(j).after(result.get(i))) {
+                        Date temp = result.get(i);
+                        result.set(i, result.get(j));
+                        result.set(j, temp);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
+    public static int getConstantDays(List<Date> dates) {
+        int count = 0;
+        if (dates != null && !dates.isEmpty()) {
+            for (int i = 0; i <dates.size() ; i++) {
+                for (int j = i + 1; j < dates.size(); j++) {
+                    if ((Math.abs(dates.get(j).getDay() - dates.get(i).getDay()) == 1)) {
+                        count++;
+                    }
+                }
+            }
+        }
+        return count;
     }
 
 

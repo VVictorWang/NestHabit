@@ -3,13 +3,11 @@ package com.victor.nesthabit.ui.presenter;
 import com.victor.nesthabit.api.UserApi;
 import com.victor.nesthabit.data.AlarmResponse;
 import com.victor.nesthabit.data.AlarmTime;
-import com.victor.nesthabit.data.GlobalData;
 import com.victor.nesthabit.data.UserInfo;
 import com.victor.nesthabit.ui.base.RxPresenter;
 import com.victor.nesthabit.ui.contract.ClockListContract;
-import com.victor.nesthabit.util.AppUtils;
 import com.victor.nesthabit.util.DataCloneUtil;
-import com.victor.nesthabit.util.PrefsUtils;
+import com.victor.nesthabit.util.DateUtils;
 import com.victor.nesthabit.util.RxUtil;
 import com.victor.nesthabit.util.Utils;
 
@@ -22,7 +20,6 @@ import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by victor on 7/25/17.
@@ -51,6 +48,11 @@ public class ClockListPresenter extends RxPresenter implements ClockListContract
             }
         }
 
+    }
+
+    @Override
+    public void unscribe() {
+        unSubscribe();
     }
 
     //当用户信息获取完全才开始获取鸟窝列表
@@ -83,10 +85,16 @@ public class ClockListPresenter extends RxPresenter implements ClockListContract
 
                             @Override
                             public void onNext(AlarmResponse alarmResponse) {
-
+                                AlarmTime alarmTime = DataCloneUtil.cloneAlarmRestoTime
+                                        (alarmResponse);
+                                alarmTime.save();
+                                if (sOnAlarmAdded != null) {
+                                    sOnAlarmAdded.AlarmAdded(alarmTime);
+                                }
                             }
                         });
                 addSubscribe(subscription);
+
 //                responseObservable.subscribeOn(Schedulers.newThread())
 //                        .subscribe(alarmResponseResponse -> {
 //                            AlarmResponse response = alarmResponseResponse;

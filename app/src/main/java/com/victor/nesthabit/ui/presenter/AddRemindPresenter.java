@@ -58,6 +58,11 @@ public class AddRemindPresenter implements AddRemindContract.Presenter, Recordin
     }
 
     @Override
+    public void unscribe() {
+
+    }
+
+    @Override
     public void onRecord(boolean start) {
         if (start) {
             // 开始录音

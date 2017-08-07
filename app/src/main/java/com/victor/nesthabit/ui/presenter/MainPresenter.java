@@ -76,6 +76,11 @@ public class MainPresenter implements MainContract.Presenter {
 
     }
 
+    @Override
+    public void unscribe() {
+
+    }
+
     public static void setNestDateBegin(NestDateBegin nestDateBegin) {
         sNestDateBegin = nestDateBegin;
     }

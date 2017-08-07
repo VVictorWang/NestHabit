@@ -9,7 +9,7 @@ import rx.subscriptions.CompositeSubscription;
  * blog: www.victorwang.science                                            #
  */
 
-public class RxPresenter {
+public class RxPresenter  {
 
     protected CompositeSubscription mCompositeSubscription;
 
@@ -25,4 +25,6 @@ public class RxPresenter {
         }
         mCompositeSubscription.add(subscription);
     }
+
+
 }
