@@ -1,12 +1,15 @@
 package com.victor.nesthabit.ui.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -24,8 +27,6 @@ import com.victor.nesthabit.view.CircleImageView;
 import com.victor.nesthabit.view.SwitchButton;
 
 import java.util.Calendar;
-
-import static com.victor.nesthabit.R.string.ensure;
 
 public class NestGroupDetailActivity extends BaseActivity implements NestGroupDetailContract.View {
 
@@ -132,10 +133,20 @@ public class NestGroupDetailActivity extends BaseActivity implements NestGroupDe
             }
         });
         remind.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
-                ActivityManager.startActivity(NestGroupDetailActivity.this, RemindFriendActivity
-                        .class);
+                if (!((checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+                        PackageManager.PERMISSION_GRANTED) && checkSelfPermission(Manifest
+                        .permission.RECORD_AUDIO) ==
+                        PackageManager.PERMISSION_GRANTED)) {
+                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                    Manifest.permission.RECORD_AUDIO},
+                            101);
+                } else {
+                    ActivityManager.startActivity(NestGroupDetailActivity.this, RemindFriendActivity
+                            .class);
+                }
             }
         });
         back.setOnClickListener(new View.OnClickListener() {

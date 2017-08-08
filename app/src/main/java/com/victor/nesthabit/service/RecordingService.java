@@ -100,10 +100,10 @@ public class RecordingService extends Service {
     //停止录音
     public void stopRecording() {
         if (mRecorder != null) {
+            mRecorder.getClass();
             mRecorder.stop();
             mElapsedMillis = (System.currentTimeMillis() - mStartingTimeMillis);
             mRecorder.release();
-
             mRecorder = null;
             try {
                 mRecordItem = new RecordItem();

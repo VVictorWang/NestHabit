@@ -1,11 +1,8 @@
 package com.victor.nesthabit.ui.adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,18 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.data.MyNestInfo;
 import com.victor.nesthabit.data.NestInfo;
-import com.victor.nesthabit.ui.activity.NestSpecificActivity;
-import com.victor.nesthabit.ui.presenter.AddNestPresenter;
-import com.victor.nesthabit.ui.presenter.NestListPresenter;
-import com.victor.nesthabit.util.ActivityManager;
 
 import java.util.List;
-
-import static android.os.Build.VERSION_CODES.N;
-import static com.victor.nesthabit.R.id.people;
-import static com.victor.nesthabit.R.id.progress_text;
 
 /**
  * Created by victor on 7/2/17.
@@ -38,8 +26,6 @@ public class ChooseNestAdapter extends RecyclerView.Adapter<ChooseNestAdapter.Li
     private List<NestInfo> mBirdCageInfos;
     public static final String TAG = "@victor NestLisAdapter";
     private ListViewHolder tickholer;
-
-
 
 
     static class ListViewHolder extends RecyclerView.ViewHolder {
@@ -88,15 +74,24 @@ public class ChooseNestAdapter extends RecyclerView.Adapter<ChooseNestAdapter.Li
                 if (holder.redborder.getVisibility() == View.INVISIBLE) {
                     holder.redborder.setVisibility(View.VISIBLE);
                     if (tickholer != null) {
-                        tickholer.redborder.setVisibility(View.INVISIBLE);
+                        if (tickholer != holder) {
+                            tickholer.redborder.setVisibility(View.INVISIBLE);
+                        }
                         tickholer = holder;
-                    }else
+                    } else
                         tickholer = holder;
-                }else
+                } else
                     holder.redborder.setVisibility(View.INVISIBLE);
             }
         });
 
+    }
+
+    public String getNestName() {
+        if (tickholer != null) {
+            return tickholer.birdcageListText.getText().toString();
+        }
+        return null;
     }
 
     @Override

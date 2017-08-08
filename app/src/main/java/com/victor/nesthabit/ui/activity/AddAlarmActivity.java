@@ -8,9 +8,7 @@ import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
@@ -32,8 +30,6 @@ import com.victor.nesthabit.view.SwitchButton;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.victor.nesthabit.R.color.cursor;
 
 public class AddAlarmActivity extends BaseActivity implements View.OnClickListener, AddAlarmContract
         .View {
@@ -66,6 +62,7 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
     private List<Integer> weeks = new ArrayList<>();
     private long id = -1;
     public static final String TAG = "@victor AddAlarmActi";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -169,6 +166,7 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
                                 .PERMISSION_GRANTED)) {
                     requestPermissions(new String[]{Manifest.permission
                             .READ_EXTERNAL_STORAGE}, 101);
+
                 } else {
                     int position = containsInProfile(getMusic());
                     Log.d(TAG, "position : " + position);
@@ -195,7 +193,8 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
         cagelayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityManager.startActivity(getActivity(), ChooseNestActivity.class);
+                ActivityManager.startActivityForResult(getActivity(), ChooseNestActivity.class,
+                        123);
             }
         });
 
@@ -222,6 +221,11 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
             case 222:
                 if (resultCode == 111) {
                     setMusic(data.getStringExtra("name"));
+                }
+                break;
+            case 123:
+                if (resultCode == 123) {
+                    setNestname(data.getStringExtra("nestname"));
                 }
                 break;
         }
