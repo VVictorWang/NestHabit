@@ -23,6 +23,8 @@ import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 
+import static android.R.attr.id;
+
 /**
  * Created by victor on 7/12/17.
  * email: chengyiwang@hustunique.com
@@ -44,10 +46,10 @@ public class NestListPresenter extends RxPresenter implements NestListContract.P
 
     @Override
     public void start() {
-        List<MyNestInfo> mnestInfos = DataSupport.findAll(MyNestInfo.class);
-        if (sOnNestInfoAdded != null && !mnestInfos.isEmpty()) {
-            sOnNestInfoAdded.addNestInfos(DataCloneUtil.cloneMyNestToNestList(mnestInfos));
-        }
+//        List<MyNestInfo> mnestInfos = DataSupport.findAll(MyNestInfo.class);
+//        if (sOnNestInfoAdded != null && !mnestInfos.isEmpty()) {
+//            sOnNestInfoAdded.addNestInfos(DataCloneUtil.cloneMyNestToNestList(mnestInfos));
+//        }
 
     }
 
@@ -57,12 +59,9 @@ public class NestListPresenter extends RxPresenter implements NestListContract.P
     }
 
     @Override
-    public void begin(long id) {
-        UserInfo info = DataSupport.find(UserInfo.class, id);
-        Log.d(TAG, "begin");
-        List<Nests> nestses = info.getJoined_nests();
+    public void begin(List<String> ids) {
         UserApi api = UserApi.getInstance();
-        String key = Utils.createAcacheKey("get_nest_list", id);
+        String key = Utils.createAcacheKey("get_nest_list", "nestid");
         Observable<JoinedNests> responseObservable = api.getNestList(Utils.getUsername(), Utils
                 .getHeader()).compose(RxUtil.<JoinedNests>rxCacheListHelper(key));
         Observable observable = Observable.concat(RxUtil.rxCreateDiskObservable(key,

@@ -11,10 +11,10 @@ import com.victor.nesthabit.ui.base.Baseview;
 
 public interface LoginContract {
     interface View extends Baseview<Presenter> {
-
+        void switchToMain();
     }
 
     interface Presenter extends BasePresenter {
-
+        void login(String username, String password);
     }
 }

@@ -3,15 +3,23 @@ package com.victor.nesthabit.ui.presenter;
 import android.util.Log;
 
 import com.victor.nesthabit.api.UserApi;
+import com.victor.nesthabit.data.NestInfo;
+import com.victor.nesthabit.data.Nests;
 import com.victor.nesthabit.data.UserInfo;
+import com.victor.nesthabit.ui.base.RxPresenter;
 import com.victor.nesthabit.ui.contract.MainContract;
 import com.victor.nesthabit.util.RxUtil;
 import com.victor.nesthabit.util.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by victor on 7/25/17.
@@ -19,7 +27,7 @@ import rx.android.schedulers.AndroidSchedulers;
  * blog: www.victorwang.science                                            #
  */
 
-public class MainPresenter implements MainContract.Presenter {
+public class MainPresenter extends RxPresenter implements MainContract.Presenter {
     private MainContract.View mView;
     public static final String TAG = "@victor MainPresenter";
     private static NestDateBegin sNestDateBegin;
@@ -44,6 +52,7 @@ public class MainPresenter implements MainContract.Presenter {
                     @Override
                     public void onCompleted() {
 
+
                     }
 
                     @Override
@@ -53,17 +62,45 @@ public class MainPresenter implements MainContract.Presenter {
 
                     @Override
                     public void onNext(UserInfo userInfo) {
-                        if (sNestDateBegin != null) {
-                            sNestDateBegin.begin(userInfo.getId());
-                            Log.d(TAG, "nestbegin");
+                        if (sNestDateBegin != null && userInfo.getJoined_nests()!=null && !userInfo.getJoined_nests().isEmpty()) {
+                            List<Nests> nestses = userInfo.getJoined_nests();
+                            List<String> nestid = new ArrayList<String>();
+                            Observable.from(nestses)
+                                    .subscribeOn(AndroidSchedulers.mainThread())
+                                    .map(new Func1<Nests, String>() {
+
+                                        @Override
+                                        public String call(Nests nests) {
+                                            return nests.get_id();
+                                        }
+                                    })
+                                    .subscribe(new Observer<String>() {
+                                        @Override
+                                        public void onCompleted() {
+                                            if (!nestid.isEmpty()) {
+                                                sNestDateBegin.begin(nestid);
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onError(Throwable e) {
+
+                                        }
+
+                                        @Override
+                                        public void onNext(String s) {
+                                            nestid.add(s);
+                                        }
+                                    });
+
                         }
                         if (sClockDataBegin != null) {
-                            sClockDataBegin.begin(userInfo.getId());
+                            sClockDataBegin.begin(userInfo.getAlarm_clocks());
                         }
                         mView.saveUserId(userInfo.getId());
                     }
                 });
-
+        addSubscribe(subscription);
 //        if (userInfoResponse.code() == 200) {
 //            DataSupport.deleteAll(UserInfo.class);
 //            userInfoResponse.body().save();
@@ -78,7 +115,7 @@ public class MainPresenter implements MainContract.Presenter {
 
     @Override
     public void unscribe() {
-
+        unSubscribe();
     }
 
     public static void setNestDateBegin(NestDateBegin nestDateBegin) {
@@ -90,12 +127,12 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     interface ClockDataBegin {
-        void begin(long id);
+        void begin(List<String> alarmids);
     }
 
 
     interface NestDateBegin {
-        void begin(long id);
+        void begin(List<String> ids);
     }
 
 }

@@ -20,6 +20,9 @@ import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+
+import static android.R.attr.id;
 
 /**
  * Created by victor on 7/25/17.
@@ -57,12 +60,7 @@ public class ClockListPresenter extends RxPresenter implements ClockListContract
 
     //当用户信息获取完全才开始获取鸟窝列表
     @Override
-    public void begin(long id) {
-        UserInfo info = DataSupport.find(UserInfo.class, id);
-        List<String> alarmids = new ArrayList<>();
-        if (info != null && info.getAlarm_clocks() != null) {
-            alarmids = info.getAlarm_clocks();
-        }
+    public void begin(List<String> alarmids) {
         if (!alarmids.isEmpty()) {
             for (String alarmid : alarmids) {
                 String key = Utils.createAcacheKey("get_alarm_byid", alarmid);
@@ -85,8 +83,7 @@ public class ClockListPresenter extends RxPresenter implements ClockListContract
 
                             @Override
                             public void onNext(AlarmResponse alarmResponse) {
-                                AlarmTime alarmTime = DataCloneUtil.cloneAlarmRestoTime
-                                        (alarmResponse);
+                                AlarmTime alarmTime = DataCloneUtil.cloneAlarmRestoTime(alarmResponse);
                                 alarmTime.save();
                                 if (sOnAlarmAdded != null) {
                                     sOnAlarmAdded.AlarmAdded(alarmTime);
@@ -95,15 +92,7 @@ public class ClockListPresenter extends RxPresenter implements ClockListContract
                         });
                 addSubscribe(subscription);
 
-//                responseObservable.subscribeOn(Schedulers.newThread())
-//                        .subscribe(alarmResponseResponse -> {
-//                            AlarmResponse response = alarmResponseResponse;
-//                            AlarmTime alarmTime = DataCloneUtil.cloneAlarmRestoTime(response);
-//                            alarmTime.save();
-//                            if (sOnAlarmAdded != null) {
-//                                sOnAlarmAdded.AlarmAdded(alarmTime);
-//                            }
-//                        });
+
             }
         }
 

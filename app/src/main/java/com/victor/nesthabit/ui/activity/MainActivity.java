@@ -119,5 +119,9 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         PrefsUtils.putLongValue(MainActivity.this, GlobalData.USER_ID, userid);
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.unscribe();
+    }
 }

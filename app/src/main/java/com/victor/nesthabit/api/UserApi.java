@@ -8,6 +8,7 @@ import com.victor.nesthabit.data.GlobalData;
 import com.victor.nesthabit.data.JoinedNests;
 import com.victor.nesthabit.data.LoginResponse;
 import com.victor.nesthabit.data.MsgResponse;
+import com.victor.nesthabit.data.MusicInfo;
 import com.victor.nesthabit.data.NestInfo;
 import com.victor.nesthabit.data.RegisterResponse;
 import com.victor.nesthabit.data.UserInfo;
@@ -139,6 +140,10 @@ public class UserApi {
 
     public Observable<DakaResponse> daka(String nestid, String header) {
         return mApiService.daka(JsonRequestBody.getTargetNest(nestid), header);
+    }
+
+    public Observable<MusicInfo> getMusicName(String musicid,String header) {
+        return mApiService.getMusicName(musicid, header);
     }
 
 }

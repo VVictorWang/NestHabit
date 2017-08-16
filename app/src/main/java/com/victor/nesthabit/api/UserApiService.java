@@ -8,6 +8,7 @@ import com.victor.nesthabit.data.GlobalData;
 import com.victor.nesthabit.data.JoinedNests;
 import com.victor.nesthabit.data.LoginResponse;
 import com.victor.nesthabit.data.MsgResponse;
+import com.victor.nesthabit.data.MusicInfo;
 import com.victor.nesthabit.data.NestInfo;
 import com.victor.nesthabit.data.RegisterResponse;
 import com.victor.nesthabit.data.UserInfo;
@@ -107,4 +108,7 @@ public interface UserApiService {
     Observable<DakaResponse> daka(@Body RequestBody body, @Header(GlobalData.HEADER_AU) String
             header);
 
+    @GET("alarm_clock/{id}")
+    Observable<MusicInfo> getMusicName(@Path("id") String id, @Header(GlobalData.HEADER_AU)
+            String header);
 }
