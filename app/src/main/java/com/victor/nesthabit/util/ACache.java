@@ -37,7 +37,7 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * Created by victor on 8/1/17.
  * email: chengyiwang@hustunique.com
- * blog: www.victorwang.science                                            #
+ * blog:  www.victorwang.science
  */
 
 public class ACache {
@@ -358,6 +358,7 @@ public class ACache {
             mCache.put(file);
         }
     }
+
     /**
      * 递归创建文件夹
      *
@@ -381,6 +382,7 @@ public class ACache {
         }
         return dirPath;
     }
+
     /**
      * 递归创建文件夹
      *
@@ -654,7 +656,8 @@ public class ACache {
         private final AtomicInteger cacheCount;
         private final long sizeLimit;
         private final int countLimit;
-        private final Map<File, Long> lastUsageDates = Collections.synchronizedMap(new HashMap<File, Long>());
+        private final Map<File, Long> lastUsageDates = Collections.synchronizedMap(new
+                HashMap<File, Long>());
         protected File cacheDir;
 
 
@@ -858,7 +861,8 @@ public class ACache {
 
 
         private static boolean hasDateInfo(byte[] data) {
-            return data != null && data.length > 15 && data[13] == '-' && indexOf(data, mSeparator) > 14;
+            return data != null && data.length > 15 && data[13] == '-' && indexOf(data,
+                    mSeparator) > 14;
         }
 
 
