@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,6 +26,8 @@ import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
 
 /**
  * Created by victor on 7/17/17.
@@ -139,6 +142,17 @@ public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyVi
                 ActivityManager.startActivity((Activity) mContext, intent);
             }
         });
+//        holder.mCardView.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                View dialogView = LayoutInflater.from(mContext).inflate(R.layout.delete_dialog,
+//                        null);
+//                TextView textView = (TextView) dialogView.findViewById(R.id.delete_text);
+//                textView.setText(mContext.getText(R.string.ensure_delete));
+//                Button delete = (Button) dialogView.findViewById(R.id.delete);
+//
+//            }
+//        });
     }
 
     private void handleImageOn(AlarmTime alarmTime, MyViewHolder holder) {

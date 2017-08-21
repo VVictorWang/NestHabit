@@ -26,6 +26,7 @@ public class ChooseNestAdapter extends RecyclerView.Adapter<ChooseNestAdapter.Li
     private List<NestInfo> mBirdCageInfos;
     public static final String TAG = "@victor NestLisAdapter";
     private ListViewHolder tickholer;
+    private String tickedid = null;
 
 
     static class ListViewHolder extends RecyclerView.ViewHolder {
@@ -43,6 +44,12 @@ public class ChooseNestAdapter extends RecyclerView.Adapter<ChooseNestAdapter.Li
             redborder = (CardView) itemView.findViewById(R.id.card_background);
         }
 
+    }
+
+    public void setListData(List<NestInfo> nestInfos) {
+        mBirdCageInfos.clear();
+        mBirdCageInfos.addAll(nestInfos);
+        notifyDataSetChanged();
     }
 
 
@@ -80,6 +87,7 @@ public class ChooseNestAdapter extends RecyclerView.Adapter<ChooseNestAdapter.Li
                         tickholer = holder;
                     } else
                         tickholer = holder;
+                    tickedid = info.get_id();
                 } else
                     holder.redborder.setVisibility(View.INVISIBLE);
             }
@@ -90,6 +98,13 @@ public class ChooseNestAdapter extends RecyclerView.Adapter<ChooseNestAdapter.Li
     public String getNestName() {
         if (tickholer != null) {
             return tickholer.birdcageListText.getText().toString();
+        }
+        return null;
+    }
+
+    public String getNestId() {
+        if (tickedid != null) {
+            return tickedid;
         }
         return null;
     }

@@ -10,11 +10,15 @@ import com.victor.nesthabit.data.LoginResponse;
 import com.victor.nesthabit.data.MsgResponse;
 import com.victor.nesthabit.data.MusicInfo;
 import com.victor.nesthabit.data.NestInfo;
+import com.victor.nesthabit.data.PostMusicResponse;
 import com.victor.nesthabit.data.RegisterResponse;
 import com.victor.nesthabit.data.UserInfo;
 
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import retrofit2.Retrofit;
@@ -111,15 +115,15 @@ public class UserApi {
         return mApiService.getNestList(username, header);
     }
 
-    public Observable<AlarmResponse> addAlarm(String title, int[] repeate, String
-            music_id, int duration_level, int volume_level, int nap_level, String bind_to_nest,
+    public Observable<AlarmResponse> addAlarm(String title, int[] time, int[] repeate, String
+            music_id, boolean nap, boolean shock, String bind_to_nest,
                                               boolean willing_music, boolean
-                                                      willing_text, int[] time, String
+                                                      willing_text, String
                                                       id, String username, String
                                                       header) {
-        return mApiService.addAlarm(id, username, JsonRequestBody.getAlarm(title, repeate,
-                music_id, duration_level, volume_level, nap_level, bind_to_nest, willing_music,
-                willing_text, time), header);
+        return mApiService.addAlarm(id, username, JsonRequestBody.getAlarm(title, time, repeate,
+                music_id, nap, shock, bind_to_nest, willing_music,
+                willing_text), header);
     }
 
     public Observable<AlarmResponse> getAlarm(String id, String header) {
@@ -142,8 +146,13 @@ public class UserApi {
         return mApiService.daka(JsonRequestBody.getTargetNest(nestid), header);
     }
 
-    public Observable<MusicInfo> getMusicName(String musicid,String header) {
+    public Observable<MusicInfo> getMusicName(String musicid, String header) {
         return mApiService.getMusicName(musicid, header);
+    }
+
+    public Observable<PostMusicResponse> postMusic(String username, String name, MultipartBody.Part filebody, String
+            header) {
+        return mApiService.postMusic(username, name, filebody, header);
     }
 
 }

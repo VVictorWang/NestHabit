@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -17,6 +18,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.data.AlarmTime;
@@ -25,11 +27,17 @@ import com.victor.nesthabit.ui.contract.AddAlarmContract;
 import com.victor.nesthabit.ui.presenter.AddAlarmPresenter;
 import com.victor.nesthabit.util.ActivityManager;
 import com.victor.nesthabit.util.AlarmManagerUtil;
+import com.victor.nesthabit.util.FileUtil;
 import com.victor.nesthabit.view.PickerView;
 import com.victor.nesthabit.view.SwitchButton;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 public class AddAlarmActivity extends BaseActivity implements View.OnClickListener, AddAlarmContract
         .View {
@@ -62,6 +70,7 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
     private List<Integer> weeks = new ArrayList<>();
     private long id = -1;
     public static final String TAG = "@victor AddAlarmActi";
+    private String musicUri = null, nestid = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -155,13 +164,38 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
     }
 
     @Override
+    public void showToast(String des) {
+        Toast.makeText(getActivity(), des, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public String getMusicUri() {
+        if (musicUri != null) {
+            return musicUri;
+//            Uri uri = Uri.parse(musicUri);
+//            File file = new File(musicUri);
+//            RequestBody requestFile = RequestBody.create(MediaType.parse
+//                    ("audio/mp3"), file);
+//
+//            return MultipartBody.Part.createFormData("name",file.getName(),requestFile);
+        }
+        return null;
+    }
+
+    @Override
+    public String getNestid() {
+        return nestid;
+    }
+
+    @Override
     protected void initEvent() {
         music_layout.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AddAlarmActivity.this, MusicSettingActivity.class);
-                if (!(checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) ==
+                if (Build.VERSION.SDK_INT >= 23 && !(checkSelfPermission(Manifest.permission
+                        .READ_EXTERNAL_STORAGE) ==
                         PackageManager
                                 .PERMISSION_GRANTED)) {
                     requestPermissions(new String[]{Manifest.permission
@@ -175,6 +209,7 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
                     }
                     ActivityManager.startActivityForResult(getActivity(), intent, 222);
                 }
+
 
             }
         });
@@ -221,11 +256,13 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
             case 222:
                 if (resultCode == 111) {
                     setMusic(data.getStringExtra("name"));
+                    musicUri = data.getStringExtra("musicUri");
                 }
                 break;
             case 123:
                 if (resultCode == 123) {
                     setNestname(data.getStringExtra("nestname"));
+                    nestid = data.getStringExtra("nestid");
                 }
                 break;
         }

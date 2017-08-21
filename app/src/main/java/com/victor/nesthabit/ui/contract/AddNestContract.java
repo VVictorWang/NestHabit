@@ -17,6 +17,8 @@ public interface AddNestContract {
 
         void showNameError();
 
+        void showToast(String description);
+
         String getIntroduction();
 
         String getDay();

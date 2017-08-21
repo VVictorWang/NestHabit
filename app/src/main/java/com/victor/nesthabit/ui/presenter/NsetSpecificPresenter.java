@@ -29,6 +29,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 import static com.victor.nesthabit.R.id.date;
+import static com.victor.nesthabit.R.id.day;
 
 /**
  * Created by victor on 7/23/17.
@@ -95,6 +96,12 @@ public class NsetSpecificPresenter extends RxPresenter implements NestSpecificCo
                         @Override
                         public void onNext(DateOfNest dateOfNest) {
                             List<String> days = dateOfNest.getDays();
+                            if (days.isEmpty()) {
+                                mView.setTotalday(0);
+                                mView.setTotalProgress(0);
+                                mView.setConstantProgresss(0);
+                                mView.setConstantDay(0);
+                            }
                             List<Date> daysof = DateUtils.sortDateDesc(DateUtils.formatStrings
                                     (days));
                             if (daysof != null) {

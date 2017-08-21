@@ -136,7 +136,8 @@ public class NestGroupDetailActivity extends BaseActivity implements NestGroupDe
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
-                if (!((checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) ==
+                if (Build.VERSION.SDK_INT >= 23 && !((checkSelfPermission(Manifest.permission
+                        .WRITE_EXTERNAL_STORAGE) ==
                         PackageManager.PERMISSION_GRANTED) && checkSelfPermission(Manifest
                         .permission.RECORD_AUDIO) ==
                         PackageManager.PERMISSION_GRANTED)) {

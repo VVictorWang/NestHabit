@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
@@ -43,6 +44,12 @@ public class AddNestActivity extends BaseActivity implements AddNestContract.Vie
         super.onCreate(savedInstanceState);
         mPresenter = new AddNestPresenter(this);
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.unscribe();
     }
 
     @Override
@@ -137,6 +144,11 @@ public class AddNestActivity extends BaseActivity implements AddNestContract.Vie
     @Override
     public void showNameError() {
         name.setError(getString(R.string.can_not_be_empty));
+    }
+
+    @Override
+    public void showToast(String description) {
+        Toast.makeText(getActivity(), description, Toast.LENGTH_SHORT).show();
     }
 
     @Override

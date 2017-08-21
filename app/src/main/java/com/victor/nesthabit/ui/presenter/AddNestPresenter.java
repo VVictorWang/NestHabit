@@ -1,25 +1,24 @@
 package com.victor.nesthabit.ui.presenter;
 
-import android.support.annotation.NonNull;
-import android.util.Log;
-
 import com.victor.nesthabit.api.UserApi;
 import com.victor.nesthabit.data.AddNestResponse;
 import com.victor.nesthabit.data.GlobalData;
+import com.victor.nesthabit.data.JoinedNests;
 import com.victor.nesthabit.data.MyNestInfo;
 import com.victor.nesthabit.data.NestInfo;
+import com.victor.nesthabit.ui.base.RxPresenter;
 import com.victor.nesthabit.ui.contract.AddNestContract;
 import com.victor.nesthabit.util.AppUtils;
 import com.victor.nesthabit.util.CheckUtils;
 import com.victor.nesthabit.util.DataCloneUtil;
 import com.victor.nesthabit.util.DateUtils;
 import com.victor.nesthabit.util.PrefsUtils;
+import com.victor.nesthabit.util.RxUtil;
+import com.victor.nesthabit.util.Utils;
 
-import java.util.function.Consumer;
-
-import retrofit2.Response;
 import rx.Observable;
 import rx.Observer;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -29,7 +28,7 @@ import rx.schedulers.Schedulers;
  * blog: www.victorwang.science
  */
 
-public class AddNestPresenter implements AddNestContract.Presenter {
+public class AddNestPresenter extends RxPresenter implements AddNestContract.Presenter {
     private AddNestContract.View mView;
     public static OnCageDataChanged sOnCageDataChanged;
     public static final String TAG = "@victor AddNestPresen";
@@ -46,7 +45,7 @@ public class AddNestPresenter implements AddNestContract.Presenter {
 
     @Override
     public void unscribe() {
-
+        unSubscribe();
     }
 
     @Override
@@ -74,6 +73,41 @@ public class AddNestPresenter implements AddNestContract.Presenter {
                                     .getChallenge_days(),
                             false, PrefsUtils.getValue(AppUtils.getAppContext(), GlobalData
                                     .AUTHORIZATION, "null"));
+            Subscription subscription = responseObservable.observeOn(AndroidSchedulers.mainThread())
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(new Observer<AddNestResponse>() {
+                        @Override
+                        public void onCompleted() {
+                            mView.showToast("添加成功");
+                            if (sOnCageDataChanged != null) {
+                                sOnCageDataChanged.OnDataAdded(DataCloneUtil.cloneMynestToNest
+                                        (nestInfo));
+                                String key = Utils.createAcacheKey("get_nest_list", "nestid");
+                                Observable<JoinedNests> responseObservable = UserApi.getInstance
+                                        ().getNestList(Utils.getUsername(), Utils
+                                        .getHeader()).compose(RxUtil
+                                        .<JoinedNests>rxCacheListHelper(key));
+                                responseObservable.observeOn(AndroidSchedulers.mainThread())
+                                        .subscribeOn(Schedulers.io())
+                                        .subscribe();
+                            }
+                            mView.finishActivity();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            mView.showToast("添加失败");
+                            mView.finishActivity();
+                        }
+
+                        @Override
+                        public void onNext(AddNestResponse addNestResponse) {
+                            nestInfo.setCreated_time(addNestResponse.getCreated_time());
+                            nestInfo.setOwner(addNestResponse.getOwner());
+                            nestInfo.setMembers_amount(addNestResponse.getMembers_amount());
+                        }
+                    });
+            addSubscribe(subscription);
 //            Log.d(TAG, addNestResponseResponse.code() + " code");
 //            if (addNestResponseResponse.code() == 200) {
 //                nestInfo.setMyid(addNestResponseResponse.body().get_id());

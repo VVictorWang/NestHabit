@@ -10,7 +10,7 @@ import java.util.List;
 
 public class DateOfNest {
 
-    private List<String> days;
+    public List<String> days;
 
     public List<String> getDays() {
         return days;

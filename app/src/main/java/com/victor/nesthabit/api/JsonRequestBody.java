@@ -78,21 +78,20 @@ public class JsonRequestBody {
         return RequestBody.create(sMediaType, jsonObject.toString());
     }
 
-    public static RequestBody getAlarm(String title, int[] repeate, String music_id, int
-            duration_level, int volume_level, int nap_level, String bind_to_nest, boolean
-                                               willing_music, boolean willing_text, int[] time) {
+    public static RequestBody getAlarm(String title, int[] time, int[] repeate, String music_id,
+                                       boolean nap, boolean shock, String bind_to_nest, boolean
+            willing_music, boolean willing_text) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("title", title);
+            jsonObject.put("time", time);
             jsonObject.put("repeat", repeate);
             jsonObject.put("music_id", music_id);
-            jsonObject.put("duration_level", duration_level);
-            jsonObject.put("volume_level", volume_level);
-            jsonObject.put("nap_level", nap_level);
+            jsonObject.put("nap", nap);
+            jsonObject.put("shock", shock);
             jsonObject.put("bind_to_nest", bind_to_nest);
             jsonObject.put("willing_music", willing_music);
             jsonObject.put("willing_text", willing_text);
-            jsonObject.put("time", time);
         } catch (Exception e) {
             e.printStackTrace();
         }

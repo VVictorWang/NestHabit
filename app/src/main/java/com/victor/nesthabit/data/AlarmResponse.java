@@ -10,35 +10,34 @@ import java.util.List;
 
 public class AlarmResponse {
 
+
     /**
-     * title : waaaaaaa
+     * title : AAA
      * time : [7,0]
-     * repeat : [0,1,3,5,6]
-     * music_id :
-     * duration_level : 1
-     * nap_level : 1
-     * volume_level : 1
+     * repeat : [1,2,3]
+     * music_id : 5989ebfd9ccbae31ae89dcd7
+     * nap : true
+     * shock : true
      * bind_to_nest :
      * willing_music : true
      * willing_text : true
-     * created_time : 1500775910
+     * created_time : 1502182372
      * owner : far
-     * _id : 59747666f6ded6056e2499ec
+     * _id : 5989ec64f6ded620ef411fef
      */
 
-    private String title;
-    private String music_id;
-    private int duration_level;
-    private int nap_level;
-    private int volume_level;
-    private String bind_to_nest;
-    private boolean willing_music;
-    private boolean willing_text;
-    private long created_time;
-    private String owner;
-    private String _id;
-    private List<Integer> time;
-    private List<Integer> repeat;
+    public String title;
+    public String music_id;
+    public boolean nap;
+    public boolean shock;
+    public String bind_to_nest;
+    public boolean willing_music;
+    public boolean willing_text;
+    public int created_time;
+    public String owner;
+    public String _id;
+    public List<Integer> time;
+    public List<Integer> repeat;
 
     public String getTitle() {
         return title;
@@ -56,28 +55,20 @@ public class AlarmResponse {
         this.music_id = music_id;
     }
 
-    public int getDuration_level() {
-        return duration_level;
+    public boolean isNap() {
+        return nap;
     }
 
-    public void setDuration_level(int duration_level) {
-        this.duration_level = duration_level;
+    public void setNap(boolean nap) {
+        this.nap = nap;
     }
 
-    public int getNap_level() {
-        return nap_level;
+    public boolean isShock() {
+        return shock;
     }
 
-    public void setNap_level(int nap_level) {
-        this.nap_level = nap_level;
-    }
-
-    public int getVolume_level() {
-        return volume_level;
-    }
-
-    public void setVolume_level(int volume_level) {
-        this.volume_level = volume_level;
+    public void setShock(boolean shock) {
+        this.shock = shock;
     }
 
     public String getBind_to_nest() {
@@ -104,11 +95,11 @@ public class AlarmResponse {
         this.willing_text = willing_text;
     }
 
-    public long getCreated_time() {
+    public int getCreated_time() {
         return created_time;
     }
 
-    public void setCreated_time(long created_time) {
+    public void setCreated_time(int created_time) {
         this.created_time = created_time;
     }
 

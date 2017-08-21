@@ -57,6 +57,7 @@ public class NestListFragment extends Fragment implements NestListContract.View 
         Bundle args = new Bundle();
         args.putLong(ARG_PARAM1, userId);
         fragment.setArguments(args);
+
         return fragment;
     }
 

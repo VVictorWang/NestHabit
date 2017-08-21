@@ -21,13 +21,13 @@ public class UserInfo extends DataSupport{
      * nickname :
      */
 
-    private long id;
-    private String username;
-    private String avatar;
-    private String nickname;
-    private List<Nests> joined_nests;
-    private List<String> uploaded_musics;
-    private List<String> alarm_clocks;
+    public long id;
+    public String username;
+    public String avatar;
+    public String nickname;
+    public List<Nests> joined_nests;
+    public List<String> uploaded_musics;
+    public List<String> alarm_clocks;
 
     public long getId() {
         return id;

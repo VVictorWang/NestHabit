@@ -24,7 +24,16 @@ public class AlarmTime extends DataSupport {
     private boolean receive_Voice;
     private boolean receive_text;
     private String bind_to_nest;
+    private String nestid;
     private long creat_time;
+
+    public String getNestid() {
+        return nestid;
+    }
+
+    public void setNestid(String nestid) {
+        this.nestid = nestid;
+    }
 
     public long getCreat_time() {
         return creat_time;

@@ -10,16 +10,18 @@ import com.victor.nesthabit.data.LoginResponse;
 import com.victor.nesthabit.data.MsgResponse;
 import com.victor.nesthabit.data.MusicInfo;
 import com.victor.nesthabit.data.NestInfo;
+import com.victor.nesthabit.data.PostMusicResponse;
 import com.victor.nesthabit.data.RegisterResponse;
 import com.victor.nesthabit.data.UserInfo;
 
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import rx.Observable;
 
@@ -111,4 +113,14 @@ public interface UserApiService {
     @GET("alarm_clock/{id}")
     Observable<MusicInfo> getMusicName(@Path("id") String id, @Header(GlobalData.HEADER_AU)
             String header);
+
+    @POST("user/{username}/avatar/{name}")
+    Observable<UserInfo> postImage(@Path("username") String username, @Path("name")
+            String name, @Part MultipartBody.Part file, @Header(GlobalData.HEADER_AU) String
+            header);
+
+    @POST("user/{username}/uploaded_musics/{name}")
+    Observable<PostMusicResponse> postMusic(@Path("username") String username, @Path("name")
+            String name, @Part MultipartBody.Part file, @Header(GlobalData.HEADER_AU) String
+                                           header);
 }

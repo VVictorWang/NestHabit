@@ -9,15 +9,25 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
+import com.victor.nesthabit.data.JoinedNests;
 import com.victor.nesthabit.data.MyNestInfo;
+import com.victor.nesthabit.data.NestInfo;
 import com.victor.nesthabit.ui.adapter.ChooseNestAdapter;
 import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.util.ActivityManager;
 import com.victor.nesthabit.util.DataCloneUtil;
+import com.victor.nesthabit.util.RxUtil;
+import com.victor.nesthabit.util.Utils;
 
 import org.litepal.crud.DataSupport;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import rx.Observable;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class ChooseNestActivity extends BaseActivity {
     private RecyclerView mRecyclerView;
@@ -25,15 +35,16 @@ public class ChooseNestActivity extends BaseActivity {
 
     private ChooseNestAdapter mNestListFragAdapter;
     private TextView finish;
+    private List<NestInfo> mnestInfos = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
-        List<MyNestInfo> mnestInfos = DataSupport.findAll(MyNestInfo.class);
         mNestListFragAdapter = new ChooseNestAdapter(getActivity(), mRecyclerView,
-                DataCloneUtil.cloneMyNestToNestList(mnestInfos));
+                new ArrayList<>());
         mRecyclerView.setAdapter(mNestListFragAdapter);
-        mNestListFragAdapter.notifyDataSetChanged();
+        initData();
     }
 
     private void setToolbar() {
@@ -41,6 +52,28 @@ public class ChooseNestActivity extends BaseActivity {
         finish.setText(getString(R.string.choose_nest));
     }
 
+    public void initData() {
+        String key = Utils.createAcacheKey("get_nest_list", "nestid");
+        Observable<JoinedNests> observable = RxUtil.rxCreateDiskObservable(key,
+                JoinedNests.class);
+        observable.observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
+                .subscribe(new Observer<JoinedNests>() {
+                    @Override
+                    public void onCompleted() {
+                        mNestListFragAdapter.setListData(mnestInfos);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(JoinedNests joinedNests) {
+                        mnestInfos = joinedNests.getJoined_nests();
+                    }
+                });
+    }
 
     @Override
     protected Activity getActivity() {
@@ -71,6 +104,7 @@ public class ChooseNestActivity extends BaseActivity {
                 Intent intent = new Intent();
                 if (mNestListFragAdapter != null && mNestListFragAdapter.getNestName() != null) {
                     intent.putExtra("nestname", mNestListFragAdapter.getNestName());
+                    intent.putExtra("nestid", mNestListFragAdapter.getNestId());
                     setResult(123, intent);
                 } else
                     setResult(122);

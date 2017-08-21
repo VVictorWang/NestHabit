@@ -48,6 +48,7 @@ public class NestListFragAdapter extends RecyclerView.Adapter<NestListFragAdapte
 
     @Override
     public void addNestInfos(List<NestInfo> nestInfos) {
+        mBirdCageInfos.clear();
         mBirdCageInfos.addAll(nestInfos);
         notifyDataSetChanged();
     }

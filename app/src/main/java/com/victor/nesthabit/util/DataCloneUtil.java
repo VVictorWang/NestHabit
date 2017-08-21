@@ -100,12 +100,12 @@ public class DataCloneUtil {
 
     public static AlarmTime cloneAlarmRestoTime(AlarmResponse response) {
         AlarmTime alarmTime = new AlarmTime();
-        alarmTime.setSnap(response.getNap_level() == 1 ? true : false);
+        alarmTime.setSnap(response.isNap());
         alarmTime.setTitle(response.getTitle());
         alarmTime.setReceive_Voice(response.isWilling_music());
         alarmTime.setReceive_text(response.isWilling_text());
         alarmTime.setHour(response.getTime().get(0));
-        alarmTime.setMinute(response.getTime().get(0));
+        alarmTime.setMinute(response.getTime().get(1));
         List<Integer> repeat = response.getRepeat();
         List<Integer> weeks = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
@@ -123,11 +123,8 @@ public class DataCloneUtil {
 
     public static AlarmResponse cloneTimeToAlarmRes(AlarmTime alarmtime) {
         AlarmResponse result = new AlarmResponse();
-        result.setCreated_time(alarmtime.getCreat_time());
         result.setBind_to_nest(alarmtime.getBind_to_nest());
         result.setTitle(alarmtime.getTitle());
-        result.setDuration_level(1);
-
 
         return result;
     }

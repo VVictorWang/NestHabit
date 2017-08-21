@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.widget.Toast;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.data.GlobalData;
@@ -117,6 +118,11 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     @Override
     public void saveUserId(long userid) {
         PrefsUtils.putLongValue(MainActivity.this, GlobalData.USER_ID, userid);
+    }
+
+    @Override
+    public void showToast(String description) {
+        Toast.makeText(getActivity(), description, Toast.LENGTH_SHORT).show();
     }
 
     @Override

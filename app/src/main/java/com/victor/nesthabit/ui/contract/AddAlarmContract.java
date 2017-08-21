@@ -6,6 +6,9 @@ import com.victor.nesthabit.ui.base.Baseview;
 
 import java.util.List;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+
 /**
  * Created by victor on 7/22/17.
  * email: chengyiwang@hustunique.com
@@ -19,6 +22,12 @@ public interface AddAlarmContract {
         void clearText();
 
         long getIntentId();
+
+        void showToast(String des);
+
+        String getMusicUri();
+
+        String getNestid();
 
         String getSeletedHour();
 

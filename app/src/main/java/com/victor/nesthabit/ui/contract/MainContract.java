@@ -19,6 +19,8 @@ public interface MainContract {
 
         void saveUserId(long userid);
 
+        void showToast(String description);
+
     }
 
     interface Presenter extends BasePresenter {

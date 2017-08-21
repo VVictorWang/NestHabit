@@ -79,6 +79,7 @@ public class MusicSettingActivity extends BaseActivity {
         Intent intent = new Intent();
         if (adapter != null && adapter.getMusicName() != null) {
             intent.putExtra("name", adapter.getMusicName());
+            intent.putExtra("musicUri", adapter.getMusicUri());
             setResult(111, intent);
         } else
             setResult(112);

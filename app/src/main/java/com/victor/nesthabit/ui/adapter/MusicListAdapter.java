@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import com.victor.nesthabit.R;
 
+import java.io.File;
+
 import static android.os.Build.VERSION_CODES.M;
 
 /**
@@ -33,6 +35,7 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.MyVi
     private MediaPlayer mMediaPlayer;
     public static final String TAG = "@victor ListAdapter";
     private int profileposition = -1;
+    private String musicUri = null;
 
 
     public MusicListAdapter(Context context, RecyclerView recyclerView, boolean isProfile, int
@@ -94,6 +97,7 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.MyVi
                 mCursor.moveToFirst();
                 String data = mCursor.getString(mCursor.getColumnIndex(MediaStore.Audio
                         .Media.DATA));
+                musicUri = data;
                 playMusic(data);
             }
         }
@@ -142,8 +146,17 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.MyVi
     }
 
     public String getMusic() {
-        return tickedHoler.name.getText().toString();
+        if (tickedHoler != null) {
+            return tickedHoler.name.getText().toString();
+        }
+        return null;
+    }
 
+    public String getMusicUri() {
+        if (musicUri != null) {
+            return musicUri;
+        }
+        return null;
     }
 
 

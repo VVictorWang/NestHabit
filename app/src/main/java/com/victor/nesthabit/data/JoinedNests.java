@@ -9,7 +9,7 @@ import java.util.List;
  */
 
 public class JoinedNests {
-    private List<NestInfo> joined_nests;
+    public List<NestInfo> joined_nests;
 
     public List<NestInfo> getJoined_nests() {
         return joined_nests;

@@ -43,45 +43,6 @@ public class LoginActivity extends BaseActivity implements LoginContract.View{
             @Override
             public void onClick(View v) {
                 mLoginPresenter.login("test", "12345");
-
-
-//                                new Thread(new Runnable() {
-//                                    @Override
-//                                    public void run() {
-//                                        OkHttpClient client = new OkHttpClient();
-//                                        Request request = new Request.Builder().url(GlobalData
-// .BASE_URL +
-//                                                "user/swwwe/info").header("Authorization",
-// loginResponseResponse.body().getAuthorization()).get().build();
-//                                        try {
-//
-//                                            Response response = client.newCall(request).execute();
-//                                            InputStream inputStream = response.body()
-// .byteStream();
-//                                            ByteArrayOutputStream outputStream = new
-// ByteArrayOutputStream();
-//                                            byte[] data = new byte[1028];
-//                                            int count = -1;
-//                                            while ((count = inputStream.read(data, 0, 1028)) !=
-// -1) {
-//                                                outputStream.write(data, 0, count);
-//                                            }
-//                                            data = null;
-//                                            Log.d(TAG, "code: " + response.code());
-//                                            Log.d(TAG, "data: " + new String(outputStream
-// .toByteArray()));
-//
-//                                        } catch (Exception e) {
-//                                            e.printStackTrace();
-//                                        }
-//
-//                                    }
-//                                }).start();
-//
-//                            }
-
-
-//
             }
         });
         loginweichat.setOnClickListener(new View.OnClickListener() {
@@ -154,8 +115,14 @@ public class LoginActivity extends BaseActivity implements LoginContract.View{
 
     @Override
     public void switchToMain() {
-        mLoginPresenter.unscribe();
         ActivityManager.startActivity(LoginActivity.this, MainActivity
                 .class);
+        ActivityManager.finishActivity(getActivity());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mLoginPresenter.unscribe();
     }
 }

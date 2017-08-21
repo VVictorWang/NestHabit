@@ -1,11 +1,6 @@
 package com.victor.nesthabit.data;
 
-import org.litepal.crud.DataSupport;
-
-import java.lang.reflect.Member;
 import java.util.List;
-
-import static android.R.attr.id;
 
 /**
  * Created by victor on 7/23/17.
@@ -34,20 +29,20 @@ public class NestInfo {
      * /581583075164355.png","nickname":"a"}]
      */
 
-    private String _id;
-    private String name;
-    private String desc;
-    private int members_limit;
-    private long start_time;
-    private int challenge_days;
-    private boolean open;
-    private String cover_image;
-    private long created_time;
-    private String creator;
-    private String owner;
-    private int members_amount;
-    private List<UserInfo> members;
-    private int day_insist;
+    public String _id;
+    public String name;
+    public String desc;
+    public int members_limit;
+    public long start_time;
+    public int challenge_days;
+    public boolean open;
+    public String cover_image;
+    public long created_time;
+    public String creator;
+    public String owner;
+    public int members_amount;
+    public List<UserInfo> members;
+    public int day_insist;
 
 
     public int getDay_insist() {
