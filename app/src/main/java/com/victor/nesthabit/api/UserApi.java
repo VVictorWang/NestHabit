@@ -7,17 +7,17 @@ import com.victor.nesthabit.data.DateOfNest;
 import com.victor.nesthabit.data.GlobalData;
 import com.victor.nesthabit.data.JoinedNests;
 import com.victor.nesthabit.data.LoginResponse;
+import com.victor.nesthabit.data.MessageList;
 import com.victor.nesthabit.data.MsgResponse;
 import com.victor.nesthabit.data.MusicInfo;
 import com.victor.nesthabit.data.NestInfo;
 import com.victor.nesthabit.data.PostMusicResponse;
 import com.victor.nesthabit.data.RegisterResponse;
+import com.victor.nesthabit.data.SendMessageResponse;
 import com.victor.nesthabit.data.UserInfo;
 
-import java.io.File;
 import java.util.concurrent.TimeUnit;
 
-import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
@@ -150,9 +150,19 @@ public class UserApi {
         return mApiService.getMusicName(musicid, header);
     }
 
-    public Observable<PostMusicResponse> postMusic(String username, String name, MultipartBody.Part filebody, String
-            header) {
+    public Observable<PostMusicResponse> postMusic(String username, String name, MultipartBody
+            .Part filebody, String
+                                                           header) {
         return mApiService.postMusic(username, name, filebody, header);
     }
 
+    public Observable<SendMessageResponse> sendMessage(String message, String nestid, String
+            header) {
+        return mApiService.sendMessage(JsonRequestBody.getCommunicationItem(message, nestid),
+                header);
+    }
+
+    public Observable<MessageList> getMessageList(String nestid, String header) {
+        return mApiService.getMessageList(nestid, header);
+    }
 }

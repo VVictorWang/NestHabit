@@ -3,7 +3,6 @@ package com.victor.nesthabit.ui.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -29,12 +28,10 @@ public class AddNestActivity extends BaseActivity implements AddNestContract.Vie
 
     private android.widget.ImageView back;
     private android.widget.EditText name;
-    private android.widget.RelativeLayout namelayout;
     private TextView start_time;
     private android.widget.EditText introduction, amount;
     private android.widget.EditText day;
     private android.widget.RelativeLayout beginlayout;
-    private android.support.v7.widget.CardView layouttwo;
     private com.victor.nesthabit.view.SwitchButton limittoggle;
     private Button submit;
     private AddNestContract.Presenter mPresenter;
@@ -65,11 +62,9 @@ public class AddNestActivity extends BaseActivity implements AddNestContract.Vie
     @Override
     protected void initView() {
         this.limittoggle = (SwitchButton) findViewById(R.id.limit_toggle);
-        this.layouttwo = (CardView) findViewById(R.id.layout_two);
         this.beginlayout = (RelativeLayout) findViewById(R.id.begin_layout);
         this.day = (EditText) findViewById(R.id.day);
         this.introduction = (EditText) findViewById(R.id.introduction);
-        this.namelayout = (RelativeLayout) findViewById(R.id.name_layout);
         this.name = (EditText) findViewById(R.id.name);
         this.back = (ImageView) findViewById(R.id.back);
         start_time = (TextView) findViewById(R.id.start_time);
@@ -117,14 +112,14 @@ public class AddNestActivity extends BaseActivity implements AddNestContract.Vie
                 builder.setView(view);
                 AlertDialog dialog = builder.create();
                 dialog.show();
-               finish.setOnClickListener(new View.OnClickListener() {
-                   @Override
-                   public void onClick(View v) {
-                       setStartTime(DateUtils.DatetoString(calendarView.getSelectedDate().getDate
-                               ()));
-                       dialog.dismiss();
-                   }
-               });
+                finish.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        setStartTime(DateUtils.DatetoString(calendarView.getSelectedDate().getDate
+                                ()));
+                        dialog.dismiss();
+                    }
+                });
 
             }
         });

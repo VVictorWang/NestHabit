@@ -8,16 +8,19 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.data.CommunicateItem;
+import com.victor.nesthabit.data.SendMessageResponse;
 import com.victor.nesthabit.ui.adapter.CommunicateAdapter;
-import com.victor.nesthabit.util.DateUtils;
+import com.victor.nesthabit.ui.contract.CommunicateContract;
+import com.victor.nesthabit.ui.presenter.CommunicatePresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,18 +31,35 @@ import java.util.List;
  * blog: www.victorwang.science                                            #
  */
 
-public class CommunicateFragment extends Fragment {
+public class CommunicateFragment extends Fragment implements CommunicateContract.View {
     private View rootView;
     private Activity mActivity;
     private RecyclerView mRecyclerView;
     private EditText mEditText;
     private Button send;
     private CommunicateAdapter mCommunicateAdapter;
+    private CommunicateContract.Presenter mPresenter;
+    private String id = null;
+    public static final String NESTID = "nestid";
+    public static final String TAG = "@victor Communicate";
+
+    public static CommunicateFragment newInstance(String id) {
+        Bundle args = new Bundle();
+        args.putString(NESTID, id);
+        CommunicateFragment fragment = new CommunicateFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            id = getArguments().getString(NESTID);
+            Log.d(TAG, "id: " + id);
+        }
         mActivity = getActivity();
+        mPresenter = new CommunicatePresenter(this);
     }
 
     @Nullable
@@ -56,6 +76,7 @@ public class CommunicateFragment extends Fragment {
         }
         initView();
         initEvent();
+        mPresenter.start();
         return rootView;
     }
 
@@ -64,9 +85,9 @@ public class CommunicateFragment extends Fragment {
         mEditText = (EditText) rootView.findViewById(R.id.input_text);
         send = (Button) rootView.findViewById(R.id.send);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
-        List<CommunicateItem> communicateItems = new ArrayList<>();
-        CommunicateItem item = new CommunicateItem();
-        item.setDate(DateUtils.DatetoString(DateUtils.getCurDate()));
+        List<SendMessageResponse> communicateItems = new ArrayList<>();
+        SendMessageResponse item = new SendMessageResponse();
+        item.setTime(System.currentTimeMillis());
         item.setType(CommunicateAdapter.DATE_TYPE);
         communicateItems.add(item);
         mCommunicateAdapter = new CommunicateAdapter(mActivity, communicateItems);
@@ -96,15 +117,46 @@ public class CommunicateFragment extends Fragment {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String text = mEditText.getText().toString();
-                CommunicateItem communicateItem = new CommunicateItem();
-                communicateItem.setMessage(text);
-                communicateItem.setType(CommunicateAdapter.RIGHT_TYPR);
-                if (mCommunicateAdapter != null) {
-                    mCommunicateAdapter.addItem(communicateItem);
-                }
-                mEditText.setText("");
+                mPresenter.sendMessage();
             }
         });
+    }
+
+    @Override
+    public void setPresenter(CommunicateContract.Presenter presenter) {
+        mPresenter = presenter;
+    }
+
+    @Override
+    public String getMessage() {
+        return mEditText.getText().toString();
+    }
+
+    @Override
+    public String getNestId() {
+        return id;
+    }
+
+    @Override
+    public void addItem(SendMessageResponse item) {
+        if (mCommunicateAdapter != null) {
+            mCommunicateAdapter.addItem(item);
+        }
+    }
+
+    @Override
+    public void setEditText(String text) {
+        mEditText.setText(text);
+    }
+
+    @Override
+    public void showToast(String des) {
+        Toast.makeText(getActivity(), des, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.unscribe();
     }
 }

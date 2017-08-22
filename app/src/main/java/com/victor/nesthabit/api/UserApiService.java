@@ -7,11 +7,13 @@ import com.victor.nesthabit.data.DateOfNest;
 import com.victor.nesthabit.data.GlobalData;
 import com.victor.nesthabit.data.JoinedNests;
 import com.victor.nesthabit.data.LoginResponse;
+import com.victor.nesthabit.data.MessageList;
 import com.victor.nesthabit.data.MsgResponse;
 import com.victor.nesthabit.data.MusicInfo;
 import com.victor.nesthabit.data.NestInfo;
 import com.victor.nesthabit.data.PostMusicResponse;
 import com.victor.nesthabit.data.RegisterResponse;
+import com.victor.nesthabit.data.SendMessageResponse;
 import com.victor.nesthabit.data.UserInfo;
 
 import okhttp3.MultipartBody;
@@ -63,7 +65,7 @@ public interface UserApiService {
 
     @POST("nest/{id}")
     Observable<NestInfo> changeNest(@Path("id") String id, @Body RequestBody body,
-                                              @Header(GlobalData.HEADER_AU) String header);
+                                    @Header(GlobalData.HEADER_AU) String header);
 
     @DELETE("nest/{id}/members/{member_username}")
     Observable<NestInfo> deleteMember(@Path("id") String id, @Path("member_username")
@@ -96,7 +98,7 @@ public interface UserApiService {
 
     @POST("alarm_clock/{id}")
     Observable<NestInfo> changeAlarm(@Path("id") String id, @Body RequestBody body,
-                                               @Header(GlobalData.HEADER_AU) String header);
+                                     @Header(GlobalData.HEADER_AU) String header);
 
     @GET("nest/{id}?list_members=1")
     Observable<NestInfo> getNestInfo(@Path("id") String id, @Header(GlobalData
@@ -104,7 +106,7 @@ public interface UserApiService {
 
     @GET("user/{username}/nest/{nest_id}/punches")
     Observable<DateOfNest> getDateOfNest(@Path("username") String username, @Path("nest_id")
-            String nestid,@Header(GlobalData.HEADER_AU) String header);
+            String nestid, @Header(GlobalData.HEADER_AU) String header);
 
     @POST("punch")
     Observable<DakaResponse> daka(@Body RequestBody body, @Header(GlobalData.HEADER_AU) String
@@ -117,10 +119,19 @@ public interface UserApiService {
     @POST("user/{username}/avatar/{name}")
     Observable<UserInfo> postImage(@Path("username") String username, @Path("name")
             String name, @Part MultipartBody.Part file, @Header(GlobalData.HEADER_AU) String
-            header);
+                                           header);
 
     @POST("user/{username}/uploaded_musics/{name}")
     Observable<PostMusicResponse> postMusic(@Path("username") String username, @Path("name")
             String name, @Part MultipartBody.Part file, @Header(GlobalData.HEADER_AU) String
-                                           header);
+                                                    header);
+
+    @POST("chat_log")
+    Observable<SendMessageResponse> sendMessage(@Body RequestBody body, @Header(GlobalData
+            .HEADER_AU) String
+            header);
+
+    @GET("nest/{id}/chat_log")
+    Observable<MessageList> getMessageList(@Path("id") String id, @Header(GlobalData.HEADER_AU)
+            String header);
 }

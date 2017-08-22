@@ -26,8 +26,6 @@ import com.victor.nesthabit.view.CircleProgressBar;
 
 import java.lang.reflect.Field;
 
-import static android.R.attr.max;
-
 public class NestSpecificActivity extends BaseActivity implements NestSpecificContract.View {
 
     private android.widget.ImageView back;
@@ -53,6 +51,7 @@ public class NestSpecificActivity extends BaseActivity implements NestSpecificCo
         if (getIntent() != null) {
             id = getIntent().getStringExtra("id");
         }
+        setUpViewPager();
         mPresenter = new NsetSpecificPresenter(this);
         mPresenter.start();
     }
@@ -83,7 +82,7 @@ public class NestSpecificActivity extends BaseActivity implements NestSpecificCo
         this.back = (ImageView) findViewById(R.id.back);
         head = (RelativeLayout) findViewById(R.id.head);
         totalprogress = (CircleProgressBar) findViewById(R.id.total_progress);
-        setUpViewPager();
+
     }
 
     @Override
@@ -148,7 +147,7 @@ public class NestSpecificActivity extends BaseActivity implements NestSpecificCo
     private void setUpViewPager() {
         MyFragPageAdapter adapter = new MyFragPageAdapter(getSupportFragmentManager());
         adapter.addFragment(new DaKaWallFragment(), "打卡墙");
-        adapter.addFragment(new CommunicateFragment(), "交流板");
+        adapter.addFragment(CommunicateFragment.newInstance(id), "交流板");
         viewpager.setAdapter(adapter);
         tab.setupWithViewPager(viewpager);
         setUpIndicatorWidth(tab, 30, 30);

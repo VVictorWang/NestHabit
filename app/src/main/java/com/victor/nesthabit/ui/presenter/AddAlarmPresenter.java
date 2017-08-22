@@ -92,34 +92,34 @@ public class AddAlarmPresenter implements AddAlarmContract.Presenter {
             alarmTime.setNestid(mView.getNestid());
             alarmTime.setWeeks(mView.getSeletedWeek());
             alarmTime.save();
-//            new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    File file = new File(mView.getMusicUri());
-//                    RequestBody filebody = RequestBody.create(MediaType.parse
-//                            ("application/octet-stream"), file);
-//                    Request request = new Request.Builder().url(GlobalData.BASE_URL + "user/" +
-//                            Utils.getUsername() + "/uploaded_musics/" + file.getName()).header
-//                            (GlobalData.HEADER_AU, Utils.getHeader()).post(filebody).build();
-//                    OkHttpClient client = new OkHttpClient();
-//                    try {
-//                        client.newCall(request).enqueue(new Callback() {
-//                            @Override
-//                            public void onFailure(Call call, IOException e) {
-//                                Log.d(TAG, "failure");
-//                            }
-//
-//                            @Override
-//                            public void onResponse(Call call, Response response) throws
-//                                    IOException {
-//                                Log.d(TAG, response.body().string());
-//                            }
-//                        });
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }).start();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    File file = new File(mView.getMusicUri());
+                    RequestBody filebody = RequestBody.create(MediaType.parse
+                            ("application/octet-stream"), file);
+                    Request request = new Request.Builder().url(GlobalData.BASE_URL + "user/" +
+                            Utils.getUsername() + "/uploaded_musics/" + file.getName()).header
+                            (GlobalData.HEADER_AU, Utils.getHeader()).post(filebody).build();
+                    OkHttpClient client = new OkHttpClient();
+                    try {
+                        client.newCall(request).enqueue(new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+                                Log.d(TAG, "failure");
+                            }
+
+                            @Override
+                            public void onResponse(Call call, Response response) throws
+                                    IOException {
+                                Log.d(TAG, response.body().string());
+                            }
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
 //            MultipartBody.Part music = mView.getMusicUri();
 //            if (music != null) {
 //

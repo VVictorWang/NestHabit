@@ -21,7 +21,6 @@ public class FirstActivity extends AppCompatActivity {
         ActivityManager.getInstance().pushActivity(FirstActivity.this);
         authorization = PrefsUtils.getValue(FirstActivity.this, GlobalData
                 .AUTHORIZATION, "empty");
-        authorization = "empty";
         if (authorization.equals("empty")) {
             new Handler().postDelayed(new Runnable() {
                 @Override

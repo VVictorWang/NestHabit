@@ -108,5 +108,15 @@ public class JsonRequestBody {
         return RequestBody.create(sMediaType, jsonObject.toString());
     }
 
+    public static RequestBody getCommunicationItem(String value, String targetnest) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("value", value);
+            jsonObject.put("target_nest", targetnest);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return RequestBody.create(sMediaType, jsonObject.toString());
+    }
 
 }

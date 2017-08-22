@@ -39,6 +39,11 @@ public class DateUtils {
         return sdf.format(new Date(time));
     }
 
+    public static String formatDateTime(String time) {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        return sdf.format(StringToDatebyPattern(DEFAULT_DATE_FORMAT, time));
+    }
+
     public static long getTimeinMills(int hour, int minute) {
         Date date = new Date(System.currentTimeMillis());
         Calendar calendar = Calendar.getInstance();
@@ -74,6 +79,18 @@ public class DateUtils {
         }
         return result;
     }
+
+    public static Date StringToDatebyPattern(String pattern,String dateString) {
+        DateFormat dateFormat = new SimpleDateFormat(pattern);
+        Date result = null;
+        try {
+            result = dateFormat.parse(dateString);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
 
     public static String getCurrentHour() {
         Date date = getCurDate();

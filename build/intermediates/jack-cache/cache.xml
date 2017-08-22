@@ -164,6 +164,12 @@
         <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/constraint-layout-solver-1.0.2-347da58ba476d9f5e0bddb89d26facc9367c072e.jar" />
     </item>
     <item
+        jar="/home/victor/.gradle/caches/modules-2/files-2.1/com.tencent.mm.opensdk/wechat-sdk-android-without-mta/1.4.0/6d9332f6999746b8fbda27659744f23e5dd27021/wechat-sdk-android-without-mta-1.4.0.jar"
+        revision="26.0.0"
+        sha1="6d9332f6999746b8fbda27659744f23e5dd27021">
+        <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/wechat-sdk-android-without-mta-1.4.0-f62359b022393d164950e828f43264deb579d9ee.jar" />
+    </item>
+    <item
         jar="/home/victor/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit2/converter-gson/2.3.0/9e09011e9767bb76b5e27c9b8223476b93b14631/converter-gson-2.3.0.jar"
         revision="26.0.0"
         sha1="9e09011e9767bb76b5e27c9b8223476b93b14631">
