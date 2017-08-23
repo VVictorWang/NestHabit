@@ -42,7 +42,7 @@ public class MemberListActivity extends BaseActivity {
         this.list = (RecyclerView) findViewById(R.id.list);
         this.toolbar = findViewById(R.id.toolbar);
         setToolbar();
-        MemberListAdapter adapter = new MemberListAdapter(MemberListActivity.this, false,false);
+        MemberListAdapter adapter = new MemberListAdapter(MemberListActivity.this, false, false);
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(4,
                 StaggeredGridLayoutManager.VERTICAL);
         list.setLayoutManager(layoutManager);

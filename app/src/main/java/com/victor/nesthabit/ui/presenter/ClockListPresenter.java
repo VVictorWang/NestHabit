@@ -3,27 +3,20 @@ package com.victor.nesthabit.ui.presenter;
 import com.victor.nesthabit.api.UserApi;
 import com.victor.nesthabit.data.AlarmResponse;
 import com.victor.nesthabit.data.AlarmTime;
-import com.victor.nesthabit.data.UserInfo;
 import com.victor.nesthabit.ui.base.RxPresenter;
 import com.victor.nesthabit.ui.contract.ClockListContract;
 import com.victor.nesthabit.util.DataCloneUtil;
-import com.victor.nesthabit.util.DateUtils;
 import com.victor.nesthabit.util.RxUtil;
 import com.victor.nesthabit.util.Utils;
 
 import org.litepal.crud.DataSupport;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
-
-import static android.R.attr.id;
 
 /**
  * Created by victor on 7/25/17.
@@ -31,7 +24,8 @@ import static android.R.attr.id;
  * blog: www.victorwang.science                                            #
  */
 
-public class ClockListPresenter extends RxPresenter implements ClockListContract.Presenter, MainPresenter
+public class ClockListPresenter extends RxPresenter implements ClockListContract.Presenter,
+        MainPresenter
         .ClockDataBegin {
     private ClockListContract.View mView;
     public static final String TAG = "@victor ClockListPrese";
@@ -84,7 +78,8 @@ public class ClockListPresenter extends RxPresenter implements ClockListContract
 
                             @Override
                             public void onNext(AlarmResponse alarmResponse) {
-                                AlarmTime alarmTime = DataCloneUtil.cloneAlarmRestoTime(alarmResponse);
+                                AlarmTime alarmTime = DataCloneUtil.cloneAlarmRestoTime
+                                        (alarmResponse);
                                 alarmTime.save();
                                 if (sOnAlarmAdded != null) {
                                     sOnAlarmAdded.AlarmAdded(alarmTime);

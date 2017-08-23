@@ -41,6 +41,7 @@ public class RankAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     static class NextViewHolder extends RecyclerView.ViewHolder {
         private RecyclerView mRecyclerView;
+
         public NextViewHolder(View itemView) {
             super(itemView);
             mRecyclerView = (RecyclerView) itemView.findViewById(R.id.list);
@@ -79,7 +80,8 @@ public class RankAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     .drawable.second));
             ((TopViewHolder) holder).avatar.setImageDrawable(mContext.getDrawable(R.drawable
                     .huang));
-            ((TopViewHolder) holder).card.setBackgroundColor(mContext.getResources().getColor(R.color.second_rank));
+            ((TopViewHolder) holder).card.setBackgroundColor(mContext.getResources().getColor(R
+                    .color.second_rank));
 
         } else if (position == 2) {
             ((TopViewHolder) holder).rankNumberImage.setImageDrawable(mContext.getDrawable(R

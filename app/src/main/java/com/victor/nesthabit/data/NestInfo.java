@@ -42,16 +42,9 @@ public class NestInfo {
     public String owner;
     public int members_amount;
     public List<UserInfo> members;
-    public int day_insist;
 
 
-    public int getDay_insist() {
-        return day_insist;
-    }
 
-    public void setDay_insist(int day_insist) {
-        this.day_insist = day_insist;
-    }
 
     public String get_id() {
         return _id;

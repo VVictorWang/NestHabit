@@ -177,6 +177,11 @@ public class NestGroupDetailActivity extends BaseActivity implements NestGroupDe
     }
 
     @Override
+    public void showMyToast(String description) {
+        showToast(description);
+    }
+
+    @Override
     public String getIntroduction() {
         return name.getText().toString();
     }

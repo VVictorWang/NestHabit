@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -18,7 +17,6 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.data.AlarmTime;
@@ -27,17 +25,11 @@ import com.victor.nesthabit.ui.contract.AddAlarmContract;
 import com.victor.nesthabit.ui.presenter.AddAlarmPresenter;
 import com.victor.nesthabit.util.ActivityManager;
 import com.victor.nesthabit.util.AlarmManagerUtil;
-import com.victor.nesthabit.util.FileUtil;
 import com.victor.nesthabit.view.PickerView;
 import com.victor.nesthabit.view.SwitchButton;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 
 public class AddAlarmActivity extends BaseActivity implements View.OnClickListener, AddAlarmContract
         .View {
@@ -163,10 +155,6 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
         return id;
     }
 
-    @Override
-    public void showToast(String des) {
-        Toast.makeText(getActivity(), des, Toast.LENGTH_SHORT).show();
-    }
 
     @Override
     public String getMusicUri() {
@@ -463,4 +451,8 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
     }
 
 
+    @Override
+    public void showMyToast(String description) {
+        showToast(description);
+    }
 }

@@ -4,15 +4,14 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.widget.Toast;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.data.GlobalData;
 import com.victor.nesthabit.ui.adapter.MyFragPageAdapter;
 import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.ui.contract.MainContract;
-import com.victor.nesthabit.ui.fragment.NestListFragment;
 import com.victor.nesthabit.ui.fragment.ClockListFragment;
+import com.victor.nesthabit.ui.fragment.NestListFragment;
 import com.victor.nesthabit.ui.presenter.MainPresenter;
 import com.victor.nesthabit.util.PrefsUtils;
 
@@ -88,6 +87,11 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         mPresenter = presenter;
     }
 
+    @Override
+    public void showMyToast(String description) {
+        showToast(description);
+    }
+
     private void setUpViewPager() {
         MyFragPageAdapter adapter = new MyFragPageAdapter(getSupportFragmentManager());
         adapter.addFragment(new ClockListFragment(), "闹钟");
@@ -120,10 +124,6 @@ public class MainActivity extends BaseActivity implements MainContract.View {
         PrefsUtils.putLongValue(MainActivity.this, GlobalData.USER_ID, userid);
     }
 
-    @Override
-    public void showToast(String description) {
-        Toast.makeText(getActivity(), description, Toast.LENGTH_SHORT).show();
-    }
 
     @Override
     protected void onDestroy() {

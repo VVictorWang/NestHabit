@@ -101,12 +101,14 @@ public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.My
                     public void onClick(View v) {
                         if (holder.avatar_choosen.getVisibility() == View.INVISIBLE) {
                             holder.avatar_choosen.setVisibility(View.VISIBLE);
-                            holder.name.setTextColor(AppUtils.getAppContext().getResources().getColor(R.color
+                            holder.name.setTextColor(AppUtils.getAppContext().getResources()
+                                    .getColor(R.color
                                     .red));
                             tickedMembers.add(holder.name.getText().toString());
                         } else {
                             holder.avatar_choosen.setVisibility(View.INVISIBLE);
-                            holder.name.setTextColor(AppUtils.getAppContext().getResources().getColor(R.color
+                            holder.name.setTextColor(AppUtils.getAppContext().getResources()
+                                    .getColor(R.color
                                     .mygray));
                             tickedMembers.remove(holder.name.getText().toString());
                         }

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import com.victor.nesthabit.util.ActivityManager;
 
@@ -34,6 +35,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected abstract void initView();
 
 
-
     protected abstract void initEvent();
+
+    protected void showToast(String description) {
+        Toast.makeText(getActivity(), description, Toast.LENGTH_SHORT).show();
+    }
 }

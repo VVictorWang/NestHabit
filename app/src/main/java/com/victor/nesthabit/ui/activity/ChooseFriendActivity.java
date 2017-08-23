@@ -1,7 +1,6 @@
 package com.victor.nesthabit.ui.activity;
 
 import android.app.Activity;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -20,6 +19,7 @@ public class ChooseFriendActivity extends BaseActivity {
     private ImageView back;
     private TextView title;
     private TextView manage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +63,7 @@ public class ChooseFriendActivity extends BaseActivity {
         });
 
     }
+
     private void setToolbar() {
         back = (ImageView) (toolbar.findViewById(R.id.back));
         title = (TextView) (toolbar.findViewById(R.id.title_text));

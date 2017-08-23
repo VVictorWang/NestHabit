@@ -30,7 +30,7 @@ public class MusicSettingActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getIntent() != null ) {
+        if (getIntent() != null) {
             profileposition = getIntent().getIntExtra("profile", -1);
         }
     }

@@ -51,6 +51,7 @@ public interface AddRemindContract {
 
 
         void finish();
+
         void Play();
 
         void recordAgain();

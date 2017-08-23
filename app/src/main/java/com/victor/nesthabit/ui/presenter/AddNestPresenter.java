@@ -78,7 +78,7 @@ public class AddNestPresenter extends RxPresenter implements AddNestContract.Pre
                     .subscribe(new Observer<AddNestResponse>() {
                         @Override
                         public void onCompleted() {
-                            mView.showToast("添加成功");
+                            mView.showMyToast("添加成功");
                             if (sOnCageDataChanged != null) {
                                 sOnCageDataChanged.OnDataAdded(DataCloneUtil.cloneMynestToNest
                                         (nestInfo));
@@ -96,7 +96,7 @@ public class AddNestPresenter extends RxPresenter implements AddNestContract.Pre
 
                         @Override
                         public void onError(Throwable e) {
-                            mView.showToast("添加失败");
+                            mView.showMyToast("添加失败");
                             mView.finishActivity();
                         }
 

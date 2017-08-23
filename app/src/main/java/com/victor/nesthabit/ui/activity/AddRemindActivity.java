@@ -119,6 +119,11 @@ public class AddRemindActivity extends BaseActivity implements AddRemindContract
         mPresenter = presenter;
     }
 
+    @Override
+    public void showMyToast(String description) {
+        showToast(description);
+    }
+
     //开始录音服务
     @Override
     public void startService() {

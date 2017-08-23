@@ -21,15 +21,26 @@ import java.util.List;
  */
 
 public class CommunicateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
     public static final int DATE_TYPE = 1;
     public static final int LEFT_TYPE = 2;
     public static final int RIGHT_TYPR = 3;
+
     private Context mContext;
     private List<SendMessageResponse> mCommunicateItems;
+    private RecyclerView mRecyclerView;
 
     public void addItem(SendMessageResponse item) {
         mCommunicateItems.add(item);
         notifyDataSetChanged();
+        mRecyclerView.scrollToPosition(mCommunicateItems.size() - 1);
+    }
+
+    public CommunicateAdapter(Context context, List<SendMessageResponse> communicateItems,
+                              RecyclerView recyclerView) {
+        mContext = context;
+        mCommunicateItems = communicateItems;
+        mRecyclerView = recyclerView;
     }
 
     @Override
@@ -53,19 +64,15 @@ public class CommunicateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         int type = holder.getItemViewType();
         SendMessageResponse item = mCommunicateItems.get(position);
         if (type == DATE_TYPE) {
-            ((DateViewHoler) holder).date.setText(DateUtils.format(item.getTime(), "yyyy-MM-dd"));
+            ((DateViewHoler) holder).date.setText(DateUtils.format(item.time, "yyyy-MM-dd"));
         } else if (type == LEFT_TYPE) {
 
         } else if (type == RIGHT_TYPR) {
-            ((RightViewHoler) holder).text.setText(item.getValue());
-            ((RightViewHoler) holder).time.setText(DateUtils.format(item.getTime(), "HH:mm"));
+            ((RightViewHoler) holder).text.setText(item.value);
+            ((RightViewHoler) holder).time.setText(DateUtils.format(item.time, "HH:mm"));
         }
     }
 
-    public CommunicateAdapter(Context context, List<SendMessageResponse> communicateItems) {
-        mContext = context;
-        mCommunicateItems = communicateItems;
-    }
 
     @Override
     public int getItemCount() {
@@ -75,7 +82,7 @@ public class CommunicateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public int getItemViewType(int position) {
         SendMessageResponse item = mCommunicateItems.get(position);
-        return item.getType();
+        return item.type;
     }
 
     private static class DateViewHoler extends RecyclerView.ViewHolder {

@@ -35,7 +35,7 @@ public class ProfileActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mIWXAPI =  WXAPIFactory.createWXAPI(this, GlobalData.APP_ID_WECHAT, true);
+        mIWXAPI = WXAPIFactory.createWXAPI(this, GlobalData.APP_ID_WECHAT, true);
         mIWXAPI.registerApp(GlobalData.APP_ID_WECHAT);
     }
 
@@ -86,7 +86,7 @@ public class ProfileActivity extends BaseActivity {
                 WXMediaMessage mediaMessage = new WXMediaMessage();
                 mediaMessage.mediaObject = textObject;
                 mediaMessage.description = "Hello wrold";
-                SendMessageToWX.Req req  = new SendMessageToWX.Req();
+                SendMessageToWX.Req req = new SendMessageToWX.Req();
                 req.transaction = "text";
                 req.message = mediaMessage;
                 req.scene = SendMessageToWX.Req.WXSceneTimeline;

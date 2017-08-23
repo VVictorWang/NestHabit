@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.data.MyNestInfo;
 import com.victor.nesthabit.data.NestInfo;
 import com.victor.nesthabit.ui.activity.NestSpecificActivity;
 import com.victor.nesthabit.ui.presenter.AddNestPresenter;
@@ -22,8 +21,6 @@ import com.victor.nesthabit.util.ActivityManager;
 
 import java.util.List;
 
-import static android.os.Build.VERSION_CODES.N;
-import static com.victor.nesthabit.R.id.people;
 import static com.victor.nesthabit.R.id.progress_text;
 
 /**
@@ -97,8 +94,8 @@ public class NestListFragAdapter extends RecyclerView.Adapter<NestListFragAdapte
     @Override
     public void onBindViewHolder(ListViewHolder holder, int position) {
         NestInfo info = mBirdCageInfos.get(position);
-        holder.progresstext.setText(info.getDay_insist() + "/" + info
-                .getChallenge_days());
+//        holder.progresstext.setText(info.getDay_insist() + "/" + info
+//                .getChallenge_days());
         holder.birdcageListText.setText(info.getName());
         holder.peoplea.setText("+" + info.getMembers_amount() + "人");
         holder.mCardView.setOnClickListener(new View.OnClickListener() {

@@ -12,7 +12,7 @@ import com.victor.nesthabit.ui.contract.LoginContract;
 import com.victor.nesthabit.ui.presenter.LoginPresenter;
 import com.victor.nesthabit.util.ActivityManager;
 
-public class LoginActivity extends BaseActivity implements LoginContract.View{
+public class LoginActivity extends BaseActivity implements LoginContract.View {
 
     private android.widget.RelativeLayout loginqq;
     private android.widget.RelativeLayout loginweichat;
@@ -111,6 +111,11 @@ public class LoginActivity extends BaseActivity implements LoginContract.View{
     @Override
     public void setPresenter(LoginContract.Presenter presenter) {
         mLoginPresenter = presenter;
+    }
+
+    @Override
+    public void showMyToast(String description) {
+        showToast(description);
     }
 
     @Override

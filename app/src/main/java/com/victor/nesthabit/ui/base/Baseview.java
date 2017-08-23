@@ -8,4 +8,6 @@ package com.victor.nesthabit.ui.base;
 
 public interface Baseview<T> {
     void setPresenter(T presenter);
+
+    void showMyToast(String description);
 }

@@ -10,16 +10,12 @@ import android.widget.TextView;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.data.JoinedNests;
-import com.victor.nesthabit.data.MyNestInfo;
 import com.victor.nesthabit.data.NestInfo;
 import com.victor.nesthabit.ui.adapter.ChooseNestAdapter;
 import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.util.ActivityManager;
-import com.victor.nesthabit.util.DataCloneUtil;
 import com.victor.nesthabit.util.RxUtil;
 import com.victor.nesthabit.util.Utils;
-
-import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.List;

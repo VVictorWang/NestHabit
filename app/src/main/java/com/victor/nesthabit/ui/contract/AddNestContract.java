@@ -3,8 +3,6 @@ package com.victor.nesthabit.ui.contract;
 import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.ui.base.Baseview;
 
-import java.util.Date;
-
 /**
  * Created by victor on 7/22/17.
  * email: chengyiwang@hustunique.com
@@ -16,8 +14,6 @@ public interface AddNestContract {
         String getName();
 
         void showNameError();
-
-        void showToast(String description);
 
         String getIntroduction();
 

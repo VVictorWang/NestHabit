@@ -15,7 +15,7 @@ import com.victor.nesthabit.R;
  * blog: www.victorwang.science                                            #
  */
 
-public class NextRankTotalAdapter extends RecyclerView.Adapter<NextRankTotalAdapter.MyViewHolder>{
+public class NextRankTotalAdapter extends RecyclerView.Adapter<NextRankTotalAdapter.MyViewHolder> {
     static class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView rankNumber;
         private ImageView avatar;

@@ -39,10 +39,6 @@ public class DateUtils {
         return sdf.format(new Date(time));
     }
 
-    public static String formatDateTime(String time) {
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        return sdf.format(StringToDatebyPattern(DEFAULT_DATE_FORMAT, time));
-    }
 
     public static long getTimeinMills(int hour, int minute) {
         Date date = new Date(System.currentTimeMillis());
@@ -71,17 +67,6 @@ public class DateUtils {
 
     public static Date StringToDate(String dateString) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date result = null;
-        try {
-            result = dateFormat.parse(dateString);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    public static Date StringToDatebyPattern(String pattern,String dateString) {
-        DateFormat dateFormat = new SimpleDateFormat(pattern);
         Date result = null;
         try {
             result = dateFormat.parse(dateString);
@@ -144,7 +129,7 @@ public class DateUtils {
     public static int getConstantDays(List<Date> dates) {
         int count = 0;
         if (dates != null && !dates.isEmpty()) {
-            for (int i = 0; i <dates.size() ; i++) {
+            for (int i = 0; i < dates.size(); i++) {
                 for (int j = i + 1; j < dates.size(); j++) {
                     if ((Math.abs(dates.get(j).getDay() - dates.get(i).getDay()) == 1)) {
                         count++;
@@ -154,7 +139,6 @@ public class DateUtils {
         }
         return count;
     }
-
 
     /**
      * 获取当前日期

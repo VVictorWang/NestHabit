@@ -144,12 +144,12 @@ public class MainPresenter extends RxPresenter implements MainContract.Presenter
                 .subscribe(new Observer<AlarmResponse>() {
                     @Override
                     public void onCompleted() {
-                        mView.showToast("添加成功");
+                        mView.showMyToast("添加成功");
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        mView.showToast("添加失败");
+                        mView.showMyToast("添加失败");
                     }
 
                     @Override

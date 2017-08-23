@@ -4,8 +4,6 @@ import com.victor.nesthabit.data.SendMessageResponse;
 import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.ui.base.Baseview;
 
-import java.util.List;
-
 /**
  * Created by victor on 8/22/17.
  * email: chengyiwang@hustunique.com
@@ -19,7 +17,6 @@ public interface CommunicateContract {
         String getNestId();
 
         void addItem(SendMessageResponse item);
-
 
         void setEditText(String text);
 

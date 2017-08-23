@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
@@ -132,6 +131,11 @@ public class AddNestActivity extends BaseActivity implements AddNestContract.Vie
     }
 
     @Override
+    public void showMyToast(String description) {
+        showToast(description);
+    }
+
+    @Override
     public String getName() {
         return name.getText().toString();
     }
@@ -141,10 +145,6 @@ public class AddNestActivity extends BaseActivity implements AddNestContract.Vie
         name.setError(getString(R.string.can_not_be_empty));
     }
 
-    @Override
-    public void showToast(String description) {
-        Toast.makeText(getActivity(), description, Toast.LENGTH_SHORT).show();
-    }
 
     @Override
     public String getIntroduction() {

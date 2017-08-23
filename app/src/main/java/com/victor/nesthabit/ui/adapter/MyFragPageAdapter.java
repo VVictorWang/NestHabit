@@ -13,7 +13,7 @@ import java.util.List;
  * blog:  www.victorwang.science
  */
 
-public class MyFragPageAdapter extends FragmentPagerAdapter{
+public class MyFragPageAdapter extends FragmentPagerAdapter {
     private List<Fragment> mFragments = new ArrayList<>();
     private List<String> mTitles = new ArrayList<>();
 

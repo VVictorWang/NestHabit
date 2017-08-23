@@ -16,10 +16,6 @@ import android.widget.TextView;
 
 import com.victor.nesthabit.R;
 
-import java.io.File;
-
-import static android.os.Build.VERSION_CODES.M;
-
 /**
  * Created by victor on 7/18/17.
  * email: chengyiwang@hustunique.com

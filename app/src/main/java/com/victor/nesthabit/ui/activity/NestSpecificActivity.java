@@ -1,6 +1,7 @@
 package com.victor.nesthabit.ui.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -118,7 +119,9 @@ public class NestSpecificActivity extends BaseActivity implements NestSpecificCo
         rank.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityManager.startActivity(NestSpecificActivity.this, RankActivity.class);
+                Intent intent = new Intent(getActivity(), RankActivity.class);
+                intent.putExtra("nestId", id);
+                ActivityManager.startActivity(getActivity(), intent);
             }
         });
         introduction.setOnClickListener(new View.OnClickListener() {
@@ -198,6 +201,11 @@ public class NestSpecificActivity extends BaseActivity implements NestSpecificCo
     @Override
     public void setPresenter(NestSpecificContract.Presenter presenter) {
         mPresenter = presenter;
+    }
+
+    @Override
+    public void showMyToast(String description) {
+        showToast(description);
     }
 
     @Override

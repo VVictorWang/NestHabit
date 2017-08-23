@@ -1,17 +1,13 @@
 package com.victor.nesthabit.ui.fragment;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -19,6 +15,8 @@ import android.widget.Toast;
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.data.SendMessageResponse;
 import com.victor.nesthabit.ui.adapter.CommunicateAdapter;
+import com.victor.nesthabit.ui.base.BaseFragment;
+import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.ui.contract.CommunicateContract;
 import com.victor.nesthabit.ui.presenter.CommunicatePresenter;
 
@@ -31,17 +29,32 @@ import java.util.List;
  * blog: www.victorwang.science                                            #
  */
 
-public class CommunicateFragment extends Fragment implements CommunicateContract.View {
-    private View rootView;
-    private Activity mActivity;
+public class CommunicateFragment extends BaseFragment implements CommunicateContract.View {
+
     private RecyclerView mRecyclerView;
     private EditText mEditText;
     private Button send;
     private CommunicateAdapter mCommunicateAdapter;
     private CommunicateContract.Presenter mPresenter;
     private String id = null;
+
     public static final String NESTID = "nestid";
     public static final String TAG = "@victor Communicate";
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            id = getArguments().getString(NESTID);
+            Log.d(TAG, "id: " + id);
+        }
+        mPresenter = new CommunicatePresenter(this);
+    }
+
+    @Override
+    protected BasePresenter getPresenter() {
+        return mPresenter;
+    }
 
     public static CommunicateFragment newInstance(String id) {
         Bundle args = new Bundle();
@@ -52,49 +65,27 @@ public class CommunicateFragment extends Fragment implements CommunicateContract
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            id = getArguments().getString(NESTID);
-            Log.d(TAG, "id: " + id);
-        }
-        mActivity = getActivity();
-        mPresenter = new CommunicatePresenter(this);
+    protected int getLayout() {
+        return R.layout.fragment_communicate;
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
-            Bundle savedInstanceState) {
-        if (rootView == null) {
-            rootView = mActivity.getLayoutInflater().inflate(R.layout.fragment_communicate, null);
-        } else {
-            ViewGroup parent = (ViewGroup) rootView.getParent();
-            if (parent != null) {
-                parent.removeView(rootView);
-            }
-        }
-        initView();
-        initEvent();
-        mPresenter.start();
-        return rootView;
-    }
-
-    private void initView() {
+    protected void initView() {
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.list);
         mEditText = (EditText) rootView.findViewById(R.id.input_text);
         send = (Button) rootView.findViewById(R.id.send);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         List<SendMessageResponse> communicateItems = new ArrayList<>();
         SendMessageResponse item = new SendMessageResponse();
-        item.setTime(System.currentTimeMillis());
-        item.setType(CommunicateAdapter.DATE_TYPE);
+        item.time = System.currentTimeMillis();
+        item.type = CommunicateAdapter.DATE_TYPE;
         communicateItems.add(item);
-        mCommunicateAdapter = new CommunicateAdapter(mActivity, communicateItems);
+        mCommunicateAdapter = new CommunicateAdapter(mActivity, communicateItems, mRecyclerView);
         mRecyclerView.setAdapter(mCommunicateAdapter);
     }
 
-    private void initEvent() {
+    @Override
+    protected void initEvent() {
         mEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -128,6 +119,11 @@ public class CommunicateFragment extends Fragment implements CommunicateContract
     }
 
     @Override
+    public void showMyToast(String description) {
+        showToast(description);
+    }
+
+    @Override
     public String getMessage() {
         return mEditText.getText().toString();
     }
@@ -154,9 +150,4 @@ public class CommunicateFragment extends Fragment implements CommunicateContract
         Toast.makeText(getActivity(), des, Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mPresenter.unscribe();
-    }
 }

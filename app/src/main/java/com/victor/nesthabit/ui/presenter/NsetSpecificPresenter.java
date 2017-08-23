@@ -1,9 +1,5 @@
 package com.victor.nesthabit.ui.presenter;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.StringDef;
-import android.util.Log;
-
 import com.victor.nesthabit.api.UserApi;
 import com.victor.nesthabit.data.DakaResponse;
 import com.victor.nesthabit.data.DateOfNest;
@@ -15,21 +11,13 @@ import com.victor.nesthabit.util.DateUtils;
 import com.victor.nesthabit.util.RxUtil;
 import com.victor.nesthabit.util.Utils;
 
-import org.litepal.crud.DataSupport;
-
 import java.util.Date;
 import java.util.List;
-import java.util.function.Consumer;
 
-import retrofit2.Response;
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-
-import static com.victor.nesthabit.R.id.date;
-import static com.victor.nesthabit.R.id.day;
 
 /**
  * Created by victor on 7/23/17.
@@ -37,7 +25,7 @@ import static com.victor.nesthabit.R.id.day;
  * blog: www.victorwang.science                                            #
  */
 
-public class NsetSpecificPresenter extends RxPresenter implements NestSpecificContract.Presenter{
+public class NsetSpecificPresenter extends RxPresenter implements NestSpecificContract.Presenter {
     private NestSpecificContract.View mView;
     public static final String TAG = "@victor NsetSpecific";
     private MyNestInfo mMyNestInfo;

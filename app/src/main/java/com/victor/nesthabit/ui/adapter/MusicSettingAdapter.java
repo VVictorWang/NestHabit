@@ -29,7 +29,7 @@ public class MusicSettingAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private VibrateVolumeAdapter mVibrateVolumeAdapter;
 
 
-    public MusicSettingAdapter(Context context,int profileposition) {
+    public MusicSettingAdapter(Context context, int profileposition) {
         mContext = context;
         this.profileposition = profileposition;
     }
@@ -76,7 +76,7 @@ public class MusicSettingAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((MyViewHolder) holder).mRecyclerView.setLayoutManager(new LinearLayoutManager
                     (mContext));
             mMusicListAdapter = new MusicListAdapter(mContext, ((MyViewHolder) holder)
-                    .mRecyclerView, false,profileposition);
+                    .mRecyclerView, false, profileposition);
             ((MyViewHolder) holder).mRecyclerView.setAdapter(mMusicListAdapter);
 
         } else if (type == VIBRATE_VOLUME_TYPE) {

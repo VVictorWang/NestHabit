@@ -61,10 +61,10 @@ public class CommunicatePresenter extends RxPresenter implements CommunicateCont
                             @Override
                             public SendMessageResponse call(SendMessageResponse
                                                                     sendMessageResponse) {
-                                if (sendMessageResponse.getUsername().equals(Utils.getUsername())) {
-                                    sendMessageResponse.setType(CommunicateAdapter.RIGHT_TYPR);
+                                if (sendMessageResponse.username.equals(Utils.getUsername())) {
+                                    sendMessageResponse.type = CommunicateAdapter.RIGHT_TYPR;
                                 } else
-                                    sendMessageResponse.setType(CommunicateAdapter.LEFT_TYPE);
+                                    sendMessageResponse.type = CommunicateAdapter.LEFT_TYPE;
                                 return sendMessageResponse;
                             }
                         }).subscribe(new Observer<SendMessageResponse>() {
@@ -114,8 +114,8 @@ public class CommunicatePresenter extends RxPresenter implements CommunicateCont
 
                     @Override
                     public void onNext(SendMessageResponse sendMessageResponse) {
-                        sendMessageResponse.setTime(System.currentTimeMillis());
-                        sendMessageResponse.setType(CommunicateAdapter.RIGHT_TYPR);
+                        sendMessageResponse.time = System.currentTimeMillis();
+                        sendMessageResponse.type = CommunicateAdapter.RIGHT_TYPR;
                         mView.addItem(sendMessageResponse);
                     }
                 });
