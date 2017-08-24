@@ -41,6 +41,7 @@ public class NestSpecificActivity extends BaseActivity implements NestSpecificCo
     private RelativeLayout head;
     private NestSpecificContract.Presenter mPresenter;
     private String id = null;
+    private boolean isOwner = false;
     private long myid = -1;
 
     @Override
@@ -48,6 +49,7 @@ public class NestSpecificActivity extends BaseActivity implements NestSpecificCo
         super.onCreate(savedInstanceState);
         if (getIntent() != null) {
             id = getIntent().getStringExtra("id");
+            isOwner = getIntent().getBooleanExtra("isOwner", false);
         }
         setUpViewPager();
         mPresenter = new NsetSpecificPresenter(this);
@@ -125,6 +127,7 @@ public class NestSpecificActivity extends BaseActivity implements NestSpecificCo
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), NestGroupDetailActivity.class);
                 intent.putExtra("nestId", id);
+                intent.putExtra("isOwner", isOwner);
                 ActivityManager.startActivity(getActivity(), intent);
             }
         });

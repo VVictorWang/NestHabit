@@ -2,6 +2,7 @@ package com.victor.nesthabit.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
@@ -9,22 +10,39 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
+import com.victor.nesthabit.bean.UserInfo;
 import com.victor.nesthabit.ui.adapter.MemberListAdapter;
 import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.ui.base.BasePresenter;
+import com.victor.nesthabit.ui.contract.MemberListContract;
+import com.victor.nesthabit.ui.presenter.MemberListPresenter;
 import com.victor.nesthabit.util.ActivityManager;
 
-public class MemberListActivity extends BaseActivity {
+public class MemberListActivity extends BaseActivity implements MemberListContract.View {
 
     private View toolbar;
     private android.support.v7.widget.RecyclerView list;
     private ImageView back;
     private TextView title;
     private TextView manage;
+    private boolean isOwner;
+    private String nestId;
+    private MemberListContract.Presenter mPresenter;
+    private MemberListAdapter mMemberListAdapter;
 
     @Override
     protected BasePresenter getPresnter() {
-        return null;
+        return mPresenter;
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getIntent() != null) {
+            nestId = getIntent().getStringExtra("nestId");
+            isOwner = getIntent().getBooleanExtra("isOwner", false);
+        }
+        mPresenter = new MemberListPresenter(this);
     }
 
     @Override
@@ -42,11 +60,12 @@ public class MemberListActivity extends BaseActivity {
         this.list = (RecyclerView) findViewById(R.id.list);
         this.toolbar = findViewById(R.id.toolbar);
         setToolbar();
-        MemberListAdapter adapter = new MemberListAdapter(MemberListActivity.this, false, false);
+        mMemberListAdapter = new MemberListAdapter(MemberListActivity.this, false, false,
+                isOwner);
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(4,
                 StaggeredGridLayoutManager.VERTICAL);
         list.setLayoutManager(layoutManager);
-        list.setAdapter(adapter);
+        list.setAdapter(mMemberListAdapter);
     }
 
     @Override
@@ -66,5 +85,26 @@ public class MemberListActivity extends BaseActivity {
         manage = (TextView) (toolbar.findViewById(R.id.right_text));
         title.setText(getString(R.string.member_list));
         manage.setText(getString(R.string.manage));
+    }
+
+    @Override
+    public void setPresenter(MemberListContract.Presenter presenter) {
+        mPresenter = presenter;
+    }
+
+    @Override
+    public void showMyToast(String description) {
+        showToast(description);
+    }
+
+    @Override
+    public String getNestId() {
+        return nestId;
+    }
+
+
+    @Override
+    public void addItem(UserInfo userInfo) {
+        mMemberListAdapter.addItem(userInfo);
     }
 }

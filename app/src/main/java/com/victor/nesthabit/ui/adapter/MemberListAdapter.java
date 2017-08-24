@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
+import com.victor.nesthabit.bean.UserInfo;
 import com.victor.nesthabit.util.AppUtils;
 import com.victor.nesthabit.view.CircleImageView;
 
@@ -28,7 +29,10 @@ public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.My
     private boolean isChoose;
     private Context mContext;
     private boolean isChoosing;
+    private boolean isOwner;
     private List<String> tickedMembers = new ArrayList<>();
+
+    private List<UserInfo> mMembers = new ArrayList<>();
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
         private CircleImageView avatar, avatar_choosen;
@@ -44,10 +48,17 @@ public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.My
         }
     }
 
-    public MemberListAdapter(Context context, boolean isChoose, boolean isChoosing) {
+    public void addItem(UserInfo userInfo) {
+        mMembers.add(userInfo);
+        notifyDataSetChanged();
+    }
+
+    public MemberListAdapter(Context context, boolean isChoose, boolean isChoosing, boolean
+            isOwner) {
         this.isChoose = isChoose;
         mContext = context;
         this.isChoosing = isChoosing;
+        this.isOwner = isOwner;
     }
 
 
@@ -66,6 +77,8 @@ public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.My
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
+        UserInfo userInfo = mMembers.get(position);
+        holder.name.setText(userInfo.username);
         if (!isChoose) {
             if (!isChoosing) {
                 holder.avatar_choosen.setVisibility(View.GONE);
@@ -96,24 +109,26 @@ public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.My
                 });
             } else {
                 holder.delete.setVisibility(View.GONE);
-                holder.avatar.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (holder.avatar_choosen.getVisibility() == View.INVISIBLE) {
-                            holder.avatar_choosen.setVisibility(View.VISIBLE);
-                            holder.name.setTextColor(AppUtils.getAppContext().getResources()
-                                    .getColor(R.color
-                                            .red));
-                            tickedMembers.add(holder.name.getText().toString());
-                        } else {
-                            holder.avatar_choosen.setVisibility(View.INVISIBLE);
-                            holder.name.setTextColor(AppUtils.getAppContext().getResources()
-                                    .getColor(R.color
-                                            .mygray));
-                            tickedMembers.remove(holder.name.getText().toString());
+                if (!isOwner) {
+                    holder.avatar.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (holder.avatar_choosen.getVisibility() == View.INVISIBLE) {
+                                holder.avatar_choosen.setVisibility(View.VISIBLE);
+                                holder.name.setTextColor(AppUtils.getAppContext().getResources()
+                                        .getColor(R.color
+                                                .red));
+                                tickedMembers.add(holder.name.getText().toString());
+                            } else {
+                                holder.avatar_choosen.setVisibility(View.INVISIBLE);
+                                holder.name.setTextColor(AppUtils.getAppContext().getResources()
+                                        .getColor(R.color
+                                                .mygray));
+                                tickedMembers.remove(holder.name.getText().toString());
+                            }
                         }
-                    }
-                });
+                    });
+                }
             }
 
         }
@@ -129,6 +144,6 @@ public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.My
 
     @Override
     public int getItemCount() {
-        return 10;
+        return mMembers.size();
     }
 }

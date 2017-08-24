@@ -3,6 +3,7 @@ package com.victor.nesthabit.ui.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -52,19 +53,21 @@ public class NestGroupDetailActivity extends BaseActivity implements NestGroupDe
     private TextView title;
     private NestGroupDetailContract.Presenter mPresenter;
     private String nestId = null;
+    private boolean isOwner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getIntent() != null) {
             nestId = getIntent().getStringExtra("nestId");
+            isOwner = getIntent().getBooleanExtra("isOwner", false);
         }
         mPresenter = new NestGroupDetailPresenter(this);
     }
 
     @Override
     protected BasePresenter getPresnter() {
-        return mPresenter;
+        return null;
     }
 
     @Override
@@ -74,7 +77,9 @@ public class NestGroupDetailActivity extends BaseActivity implements NestGroupDe
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_nest_group_detail;
+        if (isOwner)
+            return R.layout.activity_nest_group_detail;
+        return R.layout.activity_nest_group_detail_normal;
     }
 
     @Override
@@ -107,8 +112,10 @@ public class NestGroupDetailActivity extends BaseActivity implements NestGroupDe
         memberlayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityManager.startActivity(NestGroupDetailActivity.this, MemberListActivity
-                        .class);
+                Intent intent = new Intent(getActivity(), MemberListActivity.class);
+                intent.putExtra("nestId", nestId);
+                intent.putExtra("isOwner", isOwner);
+                ActivityManager.startActivity(getActivity(), intent);
             }
         });
         starttimelayout.setOnClickListener(new View.OnClickListener() {
@@ -161,15 +168,18 @@ public class NestGroupDetailActivity extends BaseActivity implements NestGroupDe
                 ActivityManager.finishActivity(NestGroupDetailActivity.this);
             }
         });
-        limitamounttoogle.setOnToggleChanged(new SwitchButton.OnToggleChanged() {
-            @Override
-            public void onToggle(boolean on) {
-                if (on) {
-                    setAmountEnabled(true);
-                } else
-                    setAmountEnabled(false);
-            }
-        });
+        if (isOwner) {
+            limitamounttoogle.setOnToggleChanged(new SwitchButton.OnToggleChanged() {
+                @Override
+                public void onToggle(boolean on) {
+                    if (on) {
+                        setAmountEnabled(true);
+                    } else
+                        setAmountEnabled(false);
+                }
+            });
+        }
+
     }
 
     @Override
@@ -190,6 +200,11 @@ public class NestGroupDetailActivity extends BaseActivity implements NestGroupDe
     @Override
     public void setDes(String des) {
         name.setText(des);
+    }
+
+    @Override
+    public boolean isOwner() {
+        return isOwner;
     }
 
     @Override

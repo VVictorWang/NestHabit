@@ -4,9 +4,9 @@ import android.util.Log;
 
 import com.victor.nesthabit.api.UserApi;
 import com.victor.nesthabit.bean.NestInfo;
+import com.victor.nesthabit.bean.UserInfo;
 import com.victor.nesthabit.ui.base.RxPresenter;
-import com.victor.nesthabit.ui.contract.NestGroupDetailContract;
-import com.victor.nesthabit.util.DateUtils;
+import com.victor.nesthabit.ui.contract.MemberListContract;
 import com.victor.nesthabit.util.RxUtil;
 import com.victor.nesthabit.util.Utils;
 
@@ -18,24 +18,24 @@ import rx.android.schedulers.AndroidSchedulers;
 import static rx.Observable.concat;
 
 /**
- * Created by victor on 7/22/17.
+ * Created by victor on 8/24/17.
  * email: chengyiwang@hustunique.com
  * blog: www.victorwang.science                                            #
  */
 
-public class NestGroupDetailPresenter extends RxPresenter implements NestGroupDetailContract
-        .Presenter {
-    private NestGroupDetailContract.View mView;
-    public static final String TAG = "@victor DetailPresenter";
+public class MemberListPresenter extends RxPresenter implements MemberListContract.Presenter {
 
-    public NestGroupDetailPresenter(NestGroupDetailContract.View view) {
+    private MemberListContract.View mView;
+    public static final String TAG = "@victor MemberPresenter";
+
+    public MemberListPresenter(MemberListContract.View view) {
         mView = view;
         mView.setPresenter(this);
     }
 
     @Override
     public void start() {
-        String nestId = mView.getNestid();
+        String nestId = mView.getNestId();
         if (nestId != null) {
             Log.d(TAG, nestId);
             String key = Utils.createAcacheKey("get_nestinfo", nestId);
@@ -58,30 +58,14 @@ public class NestGroupDetailPresenter extends RxPresenter implements NestGroupDe
 
                         @Override
                         public void onNext(NestInfo nestInfo) {
-                            mView.setTitle(nestInfo.name);
-                            mView.setDes(nestInfo.desc);
-                            mView.setStartTime(DateUtils.format(nestInfo.start_time, "yyyy-MM-dd"));
-                            mView.setChalengeDay(nestInfo.challenge_days);
-                            mView.setAmount(nestInfo.members_amount);
-                            if (mView.isOwner()) {
-                                if (nestInfo.members_limit == 0) {
-                                    mView.setLimited(false);
-                                    mView.setAmountEnabled(false);
-                                    mView.setMaxAmount(0);
-                                } else {
-                                    mView.setLimited(true);
-                                    mView.setAmountEnabled(true);
-                                    mView.setMaxAmount(nestInfo.members_limit);
-                                }
-                                mView.setOpen(nestInfo.open);
-                            } else
-                                mView.setMaxAmount(nestInfo.members_limit);
+                            for (UserInfo userInfo : nestInfo.members) {
+                                mView.addItem(userInfo);
+                            }
                         }
                     });
             addSubscribe(subscription);
         }
     }
-
 
     @Override
     public void unscribe() {

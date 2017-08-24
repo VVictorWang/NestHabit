@@ -15,6 +15,8 @@ public interface NestGroupDetailContract {
 
         void setDes(String des);
 
+        boolean isOwner();
+
         String getNestid();
 
         void setTitle(String titleString);

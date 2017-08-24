@@ -18,6 +18,7 @@ import com.victor.nesthabit.ui.activity.NestSpecificActivity;
 import com.victor.nesthabit.ui.presenter.AddNestPresenter;
 import com.victor.nesthabit.ui.presenter.NestListPresenter;
 import com.victor.nesthabit.util.ActivityManager;
+import com.victor.nesthabit.util.Utils;
 
 import java.util.List;
 
@@ -96,6 +97,7 @@ public class NestListFragAdapter extends RecyclerView.Adapter<NestListFragAdapte
         NestInfo info = mBirdCageInfos.get(position);
 //        holder.progresstext.setText(info.getDay_insist() + "/" + info
 //                .getChallenge_days());
+        boolean isOwner = info.owner.equals(Utils.getUsername());
         holder.birdcageListText.setText(info.getName());
         holder.peoplea.setText("+" + info.getMembers_amount() + "人");
         holder.mCardView.setOnClickListener(new View.OnClickListener() {
@@ -103,6 +105,7 @@ public class NestListFragAdapter extends RecyclerView.Adapter<NestListFragAdapte
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, NestSpecificActivity.class);
                 intent.putExtra("id", info.get_id());
+                intent.putExtra("isOwner", isOwner);
                 Log.d(TAG, info.get_id());
                 ActivityManager.startActivity((Activity) mContext, intent);
             }

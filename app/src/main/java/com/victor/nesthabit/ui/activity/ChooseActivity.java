@@ -78,7 +78,7 @@ public class ChooseActivity extends BaseActivity {
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(6,
                 StaggeredGridLayoutManager.VERTICAL);
         list.setLayoutManager(layoutManager);
-        MemberListAdapter adapter = new MemberListAdapter(ChooseActivity.this, true, false);
+        MemberListAdapter adapter = new MemberListAdapter(ChooseActivity.this, true, false, true);
         list.setAdapter(adapter);
         calendar.state().edit().setMinimumDate(Calendar.getInstance().getTime()
         ).commit();

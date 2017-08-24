@@ -1,7 +1,6 @@
 package com.victor.nesthabit.ui.activity;
 
 import android.app.Activity;
-import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
@@ -41,7 +40,7 @@ public class ChooseFriendActivity extends BaseActivity {
         this.list = (RecyclerView) findViewById(R.id.list);
         this.toolbar = findViewById(R.id.toolbar);
         setToolbar();
-        MemberListAdapter adapter = new MemberListAdapter(getActivity(), false, true);
+        MemberListAdapter adapter = new MemberListAdapter(getActivity(), false, true, true);
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(4,
                 StaggeredGridLayoutManager.VERTICAL);
         list.setLayoutManager(layoutManager);
