@@ -1,5 +1,6 @@
 package com.victor.nesthabit.ui.contract;
 
+import com.victor.nesthabit.bean.RankItem;
 import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.ui.base.Baseview;
 
@@ -15,6 +16,8 @@ public interface RankContract {
         String getNestId();
 
         int getType();
+
+        void addItem(RankItem rankItem);
 
     }
 

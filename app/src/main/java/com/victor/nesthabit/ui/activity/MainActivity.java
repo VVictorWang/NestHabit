@@ -6,9 +6,10 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.data.GlobalData;
+import com.victor.nesthabit.bean.GlobalData;
 import com.victor.nesthabit.ui.adapter.MyFragPageAdapter;
 import com.victor.nesthabit.ui.base.BaseActivity;
+import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.ui.contract.MainContract;
 import com.victor.nesthabit.ui.fragment.ClockListFragment;
 import com.victor.nesthabit.ui.fragment.NestListFragment;
@@ -22,13 +23,11 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     private TabLayout.Tab nest, clock;
     public static final String TAG = "@victor MainActivity";
     private MainContract.Presenter mPresenter;
-    //    private ProgressDialog mProgressDialog = new ProgressDialog(MainActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPresenter = new MainPresenter(this);
-        mPresenter.start();
     }
 
     @Override
@@ -126,8 +125,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
 
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mPresenter.unscribe();
+    protected BasePresenter getPresnter() {
+        return mPresenter;
     }
 }

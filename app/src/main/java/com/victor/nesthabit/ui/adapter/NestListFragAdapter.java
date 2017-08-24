@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.data.NestInfo;
+import com.victor.nesthabit.bean.NestInfo;
 import com.victor.nesthabit.ui.activity.NestSpecificActivity;
 import com.victor.nesthabit.ui.presenter.AddNestPresenter;
 import com.victor.nesthabit.ui.presenter.NestListPresenter;

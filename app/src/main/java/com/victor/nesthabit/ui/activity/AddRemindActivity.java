@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.service.RecordingService;
 import com.victor.nesthabit.ui.base.BaseActivity;
+import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.ui.contract.AddRemindContract;
 import com.victor.nesthabit.ui.presenter.AddRemindPresenter;
 import com.victor.nesthabit.util.ActivityManager;
@@ -41,6 +42,11 @@ public class AddRemindActivity extends BaseActivity implements AddRemindContract
         super.onCreate(savedInstanceState);
         mPresenter = new AddRemindPresenter(this);
 
+    }
+
+    @Override
+    protected BasePresenter getPresnter() {
+        return mPresenter;
     }
 
     @Override

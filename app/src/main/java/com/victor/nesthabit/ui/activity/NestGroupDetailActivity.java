@@ -19,6 +19,7 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.ui.base.BaseActivity;
+import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.ui.contract.NestGroupDetailContract;
 import com.victor.nesthabit.ui.presenter.NestGroupDetailPresenter;
 import com.victor.nesthabit.util.ActivityManager;
@@ -34,7 +35,7 @@ public class NestGroupDetailActivity extends BaseActivity implements NestGroupDe
     private android.widget.EditText name;
     private android.widget.RelativeLayout memberlayout;
     private android.widget.EditText day;
-    private android.widget.TextView starttime;
+    private android.widget.TextView starttime, introduction;
     private android.widget.RelativeLayout starttimelayout;
     private com.victor.nesthabit.view.SwitchButton limitamounttoogle;
     private android.widget.EditText amount;
@@ -50,12 +51,20 @@ public class NestGroupDetailActivity extends BaseActivity implements NestGroupDe
     private ImageView back;
     private TextView title;
     private NestGroupDetailContract.Presenter mPresenter;
+    private String nestId = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getIntent() != null) {
+            nestId = getIntent().getStringExtra("nestId");
+        }
         mPresenter = new NestGroupDetailPresenter(this);
+    }
 
+    @Override
+    protected BasePresenter getPresnter() {
+        return mPresenter;
     }
 
     @Override
@@ -75,6 +84,7 @@ public class NestGroupDetailActivity extends BaseActivity implements NestGroupDe
         this.qzone = (CircleImageView) findViewById(R.id.qzone);
         this.qq = (CircleImageView) findViewById(R.id.qq);
         this.invitationtoplayout = (RelativeLayout) findViewById(R.id.invitation_top_layout);
+        this.introduction = (TextView) findViewById(R.id.introduction);
         this.loginway = (TextView) findViewById(R.id.login_way);
         this.quit = (TextView) findViewById(R.id.quit);
         this.opentoogle = (SwitchButton) findViewById(R.id.open_toogle);
@@ -89,11 +99,6 @@ public class NestGroupDetailActivity extends BaseActivity implements NestGroupDe
         remind = (CardView) findViewById(R.id.layout_four);
         back = (ImageView) (toolbar.findViewById(R.id.back));
         title = (TextView) (toolbar.findViewById(R.id.title_text));
-        setToolbar();
-    }
-
-    private void setToolbar() {
-        title.setText("早起的鸟儿有虫吃");
         (toolbar.findViewById(R.id.right_text)).setVisibility(View.INVISIBLE);
     }
 
@@ -159,16 +164,12 @@ public class NestGroupDetailActivity extends BaseActivity implements NestGroupDe
         limitamounttoogle.setOnToggleChanged(new SwitchButton.OnToggleChanged() {
             @Override
             public void onToggle(boolean on) {
-
+                if (on) {
+                    setAmountEnabled(true);
+                } else
+                    setAmountEnabled(false);
             }
         });
-        opentoogle.setOnToggleChanged(new SwitchButton.OnToggleChanged() {
-            @Override
-            public void onToggle(boolean on) {
-
-            }
-        });
-
     }
 
     @Override
@@ -187,8 +188,28 @@ public class NestGroupDetailActivity extends BaseActivity implements NestGroupDe
     }
 
     @Override
+    public void setDes(String des) {
+        name.setText(des);
+    }
+
+    @Override
+    public String getNestid() {
+        return nestId;
+    }
+
+    @Override
+    public void setTitle(String titleString) {
+        title.setText(titleString);
+    }
+
+    @Override
     public int getChalengeDay() {
         return Integer.valueOf(day.getText().toString());
+    }
+
+    @Override
+    public void setChalengeDay(int days) {
+        day.setText(days + "");
     }
 
     @Override
@@ -203,21 +224,42 @@ public class NestGroupDetailActivity extends BaseActivity implements NestGroupDe
 
     @Override
     public void setAmount(int amount) {
+        introduction.setText(amount + "人");
+    }
 
+    @Override
+    public void setAmountEnabled(boolean enabled) {
+        amount.setEnabled(enabled);
     }
 
     @Override
     public boolean isLimited() {
-        return false;
+        return limitamounttoogle.getToogle();
+    }
+
+    @Override
+    public void setLimited(boolean limited) {
+        if (limited) {
+            limitamounttoogle.toggleOn();
+        } else
+            limitamounttoogle.toggleOff();
     }
 
     @Override
     public boolean isOpen() {
-        return false;
+        return opentoogle.getToogle();
     }
 
     @Override
-    public void setMaxAmount(int amount) {
+    public void setOpen(boolean open) {
+        if (open) {
+            opentoogle.toggleOn();
+        } else
+            opentoogle.toggleOff();
+    }
 
+    @Override
+    public void setMaxAmount(int amounts) {
+        amount.setText(amounts + "");
     }
 }

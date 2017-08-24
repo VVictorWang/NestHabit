@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.ui.base.BaseActivity;
+import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.util.ActivityManager;
 
 public class AdviceActivity extends BaseActivity {
@@ -18,8 +19,8 @@ public class AdviceActivity extends BaseActivity {
     private android.widget.Button submit;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected BasePresenter getPresnter() {
+        return null;
     }
 
     @Override

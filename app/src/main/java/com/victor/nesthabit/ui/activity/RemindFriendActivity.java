@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.ui.adapter.RemindFriendAdapter;
 import com.victor.nesthabit.ui.base.BaseActivity;
+import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.util.ActivityManager;
 
 public class RemindFriendActivity extends BaseActivity {
@@ -19,10 +20,10 @@ public class RemindFriendActivity extends BaseActivity {
     private android.support.v7.widget.RecyclerView list;
     private android.support.design.widget.FloatingActionButton add;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
+    @Override
+    protected BasePresenter getPresnter() {
+        return null;
     }
 
     @Override

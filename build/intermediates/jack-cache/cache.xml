@@ -2,18 +2,6 @@
 <items version="2" >
 
     <item
-        jar="/home/victor/.gradle/caches/modules-2/files-2.1/com.github.bumptech.glide/gifdecoder/4.0.0-RC1/c425e31eda1069f978a0e823ad50e567ab422656/gifdecoder-4.0.0-RC1.jar"
-        revision="26.0.0"
-        sha1="c425e31eda1069f978a0e823ad50e567ab422656">
-        <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/gifdecoder-4.0.0-RC1-0e9a01afcb63290610b4beb45deda2e018878dc9.jar" />
-    </item>
-    <item
-        jar="/home/victor/.android/build-cache/ab6d8cbccc4b2fb57d03076396e87bb386e6f48d/output/jars/classes.jar"
-        revision="26.0.0"
-        sha1="6ef31f1555bb4cc513ec8d52711365a8b89f3600">
-        <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-e19dd3acec58f43d083d7c8cab57fd788dea362a.jar" />
-    </item>
-    <item
         jar="/home/victor/.gradle/caches/modules-2/files-2.1/com.squareup.okio/okio/1.13.0/a9283170b7305c8d92d25aff02a6ab7e45d06cbe/okio-1.13.0.jar"
         revision="26.0.0"
         sha1="a9283170b7305c8d92d25aff02a6ab7e45d06cbe">
@@ -26,10 +14,10 @@
         <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-cb74c8e78117024b8238335f1143f8b251a5dc03.jar" />
     </item>
     <item
-        jar="/home/victor/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit2/retrofit/2.3.0/bcacde6a8ccedcc56c127403d26b76072fe6214d/retrofit-2.3.0.jar"
+        jar="/home/victor/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit2/adapter-rxjava/2.2.0/d80514b6f44f0c4c6234e2d67fea783a25e77275/adapter-rxjava-2.2.0.jar"
         revision="26.0.0"
-        sha1="bcacde6a8ccedcc56c127403d26b76072fe6214d">
-        <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/retrofit-2.3.0-06be186dbee08b1ac4b14b065cbb1a65789eff73.jar" />
+        sha1="d80514b6f44f0c4c6234e2d67fea783a25e77275">
+        <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/adapter-rxjava-2.2.0-4fc9e4da8f60a1d0d2b714b644924d2e65a64ca2.jar" />
     </item>
     <item
         jar="/home/victor/.gradle/caches/modules-2/files-2.1/com.github.bumptech.glide/disklrucache/4.0.0-RC1/1b4bba8f8d3df8db064c875c043c01e9ca3cdee9/disklrucache-4.0.0-RC1.jar"
@@ -38,16 +26,22 @@
         <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/disklrucache-4.0.0-RC1-a15f12c26ca6f417ac4a8508b952be3db7b75cf0.jar" />
     </item>
     <item
+        jar="/home/victor/.gradle/caches/modules-2/files-2.1/com.github.bumptech.glide/gifdecoder/4.0.0-RC1/c425e31eda1069f978a0e823ad50e567ab422656/gifdecoder-4.0.0-RC1.jar"
+        revision="26.0.0"
+        sha1="c425e31eda1069f978a0e823ad50e567ab422656">
+        <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/gifdecoder-4.0.0-RC1-0e9a01afcb63290610b4beb45deda2e018878dc9.jar" />
+    </item>
+    <item
         jar="/home/victor/.gradle/caches/modules-2/files-2.1/com.github.bumptech.glide/annotations/4.0.0-RC1/84c524dcd1a3088edd5560a8ac176eae1317f770/annotations-4.0.0-RC1.jar"
         revision="26.0.0"
         sha1="84c524dcd1a3088edd5560a8ac176eae1317f770">
         <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/annotations-4.0.0-RC1-203359c52e078437d0cf7155caacd0e1c4dd4ea3.jar" />
     </item>
     <item
-        jar="/home/victor/.gradle/caches/modules-2/files-2.1/io.reactivex/rxjava/1.3.0/af000bec2036a2a9d07197c4b03b8966bfc60b03/rxjava-1.3.0.jar"
+        jar="/home/victor/.android/build-cache/ab6d8cbccc4b2fb57d03076396e87bb386e6f48d/output/jars/classes.jar"
         revision="26.0.0"
-        sha1="af000bec2036a2a9d07197c4b03b8966bfc60b03">
-        <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/rxjava-1.3.0-f7223807140019576a2022c80df87fb02e195e7f.jar" />
+        sha1="6ef31f1555bb4cc513ec8d52711365a8b89f3600">
+        <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-e19dd3acec58f43d083d7c8cab57fd788dea362a.jar" />
     </item>
     <item
         jar="/home/victor/.android/build-cache/b9349668a5919ac72da356450a548fb808ae8994/output/jars/classes.jar"
@@ -56,28 +50,10 @@
         <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-d76fc11a42fb77a39580102dc6eb81ee9f2affb5.jar" />
     </item>
     <item
-        jar="/home/victor/.android/build-cache/1207526fd6d747521a20f74022518c250d7b3571/output/jars/classes.jar"
+        jar="/home/victor/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit2/retrofit/2.3.0/bcacde6a8ccedcc56c127403d26b76072fe6214d/retrofit-2.3.0.jar"
         revision="26.0.0"
-        sha1="d4cf6227dd6a2ceff0f7dcf0c324380b7abf2c28">
-        <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-2b39ca9db8486e37d46596242cf5ea7f577574bf.jar" />
-    </item>
-    <item
-        jar="/home/victor/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit2/adapter-rxjava/2.2.0/d80514b6f44f0c4c6234e2d67fea783a25e77275/adapter-rxjava-2.2.0.jar"
-        revision="26.0.0"
-        sha1="d80514b6f44f0c4c6234e2d67fea783a25e77275">
-        <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/adapter-rxjava-2.2.0-4fc9e4da8f60a1d0d2b714b644924d2e65a64ca2.jar" />
-    </item>
-    <item
-        jar="/home/victor/.android/build-cache/c8ece5e3cddca20414a60f305b72b561d07222a4/output/jars/classes.jar"
-        revision="26.0.0"
-        sha1="45f697922e6f072daa12f8a2995dc77ab03c11da">
-        <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-0e3b2deef6e77dbdd09f60c6c9509fb08c64a40e.jar" />
-    </item>
-    <item
-        jar="/home/victor/.gradle/caches/modules-2/files-2.1/com.github.bumptech.glide/glide/4.0.0-RC1/7baec7d5132e7343100a99630a56a6584a33addc/glide-4.0.0-RC1.jar"
-        revision="26.0.0"
-        sha1="7baec7d5132e7343100a99630a56a6584a33addc">
-        <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/glide-4.0.0-RC1-9167976bfdeaba093a2b6183e593f6368dce8c13.jar" />
+        sha1="bcacde6a8ccedcc56c127403d26b76072fe6214d">
+        <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/retrofit-2.3.0-06be186dbee08b1ac4b14b065cbb1a65789eff73.jar" />
     </item>
     <item
         jar="/home/victor/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.8.1/2a8e0aa38a2e21cb39e2f5a7d6704cbdc941da0/gson-2.8.1.jar"
@@ -86,16 +62,52 @@
         <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/gson-2.8.1-b9ed6583b8540612a3993b1ec642523a88e683b4.jar" />
     </item>
     <item
-        jar="/home/victor/.android/build-cache/d3f98edd0580653a711b13a8d4c2cba1dc1f3854/output/jars/classes.jar"
+        jar="/home/victor/.gradle/caches/modules-2/files-2.1/com.github.bumptech.glide/glide/4.0.0-RC1/7baec7d5132e7343100a99630a56a6584a33addc/glide-4.0.0-RC1.jar"
         revision="26.0.0"
-        sha1="5094eccf53998e9bcacfb85f80e7607b39b093fd">
-        <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-dce18a0d4cef9e57ca2635cea0364ce120380d3a.jar" />
+        sha1="7baec7d5132e7343100a99630a56a6584a33addc">
+        <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/glide-4.0.0-RC1-9167976bfdeaba093a2b6183e593f6368dce8c13.jar" />
+    </item>
+    <item
+        jar="/home/victor/.gradle/caches/modules-2/files-2.1/com.tencent.mm.opensdk/wechat-sdk-android-without-mta/1.4.0/6d9332f6999746b8fbda27659744f23e5dd27021/wechat-sdk-android-without-mta-1.4.0.jar"
+        revision="26.0.0"
+        sha1="6d9332f6999746b8fbda27659744f23e5dd27021">
+        <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/wechat-sdk-android-without-mta-1.4.0-f62359b022393d164950e828f43264deb579d9ee.jar" />
+    </item>
+    <item
+        jar="/home/victor/.android/build-cache/0fc368fae7038ec1e200ddcd321cc17f4ff321b2/output/jars/classes.jar"
+        revision="26.0.0"
+        sha1="5a2386ad9bfff580b206a7fe305cdccd00798159">
+        <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-1e2cab879e16e458f0d015a0aa1c77baad93fdf8.jar" />
     </item>
     <item
         jar="/home/victor/.android/build-cache/eb7d03d082337ad18df9667759776aa2c4852050/output/jars/classes.jar"
         revision="26.0.0"
         sha1="150252b33b00274cc868578ade018fda0d43a3eb">
         <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-ee75dd577a793909bc0ebb0aeba72bf88100d58a.jar" />
+    </item>
+    <item
+        jar="/home/victor/.android/build-cache/c8ece5e3cddca20414a60f305b72b561d07222a4/output/jars/classes.jar"
+        revision="26.0.0"
+        sha1="45f697922e6f072daa12f8a2995dc77ab03c11da">
+        <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-0e3b2deef6e77dbdd09f60c6c9509fb08c64a40e.jar" />
+    </item>
+    <item
+        jar="/home/victor/.android/build-cache/d3f98edd0580653a711b13a8d4c2cba1dc1f3854/output/jars/classes.jar"
+        revision="26.0.0"
+        sha1="5094eccf53998e9bcacfb85f80e7607b39b093fd">
+        <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-dce18a0d4cef9e57ca2635cea0364ce120380d3a.jar" />
+    </item>
+    <item
+        jar="/home/victor/.gradle/caches/modules-2/files-2.1/io.reactivex/rxjava/1.3.0/af000bec2036a2a9d07197c4b03b8966bfc60b03/rxjava-1.3.0.jar"
+        revision="26.0.0"
+        sha1="af000bec2036a2a9d07197c4b03b8966bfc60b03">
+        <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/rxjava-1.3.0-f7223807140019576a2022c80df87fb02e195e7f.jar" />
+    </item>
+    <item
+        jar="/home/victor/.android/build-cache/77a6f92a621b0efb15a96fe3de7b99a5e5333570/output/jars/classes.jar"
+        revision="26.0.0"
+        sha1="38789e20ace9ab7dbd00554bd2673ab424478d3b">
+        <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-0550ce000895817e83e613b9c369cbcbaabd0672.jar" />
     </item>
     <item
         jar="/home/victor/.android/build-cache/81174a2d8b6dac9de541cf4b663bd3ab74d1eaef/output/jars/classes.jar"
@@ -122,16 +134,10 @@
         <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-9ac0fd9dc50e8fc640294d5a5cc7b90b14a6125d.jar" />
     </item>
     <item
-        jar="/home/victor/.gradle/caches/modules-2/files-2.1/com.jakewharton/butterknife-annotations/8.7.0/2637055420a2da406e3ea9920c2ff4aafd38c970/butterknife-annotations-8.7.0.jar"
+        jar="/home/victor/.android/build-cache/36633fa54009114d15ca7c5ef0844f58411aeed9/output/jars/classes.jar"
         revision="26.0.0"
-        sha1="2637055420a2da406e3ea9920c2ff4aafd38c970">
-        <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/butterknife-annotations-8.7.0-bf381c9cab47db1b923b74bc5b16d63b57856a7c.jar" />
-    </item>
-    <item
-        jar="/home/victor/.android/build-cache/77a6f92a621b0efb15a96fe3de7b99a5e5333570/output/jars/classes.jar"
-        revision="26.0.0"
-        sha1="38789e20ace9ab7dbd00554bd2673ab424478d3b">
-        <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-0550ce000895817e83e613b9c369cbcbaabd0672.jar" />
+        sha1="4a26a1154d053ab11aaf4c3967c42a4d66390991">
+        <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-424384104f6435c93a6c867554d44ed8766b4d78.jar" />
     </item>
     <item
         jar="/home/victor/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/25.3.1/support-annotations-25.3.1.jar"
@@ -146,16 +152,10 @@
         <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-99bd6086b37446d21f500e35df2df08c66f37558.jar" />
     </item>
     <item
-        jar="/home/victor/.android/build-cache/36633fa54009114d15ca7c5ef0844f58411aeed9/output/jars/classes.jar"
+        jar="/home/victor/.android/build-cache/cea4f0f0ec542e701c91b4efa0f7a0d869412ad0/output/jars/classes.jar"
         revision="26.0.0"
-        sha1="4a26a1154d053ab11aaf4c3967c42a4d66390991">
-        <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-424384104f6435c93a6c867554d44ed8766b4d78.jar" />
-    </item>
-    <item
-        jar="/home/victor/.android/build-cache/0fc368fae7038ec1e200ddcd321cc17f4ff321b2/output/jars/classes.jar"
-        revision="26.0.0"
-        sha1="5a2386ad9bfff580b206a7fe305cdccd00798159">
-        <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-1e2cab879e16e458f0d015a0aa1c77baad93fdf8.jar" />
+        sha1="47635644d0d5c103c1dd8360549eb9ba3225c7d3">
+        <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-0ff41ae5b78b152838aecc8c7a2509802cac66ea.jar" />
     </item>
     <item
         jar="/home/victor/Android/Sdk/extras/m2repository/com/android/support/constraint/constraint-layout-solver/1.0.2/constraint-layout-solver-1.0.2.jar"
@@ -164,10 +164,10 @@
         <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/constraint-layout-solver-1.0.2-347da58ba476d9f5e0bddb89d26facc9367c072e.jar" />
     </item>
     <item
-        jar="/home/victor/.gradle/caches/modules-2/files-2.1/com.tencent.mm.opensdk/wechat-sdk-android-without-mta/1.4.0/6d9332f6999746b8fbda27659744f23e5dd27021/wechat-sdk-android-without-mta-1.4.0.jar"
+        jar="/home/victor/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.8.1/4d060ca3190df0eda4dc13415532a12e15ca5f11/okhttp-3.8.1.jar"
         revision="26.0.0"
-        sha1="6d9332f6999746b8fbda27659744f23e5dd27021">
-        <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/wechat-sdk-android-without-mta-1.4.0-f62359b022393d164950e828f43264deb579d9ee.jar" />
+        sha1="4d060ca3190df0eda4dc13415532a12e15ca5f11">
+        <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/okhttp-3.8.1-3563bdb4a2bfdc784a54652ba40c45e7898344a5.jar" />
     </item>
     <item
         jar="/home/victor/.gradle/caches/modules-2/files-2.1/com.squareup.retrofit2/converter-gson/2.3.0/9e09011e9767bb76b5e27c9b8223476b93b14631/converter-gson-2.3.0.jar"
@@ -176,28 +176,16 @@
         <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/converter-gson-2.3.0-7c47b819e94dbcc662002c892ab09afd8890e579.jar" />
     </item>
     <item
-        jar="/home/victor/.gradle/caches/modules-2/files-2.1/com.squareup.okhttp3/okhttp/3.8.1/4d060ca3190df0eda4dc13415532a12e15ca5f11/okhttp-3.8.1.jar"
+        jar="/home/victor/.android/build-cache/1207526fd6d747521a20f74022518c250d7b3571/output/jars/classes.jar"
         revision="26.0.0"
-        sha1="4d060ca3190df0eda4dc13415532a12e15ca5f11">
-        <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/okhttp-3.8.1-3563bdb4a2bfdc784a54652ba40c45e7898344a5.jar" />
-    </item>
-    <item
-        jar="/home/victor/.android/build-cache/cea4f0f0ec542e701c91b4efa0f7a0d869412ad0/output/jars/classes.jar"
-        revision="26.0.0"
-        sha1="47635644d0d5c103c1dd8360549eb9ba3225c7d3">
-        <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-0ff41ae5b78b152838aecc8c7a2509802cac66ea.jar" />
+        sha1="d4cf6227dd6a2ceff0f7dcf0c324380b7abf2c28">
+        <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-2b39ca9db8486e37d46596242cf5ea7f577574bf.jar" />
     </item>
     <item
         jar="/home/victor/.android/build-cache/105cfb3f7d408f931e8a3d762990738e27cfde4f/output/jars/classes.jar"
         revision="26.0.0"
         sha1="95519720620b553f63afc789beba9ad582807f7c">
         <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-e58f073b49db483055da68684d81df2d0c8baf09.jar" />
-    </item>
-    <item
-        jar="/home/victor/.android/build-cache/4bdaf60a0cec4e495561fc67d4ee0e5fbba843c6/output/jars/classes.jar"
-        revision="26.0.0"
-        sha1="0b7d39c161cecdb6c2b52a1cdc71faf0ffd4626e">
-        <dex dex="/home/victor/AndroidProject/NestHabit/app/build/intermediates/transforms/preJackPackagedLibraries/debug/jars/8000/1f/classes-0536ef470d4a8cc5fd26b242fd2c8bfc29672b11.jar" />
     </item>
 
 </items>

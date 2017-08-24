@@ -1,12 +1,12 @@
 package com.victor.nesthabit.ui.activity;
 
 import android.app.Activity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.ui.base.BaseActivity;
+import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.view.CircleImageView;
 
 public class ShareSuccessActivity extends BaseActivity {
@@ -18,10 +18,10 @@ public class ShareSuccessActivity extends BaseActivity {
     private com.victor.nesthabit.view.CircleImageView moment;
     private TextView finish;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
+    @Override
+    protected BasePresenter getPresnter() {
+        return null;
     }
 
     @Override

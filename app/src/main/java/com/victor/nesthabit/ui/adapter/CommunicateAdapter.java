@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.data.SendMessageResponse;
+import com.victor.nesthabit.bean.SendMessageResponse;
 import com.victor.nesthabit.util.DateUtils;
 
 import java.util.List;

@@ -8,7 +8,7 @@ import android.os.IBinder;
 import android.util.Log;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.data.RecordItem;
+import com.victor.nesthabit.bean.RecordItem;
 import com.victor.nesthabit.util.LogUtils;
 
 import org.litepal.crud.DataSupport;

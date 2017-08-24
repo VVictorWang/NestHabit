@@ -13,8 +13,9 @@ import com.tencent.mm.opensdk.modelmsg.WXTextObject;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.data.GlobalData;
+import com.victor.nesthabit.bean.GlobalData;
 import com.victor.nesthabit.ui.base.BaseActivity;
+import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.util.ActivityManager;
 import com.victor.nesthabit.view.CircleImageView;
 
@@ -37,6 +38,11 @@ public class ProfileActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         mIWXAPI = WXAPIFactory.createWXAPI(this, GlobalData.APP_ID_WECHAT, true);
         mIWXAPI.registerApp(GlobalData.APP_ID_WECHAT);
+    }
+
+    @Override
+    protected BasePresenter getPresnter() {
+        return null;
     }
 
     @Override

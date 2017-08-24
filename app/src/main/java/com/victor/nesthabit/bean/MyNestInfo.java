@@ -1,14 +1,16 @@
-package com.victor.nesthabit.data;
+package com.victor.nesthabit.bean;
+
+import org.litepal.crud.DataSupport;
 
 import java.util.List;
 
 /**
- * Created by victor on 7/23/17.
+ * Created by victor on 7/26/17.
  * email: chengyiwang@hustunique.com
  * blog: www.victorwang.science                                            #
  */
 
-public class NestInfo {
+public class MyNestInfo extends DataSupport {
     /**
      * _id : 597431a9f6ded6062862d268
      * name : aaaaaaa
@@ -29,29 +31,44 @@ public class NestInfo {
      * /581583075164355.png","nickname":"a"}]
      */
 
-    public String _id;
-    public String name;
-    public String desc;
-    public int members_limit;
-    public long start_time;
-    public int challenge_days;
-    public boolean open;
-    public String cover_image;
-    public long created_time;
-    public String creator;
-    public String owner;
-    public int members_amount;
-    public List<UserInfo> members;
+    private long id;
+    private String myid;
+    private String name;
+    private String desc;
+    private int members_limit;
+    private long start_time;
+    private int challenge_days;
+    private boolean open;
+    private String cover_image;
+    private long created_time;
+    private String creator;
+    private String owner;
+    private int members_amount;
+    private List<UserInfo> members;
+    private int day_insist;
 
-
-
-
-    public String get_id() {
-        return _id;
+    public long getId() {
+        return id;
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public int getDay_insist() {
+        return day_insist;
+    }
+
+    public void setDay_insist(int day_insist) {
+        this.day_insist = day_insist;
+    }
+
+    public String getMyid() {
+        return myid;
+    }
+
+    public void setMyid(String myid) {
+        this.myid = myid;
     }
 
     public String getName() {

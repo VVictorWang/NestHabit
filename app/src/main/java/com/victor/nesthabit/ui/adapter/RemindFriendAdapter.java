@@ -16,7 +16,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.data.RecordItem;
+import com.victor.nesthabit.bean.RecordItem;
 import com.victor.nesthabit.ui.activity.ChooseActivity;
 import com.victor.nesthabit.ui.presenter.AddRemindPresenter;
 import com.victor.nesthabit.util.ActivityManager;

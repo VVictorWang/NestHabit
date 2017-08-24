@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.data.SendMessageResponse;
+import com.victor.nesthabit.bean.SendMessageResponse;
 import com.victor.nesthabit.ui.adapter.CommunicateAdapter;
 import com.victor.nesthabit.ui.base.BaseFragment;
 import com.victor.nesthabit.ui.base.BasePresenter;

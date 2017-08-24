@@ -1,11 +1,11 @@
 package com.victor.nesthabit.ui.presenter;
 
 import com.victor.nesthabit.api.UserApi;
-import com.victor.nesthabit.data.AddNestResponse;
-import com.victor.nesthabit.data.GlobalData;
-import com.victor.nesthabit.data.JoinedNests;
-import com.victor.nesthabit.data.MyNestInfo;
-import com.victor.nesthabit.data.NestInfo;
+import com.victor.nesthabit.bean.AddNestResponse;
+import com.victor.nesthabit.bean.GlobalData;
+import com.victor.nesthabit.bean.JoinedNests;
+import com.victor.nesthabit.bean.MyNestInfo;
+import com.victor.nesthabit.bean.NestInfo;
 import com.victor.nesthabit.ui.base.RxPresenter;
 import com.victor.nesthabit.ui.contract.AddNestContract;
 import com.victor.nesthabit.util.AppUtils;

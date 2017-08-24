@@ -1,6 +1,6 @@
 package com.victor.nesthabit.ui.contract;
 
-import com.victor.nesthabit.data.AlarmTime;
+import com.victor.nesthabit.bean.AlarmTime;
 import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.ui.base.Baseview;
 

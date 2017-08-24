@@ -1,6 +1,4 @@
-package com.victor.nesthabit.data;
-
-import android.content.Intent;
+package com.victor.nesthabit.bean;
 
 import org.litepal.crud.DataSupport;
 

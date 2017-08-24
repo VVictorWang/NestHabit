@@ -1,4 +1,4 @@
-package com.victor.nesthabit.data;
+package com.victor.nesthabit.bean;
 
 /**
  * Created by victor on 8/16/17.

@@ -2,7 +2,6 @@ package com.victor.nesthabit.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -10,22 +9,20 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.ui.adapter.MyFragPageAdapter;
 import com.victor.nesthabit.ui.base.BaseActivity;
+import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.ui.contract.NestSpecificContract;
 import com.victor.nesthabit.ui.fragment.CommunicateFragment;
 import com.victor.nesthabit.ui.fragment.DaKaWallFragment;
 import com.victor.nesthabit.ui.presenter.NsetSpecificPresenter;
 import com.victor.nesthabit.util.ActivityManager;
-import com.victor.nesthabit.util.AppUtils;
+import com.victor.nesthabit.util.WidgetUtils;
 import com.victor.nesthabit.view.CircleProgressBar;
-
-import java.lang.reflect.Field;
 
 public class NestSpecificActivity extends BaseActivity implements NestSpecificContract.View {
 
@@ -54,7 +51,6 @@ public class NestSpecificActivity extends BaseActivity implements NestSpecificCo
         }
         setUpViewPager();
         mPresenter = new NsetSpecificPresenter(this);
-        mPresenter.start();
     }
 
     @Override
@@ -127,8 +123,9 @@ public class NestSpecificActivity extends BaseActivity implements NestSpecificCo
         introduction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityManager.startActivity(NestSpecificActivity.this, NestGroupDetailActivity
-                        .class);
+                Intent intent = new Intent(getActivity(), NestGroupDetailActivity.class);
+                intent.putExtra("nestId", id);
+                ActivityManager.startActivity(getActivity(), intent);
             }
         });
         back.setOnClickListener(new View.OnClickListener() {
@@ -153,50 +150,9 @@ public class NestSpecificActivity extends BaseActivity implements NestSpecificCo
         adapter.addFragment(CommunicateFragment.newInstance(id), "交流板");
         viewpager.setAdapter(adapter);
         tab.setupWithViewPager(viewpager);
-        setUpIndicatorWidth(tab, 30, 30);
+        WidgetUtils.setUpIndicatorWidth(tab, 30, 30);
     }
 
-    private void setUpIndicatorWidth(TabLayout tabLayout, int marginLeft, int marginRight) {
-        Class<?> tabLayoutClass = tabLayout.getClass();
-        Field tabStrip = null;
-        try {
-            tabStrip = tabLayoutClass.getDeclaredField("mTabStrip");
-            tabStrip.setAccessible(true);
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        }
-
-        LinearLayout layout = null;
-        try {
-            if (tabStrip != null) {
-                layout = (LinearLayout) tabStrip.get(tabLayout);
-            }
-            for (int i = 0; i < layout.getChildCount(); i++) {
-                View child = layout.getChildAt(i);
-                child.setPadding(0, 0, 0, 0);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, LinearLayout
-                        .LayoutParams.MATCH_PARENT, 1);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                    params.setMarginStart(dpToPx(marginLeft));
-                    params.setMarginEnd(dpToPx(marginRight));
-                }
-                child.setLayoutParams(params);
-                child.invalidate();
-            }
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * 将dp转换成px
-     *
-     * @param dp
-     * @return
-     */
-    public int dpToPx(int dp) {
-        return (int) (dp * AppUtils.getAppContext().getResources().getDisplayMetrics().density);
-    }
 
     @Override
     public void setPresenter(NestSpecificContract.Presenter presenter) {
@@ -260,8 +216,7 @@ public class NestSpecificActivity extends BaseActivity implements NestSpecificCo
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mPresenter.unscribe();
+    protected BasePresenter getPresnter() {
+        return mPresenter;
     }
 }

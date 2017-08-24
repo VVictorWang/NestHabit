@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.ui.adapter.MusicSettingAdapter;
 import com.victor.nesthabit.ui.base.BaseActivity;
+import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.util.ActivityManager;
 
 public class MusicSettingActivity extends BaseActivity {
@@ -33,6 +34,11 @@ public class MusicSettingActivity extends BaseActivity {
         if (getIntent() != null) {
             profileposition = getIntent().getIntExtra("profile", -1);
         }
+    }
+
+    @Override
+    protected BasePresenter getPresnter() {
+        return null;
     }
 
     @Override

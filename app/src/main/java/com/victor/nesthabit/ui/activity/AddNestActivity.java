@@ -15,6 +15,7 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.ui.base.BaseActivity;
+import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.ui.contract.AddNestContract;
 import com.victor.nesthabit.ui.presenter.AddNestPresenter;
 import com.victor.nesthabit.util.ActivityManager;
@@ -43,9 +44,8 @@ public class AddNestActivity extends BaseActivity implements AddNestContract.Vie
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mPresenter.unscribe();
+    protected BasePresenter getPresnter() {
+        return mPresenter;
     }
 
     @Override

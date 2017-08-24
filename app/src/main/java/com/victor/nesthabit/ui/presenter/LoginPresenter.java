@@ -1,8 +1,8 @@
 package com.victor.nesthabit.ui.presenter;
 
 import com.victor.nesthabit.api.UserApi;
-import com.victor.nesthabit.data.GlobalData;
-import com.victor.nesthabit.data.LoginResponse;
+import com.victor.nesthabit.bean.GlobalData;
+import com.victor.nesthabit.bean.LoginResponse;
 import com.victor.nesthabit.ui.base.RxPresenter;
 import com.victor.nesthabit.ui.contract.LoginContract;
 import com.victor.nesthabit.util.AppUtils;

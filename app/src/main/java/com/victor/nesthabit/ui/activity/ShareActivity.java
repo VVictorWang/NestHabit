@@ -1,7 +1,6 @@
 package com.victor.nesthabit.ui.activity;
 
 import android.app.Activity;
-import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +9,7 @@ import android.widget.TextView;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.ui.base.BaseActivity;
+import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.util.ActivityManager;
 
 public class ShareActivity extends BaseActivity {
@@ -19,10 +19,10 @@ public class ShareActivity extends BaseActivity {
     private android.support.v7.widget.CardView sharecardlayout;
     private android.widget.Button submit;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
+    @Override
+    protected BasePresenter getPresnter() {
+        return null;
     }
 
     @Override

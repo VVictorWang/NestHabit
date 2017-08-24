@@ -1,4 +1,4 @@
-package com.victor.nesthabit.data;
+package com.victor.nesthabit.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;

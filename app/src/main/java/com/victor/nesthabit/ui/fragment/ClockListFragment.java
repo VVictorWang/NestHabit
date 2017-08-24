@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.data.AlarmTime;
+import com.victor.nesthabit.bean.AlarmTime;
 import com.victor.nesthabit.ui.activity.AddAlarmActivity;
 import com.victor.nesthabit.ui.adapter.ClockListAdapter;
 import com.victor.nesthabit.ui.base.BaseFragment;

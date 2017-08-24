@@ -8,7 +8,7 @@ import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
-import com.victor.nesthabit.data.GlobalData;
+import com.victor.nesthabit.bean.GlobalData;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

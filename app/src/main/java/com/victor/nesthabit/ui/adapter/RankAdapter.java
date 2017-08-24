@@ -11,6 +11,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
+import com.victor.nesthabit.bean.RankItem;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by victor on 7/20/17.
@@ -22,12 +26,19 @@ public class RankAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int TOP_VIEW = 1;
     public static final int CONT_VIEW = 2;
     private Context mContext;
+    private List<RankItem> mRankItems = new ArrayList<>();
+
+    public void addItem(RankItem rankItem) {
+        mRankItems.add(rankItem);
+        notifyDataSetChanged();
+    }
 
     static class TopViewHolder extends RecyclerView.ViewHolder {
         private CardView card;
         private ImageView rankNumberImage;
         private ImageView avatar;
         private TextView name;
+        private TextView days;
 
         public TopViewHolder(View itemView) {
             super(itemView);
@@ -35,6 +46,7 @@ public class RankAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             rankNumberImage = (ImageView) itemView.findViewById(R.id.rank_number_image);
             avatar = (ImageView) itemView.findViewById(R.id.avatar);
             name = (TextView) itemView.findViewById(R.id.name);
+            days = (TextView) itemView.findViewById(R.id.days);
         }
     }
 
@@ -70,11 +82,14 @@ public class RankAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        RankItem rankItem = mRankItems.get(position);
         if (position == 0) {
             ((TopViewHolder) holder).rankNumberImage.setImageDrawable(mContext.getDrawable(R
                     .drawable.first));
             ((TopViewHolder) holder).avatar.setImageDrawable(mContext.getDrawable(R
                     .drawable.wang));
+            ((TopViewHolder) holder).name.setText(rankItem.getName());
+            ((TopViewHolder) holder).days.setText(rankItem.getDays() + "天");
         } else if (position == 1) {
             ((TopViewHolder) holder).rankNumberImage.setImageDrawable(mContext.getDrawable(R
                     .drawable.second));
@@ -82,12 +97,16 @@ public class RankAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     .huang));
             ((TopViewHolder) holder).card.setBackgroundColor(mContext.getResources().getColor(R
                     .color.second_rank));
+            ((TopViewHolder) holder).name.setText(rankItem.getName());
+            ((TopViewHolder) holder).days.setText(rankItem.getDays() + "天");
 
         } else if (position == 2) {
             ((TopViewHolder) holder).rankNumberImage.setImageDrawable(mContext.getDrawable(R
                     .drawable.third));
             ((TopViewHolder) holder).avatar.setImageDrawable(mContext.getDrawable(R.drawable
                     .jia));
+            ((TopViewHolder) holder).name.setText(rankItem.getName());
+            ((TopViewHolder) holder).days.setText(rankItem.getDays() + "天");
         } else {
             ((NextViewHolder) holder).mRecyclerView.setLayoutManager(new LinearLayoutManager
                     (mContext));
@@ -98,7 +117,11 @@ public class RankAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return 4;
+        int count = mRankItems.size();
+        if (count >= 4) {
+            return 4;
+        } else
+            return count;
     }
 
     @Override

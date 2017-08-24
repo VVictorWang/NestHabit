@@ -8,8 +8,8 @@ import android.util.Log;
 import android.view.View;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.data.GlobalData;
-import com.victor.nesthabit.data.NestInfo;
+import com.victor.nesthabit.bean.GlobalData;
+import com.victor.nesthabit.bean.NestInfo;
 import com.victor.nesthabit.ui.activity.AddNestActivity;
 import com.victor.nesthabit.ui.activity.ProfileActivity;
 import com.victor.nesthabit.ui.adapter.NestListFragAdapter;

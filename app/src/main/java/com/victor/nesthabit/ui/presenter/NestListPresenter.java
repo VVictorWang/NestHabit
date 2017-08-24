@@ -1,8 +1,8 @@
 package com.victor.nesthabit.ui.presenter;
 
 import com.victor.nesthabit.api.UserApi;
-import com.victor.nesthabit.data.JoinedNests;
-import com.victor.nesthabit.data.NestInfo;
+import com.victor.nesthabit.bean.JoinedNests;
+import com.victor.nesthabit.bean.NestInfo;
 import com.victor.nesthabit.ui.base.RxPresenter;
 import com.victor.nesthabit.ui.contract.NestListContract;
 import com.victor.nesthabit.util.RxUtil;

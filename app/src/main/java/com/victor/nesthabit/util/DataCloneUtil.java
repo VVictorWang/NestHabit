@@ -1,9 +1,9 @@
 package com.victor.nesthabit.util;
 
-import com.victor.nesthabit.data.AlarmResponse;
-import com.victor.nesthabit.data.AlarmTime;
-import com.victor.nesthabit.data.MyNestInfo;
-import com.victor.nesthabit.data.NestInfo;
+import com.victor.nesthabit.bean.AlarmResponse;
+import com.victor.nesthabit.bean.AlarmTime;
+import com.victor.nesthabit.bean.MyNestInfo;
+import com.victor.nesthabit.bean.NestInfo;
 
 import java.util.ArrayList;
 import java.util.List;

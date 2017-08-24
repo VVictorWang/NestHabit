@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.data.NestInfo;
+import com.victor.nesthabit.bean.NestInfo;
 
 import java.util.List;
 

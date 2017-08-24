@@ -1,8 +1,8 @@
 package com.victor.nesthabit.ui.presenter;
 
 import com.victor.nesthabit.api.UserApi;
-import com.victor.nesthabit.data.MessageList;
-import com.victor.nesthabit.data.SendMessageResponse;
+import com.victor.nesthabit.bean.MessageList;
+import com.victor.nesthabit.bean.SendMessageResponse;
 import com.victor.nesthabit.ui.adapter.CommunicateAdapter;
 import com.victor.nesthabit.ui.base.RxPresenter;
 import com.victor.nesthabit.ui.contract.CommunicateContract;

@@ -9,10 +9,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.data.JoinedNests;
-import com.victor.nesthabit.data.NestInfo;
+import com.victor.nesthabit.bean.JoinedNests;
+import com.victor.nesthabit.bean.NestInfo;
 import com.victor.nesthabit.ui.adapter.ChooseNestAdapter;
 import com.victor.nesthabit.ui.base.BaseActivity;
+import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.util.ActivityManager;
 import com.victor.nesthabit.util.RxUtil;
 import com.victor.nesthabit.util.Utils;
@@ -41,6 +42,11 @@ public class ChooseNestActivity extends BaseActivity {
                 new ArrayList<>());
         mRecyclerView.setAdapter(mNestListFragAdapter);
         initData();
+    }
+
+    @Override
+    protected BasePresenter getPresnter() {
+        return null;
     }
 
     private void setToolbar() {

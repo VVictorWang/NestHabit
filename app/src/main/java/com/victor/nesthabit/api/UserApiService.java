@@ -1,20 +1,20 @@
 package com.victor.nesthabit.api;
 
-import com.victor.nesthabit.data.AddNestResponse;
-import com.victor.nesthabit.data.AlarmResponse;
-import com.victor.nesthabit.data.DakaResponse;
-import com.victor.nesthabit.data.DateOfNest;
-import com.victor.nesthabit.data.GlobalData;
-import com.victor.nesthabit.data.JoinedNests;
-import com.victor.nesthabit.data.LoginResponse;
-import com.victor.nesthabit.data.MessageList;
-import com.victor.nesthabit.data.MsgResponse;
-import com.victor.nesthabit.data.MusicInfo;
-import com.victor.nesthabit.data.NestInfo;
-import com.victor.nesthabit.data.PostMusicResponse;
-import com.victor.nesthabit.data.RegisterResponse;
-import com.victor.nesthabit.data.SendMessageResponse;
-import com.victor.nesthabit.data.UserInfo;
+import com.victor.nesthabit.bean.AddNestResponse;
+import com.victor.nesthabit.bean.AlarmResponse;
+import com.victor.nesthabit.bean.DakaResponse;
+import com.victor.nesthabit.bean.DateOfNest;
+import com.victor.nesthabit.bean.GlobalData;
+import com.victor.nesthabit.bean.JoinedNests;
+import com.victor.nesthabit.bean.LoginResponse;
+import com.victor.nesthabit.bean.MessageList;
+import com.victor.nesthabit.bean.MsgResponse;
+import com.victor.nesthabit.bean.MusicInfo;
+import com.victor.nesthabit.bean.NestInfo;
+import com.victor.nesthabit.bean.PostMusicResponse;
+import com.victor.nesthabit.bean.RegisterResponse;
+import com.victor.nesthabit.bean.SendMessageResponse;
+import com.victor.nesthabit.bean.UserInfo;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;

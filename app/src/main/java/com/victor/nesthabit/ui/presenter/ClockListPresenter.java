@@ -1,8 +1,8 @@
 package com.victor.nesthabit.ui.presenter;
 
 import com.victor.nesthabit.api.UserApi;
-import com.victor.nesthabit.data.AlarmResponse;
-import com.victor.nesthabit.data.AlarmTime;
+import com.victor.nesthabit.bean.AlarmResponse;
+import com.victor.nesthabit.bean.AlarmTime;
 import com.victor.nesthabit.ui.base.RxPresenter;
 import com.victor.nesthabit.ui.contract.ClockListContract;
 import com.victor.nesthabit.util.DataCloneUtil;

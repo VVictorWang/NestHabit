@@ -1,4 +1,4 @@
-package com.victor.nesthabit.data;
+package com.victor.nesthabit.bean;
 
 import org.litepal.crud.DataSupport;
 

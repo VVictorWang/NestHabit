@@ -1,75 +1,40 @@
-package com.victor.nesthabit.data;
-
-import org.litepal.crud.DataSupport;
-
-import java.util.List;
+package com.victor.nesthabit.bean;
 
 /**
- * Created by victor on 7/26/17.
+ * Created by victor on 7/23/17.
  * email: chengyiwang@hustunique.com
  * blog: www.victorwang.science                                            #
  */
 
-public class MyNestInfo extends DataSupport {
+public class AddNestResponse {
+
     /**
-     * _id : 597431a9f6ded6062862d268
-     * name : aaaaaaa
-     * desc : aaaa
+     * name : aaaaa
+     * desc : bbbbb
      * members_limit : 0
-     * start_time : 1331856000
-     * challenge_days : 1000
-     * open : true
+     * start_time : 1456789000
+     * challenge_days : 10000
      * cover_image :
-     * created_time : 1500758313
+     * open : true
+     * created_time : 1500757500
      * creator : far
      * owner : far
      * members_amount : 1
-     * members : [{"username":"far","joined_nests":[{"_id":"59737af7f6ded61e7af0e6b8",
-     * "kept_days":0},{"_id":"597431a9f6ded6062862d268","kept_days":0}],
-     * "uploaded_musics":["59742ce5f6ded67422b9ffa3"],"alarm_clocks":["597385a6f6ded65832a3c175",
-     * "597385aaf6ded65832a3c176"],"avatar":"http://nesthabit.pek3a.qingstor.com/image
-     * /581583075164355.png","nickname":"a"}]
+     * _id : 59742e7cf6ded67422b9ffa4
      */
 
-    private long id;
-    private String myid;
     private String name;
     private String desc;
     private int members_limit;
     private long start_time;
     private int challenge_days;
-    private boolean open;
     private String cover_image;
+    private boolean open;
     private long created_time;
     private String creator;
     private String owner;
     private int members_amount;
-    private List<UserInfo> members;
-    private int day_insist;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public int getDay_insist() {
-        return day_insist;
-    }
-
-    public void setDay_insist(int day_insist) {
-        this.day_insist = day_insist;
-    }
-
-    public String getMyid() {
-        return myid;
-    }
-
-    public void setMyid(String myid) {
-        this.myid = myid;
-    }
+    private String _id;
 
     public String getName() {
         return name;
@@ -95,12 +60,17 @@ public class MyNestInfo extends DataSupport {
         this.members_limit = members_limit;
     }
 
+
+    public void setStart_time(long start_time) {
+        this.start_time = start_time;
+    }
+
     public long getStart_time() {
         return start_time;
     }
 
-    public void setStart_time(long start_time) {
-        this.start_time = start_time;
+    public long getCreated_time() {
+        return created_time;
     }
 
     public int getChallenge_days() {
@@ -111,14 +81,6 @@ public class MyNestInfo extends DataSupport {
         this.challenge_days = challenge_days;
     }
 
-    public boolean isOpen() {
-        return open;
-    }
-
-    public void setOpen(boolean open) {
-        this.open = open;
-    }
-
     public String getCover_image() {
         return cover_image;
     }
@@ -127,9 +89,15 @@ public class MyNestInfo extends DataSupport {
         this.cover_image = cover_image;
     }
 
-    public long getCreated_time() {
-        return created_time;
+    public boolean isOpen() {
+        return open;
     }
+
+    public void setOpen(boolean open) {
+        this.open = open;
+    }
+
+
 
     public void setCreated_time(long created_time) {
         this.created_time = created_time;
@@ -159,11 +127,11 @@ public class MyNestInfo extends DataSupport {
         this.members_amount = members_amount;
     }
 
-    public List<UserInfo> getMembers() {
-        return members;
+    public String get_id() {
+        return _id;
     }
 
-    public void setMembers(List<UserInfo> members) {
-        this.members = members;
+    public void set_id(String _id) {
+        this._id = _id;
     }
 }

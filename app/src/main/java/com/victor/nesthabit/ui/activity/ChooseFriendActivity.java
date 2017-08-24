@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.ui.adapter.MemberListAdapter;
 import com.victor.nesthabit.ui.base.BaseActivity;
+import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.util.ActivityManager;
 
 public class ChooseFriendActivity extends BaseActivity {
@@ -21,8 +22,8 @@ public class ChooseFriendActivity extends BaseActivity {
     private TextView manage;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected BasePresenter getPresnter() {
+        return null;
     }
 
     @Override

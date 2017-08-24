@@ -16,9 +16,10 @@ import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.data.RecordItem;
+import com.victor.nesthabit.bean.RecordItem;
 import com.victor.nesthabit.ui.adapter.MemberListAdapter;
 import com.victor.nesthabit.ui.base.BaseActivity;
+import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.util.ActivityManager;
 
 import org.litepal.crud.DataSupport;
@@ -46,6 +47,11 @@ public class ChooseActivity extends BaseActivity {
         id = getIntent().getLongExtra("id", 1);
         mRecordItem = DataSupport.find(RecordItem.class, id);
 
+    }
+
+    @Override
+    protected BasePresenter getPresnter() {
+        return null;
     }
 
     @Override

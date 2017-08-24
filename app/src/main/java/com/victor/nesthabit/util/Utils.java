@@ -1,6 +1,6 @@
 package com.victor.nesthabit.util;
 
-import com.victor.nesthabit.data.GlobalData;
+import com.victor.nesthabit.bean.GlobalData;
 
 /**
  * Created by victor on 7/26/17.

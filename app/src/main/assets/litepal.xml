@@ -4,10 +4,10 @@
     <version value="9"/>
 
     <list>
-        <mapping class="com.victor.nesthabit.data.AlarmTime"/>
-        <mapping class="com.victor.nesthabit.data.RecordItem"/>
-        <mapping class="com.victor.nesthabit.data.MyNestInfo"/>
-        <mapping class="com.victor.nesthabit.data.UserInfo"/>
+        <mapping class="com.victor.nesthabit.bean.AlarmTime"/>
+        <mapping class="com.victor.nesthabit.bean.RecordItem"/>
+        <mapping class="com.victor.nesthabit.bean.MyNestInfo"/>
+        <mapping class="com.victor.nesthabit.bean.UserInfo"/>
     </list>
 
 </litepal>

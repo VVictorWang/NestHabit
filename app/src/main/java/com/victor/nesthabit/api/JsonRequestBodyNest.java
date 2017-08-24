@@ -1,14 +1,9 @@
 package com.victor.nesthabit.api;
 
-import com.victor.nesthabit.data.UserInfo;
-
 import org.json.JSONObject;
-
-import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
-import retrofit2.http.PUT;
 
 /**
  * Created by victor on 7/24/17.

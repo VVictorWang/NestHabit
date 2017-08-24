@@ -10,16 +10,12 @@ import android.widget.TextView;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.ui.base.BaseActivity;
+import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.view.DragTextView;
 
 public class AlarmActivity extends BaseActivity {
 
-    private Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-        }
-    };
+
     private TextView time;
     private TextView textView;
     private android.widget.ImageView imagecancel;
@@ -29,10 +25,10 @@ public class AlarmActivity extends BaseActivity {
     private ImageView imagesnap;
     public static final String TAG = "@victor AlarmActivity";
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
+    @Override
+    protected BasePresenter getPresnter() {
+        return null;
     }
 
     @Override

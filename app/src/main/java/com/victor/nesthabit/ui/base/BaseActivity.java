@@ -8,7 +8,6 @@ import android.widget.Toast;
 
 import com.victor.nesthabit.util.ActivityManager;
 
-import butterknife.ButterKnife;
 
 /**
  * Created by victor on 7/12/17.
@@ -22,18 +21,33 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
         ActivityManager.getInstance().pushActivity(getActivity());
-        ButterKnife.bind(getActivity());
         initView();
         initEvent();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (getPresnter() != null) {
+            getPresnter().start();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (getPresnter() != null) {
+            getPresnter().unscribe();
+        }
+    }
+
+    protected abstract BasePresenter getPresnter();
 
     protected abstract Activity getActivity();
 
     protected abstract int getLayoutId();
 
     protected abstract void initView();
-
 
     protected abstract void initEvent();
 

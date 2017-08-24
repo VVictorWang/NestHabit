@@ -1,10 +1,10 @@
 package com.victor.nesthabit.ui.presenter;
 
 import com.victor.nesthabit.api.UserApi;
-import com.victor.nesthabit.data.DakaResponse;
-import com.victor.nesthabit.data.DateOfNest;
-import com.victor.nesthabit.data.MyNestInfo;
-import com.victor.nesthabit.data.NestInfo;
+import com.victor.nesthabit.bean.DakaResponse;
+import com.victor.nesthabit.bean.DateOfNest;
+import com.victor.nesthabit.bean.MyNestInfo;
+import com.victor.nesthabit.bean.NestInfo;
 import com.victor.nesthabit.ui.base.RxPresenter;
 import com.victor.nesthabit.ui.contract.NestSpecificContract;
 import com.victor.nesthabit.util.DateUtils;

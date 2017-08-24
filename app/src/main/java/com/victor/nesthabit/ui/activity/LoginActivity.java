@@ -8,6 +8,7 @@ import android.widget.RelativeLayout;
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.api.UserApi;
 import com.victor.nesthabit.ui.base.BaseActivity;
+import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.ui.contract.LoginContract;
 import com.victor.nesthabit.ui.presenter.LoginPresenter;
 import com.victor.nesthabit.util.ActivityManager;
@@ -125,9 +126,9 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
         ActivityManager.finishActivity(getActivity());
     }
 
+
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mLoginPresenter.unscribe();
+    protected BasePresenter getPresnter() {
+        return mLoginPresenter;
     }
 }

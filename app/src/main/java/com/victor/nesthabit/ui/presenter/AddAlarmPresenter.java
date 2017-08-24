@@ -2,8 +2,8 @@ package com.victor.nesthabit.ui.presenter;
 
 import android.util.Log;
 
-import com.victor.nesthabit.data.AlarmTime;
-import com.victor.nesthabit.data.GlobalData;
+import com.victor.nesthabit.bean.AlarmTime;
+import com.victor.nesthabit.bean.GlobalData;
 import com.victor.nesthabit.ui.contract.AddAlarmContract;
 import com.victor.nesthabit.util.CheckUtils;
 import com.victor.nesthabit.util.DateUtils;

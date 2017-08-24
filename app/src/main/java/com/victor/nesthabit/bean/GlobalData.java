@@ -1,4 +1,4 @@
-package com.victor.nesthabit.data;
+package com.victor.nesthabit.bean;
 
 import com.victor.nesthabit.util.AppUtils;
 

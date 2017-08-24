@@ -6,7 +6,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.data.GlobalData;
+import com.victor.nesthabit.bean.GlobalData;
 import com.victor.nesthabit.util.ActivityManager;
 import com.victor.nesthabit.util.PrefsUtils;
 

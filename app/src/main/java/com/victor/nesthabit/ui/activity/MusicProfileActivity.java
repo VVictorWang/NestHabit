@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.ui.adapter.MusicListAdapter;
 import com.victor.nesthabit.ui.base.BaseActivity;
+import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.util.ActivityManager;
 
 public class MusicProfileActivity extends BaseActivity {
@@ -23,10 +24,10 @@ public class MusicProfileActivity extends BaseActivity {
     private TextView ok;
     private ImageView back;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
+    @Override
+    protected BasePresenter getPresnter() {
+        return null;
     }
 
     @Override

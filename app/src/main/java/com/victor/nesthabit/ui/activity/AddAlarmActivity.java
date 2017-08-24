@@ -9,18 +9,17 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
-import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.data.AlarmTime;
+import com.victor.nesthabit.bean.AlarmTime;
 import com.victor.nesthabit.ui.base.BaseActivity;
+import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.ui.contract.AddAlarmContract;
 import com.victor.nesthabit.ui.presenter.AddAlarmPresenter;
 import com.victor.nesthabit.util.ActivityManager;
@@ -38,7 +37,6 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
     private RelativeLayout music_layout, title_layout;
     private PickerView pickview_hour, pickerview_minute;
     private TextView back, titletext, nestname;
-    private CardView timepicker;
     private EditText title;
     private TextView sunday;
     private TextView monday;
@@ -49,10 +47,6 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
     private TextView saturday;
     private RelativeLayout cagelayout;
     private TextView music;
-    private SeekBar progressbar;
-    private RelativeLayout volumelayout;
-    private TextView snap;
-    private TextView snaptime;
     private SwitchButton receivevoice;
     private SwitchButton receivetext;
     private SwitchButton snaptoogle;
@@ -71,7 +65,11 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
         if (getIntent() != null)
             id = getIntent().getLongExtra("id", -1);
         initWeeks();
-        mPresenter.start();
+    }
+
+    @Override
+    protected BasePresenter getPresnter() {
+        return mPresenter;
     }
 
     private void initWeeks() {
@@ -94,10 +92,6 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
     protected void initView() {
         this.receivetext = (SwitchButton) findViewById(R.id.receive_text);
         this.receivevoice = (SwitchButton) findViewById(R.id.receive_voice);
-        this.snaptime = (TextView) findViewById(R.id.snap_time);
-        this.snap = (TextView) findViewById(R.id.snap);
-        this.volumelayout = (RelativeLayout) findViewById(R.id.volume_layout);
-        this.progressbar = (SeekBar) findViewById(R.id.progress_bar);
         this.music = (TextView) findViewById(R.id.music);
         this.cagelayout = (RelativeLayout) findViewById(R.id.cage_layout);
         this.saturday = (TextView) findViewById(R.id.saturday);
@@ -108,7 +102,6 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
         this.monday = (TextView) findViewById(R.id.monday);
         this.sunday = (TextView) findViewById(R.id.sunday);
         this.title = (EditText) findViewById(R.id.title);
-        this.timepicker = (CardView) findViewById(R.id.time_picker);
         this.back = (TextView) findViewById(R.id.back);
         titletext = (TextView) findViewById(R.id.title_text);
         nestname = (TextView) findViewById(R.id.nest_name);

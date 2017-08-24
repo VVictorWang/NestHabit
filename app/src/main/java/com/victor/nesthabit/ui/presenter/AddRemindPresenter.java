@@ -4,7 +4,7 @@ import android.media.MediaPlayer;
 import android.os.Environment;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.data.RecordItem;
+import com.victor.nesthabit.bean.RecordItem;
 import com.victor.nesthabit.service.RecordingService;
 import com.victor.nesthabit.ui.contract.AddRemindContract;
 import com.victor.nesthabit.util.AppUtils;

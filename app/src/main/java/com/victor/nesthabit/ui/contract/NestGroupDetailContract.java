@@ -13,7 +13,15 @@ public interface NestGroupDetailContract {
     interface View extends Baseview<Presenter> {
         String getIntroduction();
 
+        void setDes(String des);
+
+        String getNestid();
+
+        void setTitle(String titleString);
+
         int getChalengeDay();
+
+        void setChalengeDay(int days);
 
         String getStartTime();
 
@@ -21,11 +29,17 @@ public interface NestGroupDetailContract {
 
         void setAmount(int amount);
 
+        void setAmountEnabled(boolean enabled);
+
         boolean isLimited();
+
+        void setLimited(boolean limited);
 
         boolean isOpen();
 
-        void setMaxAmount(int amount);
+        void setOpen(boolean open);
+
+        void setMaxAmount(int amounts);
     }
 
     interface Presenter extends BasePresenter {

@@ -1,10 +1,10 @@
 package com.victor.nesthabit.ui.presenter;
 
 import com.victor.nesthabit.api.UserApi;
-import com.victor.nesthabit.data.AlarmResponse;
-import com.victor.nesthabit.data.AlarmTime;
-import com.victor.nesthabit.data.Nests;
-import com.victor.nesthabit.data.UserInfo;
+import com.victor.nesthabit.bean.AlarmResponse;
+import com.victor.nesthabit.bean.AlarmTime;
+import com.victor.nesthabit.bean.Nests;
+import com.victor.nesthabit.bean.UserInfo;
 import com.victor.nesthabit.ui.base.RxPresenter;
 import com.victor.nesthabit.ui.contract.MainContract;
 import com.victor.nesthabit.util.RxUtil;

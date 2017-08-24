@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.victor.nesthabit.R;
+import com.victor.nesthabit.bean.RankItem;
 import com.victor.nesthabit.ui.adapter.RankAdapter;
 import com.victor.nesthabit.ui.base.BaseFragment;
 import com.victor.nesthabit.ui.base.BasePresenter;
@@ -26,6 +27,7 @@ public class RankTotalFragment extends BaseFragment implements RankContract.View
     public static final int CONSTANT_TYPE = 1;
 
     private RecyclerView mRecyclerView;
+    private RankAdapter mRankAdapter;
 
     private String nestId = null;
     private int type = TOTAL_TYPE;
@@ -65,7 +67,8 @@ public class RankTotalFragment extends BaseFragment implements RankContract.View
     protected void initView() {
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
-        mRecyclerView.setAdapter(new RankAdapter(mActivity));
+        mRankAdapter = new RankAdapter(mActivity);
+        mRecyclerView.setAdapter(mRankAdapter);
     }
 
     @Override
@@ -92,5 +95,12 @@ public class RankTotalFragment extends BaseFragment implements RankContract.View
     @Override
     public int getType() {
         return type;
+    }
+
+    @Override
+    public void addItem(RankItem rankItem) {
+        if (mRankAdapter != null) {
+            mRankAdapter.addItem(rankItem);
+        }
     }
 }
