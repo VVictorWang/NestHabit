@@ -18,6 +18,7 @@ import com.victor.nesthabit.ui.activity.NestSpecificActivity;
 import com.victor.nesthabit.ui.presenter.AddNestPresenter;
 import com.victor.nesthabit.ui.presenter.NestListPresenter;
 import com.victor.nesthabit.util.ActivityManager;
+import com.victor.nesthabit.util.LogUtils;
 import com.victor.nesthabit.util.Utils;
 
 import java.util.List;
@@ -106,7 +107,6 @@ public class NestListFragAdapter extends RecyclerView.Adapter<NestListFragAdapte
                 Intent intent = new Intent(mContext, NestSpecificActivity.class);
                 intent.putExtra("id", info.get_id());
                 intent.putExtra("isOwner", isOwner);
-                Log.d(TAG, info.get_id());
                 ActivityManager.startActivity((Activity) mContext, intent);
             }
         });

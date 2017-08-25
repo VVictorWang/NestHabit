@@ -3,7 +3,6 @@ package com.victor.nesthabit.ui.presenter;
 import com.victor.nesthabit.api.UserApi;
 import com.victor.nesthabit.bean.DakaResponse;
 import com.victor.nesthabit.bean.DateOfNest;
-import com.victor.nesthabit.bean.MyNestInfo;
 import com.victor.nesthabit.bean.NestInfo;
 import com.victor.nesthabit.ui.base.RxPresenter;
 import com.victor.nesthabit.ui.contract.NestSpecificContract;
@@ -28,7 +27,6 @@ import rx.android.schedulers.AndroidSchedulers;
 public class NsetSpecificPresenter extends RxPresenter implements NestSpecificContract.Presenter {
     private NestSpecificContract.View mView;
     public static final String TAG = "@victor NsetSpecific";
-    private MyNestInfo mMyNestInfo;
 
     public NsetSpecificPresenter(NestSpecificContract.View view) {
         mView = view;

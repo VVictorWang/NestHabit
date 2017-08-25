@@ -91,7 +91,7 @@ public class RankPresnter extends RxPresenter implements RankContract.Presenter 
                                             rankItem.setName(s);
                                             Subscription subscription1 = Observable.concat(RxUtil
                                                     .rxCreateDiskObservable(datekey,
-                                                    DateOfNest.class), ofNestObservable)
+                                                            DateOfNest.class), ofNestObservable)
                                                     .observeOn(AndroidSchedulers.mainThread())
                                                     .subscribe(new Observer<DateOfNest>() {
                                                         @Override

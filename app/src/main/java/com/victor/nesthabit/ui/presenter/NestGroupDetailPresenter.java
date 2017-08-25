@@ -36,12 +36,12 @@ public class NestGroupDetailPresenter extends RxPresenter implements NestGroupDe
     @Override
     public void start() {
         String nestId = mView.getNestid();
+        Log.d(TAG, "nestId" + nestId);
         if (nestId != null) {
-            Log.d(TAG, nestId);
             String key = Utils.createAcacheKey("get_nestinfo", nestId);
             Observable<NestInfo> observable = UserApi.getInstance().getNestInfo(nestId, Utils
                     .getHeader())
-                    .compose(RxUtil.<NestInfo>rxCacheListHelper(key));
+                    .compose(RxUtil.<NestInfo>rxCacheBeanHelper(key));
             Subscription subscription = concat(RxUtil.rxCreateDiskObservable(key,
                     NestInfo.class), observable)
                     .observeOn(AndroidSchedulers.mainThread())

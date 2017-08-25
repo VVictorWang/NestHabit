@@ -16,6 +16,7 @@ import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
+import rx.functions.Func2;
 import rx.schedulers.Schedulers;
 
 /**
@@ -39,8 +40,7 @@ public class CommunicatePresenter extends RxPresenter implements CommunicateCont
         String key = Utils.createAcacheKey("get-message-list", mView.getNestId());
         Observable<MessageList> observable = UserApi.getInstance().getMessageList(mView.getNestId
                 (), Utils.getHeader()).compose(RxUtil.<MessageList>rxCacheListHelper(key));
-        Subscription subscription = Observable.concat(RxUtil.rxCreateDiskObservable(key,
-                MessageList.class), observable)
+        Subscription subscription = observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<MessageList>() {
                     @Override
@@ -67,7 +67,18 @@ public class CommunicatePresenter extends RxPresenter implements CommunicateCont
                                     sendMessageResponse.type = CommunicateAdapter.LEFT_TYPE;
                                 return sendMessageResponse;
                             }
-                        }).subscribe(new Observer<SendMessageResponse>() {
+                        }).toSortedList(new Func2<SendMessageResponse, SendMessageResponse,
+                                Integer>() {
+
+                            @Override
+                            public Integer call(SendMessageResponse sendMessageResponse,
+                                                SendMessageResponse sendMessageResponse2) {
+                                if (sendMessageResponse.time >= sendMessageResponse2.time) {
+                                    return 1;
+                                }
+                                return -1;
+                            }
+                        }).subscribe(new Observer<List<SendMessageResponse>>() {
                             @Override
                             public void onCompleted() {
                             }
@@ -78,8 +89,12 @@ public class CommunicatePresenter extends RxPresenter implements CommunicateCont
                             }
 
                             @Override
-                            public void onNext(SendMessageResponse sendMessageResponse) {
-                                mView.addItem(sendMessageResponse);
+                            public void onNext(List<SendMessageResponse>
+                                                       sendMessageResponses) {
+                                for (SendMessageResponse sendMessageResponse :
+                                        sendMessageResponses) {
+                                    mView.addItem(sendMessageResponse);
+                                }
                             }
                         });
                     }

@@ -57,17 +57,17 @@ public class NestGroupDetailActivity extends BaseActivity implements NestGroupDe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         if (getIntent() != null) {
             nestId = getIntent().getStringExtra("nestId");
             isOwner = getIntent().getBooleanExtra("isOwner", false);
         }
+        super.onCreate(savedInstanceState);
         mPresenter = new NestGroupDetailPresenter(this);
     }
 
     @Override
     protected BasePresenter getPresnter() {
-        return null;
+        return mPresenter;
     }
 
     @Override

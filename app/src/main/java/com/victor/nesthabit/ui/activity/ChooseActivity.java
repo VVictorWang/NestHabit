@@ -20,13 +20,15 @@ import com.victor.nesthabit.bean.RecordItem;
 import com.victor.nesthabit.ui.adapter.MemberListAdapter;
 import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.ui.base.BasePresenter;
+import com.victor.nesthabit.ui.contract.ChooseContract;
+import com.victor.nesthabit.ui.presenter.ChoosePresenter;
 import com.victor.nesthabit.util.ActivityManager;
 
 import org.litepal.crud.DataSupport;
 
 import java.util.Calendar;
 
-public class ChooseActivity extends BaseActivity {
+public class ChooseActivity extends BaseActivity implements ChooseContract.View {
 
     private android.widget.ImageView back;
     private android.widget.RelativeLayout toolbar;
@@ -41,12 +43,14 @@ public class ChooseActivity extends BaseActivity {
     private RecordItem mRecordItem;
     private CalendarDay mCalendarDay;
 
+    private ChooseContract.Presenter mPresenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         id = getIntent().getLongExtra("id", 1);
         mRecordItem = DataSupport.find(RecordItem.class, id);
-
+        mPresenter = new ChoosePresenter(this);
     }
 
     @Override
@@ -108,5 +112,20 @@ public class ChooseActivity extends BaseActivity {
             }
         });
 
+    }
+
+    @Override
+    public void setPresenter(ChooseContract.Presenter presenter) {
+        mPresenter = presenter;
+    }
+
+    @Override
+    public void showMyToast(String description) {
+        showToast(description);
+    }
+
+    @Override
+    public String getChooseDate() {
+        return null;
     }
 }

@@ -20,7 +20,7 @@
             android:background="@drawable/bubble_mine"
             android:letterSpacing="0.1"
             android:lineSpacingMultiplier="1.2"
-            android:maxWidth="300dp"
+            android:maxWidth="280dp"
             android:padding="8dp"
             android:text="今天按时早起了"
             android:textColor="#FEFEFE"
