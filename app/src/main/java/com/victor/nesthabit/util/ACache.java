@@ -48,6 +48,13 @@ public class ACache {
     private static Map<String, ACache> mInstanceMap = new HashMap<>();
     private ACacheManager mCache;
 
+    private ACache(File cacheDir, long max_size, int max_count) {
+        if (!cacheDir.exists() && !cacheDir.mkdirs()) {
+            throw new RuntimeException("can't make dirs in " + cacheDir.getAbsolutePath());
+        }
+        mCache = new ACacheManager(cacheDir, max_size, max_count);
+    }
+
     public static ACache get(Context ctx) {
         return get(ctx, "data");
     }
@@ -142,222 +149,13 @@ public class ACache {
                 + "TB";
     }
 
-
     private static String myPid() {
         return "_" + android.os.Process.myPid();
-    }
-
-
-    private ACache(File cacheDir, long max_size, int max_count) {
-        if (!cacheDir.exists() && !cacheDir.mkdirs()) {
-            throw new RuntimeException("can't make dirs in " + cacheDir.getAbsolutePath());
-        }
-        mCache = new ACacheManager(cacheDir, max_size, max_count);
     }
 
     // =======================================
     // ============ String数据 读写 ==============
     // =======================================
-
-
-    /**
-     * 保存 String数据 到 缓存中
-     *
-     * @param key   保存的key
-     * @param value 保存的String数据
-     */
-    public void put(String key, String value) {
-        File file = mCache.newFile(key);
-        BufferedWriter out = null;
-        try {
-            out = new BufferedWriter(new FileWriter(file), 1024);
-            out.write(value);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (out != null) {
-                try {
-                    out.flush();
-                    out.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            mCache.put(file);
-        }
-    }
-
-
-    /**
-     * 保存 String数据 到 缓存中
-     *
-     * @param key      保存的key
-     * @param value    保存的String数据
-     * @param saveTime 保存的时间，单位：秒
-     */
-    public void put(String key, String value, int saveTime) {
-        put(key, Utils.newStringWithDateInfo(saveTime, value));
-    }
-
-
-    /**
-     * 读取 String数据
-     *
-     * @return String 数据
-     */
-    public String getAsString(String key) {
-        File file = mCache.get(key);
-        if (!file.exists()) return null;
-        boolean removeFile = false;
-        BufferedReader in = null;
-        try {
-            in = new BufferedReader(new FileReader(file));
-            String readString = "";
-            String currentLine;
-            while ((currentLine = in.readLine()) != null) {
-                readString += currentLine;
-            }
-            if (!Utils.isDue(readString)) {
-                return Utils.clearDateInfo(readString);
-            } else {
-                removeFile = true;
-                return null;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        } finally {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            if (removeFile) remove(key);
-        }
-    }
-
-    // =======================================
-    // ============= JSONObject 数据 读写 ==============
-    // =======================================
-
-
-    /**
-     * 保存 JSONObject数据 到 缓存中
-     *
-     * @param key   保存的key
-     * @param value 保存的JSON数据
-     */
-    public void put(String key, JSONObject value) {
-        put(key, value.toString());
-    }
-
-
-    /**
-     * 保存 JSONObject数据 到 缓存中
-     *
-     * @param key      保存的key
-     * @param value    保存的JSONObject数据
-     * @param saveTime 保存的时间，单位：秒
-     */
-    public void put(String key, JSONObject value, int saveTime) {
-        put(key, value.toString(), saveTime);
-    }
-
-
-    /**
-     * 读取JSONObject数据
-     *
-     * @return JSONObject数据
-     */
-    public JSONObject getAsJSONObject(String key) {
-        String JSONString = getAsString(key);
-        try {
-            JSONObject obj = new JSONObject(JSONString);
-            return obj;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    // =======================================
-    // ============ JSONArray 数据 读写 =============
-    // =======================================
-
-
-    /**
-     * 保存 JSONArray数据 到 缓存中
-     *
-     * @param key   保存的key
-     * @param value 保存的JSONArray数据
-     */
-    public void put(String key, JSONArray value) {
-        put(key, value.toString());
-    }
-
-
-    /**
-     * 保存 JSONArray数据 到 缓存中
-     *
-     * @param key      保存的key
-     * @param value    保存的JSONArray数据
-     * @param saveTime 保存的时间，单位：秒
-     */
-    public void put(String key, JSONArray value, int saveTime) {
-        put(key, value.toString(), saveTime);
-    }
-
-
-    /**
-     * 读取JSONArray数据
-     *
-     * @return JSONArray数据
-     */
-    public JSONArray getAsJSONArray(String key) {
-        String JSONString = getAsString(key);
-        try {
-            JSONArray obj = new JSONArray(JSONString);
-            return obj;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    // =======================================
-    // ============== byte 数据 读写 =============
-    // =======================================
-
-
-    /**
-     * 保存 byte数据 到 缓存中
-     *
-     * @param key   保存的key
-     * @param value 保存的数据
-     */
-    public void put(String key, byte[] value) {
-        File file = mCache.newFile(key);
-        createFile(file);
-        FileOutputStream out = null;
-        try {
-            out = new FileOutputStream(file);
-            out.write(value);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (out != null) {
-                try {
-                    out.flush();
-                    out.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            mCache.put(file);
-        }
-    }
 
     /**
      * 递归创建文件夹
@@ -406,6 +204,195 @@ public class ACache {
         return "";
     }
 
+    /**
+     * 保存 String数据 到 缓存中
+     *
+     * @param key   保存的key
+     * @param value 保存的String数据
+     */
+    public void put(String key, String value) {
+        File file = mCache.newFile(key);
+        BufferedWriter out = null;
+        try {
+            out = new BufferedWriter(new FileWriter(file), 1024);
+            out.write(value);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (out != null) {
+                try {
+                    out.flush();
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            mCache.put(file);
+        }
+    }
+
+    // =======================================
+    // ============= JSONObject 数据 读写 ==============
+    // =======================================
+
+    /**
+     * 保存 String数据 到 缓存中
+     *
+     * @param key      保存的key
+     * @param value    保存的String数据
+     * @param saveTime 保存的时间，单位：秒
+     */
+    public void put(String key, String value, int saveTime) {
+        put(key, Utils.newStringWithDateInfo(saveTime, value));
+    }
+
+    /**
+     * 读取 String数据
+     *
+     * @return String 数据
+     */
+    public String getAsString(String key) {
+        File file = mCache.get(key);
+        if (!file.exists()) return null;
+        boolean removeFile = false;
+        BufferedReader in = null;
+        try {
+            in = new BufferedReader(new FileReader(file));
+            String readString = "";
+            String currentLine;
+            while ((currentLine = in.readLine()) != null) {
+                readString += currentLine;
+            }
+            if (!Utils.isDue(readString)) {
+                return Utils.clearDateInfo(readString);
+            } else {
+                removeFile = true;
+                return null;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            if (in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (removeFile) remove(key);
+        }
+    }
+
+    /**
+     * 保存 JSONObject数据 到 缓存中
+     *
+     * @param key   保存的key
+     * @param value 保存的JSON数据
+     */
+    public void put(String key, JSONObject value) {
+        put(key, value.toString());
+    }
+
+    // =======================================
+    // ============ JSONArray 数据 读写 =============
+    // =======================================
+
+    /**
+     * 保存 JSONObject数据 到 缓存中
+     *
+     * @param key      保存的key
+     * @param value    保存的JSONObject数据
+     * @param saveTime 保存的时间，单位：秒
+     */
+    public void put(String key, JSONObject value, int saveTime) {
+        put(key, value.toString(), saveTime);
+    }
+
+    /**
+     * 读取JSONObject数据
+     *
+     * @return JSONObject数据
+     */
+    public JSONObject getAsJSONObject(String key) {
+        String JSONString = getAsString(key);
+        try {
+            JSONObject obj = new JSONObject(JSONString);
+            return obj;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 保存 JSONArray数据 到 缓存中
+     *
+     * @param key   保存的key
+     * @param value 保存的JSONArray数据
+     */
+    public void put(String key, JSONArray value) {
+        put(key, value.toString());
+    }
+
+    // =======================================
+    // ============== byte 数据 读写 =============
+    // =======================================
+
+    /**
+     * 保存 JSONArray数据 到 缓存中
+     *
+     * @param key      保存的key
+     * @param value    保存的JSONArray数据
+     * @param saveTime 保存的时间，单位：秒
+     */
+    public void put(String key, JSONArray value, int saveTime) {
+        put(key, value.toString(), saveTime);
+    }
+
+    /**
+     * 读取JSONArray数据
+     *
+     * @return JSONArray数据
+     */
+    public JSONArray getAsJSONArray(String key) {
+        String JSONString = getAsString(key);
+        try {
+            JSONArray obj = new JSONArray(JSONString);
+            return obj;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 保存 byte数据 到 缓存中
+     *
+     * @param key   保存的key
+     * @param value 保存的数据
+     */
+    public void put(String key, byte[] value) {
+        File file = mCache.newFile(key);
+        createFile(file);
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(file);
+            out.write(value);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (out != null) {
+                try {
+                    out.flush();
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            mCache.put(file);
+        }
+    }
 
     /**
      * 保存 byte数据 到 缓存中
@@ -645,6 +632,171 @@ public class ACache {
         mCache.clear();
     }
 
+    /**
+     * @author 杨福海（michael） www.yangfuhai.com
+     * @version 1.0
+     * @title 时间计算工具类
+     */
+    private static class Utils {
+
+        private static final char mSeparator = ' ';
+
+        /**
+         * 判断缓存的String数据是否到期
+         *
+         * @return true：到期了 false：还没有到期
+         */
+        private static boolean isDue(String str) {
+            return isDue(str.getBytes());
+        }
+
+        /**
+         * 判断缓存的byte数据是否到期
+         *
+         * @return true：到期了 false：还没有到期
+         */
+        private static boolean isDue(byte[] data) {
+            String[] strs = getDateInfoFromDate(data);
+            if (strs != null && strs.length == 2) {
+                String saveTimeStr = strs[0];
+                while (saveTimeStr.startsWith("0")) {
+                    saveTimeStr = saveTimeStr.substring(1, saveTimeStr.length());
+                }
+                long saveTime = Long.valueOf(saveTimeStr);
+                long deleteAfter = Long.valueOf(strs[1]);
+                if (System.currentTimeMillis() > saveTime + deleteAfter * 1000) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private static String newStringWithDateInfo(int second, String strInfo) {
+            return createDateInfo(second) + strInfo;
+        }
+
+        private static byte[] newByteArrayWithDateInfo(int second, byte[] data2) {
+            byte[] data1 = createDateInfo(second).getBytes();
+            byte[] retdata = new byte[data1.length + data2.length];
+            System.arraycopy(data1, 0, retdata, 0, data1.length);
+            System.arraycopy(data2, 0, retdata, data1.length, data2.length);
+            return retdata;
+        }
+
+        private static String clearDateInfo(String strInfo) {
+            if (strInfo != null && hasDateInfo(strInfo.getBytes())) {
+                strInfo = strInfo.substring(strInfo.indexOf(mSeparator) + 1, strInfo.length());
+            }
+            return strInfo;
+        }
+
+        private static byte[] clearDateInfo(byte[] data) {
+            if (hasDateInfo(data)) {
+                return copyOfRange(data, indexOf(data, mSeparator) + 1, data.length);
+            }
+            return data;
+        }
+
+        private static boolean hasDateInfo(byte[] data) {
+            return data != null && data.length > 15 && data[13] == '-' && indexOf(data,
+                    mSeparator) > 14;
+        }
+
+        private static String[] getDateInfoFromDate(byte[] data) {
+            if (hasDateInfo(data)) {
+                String saveDate = new String(copyOfRange(data, 0, 13));
+                String deleteAfter = new String(copyOfRange(data, 14, indexOf(data, mSeparator)));
+                return new String[]{saveDate, deleteAfter};
+            }
+            return null;
+        }
+
+        private static int indexOf(byte[] data, char c) {
+            for (int i = 0; i < data.length; i++) {
+                if (data[i] == c) {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        private static byte[] copyOfRange(byte[] original, int from, int to) {
+            int newLength = to - from;
+            if (newLength < 0) throw new IllegalArgumentException(from + " > " + to);
+            byte[] copy = new byte[newLength];
+            System.arraycopy(original, from, copy, 0, Math.min(original.length - from, newLength));
+            return copy;
+        }
+
+        private static String createDateInfo(int second) {
+            String currentTime = System.currentTimeMillis() + "";
+            while (currentTime.length() < 13) {
+                currentTime = "0" + currentTime;
+            }
+            return currentTime + "-" + second + mSeparator;
+        }
+
+
+        /*
+         * Bitmap → byte[]
+         */
+        private static byte[] Bitmap2Bytes(Bitmap bm) {
+            if (bm == null) {
+                return null;
+            }
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
+            return baos.toByteArray();
+        }
+
+
+        /*
+         * byte[] → Bitmap
+         */
+        private static Bitmap Bytes2Bimap(byte[] b) {
+            if (b.length == 0) {
+                return null;
+            }
+            return BitmapFactory.decodeByteArray(b, 0, b.length);
+        }
+
+
+        /*
+         * Drawable → Bitmap
+         */
+        private static Bitmap drawable2Bitmap(Drawable drawable) {
+            if (drawable == null) {
+                return null;
+            }
+            // 取 drawable 的长宽
+            int w = drawable.getIntrinsicWidth();
+            int h = drawable.getIntrinsicHeight();
+            // 取 drawable 的颜色格式
+            Bitmap.Config config = drawable.getOpacity() != PixelFormat.OPAQUE
+                    ? Bitmap.Config.ARGB_8888
+                    : Bitmap.Config.RGB_565;
+            // 建立对应 bitmap
+            Bitmap bitmap = Bitmap.createBitmap(w, h, config);
+            // 建立对应 bitmap 的画布
+            Canvas canvas = new Canvas(bitmap);
+            drawable.setBounds(0, 0, w, h);
+            // 把 drawable 内容画到画布中
+            drawable.draw(canvas);
+            return bitmap;
+        }
+
+
+        /*
+         * Bitmap → Drawable
+         */
+        @SuppressWarnings("deprecation")
+        private static Drawable bitmap2Drawable(Bitmap bm) {
+            if (bm == null) {
+                return null;
+            }
+            return new BitmapDrawable(bm);
+        }
+    }
 
     /**
      * @author 杨福海（michael） www.yangfuhai.com
@@ -788,183 +940,6 @@ public class ACache {
 
         private long calculateSize(File file) {
             return file.length();
-        }
-    }
-
-    /**
-     * @author 杨福海（michael） www.yangfuhai.com
-     * @version 1.0
-     * @title 时间计算工具类
-     */
-    private static class Utils {
-
-        /**
-         * 判断缓存的String数据是否到期
-         *
-         * @return true：到期了 false：还没有到期
-         */
-        private static boolean isDue(String str) {
-            return isDue(str.getBytes());
-        }
-
-
-        /**
-         * 判断缓存的byte数据是否到期
-         *
-         * @return true：到期了 false：还没有到期
-         */
-        private static boolean isDue(byte[] data) {
-            String[] strs = getDateInfoFromDate(data);
-            if (strs != null && strs.length == 2) {
-                String saveTimeStr = strs[0];
-                while (saveTimeStr.startsWith("0")) {
-                    saveTimeStr = saveTimeStr.substring(1, saveTimeStr.length());
-                }
-                long saveTime = Long.valueOf(saveTimeStr);
-                long deleteAfter = Long.valueOf(strs[1]);
-                if (System.currentTimeMillis() > saveTime + deleteAfter * 1000) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-
-        private static String newStringWithDateInfo(int second, String strInfo) {
-            return createDateInfo(second) + strInfo;
-        }
-
-
-        private static byte[] newByteArrayWithDateInfo(int second, byte[] data2) {
-            byte[] data1 = createDateInfo(second).getBytes();
-            byte[] retdata = new byte[data1.length + data2.length];
-            System.arraycopy(data1, 0, retdata, 0, data1.length);
-            System.arraycopy(data2, 0, retdata, data1.length, data2.length);
-            return retdata;
-        }
-
-
-        private static String clearDateInfo(String strInfo) {
-            if (strInfo != null && hasDateInfo(strInfo.getBytes())) {
-                strInfo = strInfo.substring(strInfo.indexOf(mSeparator) + 1, strInfo.length());
-            }
-            return strInfo;
-        }
-
-
-        private static byte[] clearDateInfo(byte[] data) {
-            if (hasDateInfo(data)) {
-                return copyOfRange(data, indexOf(data, mSeparator) + 1, data.length);
-            }
-            return data;
-        }
-
-
-        private static boolean hasDateInfo(byte[] data) {
-            return data != null && data.length > 15 && data[13] == '-' && indexOf(data,
-                    mSeparator) > 14;
-        }
-
-
-        private static String[] getDateInfoFromDate(byte[] data) {
-            if (hasDateInfo(data)) {
-                String saveDate = new String(copyOfRange(data, 0, 13));
-                String deleteAfter = new String(copyOfRange(data, 14, indexOf(data, mSeparator)));
-                return new String[]{saveDate, deleteAfter};
-            }
-            return null;
-        }
-
-
-        private static int indexOf(byte[] data, char c) {
-            for (int i = 0; i < data.length; i++) {
-                if (data[i] == c) {
-                    return i;
-                }
-            }
-            return -1;
-        }
-
-
-        private static byte[] copyOfRange(byte[] original, int from, int to) {
-            int newLength = to - from;
-            if (newLength < 0) throw new IllegalArgumentException(from + " > " + to);
-            byte[] copy = new byte[newLength];
-            System.arraycopy(original, from, copy, 0, Math.min(original.length - from, newLength));
-            return copy;
-        }
-
-
-        private static final char mSeparator = ' ';
-
-
-        private static String createDateInfo(int second) {
-            String currentTime = System.currentTimeMillis() + "";
-            while (currentTime.length() < 13) {
-                currentTime = "0" + currentTime;
-            }
-            return currentTime + "-" + second + mSeparator;
-        }
-
-
-        /*
-         * Bitmap → byte[]
-         */
-        private static byte[] Bitmap2Bytes(Bitmap bm) {
-            if (bm == null) {
-                return null;
-            }
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
-            return baos.toByteArray();
-        }
-
-
-        /*
-         * byte[] → Bitmap
-         */
-        private static Bitmap Bytes2Bimap(byte[] b) {
-            if (b.length == 0) {
-                return null;
-            }
-            return BitmapFactory.decodeByteArray(b, 0, b.length);
-        }
-
-
-        /*
-         * Drawable → Bitmap
-         */
-        private static Bitmap drawable2Bitmap(Drawable drawable) {
-            if (drawable == null) {
-                return null;
-            }
-            // 取 drawable 的长宽
-            int w = drawable.getIntrinsicWidth();
-            int h = drawable.getIntrinsicHeight();
-            // 取 drawable 的颜色格式
-            Bitmap.Config config = drawable.getOpacity() != PixelFormat.OPAQUE
-                    ? Bitmap.Config.ARGB_8888
-                    : Bitmap.Config.RGB_565;
-            // 建立对应 bitmap
-            Bitmap bitmap = Bitmap.createBitmap(w, h, config);
-            // 建立对应 bitmap 的画布
-            Canvas canvas = new Canvas(bitmap);
-            drawable.setBounds(0, 0, w, h);
-            // 把 drawable 内容画到画布中
-            drawable.draw(canvas);
-            return bitmap;
-        }
-
-
-        /*
-         * Bitmap → Drawable
-         */
-        @SuppressWarnings("deprecation")
-        private static Drawable bitmap2Drawable(Bitmap bm) {
-            if (bm == null) {
-                return null;
-            }
-            return new BitmapDrawable(bm);
         }
     }
 }

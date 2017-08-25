@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,6 @@ import com.victor.nesthabit.ui.activity.NestSpecificActivity;
 import com.victor.nesthabit.ui.presenter.AddNestPresenter;
 import com.victor.nesthabit.ui.presenter.NestListPresenter;
 import com.victor.nesthabit.util.ActivityManager;
-import com.victor.nesthabit.util.LogUtils;
 import com.victor.nesthabit.util.Utils;
 
 import java.util.List;
@@ -33,45 +31,10 @@ import static com.victor.nesthabit.R.id.progress_text;
 
 public class NestListFragAdapter extends RecyclerView.Adapter<NestListFragAdapter.ListViewHolder>
         implements AddNestPresenter.OnCageDataChanged, NestListPresenter.onNestInfoAdded {
+    public static final String TAG = "@victor NestLisAdapter";
     private Context mContext;
     private RecyclerView mRecyclerView;
     private List<NestInfo> mBirdCageInfos;
-    public static final String TAG = "@victor NestLisAdapter";
-
-    @Override
-    public void OnDataAdded(NestInfo cageInfo) {
-        mBirdCageInfos.add(cageInfo);
-        notifyDataSetChanged();
-    }
-
-
-    @Override
-    public void addNestInfos(List<NestInfo> nestInfos) {
-        mBirdCageInfos.clear();
-        mBirdCageInfos.addAll(nestInfos);
-        notifyDataSetChanged();
-    }
-
-
-    static class ListViewHolder extends RecyclerView.ViewHolder {
-        private ImageView birdcageListImage;
-        private TextView birdcageListText;
-        private TextView progresstext;
-        private TextView peoplea;
-        private CardView mCardView;
-
-
-        ListViewHolder(View itemView) {
-            super(itemView);
-            birdcageListImage = (ImageView) itemView.findViewById(R.id.birdcage_list_image);
-            birdcageListText = (TextView) itemView.findViewById(R.id.birdcage_list_text);
-            progresstext = (TextView) itemView.findViewById(progress_text);
-            peoplea = (TextView) itemView.findViewById(R.id.people);
-            mCardView = (CardView) itemView.findViewById(R.id.card);
-        }
-
-    }
-
 
     public NestListFragAdapter(Context context, RecyclerView recyclerView, List<NestInfo>
             birdCageInfos) {
@@ -80,6 +43,19 @@ public class NestListFragAdapter extends RecyclerView.Adapter<NestListFragAdapte
         mBirdCageInfos = birdCageInfos;
         AddNestPresenter.setOnCageDataChanged(this);
         NestListPresenter.setOnNestInfoAdded(this);
+    }
+
+    @Override
+    public void OnDataAdded(NestInfo cageInfo) {
+        mBirdCageInfos.add(cageInfo);
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public void addNestInfos(List<NestInfo> nestInfos) {
+        mBirdCageInfos.clear();
+        mBirdCageInfos.addAll(nestInfos);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -116,6 +92,25 @@ public class NestListFragAdapter extends RecyclerView.Adapter<NestListFragAdapte
     @Override
     public int getItemCount() {
         return mBirdCageInfos.size();
+    }
+
+    static class ListViewHolder extends RecyclerView.ViewHolder {
+        private ImageView birdcageListImage;
+        private TextView birdcageListText;
+        private TextView progresstext;
+        private TextView peoplea;
+        private CardView mCardView;
+
+
+        ListViewHolder(View itemView) {
+            super(itemView);
+            birdcageListImage = (ImageView) itemView.findViewById(R.id.birdcage_list_image);
+            birdcageListText = (TextView) itemView.findViewById(R.id.birdcage_list_text);
+            progresstext = (TextView) itemView.findViewById(progress_text);
+            peoplea = (TextView) itemView.findViewById(R.id.people);
+            mCardView = (CardView) itemView.findViewById(R.id.card);
+        }
+
     }
 
 

@@ -29,13 +29,17 @@ import rx.schedulers.Schedulers;
  */
 
 public class AddNestPresenter extends RxPresenter implements AddNestContract.Presenter {
-    private AddNestContract.View mView;
-    public static OnCageDataChanged sOnCageDataChanged;
     public static final String TAG = "@victor AddNestPresen";
+    public static OnCageDataChanged sOnCageDataChanged;
+    private AddNestContract.View mView;
 
     public AddNestPresenter(AddNestContract.View view) {
         mView = view;
         mView.setPresenter(this);
+    }
+
+    public static void setOnCageDataChanged(OnCageDataChanged onCageDataChanged) {
+        sOnCageDataChanged = onCageDataChanged;
     }
 
     @Override
@@ -128,10 +132,6 @@ public class AddNestPresenter extends RxPresenter implements AddNestContract.Pre
 //            }
 //            mView.finishActivity();
         }
-    }
-
-    public static void setOnCageDataChanged(OnCageDataChanged onCageDataChanged) {
-        sOnCageDataChanged = onCageDataChanged;
     }
 
     public interface OnCageDataChanged {

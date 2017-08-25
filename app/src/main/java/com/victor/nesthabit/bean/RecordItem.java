@@ -12,6 +12,16 @@ import org.litepal.crud.DataSupport;
  */
 
 public class RecordItem extends DataSupport implements Parcelable {
+    public static final Parcelable.Creator<RecordItem> CREATOR = new Parcelable
+            .Creator<RecordItem>() {
+        public RecordItem createFromParcel(Parcel in) {
+            return new RecordItem(in);
+        }
+
+        public RecordItem[] newArray(int size) {
+            return new RecordItem[size];
+        }
+    };
     private long id;
     private String name;
     private String file_path;
@@ -19,6 +29,17 @@ public class RecordItem extends DataSupport implements Parcelable {
     private long time_added;
     private boolean isVoice;
     private String content;
+
+    public RecordItem() {
+    }
+
+    public RecordItem(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        file_path = in.readString();
+        length = in.readInt();
+        time_added = in.readLong();
+    }
 
     public boolean isVoice() {
         return isVoice;
@@ -35,29 +56,6 @@ public class RecordItem extends DataSupport implements Parcelable {
     public void setContent(String content) {
         this.content = content;
     }
-
-    public RecordItem() {
-    }
-
-    public RecordItem(Parcel in) {
-        id = in.readInt();
-        name = in.readString();
-        file_path = in.readString();
-        length = in.readInt();
-        time_added = in.readLong();
-    }
-
-    public static final Parcelable.Creator<RecordItem> CREATOR = new Parcelable
-            .Creator<RecordItem>() {
-        public RecordItem createFromParcel(Parcel in) {
-            return new RecordItem(in);
-        }
-
-        public RecordItem[] newArray(int size) {
-            return new RecordItem[size];
-        }
-    };
-
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {

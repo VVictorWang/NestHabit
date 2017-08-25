@@ -18,16 +18,16 @@ import com.victor.nesthabit.util.PrefsUtils;
 
 public class MainActivity extends BaseActivity implements MainContract.View {
 
+    public static final String TAG = "@victor MainActivity";
     private android.support.v4.view.ViewPager birdcageviewpager;
     private android.support.design.widget.TabLayout maintable;
     private TabLayout.Tab nest, clock;
-    public static final String TAG = "@victor MainActivity";
     private MainContract.Presenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         mPresenter = new MainPresenter(this);
+        super.onCreate(savedInstanceState);
     }
 
     @Override

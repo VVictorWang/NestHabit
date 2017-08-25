@@ -21,19 +21,20 @@ import java.util.Date;
 
 public class LogUtils {
 
+    private final static SimpleDateFormat LOG_FORMAT = new SimpleDateFormat("yyyy-MM-dd " +
+            "HH:mm:ss");// 日志的输出格式
+    private final static SimpleDateFormat FILE_SUFFIX = new SimpleDateFormat("yyyy-MM-dd");// 日志文件格式
     private static Boolean LOG_SWITCH = true; // 日志文件总开关
     private static Boolean LOG_TO_FILE = false; // 日志写入文件开关
     private static String LOG_TAG = "TAG"; // 默认的tag
     private static char LOG_TYPE = 'v';// 输入日志类型，v代表输出所有信息,w则只输出警告...
     private static int LOG_SAVE_DAYS = 7;// sd卡中日志文件的最多保存天数
-
-    private final static SimpleDateFormat LOG_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 日志的输出格式
-    private final static SimpleDateFormat FILE_SUFFIX = new SimpleDateFormat("yyyy-MM-dd");// 日志文件格式
     private static String LOG_FILE_PATH; // 日志文件保存路径
     private static String LOG_FILE_NAME;// 日志文件保存名称
 
     public static void init(Context context) { // 在Application中初始化
-        LOG_FILE_PATH = Environment.getExternalStorageDirectory().getPath() + File.separator + context.getPackageName();
+        LOG_FILE_PATH = Environment.getExternalStorageDirectory().getPath() + File.separator +
+                context.getPackageName();
         LOG_FILE_NAME = "Log";
     }
 
@@ -123,7 +124,8 @@ public class LogUtils {
                 Log.v(tag, msg, tr);
             }
             if (LOG_TO_FILE)
-                log2File(String.valueOf(level), tag, msg + tr == null ? "" : "\n" + Log.getStackTraceString(tr));
+                log2File(String.valueOf(level), tag, msg + tr == null ? "" : "\n" + Log
+                        .getStackTraceString(tr));
         }
     }
 
@@ -135,7 +137,8 @@ public class LogUtils {
     private synchronized static void log2File(String mylogtype, String tag, String text) {
         Date nowtime = new Date();
         String date = FILE_SUFFIX.format(nowtime);
-        String dateLogContent = LOG_FORMAT.format(nowtime) + ":" + mylogtype + ":" + tag + ":" + text; // 日志输出格式
+        String dateLogContent = LOG_FORMAT.format(nowtime) + ":" + mylogtype + ":" + tag + ":" +
+                text; // 日志输出格式
         File destDir = new File(LOG_FILE_PATH);
         if (!destDir.exists()) {
             destDir.mkdirs();

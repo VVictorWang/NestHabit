@@ -38,8 +38,8 @@ public class AddNestActivity extends BaseActivity implements AddNestContract.Vie
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         mPresenter = new AddNestPresenter(this);
+        super.onCreate(savedInstanceState);
 
     }
 

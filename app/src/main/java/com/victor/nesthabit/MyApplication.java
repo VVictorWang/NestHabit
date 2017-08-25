@@ -16,6 +16,11 @@ import org.litepal.LitePal;
 
 public class MyApplication extends Application {
     private static MyApplication sInstance;
+
+    public static MyApplication getInstance() {
+        return sInstance;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -24,9 +29,5 @@ public class MyApplication extends Application {
         AppUtils.init(this);
         LogUtils.init(this);
         NetworkUtils.startNetService(this);
-    }
-
-    public static MyApplication getInstance() {
-        return sInstance;
     }
 }

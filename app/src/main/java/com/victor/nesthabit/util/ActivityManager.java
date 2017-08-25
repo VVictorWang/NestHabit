@@ -32,6 +32,45 @@ public class ActivityManager {
         return instance;
     }
 
+    public static void startActivityForResult(Activity activity, Class<?> cls, int requestCode) {
+        Intent intent = new Intent();
+        intent.setClass(activity, cls);
+        activity.startActivityForResult(intent, requestCode);
+        activity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+
+    }
+
+    public static void startActivityForResult(Activity activity, Intent intent, int requestCode) {
+        activity.startActivityForResult(intent, requestCode);
+        activity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+
+    }
+
+    public static void startActivity(Activity activity, Class<?> cls) {
+        Intent intent = new Intent();
+        intent.setClass(activity, cls);
+        activity.startActivity(intent);
+        activity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+    }
+
+    public static void startActivity(Activity activity, Intent intent) {
+        activity.startActivity(intent);
+        activity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
+    }
+
+    public static void finishActivity(Activity activity) {
+        instance.popActivity(activity);
+        activity.overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+    }
+
+    public static void addFragmentToActivity(@NonNull FragmentManager fragmentManager, @NonNull
+            Fragment fragment, int fragmeID) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.add(fragmeID, fragment);
+        transaction.commit();
+
+    }
+
     public void popActivity(Activity activity) {
         if (activity != null) {
             activity.finish();
@@ -46,6 +85,7 @@ public class ActivityManager {
         }
         activityStack.add(activity);
     }
+
     public Activity getCurrentActivity() {
         Activity activity = null;
         if (!activityStack.isEmpty()) {
@@ -62,41 +102,5 @@ public class ActivityManager {
             }
             popActivity(activity);
         }
-    }
-
-    public static void startActivityForResult(Activity activity, Class<?> cls,int requestCode) {
-        Intent intent = new Intent();
-        intent.setClass(activity, cls);
-        activity.startActivityForResult(intent, requestCode);
-        activity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-
-    }
-    public static void startActivityForResult(Activity activity, Intent intent,int requestCode) {
-        activity.startActivityForResult(intent, requestCode);
-        activity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-
-    }
-
-    public static void startActivity(Activity activity, Class<?> cls) {
-        Intent intent = new Intent();
-        intent.setClass(activity, cls);
-        activity.startActivity(intent);
-        activity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-    }
-    public static void startActivity(Activity activity,Intent intent) {
-        activity.startActivity(intent);
-        activity.overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
-    }
-
-    public static void finishActivity(Activity activity) {
-        instance.popActivity(activity);
-        activity.overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-    }
-
-    public static void addFragmentToActivity(@NonNull FragmentManager fragmentManager, @NonNull Fragment fragment, int fragmeID) {
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.add(fragmeID, fragment);
-        transaction.commit();
-
     }
 }

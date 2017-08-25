@@ -28,15 +28,23 @@ import rx.schedulers.Schedulers;
 
 public class MainPresenter extends RxPresenter implements MainContract.Presenter,
         AddAlarmPresenter.OnAlarmAdded {
-    private MainContract.View mView;
     public static final String TAG = "@victor MainPresenter";
     private static NestDateBegin sNestDateBegin;
     private static ClockDataBegin sClockDataBegin;
+    private MainContract.View mView;
 
     public MainPresenter(MainContract.View view) {
         mView = view;
         mView.setPresenter(this);
         AddAlarmPresenter.setOnAlarmAdded(this);
+    }
+
+    public static void setNestDateBegin(NestDateBegin nestDateBegin) {
+        sNestDateBegin = nestDateBegin;
+    }
+
+    public static void setClockDataBegin(ClockDataBegin clockDataBegin) {
+        sClockDataBegin = clockDataBegin;
     }
 
     @Override
@@ -109,14 +117,6 @@ public class MainPresenter extends RxPresenter implements MainContract.Presenter
     @Override
     public void unscribe() {
         unSubscribe();
-    }
-
-    public static void setNestDateBegin(NestDateBegin nestDateBegin) {
-        sNestDateBegin = nestDateBegin;
-    }
-
-    public static void setClockDataBegin(ClockDataBegin clockDataBegin) {
-        sClockDataBegin = clockDataBegin;
     }
 
     @Override

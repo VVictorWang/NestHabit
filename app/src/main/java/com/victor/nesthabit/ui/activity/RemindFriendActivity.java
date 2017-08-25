@@ -1,7 +1,6 @@
 package com.victor.nesthabit.ui.activity;
 
 import android.app.Activity;
-import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -42,8 +41,12 @@ public class RemindFriendActivity extends BaseActivity {
         this.list = (RecyclerView) findViewById(R.id.list);
         this.toolbar = findViewById(R.id.toolbar);
         setToolbar();
+        String nestId = null;
+        if (getIntent() != null) {
+            nestId = getIntent().getStringExtra("nestId");
+        }
         list.setLayoutManager(new LinearLayoutManager(RemindFriendActivity.this));
-        list.setAdapter(new RemindFriendAdapter(RemindFriendActivity.this));
+        list.setAdapter(new RemindFriendAdapter(RemindFriendActivity.this, nestId));
     }
 
     @Override

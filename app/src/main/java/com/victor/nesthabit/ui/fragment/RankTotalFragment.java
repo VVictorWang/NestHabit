@@ -20,12 +20,10 @@ import com.victor.nesthabit.ui.presenter.RankPresnter;
  */
 
 public class RankTotalFragment extends BaseFragment implements RankContract.View {
-    private static final String NESTID = "nestid";
-    private static final String TYPE = "isTotal";
-
     public static final int TOTAL_TYPE = 0;
     public static final int CONSTANT_TYPE = 1;
-
+    private static final String NESTID = "nestid";
+    private static final String TYPE = "isTotal";
     private RecyclerView mRecyclerView;
     private RankAdapter mRankAdapter;
 
@@ -59,6 +57,11 @@ public class RankTotalFragment extends BaseFragment implements RankContract.View
     }
 
     @Override
+    public void setPresenter(RankContract.Presenter presenter) {
+        mPresenter = presenter;
+    }
+
+    @Override
     protected int getLayout() {
         return R.layout.fragment_rank_total;
     }
@@ -74,12 +77,6 @@ public class RankTotalFragment extends BaseFragment implements RankContract.View
     @Override
     protected void initEvent() {
 
-    }
-
-
-    @Override
-    public void setPresenter(RankContract.Presenter presenter) {
-        mPresenter = presenter;
     }
 
     @Override

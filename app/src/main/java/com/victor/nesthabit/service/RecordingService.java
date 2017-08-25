@@ -25,15 +25,20 @@ import java.util.TimerTask;
 * */
 public class RecordingService extends Service {
     private static final String LOG_TAG = "RecordingService";
+    private static final String TAG = "RecordingService";
+    private static OnNewRecordListenner sOnNewRecordListenner = null;
     private String mFileName = null;
     private String mFilePath = null;
-    private static OnNewRecordListenner sOnNewRecordListenner = null;
     private MediaRecorder mRecorder = null;
     private RecordItem mRecordItem;
     private long mStartingTimeMillis = 0;
     private TimerTask mIncrementTimerTask = null;
     private long mElapsedMillis = 0;
-    private static final String TAG = "RecordingService";
+
+    //设置监听器
+    public static void setOnNewRecordListenner(OnNewRecordListenner listenner) {
+        sOnNewRecordListenner = listenner;
+    }
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -121,11 +126,6 @@ public class RecordingService extends Service {
                 LogUtils.e(LOG_TAG, "exception ", e);
             }
         }
-    }
-
-    //设置监听器
-    public static void setOnNewRecordListenner(OnNewRecordListenner listenner) {
-        sOnNewRecordListenner = listenner;
     }
 
     public interface OnNewRecordListenner {

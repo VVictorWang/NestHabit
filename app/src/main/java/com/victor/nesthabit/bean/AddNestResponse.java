@@ -60,17 +60,20 @@ public class AddNestResponse {
         this.members_limit = members_limit;
     }
 
+    public long getStart_time() {
+        return start_time;
+    }
 
     public void setStart_time(long start_time) {
         this.start_time = start_time;
     }
 
-    public long getStart_time() {
-        return start_time;
-    }
-
     public long getCreated_time() {
         return created_time;
+    }
+
+    public void setCreated_time(long created_time) {
+        this.created_time = created_time;
     }
 
     public int getChallenge_days() {
@@ -95,12 +98,6 @@ public class AddNestResponse {
 
     public void setOpen(boolean open) {
         this.open = open;
-    }
-
-
-
-    public void setCreated_time(long created_time) {
-        this.created_time = created_time;
     }
 
     public String getCreator() {

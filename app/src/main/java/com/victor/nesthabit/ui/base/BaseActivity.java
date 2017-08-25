@@ -23,15 +23,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         ActivityManager.getInstance().pushActivity(getActivity());
         initView();
         initEvent();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
         if (getPresnter() != null) {
             getPresnter().start();
         }
     }
+
 
     @Override
     protected void onDestroy() {

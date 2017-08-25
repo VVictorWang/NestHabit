@@ -31,6 +31,8 @@ import java.util.List;
 
 public class CommunicateFragment extends BaseFragment implements CommunicateContract.View {
 
+    public static final String NESTID = "nestid";
+    public static final String TAG = "@victor Communicate";
     private RecyclerView mRecyclerView;
     private EditText mEditText;
     private Button send;
@@ -38,8 +40,13 @@ public class CommunicateFragment extends BaseFragment implements CommunicateCont
     private CommunicateContract.Presenter mPresenter;
     private String id = null;
 
-    public static final String NESTID = "nestid";
-    public static final String TAG = "@victor Communicate";
+    public static CommunicateFragment newInstance(String id) {
+        Bundle args = new Bundle();
+        args.putString(NESTID, id);
+        CommunicateFragment fragment = new CommunicateFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,12 +63,9 @@ public class CommunicateFragment extends BaseFragment implements CommunicateCont
         return mPresenter;
     }
 
-    public static CommunicateFragment newInstance(String id) {
-        Bundle args = new Bundle();
-        args.putString(NESTID, id);
-        CommunicateFragment fragment = new CommunicateFragment();
-        fragment.setArguments(args);
-        return fragment;
+    @Override
+    public void setPresenter(CommunicateContract.Presenter presenter) {
+        mPresenter = presenter;
     }
 
     @Override
@@ -76,10 +80,6 @@ public class CommunicateFragment extends BaseFragment implements CommunicateCont
         send = (Button) rootView.findViewById(R.id.send);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         List<SendMessageResponse> communicateItems = new ArrayList<>();
-        SendMessageResponse item = new SendMessageResponse();
-        item.time = System.currentTimeMillis();
-        item.type = CommunicateAdapter.DATE_TYPE;
-        communicateItems.add(item);
         mCommunicateAdapter = new CommunicateAdapter(mActivity, communicateItems, mRecyclerView);
         mRecyclerView.setAdapter(mCommunicateAdapter);
     }
@@ -114,11 +114,6 @@ public class CommunicateFragment extends BaseFragment implements CommunicateCont
     }
 
     @Override
-    public void setPresenter(CommunicateContract.Presenter presenter) {
-        mPresenter = presenter;
-    }
-
-    @Override
     public void showMyToast(String description) {
         showToast(description);
     }
@@ -138,6 +133,11 @@ public class CommunicateFragment extends BaseFragment implements CommunicateCont
         if (mCommunicateAdapter != null) {
             mCommunicateAdapter.addItem(item);
         }
+    }
+
+    @Override
+    public void addAll(List<SendMessageResponse> items) {
+        mCommunicateAdapter.addAll(items);
     }
 
     @Override

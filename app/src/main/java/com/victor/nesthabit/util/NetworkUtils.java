@@ -33,13 +33,12 @@ import java.lang.reflect.Method;
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class NetworkUtils {
 
-    private static final String TAG = Network.class.getSimpleName();
-
     /**
      * 接受网络状态的广播Action
      */
     public static final String NET_BROADCAST_ACTION = "com.network.state.action";
     public static final String NET_STATE_NAME = "network_state";
+    private static final String TAG = Network.class.getSimpleName();
     /**
      * 实时更新网络状态<br>
      * -1为网络无连接<br>
@@ -47,37 +46,32 @@ public class NetworkUtils {
      * 2为移动网络<br>
      */
     public static int CURRENT_NETWORK_STATE = -1;
+    /**
+     * 接受服务上发过来的广播
+     */
+    private static BroadcastReceiver mReceiver = new BroadcastReceiver() {
 
-    public enum NetType {
-        None(1, "无网络连接"),
-        Mobile(2, "蜂窝移动网络"),
-        Wifi(4, "Wifi网络"),
-        Other(8, "未知网络");
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent != null) {
+                CURRENT_NETWORK_STATE = (Integer) intent.getExtras().get(NET_STATE_NAME);
+                switch (CURRENT_NETWORK_STATE) {
+                    case -1:
+                        LogUtils.d("网络更改为 无网络  CURRENT_NETWORK_STATE =" + CURRENT_NETWORK_STATE);
+                        break;
+                    case 1:
+                        LogUtils.d("网络更改为 WIFI网络  CURRENT_NETWORK_STATE=" + CURRENT_NETWORK_STATE);
+                        break;
+                    case 2:
+                        LogUtils.d("网络更改为 移动网络  CURRENT_NETWORK_STATE =" + CURRENT_NETWORK_STATE);
+                        break;
 
-        NetType(int value, String desc) {
-            this.value = value;
-            this.desc = desc;
+                    default:
+                        break;
+                }
+            }
         }
-
-        public int value;
-        public String desc;
-    }
-
-    public enum NetWorkType {
-        UnKnown(-1, "未知网络"),
-        Wifi(1, "Wifi网络"),
-        Net2G(2, "2G网络"),
-        Net3G(3, "3G网络"),
-        Net4G(4, "4G网络");
-
-        NetWorkType(int value, String desc) {
-            this.value = value;
-            this.desc = desc;
-        }
-
-        public int value;
-        public String desc;
-    }
+    };
 
     /**
      * 获取ConnectivityManager
@@ -416,30 +410,34 @@ public class NetworkUtils {
         }, Context.BIND_AUTO_CREATE);
     }
 
-    /**
-     * 接受服务上发过来的广播
-     */
-    private static BroadcastReceiver mReceiver = new BroadcastReceiver() {
+    public enum NetType {
+        None(1, "无网络连接"),
+        Mobile(2, "蜂窝移动网络"),
+        Wifi(4, "Wifi网络"),
+        Other(8, "未知网络");
 
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent != null) {
-                CURRENT_NETWORK_STATE = (Integer) intent.getExtras().get(NET_STATE_NAME);
-                switch (CURRENT_NETWORK_STATE) {
-                    case -1:
-                        LogUtils.d("网络更改为 无网络  CURRENT_NETWORK_STATE =" + CURRENT_NETWORK_STATE);
-                        break;
-                    case 1:
-                        LogUtils.d("网络更改为 WIFI网络  CURRENT_NETWORK_STATE=" + CURRENT_NETWORK_STATE);
-                        break;
-                    case 2:
-                        LogUtils.d("网络更改为 移动网络  CURRENT_NETWORK_STATE =" + CURRENT_NETWORK_STATE);
-                        break;
+        public int value;
+        public String desc;
 
-                    default:
-                        break;
-                }
-            }
+        NetType(int value, String desc) {
+            this.value = value;
+            this.desc = desc;
         }
-    };
+    }
+
+    public enum NetWorkType {
+        UnKnown(-1, "未知网络"),
+        Wifi(1, "Wifi网络"),
+        Net2G(2, "2G网络"),
+        Net3G(3, "3G网络"),
+        Net4G(4, "4G网络");
+
+        public int value;
+        public String desc;
+
+        NetWorkType(int value, String desc) {
+            this.value = value;
+            this.desc = desc;
+        }
+    }
 }

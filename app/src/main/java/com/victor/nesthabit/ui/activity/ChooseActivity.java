@@ -17,12 +17,14 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.bean.RecordItem;
+import com.victor.nesthabit.bean.UserInfo;
 import com.victor.nesthabit.ui.adapter.MemberListAdapter;
 import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.ui.contract.ChooseContract;
 import com.victor.nesthabit.ui.presenter.ChoosePresenter;
 import com.victor.nesthabit.util.ActivityManager;
+import com.victor.nesthabit.util.DateUtils;
 
 import org.litepal.crud.DataSupport;
 
@@ -42,15 +44,20 @@ public class ChooseActivity extends BaseActivity implements ChooseContract.View 
     private long id;
     private RecordItem mRecordItem;
     private CalendarDay mCalendarDay;
+    private String nestId = null;
+    private MemberListAdapter mMemberListAdapter;
 
     private ChooseContract.Presenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mPresenter = new ChoosePresenter(this);
+        if (getIntent() != null) {
+            nestId = getIntent().getStringExtra("nestId");
+        }
         super.onCreate(savedInstanceState);
         id = getIntent().getLongExtra("id", 1);
         mRecordItem = DataSupport.find(RecordItem.class, id);
-        mPresenter = new ChoosePresenter(this);
     }
 
     @Override
@@ -82,8 +89,9 @@ public class ChooseActivity extends BaseActivity implements ChooseContract.View 
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(6,
                 StaggeredGridLayoutManager.VERTICAL);
         list.setLayoutManager(layoutManager);
-        MemberListAdapter adapter = new MemberListAdapter(ChooseActivity.this, true, false, true);
-        list.setAdapter(adapter);
+        mMemberListAdapter = new MemberListAdapter(ChooseActivity.this, true, false, true,
+                nestId);
+        list.setAdapter(mMemberListAdapter);
         calendar.state().edit().setMinimumDate(Calendar.getInstance().getTime()
         ).commit();
         calendar.setSelectionMode(MaterialCalendarView.SELECTION_MODE_MULTIPLE);
@@ -111,6 +119,12 @@ public class ChooseActivity extends BaseActivity implements ChooseContract.View 
                         123);
             }
         });
+        nextstep.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
     }
 
@@ -126,6 +140,21 @@ public class ChooseActivity extends BaseActivity implements ChooseContract.View 
 
     @Override
     public String getChooseDate() {
-        return null;
+        return DateUtils.DatetoString(mCalendarDay.getDate());
+    }
+
+    @Override
+    public String getNestId() {
+        return nestId;
+    }
+
+    @Override
+    public void addItem(UserInfo userInfo) {
+        mMemberListAdapter.addItem(userInfo);
+    }
+
+    @Override
+    public void finishActivity() {
+        ActivityManager.finishActivity(getActivity());
     }
 }

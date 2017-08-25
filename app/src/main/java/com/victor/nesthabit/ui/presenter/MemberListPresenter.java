@@ -21,8 +21,8 @@ import rx.android.schedulers.AndroidSchedulers;
 
 public class MemberListPresenter extends RxPresenter implements MemberListContract.Presenter {
 
-    private MemberListContract.View mView;
     public static final String TAG = "@victor MemberPresenter";
+    private MemberListContract.View mView;
 
     public MemberListPresenter(MemberListContract.View view) {
         mView = view;

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
@@ -30,12 +31,6 @@ public class CommunicateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private List<SendMessageResponse> mCommunicateItems;
     private RecyclerView mRecyclerView;
 
-    public void addItem(SendMessageResponse item) {
-        mCommunicateItems.add(item);
-        notifyDataSetChanged();
-        mRecyclerView.scrollToPosition(mCommunicateItems.size() - 1);
-    }
-
     public CommunicateAdapter(Context context, List<SendMessageResponse> communicateItems,
                               RecyclerView recyclerView) {
         mContext = context;
@@ -43,12 +38,22 @@ public class CommunicateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         mRecyclerView = recyclerView;
     }
 
+    public void addItem(SendMessageResponse item) {
+        mCommunicateItems.add(item);
+        notifyDataSetChanged();
+        mRecyclerView.scrollToPosition(mCommunicateItems.size() - 1);
+    }
+
+    public void addAll(List<SendMessageResponse> communicateItems) {
+        mCommunicateItems.clear();
+        mCommunicateItems.addAll(communicateItems);
+        notifyDataSetChanged();
+        mRecyclerView.scrollToPosition(mCommunicateItems.size() - 1);
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == DATE_TYPE) {
-            return new DateViewHoler(LayoutInflater.from(parent.getContext()).inflate(R.layout
-                    .communicate_date, null));
-        } else if (viewType == LEFT_TYPE) {
+        if (viewType == LEFT_TYPE) {
             return new LeftViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout
                     .communicate_adapter_left, null));
         } else if (viewType == RIGHT_TYPR) {
@@ -63,14 +68,27 @@ public class CommunicateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         int type = holder.getItemViewType();
         SendMessageResponse item = mCommunicateItems.get(position);
-        if (type == DATE_TYPE) {
-            ((DateViewHoler) holder).date.setText(DateUtils.format(item.time, "yyyy-MM-dd"));
-        } else if (type == LEFT_TYPE) {
-
-        } else if (type == RIGHT_TYPR) {
-            ((RightViewHoler) holder).text.setText(item.value);
-            ((RightViewHoler) holder).time.setText(DateUtils.format(item.time, "HH:mm"));
+        String day = getDayForSection(position);
+        if (position == getPositionForSection(day)) {
+            if (type == LEFT_TYPE) {
+                ((LeftViewHolder) holder).date_layout.setVisibility(View.VISIBLE);
+                ((LeftViewHolder) holder).date.setText(DateUtils.format(item.time, "yyyy-MM-dd"));
+            } else if (type == RIGHT_TYPR) {
+                ((RightViewHoler) holder).date_layout.setVisibility(View.VISIBLE);
+                ((RightViewHoler) holder).date.setText(DateUtils.format(item.time, "yyyy-MM-dd"));
+                ((RightViewHoler) holder).text.setText(item.value);
+                ((RightViewHoler) holder).time.setText(DateUtils.format(item.time, "HH:mm"));
+            }
+        } else {
+            if (type == LEFT_TYPE) {
+                ((LeftViewHolder) holder).date_layout.setVisibility(View.GONE);
+            } else if (type == RIGHT_TYPR) {
+                ((RightViewHoler) holder).date_layout.setVisibility(View.GONE);
+                ((RightViewHoler) holder).text.setText(item.value);
+                ((RightViewHoler) holder).time.setText(DateUtils.format(item.time, "HH:mm"));
+            }
         }
+
     }
 
 
@@ -79,26 +97,35 @@ public class CommunicateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         return mCommunicateItems.size();
     }
 
+    public String getDayForSection(int position) {
+        long time = mCommunicateItems.get(position).time;
+        return DateUtils.format(time, "dd");
+    }
+
+    public int getPositionForSection(String day) {
+        for (int i = 0; i < getItemCount(); i++) {
+            long time = mCommunicateItems.get(i).time;
+            String dayString = DateUtils.format(time, "dd");
+            if (dayString.equals(day)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     @Override
     public int getItemViewType(int position) {
         SendMessageResponse item = mCommunicateItems.get(position);
         return item.type;
     }
 
-    private static class DateViewHoler extends RecyclerView.ViewHolder {
-        private TextView date;
-
-        DateViewHoler(View itemView) {
-            super(itemView);
-            date = (TextView) itemView.findViewById(R.id.date);
-        }
-    }
 
     private static class LeftViewHolder extends RecyclerView.ViewHolder {
         private ImageView avatar;
-        private TextView name;
+        private TextView name, date;
         private TextView time;
         private TextView text;
+        private RelativeLayout left_layout, date_layout;
 
         LeftViewHolder(View itemView) {
             super(itemView);
@@ -106,17 +133,24 @@ public class CommunicateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             name = (TextView) itemView.findViewById(R.id.name);
             time = (TextView) itemView.findViewById(R.id.time);
             text = (TextView) itemView.findViewById(R.id.text);
+            date = (TextView) itemView.findViewById(R.id.date);
+            left_layout = (RelativeLayout) itemView.findViewById(R.id.left_layout);
+            date_layout = (RelativeLayout) itemView.findViewById(R.id.date_layout);
         }
     }
 
     private static class RightViewHoler extends RecyclerView.ViewHolder {
         private TextView text;
-        private TextView time;
+        private TextView time, date;
+        private RelativeLayout right_layout, date_layout;
 
         RightViewHoler(View itemView) {
             super(itemView);
             text = (TextView) itemView.findViewById(R.id.text);
             time = (TextView) itemView.findViewById(R.id.time);
+            date = (TextView) itemView.findViewById(R.id.date);
+            right_layout = (RelativeLayout) itemView.findViewById(R.id.right_layout);
+            date_layout = (RelativeLayout) itemView.findViewById(R.id.date_layout);
         }
     }
 

@@ -14,7 +14,7 @@ import okhttp3.RequestBody;
  */
 
 public class JsonRequestBody {
-    
+
     private static final MediaType sMediaType = MediaType.parse("application/json");
 
     public static RequestBody getJsonRegister(String username, String password) {

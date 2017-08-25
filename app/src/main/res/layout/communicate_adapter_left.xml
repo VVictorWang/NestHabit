@@ -4,10 +4,33 @@
                 android:layout_height="wrap_content">
 
     <RelativeLayout
+        android:id="@+id/date_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:visibility="gone"
+        >
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="2017-07-18"
+            android:textColor="@color/mygray"
+            android:textSize="16sp"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/left_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/date_layout"
         android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="5dp"
+        >
 
 
         <ImageView
@@ -48,13 +71,14 @@
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/avatar"
             android:background="@drawable/bubble_others"
-            android:padding="8dp"
             android:letterSpacing="0.1"
             android:lineSpacingMultiplier="1.2"
+            android:padding="8dp"
             android:text="今天按时早起了"
             android:textColor="#FEFEFE"
             android:textSize="14sp"
             />
     </RelativeLayout>
+
 
 </RelativeLayout>

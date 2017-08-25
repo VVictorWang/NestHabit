@@ -19,6 +19,7 @@ public class ChooseFriendActivity extends BaseActivity {
     private ImageView back;
     private TextView title;
     private TextView manage;
+    private String nestId = null;
 
     @Override
     protected BasePresenter getPresnter() {
@@ -40,7 +41,7 @@ public class ChooseFriendActivity extends BaseActivity {
         this.list = (RecyclerView) findViewById(R.id.list);
         this.toolbar = findViewById(R.id.toolbar);
         setToolbar();
-        MemberListAdapter adapter = new MemberListAdapter(getActivity(), false, true, true);
+        MemberListAdapter adapter = new MemberListAdapter(getActivity(), false, true, true, nestId);
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(4,
                 StaggeredGridLayoutManager.VERTICAL);
         list.setLayoutManager(layoutManager);

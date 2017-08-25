@@ -26,15 +26,19 @@ import rx.android.schedulers.AndroidSchedulers;
 
 public class ClockListPresenter extends RxPresenter implements ClockListContract.Presenter,
         MainPresenter
-        .ClockDataBegin {
-    private ClockListContract.View mView;
+                .ClockDataBegin {
     public static final String TAG = "@victor ClockListPrese";
     private static onAlarmAdded sOnAlarmAdded;
+    private ClockListContract.View mView;
 
     public ClockListPresenter(ClockListContract.View view) {
         mView = view;
         mView.setPresenter(this);
         MainPresenter.setClockDataBegin(this);
+    }
+
+    public static void setOnAlarmAdded(onAlarmAdded alarmAdded) {
+        sOnAlarmAdded = alarmAdded;
     }
 
     @Override
@@ -92,10 +96,6 @@ public class ClockListPresenter extends RxPresenter implements ClockListContract
             }
         }
 
-    }
-
-    public static void setOnAlarmAdded(onAlarmAdded alarmAdded) {
-        sOnAlarmAdded = alarmAdded;
     }
 
     public interface onAlarmAdded {

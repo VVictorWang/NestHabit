@@ -25,8 +25,8 @@ import static rx.Observable.concat;
 
 public class NestGroupDetailPresenter extends RxPresenter implements NestGroupDetailContract
         .Presenter {
-    private NestGroupDetailContract.View mView;
     public static final String TAG = "@victor DetailPresenter";
+    private NestGroupDetailContract.View mView;
 
     public NestGroupDetailPresenter(NestGroupDetailContract.View view) {
         mView = view;

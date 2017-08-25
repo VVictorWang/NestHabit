@@ -25,8 +25,8 @@ import rx.android.schedulers.AndroidSchedulers;
  */
 
 public class NsetSpecificPresenter extends RxPresenter implements NestSpecificContract.Presenter {
-    private NestSpecificContract.View mView;
     public static final String TAG = "@victor NsetSpecific";
+    private NestSpecificContract.View mView;
 
     public NsetSpecificPresenter(NestSpecificContract.View view) {
         mView = view;

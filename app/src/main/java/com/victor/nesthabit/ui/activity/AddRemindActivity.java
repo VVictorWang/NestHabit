@@ -39,8 +39,8 @@ public class AddRemindActivity extends BaseActivity implements AddRemindContract
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         mPresenter = new AddRemindPresenter(this);
+        super.onCreate(savedInstanceState);
 
     }
 

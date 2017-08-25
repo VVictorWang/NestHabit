@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -27,6 +26,7 @@ import com.victor.nesthabit.view.CircleProgressBar;
 
 public class NestSpecificActivity extends BaseActivity implements NestSpecificContract.View {
 
+    public static final String TAG = "@victor NestSpeActivity";
     private android.widget.ImageView back;
     private android.widget.TextView headertext;
     private android.widget.ImageView rank;
@@ -45,16 +45,15 @@ public class NestSpecificActivity extends BaseActivity implements NestSpecificCo
     private boolean isOwner = false;
     private long myid = -1;
 
-    public static final String TAG = "@victor NestSpeActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mPresenter = new NsetSpecificPresenter(this);
         super.onCreate(savedInstanceState);
         if (getIntent() != null) {
             id = getIntent().getStringExtra("id");
             isOwner = getIntent().getBooleanExtra("isOwner", false);
         }
         setUpViewPager();
-        mPresenter = new NsetSpecificPresenter(this);
     }
 
     @Override
@@ -142,7 +141,9 @@ public class NestSpecificActivity extends BaseActivity implements NestSpecificCo
         daka.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ActivityManager.startActivity(getActivity(), ShareActivity.class);
+                Intent intent = new Intent(getActivity(), ShareActivity.class);
+                intent.putExtra("nestId", id);
+                ActivityManager.startActivity(getActivity(), intent);
 //                mPresenter.checkin();
             }
         });
@@ -170,23 +171,23 @@ public class NestSpecificActivity extends BaseActivity implements NestSpecificCo
     }
 
     @Override
-    public void setTotalday(int totalday) {
-        dakatotalnumber.setText(String.valueOf(totalday));
-    }
-
-    @Override
     public int getTotalday() {
         return Integer.valueOf(dakatotalnumber.getText().toString());
     }
 
     @Override
-    public void setConstantDay(int constantDay) {
-        dakaconsnumber.setText(String.valueOf(constantDay));
+    public void setTotalday(int totalday) {
+        dakatotalnumber.setText(String.valueOf(totalday));
     }
 
     @Override
     public int getConstantDay() {
         return Integer.valueOf(dakaconsnumber.getText().toString());
+    }
+
+    @Override
+    public void setConstantDay(int constantDay) {
+        dakaconsnumber.setText(String.valueOf(constantDay));
     }
 
     @Override

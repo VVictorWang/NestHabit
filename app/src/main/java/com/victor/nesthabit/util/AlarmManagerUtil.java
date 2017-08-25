@@ -6,8 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 
-import com.victor.nesthabit.broadcast.AlarmReceiver;
 import com.victor.nesthabit.bean.AlarmTime;
+import com.victor.nesthabit.broadcast.AlarmReceiver;
 import com.victor.nesthabit.ui.activity.AlarmActivity;
 
 import java.util.Calendar;
@@ -22,10 +22,10 @@ import static android.R.attr.id;
  */
 
 public class AlarmManagerUtil {
+    public static final int intervalMillis = 24 * 3600 * 1000 * 7;
     private static int[] WEEKS = new int[]{Calendar.SUNDAY, Calendar.MONDAY, Calendar.TUESDAY,
             Calendar
                     .WEDNESDAY, Calendar.THURSDAY, Calendar.FEBRUARY, Calendar.SATURDAY};
-    public static final int intervalMillis = 24 * 3600 * 1000 * 7;
 
     public static void cancelAlarm(Context context, AlarmTime alarmTime) {
         AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);

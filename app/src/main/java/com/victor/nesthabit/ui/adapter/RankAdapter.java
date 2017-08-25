@@ -28,40 +28,13 @@ public class RankAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Context mContext;
     private List<RankItem> mRankItems = new ArrayList<>();
 
+    public RankAdapter(Context context) {
+        mContext = context;
+    }
+
     public void addItem(RankItem rankItem) {
         mRankItems.add(rankItem);
         notifyDataSetChanged();
-    }
-
-    static class TopViewHolder extends RecyclerView.ViewHolder {
-        private CardView card;
-        private ImageView rankNumberImage;
-        private ImageView avatar;
-        private TextView name;
-        private TextView days;
-
-        public TopViewHolder(View itemView) {
-            super(itemView);
-            card = (CardView) itemView.findViewById(R.id.card);
-            rankNumberImage = (ImageView) itemView.findViewById(R.id.rank_number_image);
-            avatar = (ImageView) itemView.findViewById(R.id.avatar);
-            name = (TextView) itemView.findViewById(R.id.name);
-            days = (TextView) itemView.findViewById(R.id.days);
-        }
-    }
-
-
-    static class NextViewHolder extends RecyclerView.ViewHolder {
-        private RecyclerView mRecyclerView;
-
-        public NextViewHolder(View itemView) {
-            super(itemView);
-            mRecyclerView = (RecyclerView) itemView.findViewById(R.id.list);
-        }
-    }
-
-    public RankAdapter(Context context) {
-        mContext = context;
     }
 
     @Override
@@ -130,6 +103,32 @@ public class RankAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             return TOP_VIEW;
         else
             return CONT_VIEW;
+    }
+
+    static class TopViewHolder extends RecyclerView.ViewHolder {
+        private CardView card;
+        private ImageView rankNumberImage;
+        private ImageView avatar;
+        private TextView name;
+        private TextView days;
+
+        public TopViewHolder(View itemView) {
+            super(itemView);
+            card = (CardView) itemView.findViewById(R.id.card);
+            rankNumberImage = (ImageView) itemView.findViewById(R.id.rank_number_image);
+            avatar = (ImageView) itemView.findViewById(R.id.avatar);
+            name = (TextView) itemView.findViewById(R.id.name);
+            days = (TextView) itemView.findViewById(R.id.days);
+        }
+    }
+
+    static class NextViewHolder extends RecyclerView.ViewHolder {
+        private RecyclerView mRecyclerView;
+
+        public NextViewHolder(View itemView) {
+            super(itemView);
+            mRecyclerView = (RecyclerView) itemView.findViewById(R.id.list);
+        }
     }
 
 }

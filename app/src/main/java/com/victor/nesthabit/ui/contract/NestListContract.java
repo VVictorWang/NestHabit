@@ -19,7 +19,7 @@ public interface NestListContract {
         long getUserId();
     }
 
-     interface Presenter extends BasePresenter {
+    interface Presenter extends BasePresenter {
     }
 
 }

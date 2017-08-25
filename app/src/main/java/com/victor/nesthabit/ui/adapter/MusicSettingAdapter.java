@@ -22,8 +22,8 @@ public class MusicSettingAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public static final int VIBRATE_VOLUME_TYPE = 1;
     public static final int PROFILE_TYPE = 3;
     public static final int OTHER_TYPE = 4;
-    private Context mContext;
     public static final String TAG = "@victor ListAdapter";
+    private Context mContext;
     private MusicListAdapter mMusicListAdapter;
     private int profileposition = -1;
     private VibrateVolumeAdapter mVibrateVolumeAdapter;
@@ -105,6 +105,19 @@ public class MusicSettingAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return 3;
     }
 
+    public String getMusicName() {
+        if (mMusicListAdapter != null) {
+            return mMusicListAdapter.getMusic();
+        }
+        return null;
+    }
+
+    public String getMusicUri() {
+        if (mMusicListAdapter != null) {
+            return mMusicListAdapter.getMusicUri();
+        }
+        return null;
+    }
 
     static class VibrateVolumeViewHoler extends RecyclerView.ViewHolder {
         private RecyclerView mRecyclerView;
@@ -131,20 +144,6 @@ public class MusicSettingAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             super(itemView);
             mRecyclerView = (RecyclerView) itemView.findViewById(R.id.music_list);
         }
-    }
-
-    public String getMusicName() {
-        if (mMusicListAdapter != null) {
-            return mMusicListAdapter.getMusic();
-        }
-        return null;
-    }
-
-    public String getMusicUri() {
-        if (mMusicListAdapter != null) {
-            return mMusicListAdapter.getMusicUri();
-        }
-        return null;
     }
 
 

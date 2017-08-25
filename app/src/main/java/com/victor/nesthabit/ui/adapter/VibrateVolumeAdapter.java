@@ -30,6 +30,11 @@ public class VibrateVolumeAdapter extends RecyclerView.Adapter<RecyclerView.View
     private int profileposiition = -1;
     private MediaPlayer mMediaPlayer;
 
+    public VibrateVolumeAdapter(Context context, int profileposiition) {
+        mContext = context;
+        this.profileposiition = profileposiition;
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == VIBRATE_TYPE) {
@@ -43,11 +48,6 @@ public class VibrateVolumeAdapter extends RecyclerView.Adapter<RecyclerView.View
                     .inflate(R.layout.music_list_adapter, null));
         }
         return null;
-    }
-
-    public VibrateVolumeAdapter(Context context, int profileposiition) {
-        mContext = context;
-        this.profileposiition = profileposiition;
     }
 
     @Override

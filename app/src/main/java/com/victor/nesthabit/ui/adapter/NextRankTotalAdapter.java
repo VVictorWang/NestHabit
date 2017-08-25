@@ -16,21 +16,6 @@ import com.victor.nesthabit.R;
  */
 
 public class NextRankTotalAdapter extends RecyclerView.Adapter<NextRankTotalAdapter.MyViewHolder> {
-    static class MyViewHolder extends RecyclerView.ViewHolder {
-        private TextView rankNumber;
-        private ImageView avatar;
-        private TextView name;
-        private TextView day;
-
-        public MyViewHolder(View itemView) {
-            super(itemView);
-            rankNumber = (TextView) itemView.findViewById(R.id.rank_number);
-            avatar = (ImageView) itemView.findViewById(R.id.avatar);
-            name = (TextView) itemView.findViewById(R.id.name);
-            day = (TextView) itemView.findViewById(R.id.day);
-        }
-    }
-
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout
@@ -46,5 +31,20 @@ public class NextRankTotalAdapter extends RecyclerView.Adapter<NextRankTotalAdap
     @Override
     public int getItemCount() {
         return 10;
+    }
+
+    static class MyViewHolder extends RecyclerView.ViewHolder {
+        private TextView rankNumber;
+        private ImageView avatar;
+        private TextView name;
+        private TextView day;
+
+        public MyViewHolder(View itemView) {
+            super(itemView);
+            rankNumber = (TextView) itemView.findViewById(R.id.rank_number);
+            avatar = (ImageView) itemView.findViewById(R.id.avatar);
+            name = (TextView) itemView.findViewById(R.id.name);
+            day = (TextView) itemView.findViewById(R.id.day);
+        }
     }
 }

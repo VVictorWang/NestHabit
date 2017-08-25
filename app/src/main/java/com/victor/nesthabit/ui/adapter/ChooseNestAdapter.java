@@ -21,36 +21,12 @@ import java.util.List;
  */
 
 public class ChooseNestAdapter extends RecyclerView.Adapter<ChooseNestAdapter.ListViewHolder> {
+    public static final String TAG = "@victor NestLisAdapter";
     private Context mContext;
     private RecyclerView mRecyclerView;
     private List<NestInfo> mBirdCageInfos;
-    public static final String TAG = "@victor NestLisAdapter";
     private ListViewHolder tickholer;
     private String tickedid = null;
-
-
-    static class ListViewHolder extends RecyclerView.ViewHolder {
-        private ImageView birdcageListImage;
-        private TextView birdcageListText;
-        private CardView mCardView;
-        private CardView redborder;
-
-
-        ListViewHolder(View itemView) {
-            super(itemView);
-            birdcageListImage = (ImageView) itemView.findViewById(R.id.birdcage_list_image);
-            birdcageListText = (TextView) itemView.findViewById(R.id.birdcage_list_text);
-            mCardView = (CardView) itemView.findViewById(R.id.card);
-            redborder = (CardView) itemView.findViewById(R.id.card_background);
-        }
-
-    }
-
-    public void setListData(List<NestInfo> nestInfos) {
-        mBirdCageInfos.clear();
-        mBirdCageInfos.addAll(nestInfos);
-        notifyDataSetChanged();
-    }
 
 
     public ChooseNestAdapter(Context context, RecyclerView recyclerView, List<NestInfo>
@@ -58,6 +34,12 @@ public class ChooseNestAdapter extends RecyclerView.Adapter<ChooseNestAdapter.Li
         mContext = context;
         mRecyclerView = recyclerView;
         mBirdCageInfos = birdCageInfos;
+    }
+
+    public void setListData(List<NestInfo> nestInfos) {
+        mBirdCageInfos.clear();
+        mBirdCageInfos.addAll(nestInfos);
+        notifyDataSetChanged();
     }
 
     @Override
@@ -112,6 +94,23 @@ public class ChooseNestAdapter extends RecyclerView.Adapter<ChooseNestAdapter.Li
     @Override
     public int getItemCount() {
         return mBirdCageInfos.size();
+    }
+
+    static class ListViewHolder extends RecyclerView.ViewHolder {
+        private ImageView birdcageListImage;
+        private TextView birdcageListText;
+        private CardView mCardView;
+        private CardView redborder;
+
+
+        ListViewHolder(View itemView) {
+            super(itemView);
+            birdcageListImage = (ImageView) itemView.findViewById(R.id.birdcage_list_image);
+            birdcageListText = (TextView) itemView.findViewById(R.id.birdcage_list_text);
+            mCardView = (CardView) itemView.findViewById(R.id.card);
+            redborder = (CardView) itemView.findViewById(R.id.card_background);
+        }
+
     }
 
 

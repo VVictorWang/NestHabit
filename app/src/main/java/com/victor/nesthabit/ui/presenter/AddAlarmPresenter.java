@@ -29,15 +29,23 @@ import okhttp3.Response;
  */
 
 public class AddAlarmPresenter implements AddAlarmContract.Presenter {
-    private AddAlarmContract.View mView;
     public static final String TAG = "@victor AlarmPresenter";
     private static OnDataChanged mOnDataChanged;
     private static OnAlarmAdded sOnAlarmAdded;
+    private AddAlarmContract.View mView;
     private AlarmTime mAlarmTime = null;
 
     public AddAlarmPresenter(AddAlarmContract.View view) {
         mView = view;
         mView.setPresenter(this);
+    }
+
+    public static void setOnDataChanged(OnDataChanged onDataChanged) {
+        mOnDataChanged = onDataChanged;
+    }
+
+    public static void setOnAlarmAdded(OnAlarmAdded onAlarmAdded) {
+        sOnAlarmAdded = onAlarmAdded;
     }
 
     @Override
@@ -163,14 +171,6 @@ public class AddAlarmPresenter implements AddAlarmContract.Presenter {
 
         }
 
-    }
-
-    public static void setOnDataChanged(OnDataChanged onDataChanged) {
-        mOnDataChanged = onDataChanged;
-    }
-
-    public static void setOnAlarmAdded(OnAlarmAdded onAlarmAdded) {
-        sOnAlarmAdded = onAlarmAdded;
     }
 
     public interface OnDataChanged {

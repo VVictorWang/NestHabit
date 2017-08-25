@@ -11,13 +11,13 @@ import com.victor.nesthabit.ui.base.Baseview;
 
 public interface NestSpecificContract {
     interface View extends Baseview<Presenter> {
-        void setTotalday(int totalday);
-
         int getTotalday();
 
-        void setConstantDay(int constantDay);
+        void setTotalday(int totalday);
 
         int getConstantDay();
+
+        void setConstantDay(int constantDay);
 
         String getNestId();
 

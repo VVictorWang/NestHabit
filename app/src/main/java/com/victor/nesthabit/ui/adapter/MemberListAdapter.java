@@ -10,14 +10,23 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.victor.nesthabit.R;
+import com.victor.nesthabit.api.UserApi;
+import com.victor.nesthabit.bean.NestInfo;
 import com.victor.nesthabit.bean.UserInfo;
 import com.victor.nesthabit.util.AppUtils;
+import com.victor.nesthabit.util.Utils;
 import com.victor.nesthabit.view.CircleImageView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import rx.Observable;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by victor on 7/20/17.
@@ -30,37 +39,24 @@ public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.My
     private Context mContext;
     private boolean isChoosing;
     private boolean isOwner;
+    private String nestId;
     private List<String> tickedMembers = new ArrayList<>();
 
     private List<UserInfo> mMembers = new ArrayList<>();
 
-    static class MyViewHolder extends RecyclerView.ViewHolder {
-        private CircleImageView avatar, avatar_choosen;
-        private ImageView delete;
-        private TextView name;
-
-        public MyViewHolder(View itemView) {
-            super(itemView);
-            avatar = (CircleImageView) itemView.findViewById(R.id.avatar);
-            delete = (ImageView) itemView.findViewById(R.id.delete);
-            name = (TextView) itemView.findViewById(R.id.name);
-            avatar_choosen = (CircleImageView) itemView.findViewById(R.id.avatar_choosen);
-        }
+    public MemberListAdapter(Context context, boolean isChoose, boolean isChoosing, boolean
+            isOwner, String nestId) {
+        this.isChoose = isChoose;
+        mContext = context;
+        this.isChoosing = isChoosing;
+        this.isOwner = isOwner;
+        this.nestId = nestId;
     }
 
     public void addItem(UserInfo userInfo) {
         mMembers.add(userInfo);
         notifyDataSetChanged();
     }
-
-    public MemberListAdapter(Context context, boolean isChoose, boolean isChoosing, boolean
-            isOwner) {
-        this.isChoose = isChoose;
-        mContext = context;
-        this.isChoosing = isChoosing;
-        this.isOwner = isOwner;
-    }
-
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -96,7 +92,29 @@ public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.My
                         ok.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                dialog.dismiss();
+                                Observable<NestInfo> nestInfoObservable = UserApi.getInstance()
+                                        .deleteMember(nestId, userInfo.username, Utils.getHeader());
+                                nestInfoObservable.observeOn(AndroidSchedulers.mainThread())
+                                        .subscribeOn(Schedulers.io())
+                                        .subscribe(new Observer<NestInfo>() {
+                                            @Override
+                                            public void onCompleted() {
+                                                dialog.dismiss();
+                                            }
+
+                                            @Override
+                                            public void onError(Throwable e) {
+                                                Toast.makeText(mContext, "删除失败", Toast
+                                                        .LENGTH_SHORT).show();
+                                                dialog.dismiss();
+                                            }
+
+                                            @Override
+                                            public void onNext(NestInfo nestInfo) {
+
+                                            }
+                                        });
+
                             }
                         });
                         cancel.setOnClickListener(new View.OnClickListener() {
@@ -145,5 +163,19 @@ public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.My
     @Override
     public int getItemCount() {
         return mMembers.size();
+    }
+
+    static class MyViewHolder extends RecyclerView.ViewHolder {
+        private CircleImageView avatar, avatar_choosen;
+        private ImageView delete;
+        private TextView name;
+
+        public MyViewHolder(View itemView) {
+            super(itemView);
+            avatar = (CircleImageView) itemView.findViewById(R.id.avatar);
+            delete = (ImageView) itemView.findViewById(R.id.delete);
+            name = (TextView) itemView.findViewById(R.id.name);
+            avatar_choosen = (CircleImageView) itemView.findViewById(R.id.avatar_choosen);
+        }
     }
 }

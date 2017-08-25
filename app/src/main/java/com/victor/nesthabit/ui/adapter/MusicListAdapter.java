@@ -23,13 +23,13 @@ import com.victor.nesthabit.R;
  */
 
 public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.MyViewHolder> {
+    public static final String TAG = "@victor ListAdapter";
     private Context mContext;
     private RecyclerView mRecyclerView;
     private Cursor mCursor;
     private MyViewHolder tickedHoler;
     private boolean isProfile;
     private MediaPlayer mMediaPlayer;
-    public static final String TAG = "@victor ListAdapter";
     private int profileposition = -1;
     private String musicUri = null;
 
@@ -127,20 +127,6 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.MyVi
         }
     }
 
-
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView name;
-        public ImageView isChecked;
-        public RelativeLayout mRelativeLayout;
-
-        MyViewHolder(View itemView) {
-            super(itemView);
-            name = (TextView) itemView.findViewById(R.id.music_name);
-            isChecked = (ImageView) itemView.findViewById(R.id.istick);
-            mRelativeLayout = (RelativeLayout) itemView.findViewById(R.id.music_layout);
-        }
-    }
-
     public String getMusic() {
         if (tickedHoler != null) {
             return tickedHoler.name.getText().toString();
@@ -153,6 +139,19 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.MyVi
             return musicUri;
         }
         return null;
+    }
+
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView name;
+        public ImageView isChecked;
+        public RelativeLayout mRelativeLayout;
+
+        MyViewHolder(View itemView) {
+            super(itemView);
+            name = (TextView) itemView.findViewById(R.id.music_name);
+            isChecked = (ImageView) itemView.findViewById(R.id.istick);
+            mRelativeLayout = (RelativeLayout) itemView.findViewById(R.id.music_layout);
+        }
     }
 
 

@@ -37,12 +37,8 @@ public class MemberListActivity extends BaseActivity implements MemberListContra
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getIntent() != null) {
-            nestId = getIntent().getStringExtra("nestId");
-            isOwner = getIntent().getBooleanExtra("isOwner", false);
-        }
         mPresenter = new MemberListPresenter(this);
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -60,8 +56,12 @@ public class MemberListActivity extends BaseActivity implements MemberListContra
         this.list = (RecyclerView) findViewById(R.id.list);
         this.toolbar = findViewById(R.id.toolbar);
         setToolbar();
+        if (getIntent() != null) {
+            nestId = getIntent().getStringExtra("nestId");
+            isOwner = getIntent().getBooleanExtra("isOwner", false);
+        }
         mMemberListAdapter = new MemberListAdapter(MemberListActivity.this, false, false,
-                isOwner);
+                isOwner, nestId);
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(4,
                 StaggeredGridLayoutManager.VERTICAL);
         list.setLayoutManager(layoutManager);

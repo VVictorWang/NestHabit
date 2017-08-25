@@ -15,16 +15,15 @@ import com.victor.nesthabit.util.ActivityManager;
 
 public class LoginActivity extends BaseActivity implements LoginContract.View {
 
+    public static final String TAG = "@victor LoginActivity";
     private android.widget.RelativeLayout loginqq;
     private android.widget.RelativeLayout loginweichat;
     private LoginContract.Presenter mLoginPresenter;
 
-    public static final String TAG = "@victor LoginActivity";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         mLoginPresenter = new LoginPresenter(this);
+        super.onCreate(savedInstanceState);
     }
 
     @Override

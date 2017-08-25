@@ -40,47 +40,19 @@ public class RemindFriendAdapter extends RecyclerView.Adapter<RemindFriendAdapte
     private MediaPlayer mMediaPlayer;
     private List<RecordItem> mRecordItems = new ArrayList<>();
     private boolean isPlaying = false;
+    private String nestId = null;
+
+    public RemindFriendAdapter(Context context, String nestId) {
+        mContext = context;
+        mRecordItems = DataSupport.findAll(RecordItem.class);
+        AddRemindPresenter.setOnNewRecordChanged(this);
+        this.nestId = nestId;
+    }
 
     @Override
     public void onNewAdded(RecordItem recordItem) {
         mRecordItems.add(recordItem);
         notifyDataSetChanged();
-    }
-
-
-    static class MyViewHolder extends RecyclerView.ViewHolder {
-        private CircleImageView play;
-        private RelativeLayout voiceTextLayout;
-        private TextView voiceTextStatus;
-        private TextView duixiang;
-        private ImageView avatar;
-        private TextView name;
-        private TextView startTime;
-        private TextView endTime;
-        private RelativeLayout contentLayout;
-        private TextView content;
-        private CardView mCardView;
-
-        public MyViewHolder(View itemView) {
-            super(itemView);
-            play = (CircleImageView) itemView.findViewById(R.id.play);
-            voiceTextLayout = (RelativeLayout) itemView.findViewById(R.id.voice_text_layout);
-            voiceTextStatus = (TextView) itemView.findViewById(R.id.voice_text_status);
-            duixiang = (TextView) itemView.findViewById(R.id.duixiang);
-            avatar = (ImageView) itemView.findViewById(R.id.avatar);
-            name = (TextView) itemView.findViewById(R.id.name);
-            startTime = (TextView) itemView.findViewById(R.id.start_time);
-            endTime = (TextView) itemView.findViewById(R.id.end_time);
-            contentLayout = (RelativeLayout) itemView.findViewById(R.id.content_layout);
-            content = (TextView) itemView.findViewById(R.id.content);
-            mCardView = (CardView) itemView.findViewById(R.id.card);
-        }
-    }
-
-    public RemindFriendAdapter(Context context) {
-        mContext = context;
-        mRecordItems = DataSupport.findAll(RecordItem.class);
-        AddRemindPresenter.setOnNewRecordChanged(this);
     }
 
     @Override
@@ -112,6 +84,7 @@ public class RemindFriendAdapter extends RecyclerView.Adapter<RemindFriendAdapte
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, ChooseActivity.class);
                 intent.putExtra("id", recordItem.getId());
+                intent.putExtra("nestId", nestId);
                 ActivityManager.startActivity((Activity) mContext, intent);
             }
         });
@@ -201,9 +174,37 @@ public class RemindFriendAdapter extends RecyclerView.Adapter<RemindFriendAdapte
         isPlaying = !isPlaying;
     }
 
-
     @Override
     public int getItemCount() {
         return mRecordItems.size();
+    }
+
+    static class MyViewHolder extends RecyclerView.ViewHolder {
+        private CircleImageView play;
+        private RelativeLayout voiceTextLayout;
+        private TextView voiceTextStatus;
+        private TextView duixiang;
+        private ImageView avatar;
+        private TextView name;
+        private TextView startTime;
+        private TextView endTime;
+        private RelativeLayout contentLayout;
+        private TextView content;
+        private CardView mCardView;
+
+        public MyViewHolder(View itemView) {
+            super(itemView);
+            play = (CircleImageView) itemView.findViewById(R.id.play);
+            voiceTextLayout = (RelativeLayout) itemView.findViewById(R.id.voice_text_layout);
+            voiceTextStatus = (TextView) itemView.findViewById(R.id.voice_text_status);
+            duixiang = (TextView) itemView.findViewById(R.id.duixiang);
+            avatar = (ImageView) itemView.findViewById(R.id.avatar);
+            name = (TextView) itemView.findViewById(R.id.name);
+            startTime = (TextView) itemView.findViewById(R.id.start_time);
+            endTime = (TextView) itemView.findViewById(R.id.end_time);
+            contentLayout = (RelativeLayout) itemView.findViewById(R.id.content_layout);
+            content = (TextView) itemView.findViewById(R.id.content);
+            mCardView = (CardView) itemView.findViewById(R.id.card);
+        }
     }
 }

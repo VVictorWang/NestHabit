@@ -28,6 +28,8 @@ import com.victor.nesthabit.R;
 
 public class SwitchButton extends View {
     private static final String KEY_INSTANCE_STATE = "SWITCHBUTTONINSTANCE";
+    public int min_width = 50;//dp
+    public int min_height = 25;//dp
     private float radius;
     /**
      * 开启颜色
@@ -98,13 +100,8 @@ public class SwitchButton extends View {
      * 默认使用动画
      */
     private boolean defaultAnimate = true;
-
     private OnToggleChanged listener;
-
     private int animate_time = 150;
-    public int min_width = 50;//dp
-    public int min_height = 25;//dp
-
     private int margin_height = 0;
     private boolean is_touch = false;//判断是否是触摸状态
     private boolean is_rect = false;//判断是否是触摸状态
@@ -120,6 +117,24 @@ public class SwitchButton extends View {
     public SwitchButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(attrs);
+    }
+
+    /**
+     * Map a value within a given range to another range.
+     *
+     * @param value    the value to map
+     * @param fromLow  the low end of the range the value is within
+     * @param fromHigh the high end of the range the value is within
+     * @param toLow    the low end of the range to map to
+     * @param toHigh   the high end of the range to map to
+     * @return the mapped value
+     */
+    public static double mapValueFromRangeToRange(double value, double fromLow, double fromHigh,
+                                                  double toLow, double toHigh) {
+        double fromRangeSize = fromHigh - fromLow;
+        double toRangeSize = toHigh - toLow;
+        double valueScale = (value - fromLow) / fromRangeSize;
+        return toLow + (valueScale * toRangeSize);
     }
 
     public void init(AttributeSet attrs) {
@@ -232,7 +247,6 @@ public class SwitchButton extends View {
         }
     }
 
-
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         final int widthMode = MeasureSpec.getMode(widthMeasureSpec);
@@ -253,7 +267,6 @@ public class SwitchButton extends View {
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
-
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
@@ -297,7 +310,6 @@ public class SwitchButton extends View {
     private int clamp(int value, int low, int high) {
         return Math.min(Math.max(value, low), high);
     }
-
 
     @Override
     public void onDraw(Canvas canvas) {
@@ -394,11 +406,6 @@ public class SwitchButton extends View {
         postInvalidate();
     }
 
-    public interface OnToggleChanged {
-        void onToggle(boolean on);
-    }
-
-
     public void setOnToggleChanged(OnToggleChanged onToggleChanged) {
         listener = onToggleChanged;
     }
@@ -409,24 +416,6 @@ public class SwitchButton extends View {
 
     public void setAnimate(boolean animate) {
         this.defaultAnimate = animate;
-    }
-
-    /**
-     * Map a value within a given range to another range.
-     *
-     * @param value    the value to map
-     * @param fromLow  the low end of the range the value is within
-     * @param fromHigh the high end of the range the value is within
-     * @param toLow    the low end of the range to map to
-     * @param toHigh   the high end of the range to map to
-     * @return the mapped value
-     */
-    public static double mapValueFromRangeToRange(double value, double fromLow, double fromHigh,
-                                                  double toLow, double toHigh) {
-        double fromRangeSize = fromHigh - fromLow;
-        double toRangeSize = toHigh - toLow;
-        double valueScale = (value - fromLow) / fromRangeSize;
-        return toLow + (valueScale * toRangeSize);
     }
 
     @Override
@@ -468,5 +457,9 @@ public class SwitchButton extends View {
         }
         invalidate();
         return true;
+    }
+
+    public interface OnToggleChanged {
+        void onToggle(boolean on);
     }
 }

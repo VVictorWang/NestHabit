@@ -49,6 +49,7 @@ public interface AddAlarmContract {
 
         String getMusic();
 
+        void setMusic(String name);
 
         boolean getSnap();
 
@@ -65,8 +66,6 @@ public interface AddAlarmContract {
         void finishActivity();
 
         void setAlarm(AlarmTime alarm);
-
-        void setMusic(String name);
 
         void setMusicError();
     }

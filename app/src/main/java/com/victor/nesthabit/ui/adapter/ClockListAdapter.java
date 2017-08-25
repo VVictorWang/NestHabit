@@ -41,6 +41,15 @@ public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyVi
     private int white;
     private int white_transparent;
 
+    public ClockListAdapter(Context context, List<AlarmTime> alarmTimes) {
+        mContext = context;
+        white = mContext.getResources().getColor(R.color.white);
+        white_transparent = mContext.getResources().getColor(R.color.while_transpante60);
+        mAlarmTimes = alarmTimes;
+        AddAlarmPresenter.setOnDataChanged(this);
+        ClockListPresenter.setOnAlarmAdded(this);
+    }
+
     @Override
     public void OnDataAdded(AlarmTime alarmTime) {
         mAlarmTimes.add(alarmTime);
@@ -57,37 +66,6 @@ public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyVi
     public void AlarmAdded(AlarmTime alarmTime) {
         mAlarmTimes.add(alarmTime);
         notifyDataSetChanged();
-    }
-
-
-    class MyViewHolder extends RecyclerView.ViewHolder {
-        private TextView remindTitle;
-        private ImageView remindImage;
-        private TextView remindTime;
-        private RecyclerView remindList;
-        private TextView remidTimeLeft;
-        private SwitchButton mSwitchButton;
-        private CardView mCardView;
-
-        public MyViewHolder(View itemView) {
-            super(itemView);
-            remindTitle = (TextView) itemView.findViewById(R.id.remind_title);
-            remindImage = (ImageView) itemView.findViewById(R.id.remind_image);
-            remindTime = (TextView) itemView.findViewById(R.id.remind_time);
-            remindList = (RecyclerView) itemView.findViewById(R.id.remind_list);
-            remidTimeLeft = (TextView) itemView.findViewById(R.id.remid_time_left);
-            mSwitchButton = (SwitchButton) itemView.findViewById(R.id.toogle);
-            mCardView = (CardView) itemView.findViewById(R.id.clock_card);
-        }
-    }
-
-    public ClockListAdapter(Context context, List<AlarmTime> alarmTimes) {
-        mContext = context;
-        white = mContext.getResources().getColor(R.color.white);
-        white_transparent = mContext.getResources().getColor(R.color.while_transpante60);
-        mAlarmTimes = alarmTimes;
-        AddAlarmPresenter.setOnDataChanged(this);
-        ClockListPresenter.setOnAlarmAdded(this);
     }
 
     @Override
@@ -171,17 +149,29 @@ public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyVi
         return mAlarmTimes.size();
     }
 
+    class MyViewHolder extends RecyclerView.ViewHolder {
+        private TextView remindTitle;
+        private ImageView remindImage;
+        private TextView remindTime;
+        private RecyclerView remindList;
+        private TextView remidTimeLeft;
+        private SwitchButton mSwitchButton;
+        private CardView mCardView;
+
+        public MyViewHolder(View itemView) {
+            super(itemView);
+            remindTitle = (TextView) itemView.findViewById(R.id.remind_title);
+            remindImage = (ImageView) itemView.findViewById(R.id.remind_image);
+            remindTime = (TextView) itemView.findViewById(R.id.remind_time);
+            remindList = (RecyclerView) itemView.findViewById(R.id.remind_list);
+            remidTimeLeft = (TextView) itemView.findViewById(R.id.remid_time_left);
+            mSwitchButton = (SwitchButton) itemView.findViewById(R.id.toogle);
+            mCardView = (CardView) itemView.findViewById(R.id.clock_card);
+        }
+    }
+
     private class ClockWeekAdpater extends RecyclerView.Adapter<ClockWeekAdpater.ViewHolder> {
         private List<String> list;
-
-        class ViewHolder extends RecyclerView.ViewHolder {
-            private TextView mTextView;
-
-            public ViewHolder(View itemView) {
-                super(itemView);
-                mTextView = (TextView) itemView.findViewById(R.id.text_weekday);
-            }
-        }
 
         public ClockWeekAdpater(List<String> list) {
             this.list = list;
@@ -202,6 +192,15 @@ public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyVi
         @Override
         public int getItemCount() {
             return list.size();
+        }
+
+        class ViewHolder extends RecyclerView.ViewHolder {
+            private TextView mTextView;
+
+            public ViewHolder(View itemView) {
+                super(itemView);
+                mTextView = (TextView) itemView.findViewById(R.id.text_weekday);
+            }
         }
     }
 

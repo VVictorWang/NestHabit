@@ -44,7 +44,6 @@ public class NestInfo {
     public List<UserInfo> members;
 
 
-
     public String get_id() {
         return _id;
     }

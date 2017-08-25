@@ -34,9 +34,8 @@ import static rx.Observable.concat;
 
 public class RankPresnter extends RxPresenter implements RankContract.Presenter {
 
-    private RankContract.View mView;
-
     public static final String TAG = "@victor RankPresnter";
+    private RankContract.View mView;
 
     public RankPresnter(RankContract.View view) {
         mView = view;

@@ -1,5 +1,6 @@
 package com.victor.nesthabit.ui.contract;
 
+import com.victor.nesthabit.bean.UserInfo;
 import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.ui.base.Baseview;
 
@@ -15,9 +16,17 @@ public interface ChooseContract {
 
         String getChooseDate();
 
+        String getNestId();
+
+        void addItem(UserInfo userInfo);
+
+        void finishActivity();
+
 
     }
+
     interface Presenter extends BasePresenter {
+        void next();
     }
 
 }

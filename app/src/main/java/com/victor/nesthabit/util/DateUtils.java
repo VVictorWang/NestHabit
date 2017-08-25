@@ -3,7 +3,6 @@ package com.victor.nesthabit.util;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -14,18 +13,6 @@ import java.util.List;
  */
 
 public class DateUtils {
-
-    public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
-
-    /**
-     * 格式化时间
-     *
-     * @param time
-     * @return
-     */
-    public static String getTime(long time) {
-        return format(time, DEFAULT_DATE_FORMAT);
-    }
 
     /**
      * 格式化时间,自定义标签
@@ -39,13 +26,6 @@ public class DateUtils {
         return sdf.format(new Date(time));
     }
 
-
-    public static long getTimeinMills(int hour, int minute) {
-        Date date = new Date(System.currentTimeMillis());
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(date.getYear(), date.getMonth(), date.getDate(), hour, minute);
-        return calendar.getTimeInMillis();
-    }
 
     public static boolean isNight(int hour) {
         if (hour > 19 || hour < 6) {
@@ -147,24 +127,4 @@ public class DateUtils {
         return new Date(System.currentTimeMillis());
     }
 
-    /**
-     * 获取当前年份
-     */
-    public static int getCurYear() {
-        return Calendar.getInstance().get(Calendar.YEAR);
-    }
-
-    /**
-     * 获取当前月份
-     */
-    public static int getCurMonth() {
-        return Calendar.getInstance().get(Calendar.MONTH) + 1;
-    }
-
-    /**
-     * 获取当前是几号
-     */
-    public static int getCurDay() {
-        return Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-    }
 }

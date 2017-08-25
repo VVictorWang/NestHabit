@@ -61,8 +61,8 @@ public class NestGroupDetailActivity extends BaseActivity implements NestGroupDe
             nestId = getIntent().getStringExtra("nestId");
             isOwner = getIntent().getBooleanExtra("isOwner", false);
         }
-        super.onCreate(savedInstanceState);
         mPresenter = new NestGroupDetailPresenter(this);
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -157,8 +157,9 @@ public class NestGroupDetailActivity extends BaseActivity implements NestGroupDe
                                     Manifest.permission.RECORD_AUDIO},
                             101);
                 } else {
-                    ActivityManager.startActivity(NestGroupDetailActivity.this, RemindFriendActivity
-                            .class);
+                    Intent intent = new Intent(getActivity(), RemindFriendActivity.class);
+                    intent.putExtra("nestId", nestId);
+                    ActivityManager.startActivity(getActivity(), intent);
                 }
             }
         });

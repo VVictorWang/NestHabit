@@ -34,6 +34,7 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
         .View {
 
 
+    public static final String TAG = "@victor AddAlarmActi";
     private RelativeLayout music_layout, title_layout;
     private PickerView pickview_hour, pickerview_minute;
     private TextView back, titletext, nestname;
@@ -51,20 +52,19 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
     private SwitchButton receivetext;
     private SwitchButton snaptoogle;
     private Button finish;
-
     private AddAlarmContract.Presenter mPresenter;
     private List<Integer> weeks = new ArrayList<>();
     private long id = -1;
-    public static final String TAG = "@victor AddAlarmActi";
     private String musicUri = null, nestid = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         mPresenter = new AddAlarmPresenter(this);
+        super.onCreate(savedInstanceState);
         if (getIntent() != null)
             id = getIntent().getLongExtra("id", -1);
         initWeeks();
+        mPresenter.start();
     }
 
     @Override

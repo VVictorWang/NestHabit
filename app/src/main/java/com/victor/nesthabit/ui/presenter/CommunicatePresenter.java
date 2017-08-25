@@ -27,8 +27,8 @@ import rx.schedulers.Schedulers;
 
 public class CommunicatePresenter extends RxPresenter implements CommunicateContract.Presenter {
 
-    private CommunicateContract.View mView;
     public static final String TAG = "@victor CommPresenter";
+    private CommunicateContract.View mView;
 
     public CommunicatePresenter(CommunicateContract.View view) {
         mView = view;
@@ -91,10 +91,7 @@ public class CommunicatePresenter extends RxPresenter implements CommunicateCont
                             @Override
                             public void onNext(List<SendMessageResponse>
                                                        sendMessageResponses) {
-                                for (SendMessageResponse sendMessageResponse :
-                                        sendMessageResponses) {
-                                    mView.addItem(sendMessageResponse);
-                                }
+                                mView.addAll(sendMessageResponses);
                             }
                         });
                     }

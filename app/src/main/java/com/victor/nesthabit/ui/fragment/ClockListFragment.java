@@ -46,6 +46,11 @@ public class ClockListFragment extends BaseFragment implements ClockListContract
     }
 
     @Override
+    public void setPresenter(ClockListContract.Presenter presenter) {
+        mPresenter = presenter;
+    }
+
+    @Override
     protected int getLayout() {
         return R.layout.fragment_clock;
     }
@@ -68,12 +73,6 @@ public class ClockListFragment extends BaseFragment implements ClockListContract
     @Override
     protected void initEvent() {
 
-    }
-
-
-    @Override
-    public void setPresenter(ClockListContract.Presenter presenter) {
-        mPresenter = presenter;
     }
 
     @Override

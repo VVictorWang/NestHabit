@@ -21,21 +21,13 @@ import java.util.concurrent.TimeUnit;
 
 public class AddRemindPresenter implements AddRemindContract.Presenter, RecordingService
         .OnNewRecordListenner {
+    private static OnNewRecordChanged sOnNewRecordChanged;
+    long minutes = 0;
+    long seconds = 0;
     private AddRemindContract.View mView;
     private MediaPlayer mMediaPlayer = null;
     private RecordItem mRecordItem = null;
     private boolean isPlaying = false;
-    private static OnNewRecordChanged sOnNewRecordChanged;
-
-    long minutes = 0;
-    long seconds = 0;
-
-    public AddRemindPresenter(AddRemindContract.View view) {
-        mView = view;
-        mView.setPresenter(this);
-        RecordingService.setOnNewRecordListenner(this);
-    }
-
     private Runnable mRunnable = new Runnable() {
         @Override
         public void run() {
@@ -51,6 +43,16 @@ public class AddRemindPresenter implements AddRemindContract.Presenter, Recordin
             }
         }
     };
+
+    public AddRemindPresenter(AddRemindContract.View view) {
+        mView = view;
+        mView.setPresenter(this);
+        RecordingService.setOnNewRecordListenner(this);
+    }
+
+    public static void setOnNewRecordChanged(OnNewRecordChanged onNewRecordChanged) {
+        sOnNewRecordChanged = onNewRecordChanged;
+    }
 
     @Override
     public void start() {
@@ -137,7 +139,6 @@ public class AddRemindPresenter implements AddRemindContract.Presenter, Recordin
         }
     }
 
-
     private void startPlaying() {
         mView.setPauseImage();
         mView.updateTime(mRunnable);
@@ -200,10 +201,6 @@ public class AddRemindPresenter implements AddRemindContract.Presenter, Recordin
                 - TimeUnit.MINUTES.toSeconds(minutes);
         mView.hideChormetorShowText();
         mView.setRecordText(String.format("%02d:%02d", minutes, seconds));
-    }
-
-    public static void setOnNewRecordChanged(OnNewRecordChanged onNewRecordChanged) {
-        sOnNewRecordChanged = onNewRecordChanged;
     }
 
     public interface OnNewRecordChanged {

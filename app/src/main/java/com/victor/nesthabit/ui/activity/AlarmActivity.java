@@ -1,9 +1,6 @@
 package com.victor.nesthabit.ui.activity;
 
 import android.app.Activity;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,6 +13,7 @@ import com.victor.nesthabit.view.DragTextView;
 public class AlarmActivity extends BaseActivity {
 
 
+    public static final String TAG = "@victor AlarmActivity";
     private TextView time;
     private TextView textView;
     private android.widget.ImageView imagecancel;
@@ -23,8 +21,6 @@ public class AlarmActivity extends BaseActivity {
     private android.widget.ImageView imagepullof;
     private com.victor.nesthabit.view.DragTextView dragtext;
     private ImageView imagesnap;
-    public static final String TAG = "@victor AlarmActivity";
-
 
     @Override
     protected BasePresenter getPresnter() {

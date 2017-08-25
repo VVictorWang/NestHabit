@@ -10,7 +10,7 @@ import java.util.List;
  * blog: www.victorwang.science                                            #
  */
 
-public class UserInfo extends DataSupport{
+public class UserInfo extends DataSupport {
 
     /**
      * username : swwwe

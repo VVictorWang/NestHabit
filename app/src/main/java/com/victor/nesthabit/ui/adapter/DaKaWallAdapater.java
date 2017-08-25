@@ -22,6 +22,10 @@ public class DaKaWallAdapater extends RecyclerView.Adapter<RecyclerView.ViewHold
     public static final int CONTENT_TYPE = 2;
     private Context mContext;
 
+    public DaKaWallAdapater(Context context) {
+        mContext = context;
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == DATE_TYPE) {
@@ -54,10 +58,6 @@ public class DaKaWallAdapater extends RecyclerView.Adapter<RecyclerView.ViewHold
             ((ContentViewHolder) holder).viewlast.setVisibility(View.INVISIBLE);
         }
 
-    }
-
-    public DaKaWallAdapater(Context context) {
-        mContext = context;
     }
 
     @Override

@@ -17,10 +17,6 @@ public class Base64Cipher {
     }
 
 
-    public static byte[] decrypt(byte[] res) {
-        return Base64.decode(res, Base64.DEFAULT);
-    }
-
     public static byte[] encrypt(byte[] res) {
         return Base64.encode(res, Base64.DEFAULT);
     }

@@ -26,16 +26,22 @@ import java.util.List;
 
 
 public class NestListFragment extends BaseFragment implements NestListContract.View {
+    public static final String TAG = "@victor NestList";
     private static final String ARG_PARAM1 = "userId";
-
     private RecyclerView mRecyclerView;
     private FloatingActionButton add;
     private CircleImageView setting;
     private NestListFragAdapter mNestListFragAdapter;
     private NestListContract.Presenter mPresenter;
-
     private List<NestInfo> mNestInfos;
-    public static final String TAG = "@victor NestList";
+
+    public static NestListFragment newInstance(long userId) {
+        NestListFragment fragment = new NestListFragment();
+        Bundle args = new Bundle();
+        args.putLong(ARG_PARAM1, userId);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -56,15 +62,6 @@ public class NestListFragment extends BaseFragment implements NestListContract.V
     @Override
     public void showMyToast(String description) {
         showToast(description);
-    }
-
-
-    public static NestListFragment newInstance(long userId) {
-        NestListFragment fragment = new NestListFragment();
-        Bundle args = new Bundle();
-        args.putLong(ARG_PARAM1, userId);
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override

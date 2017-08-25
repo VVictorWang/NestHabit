@@ -23,15 +23,19 @@ import rx.android.schedulers.AndroidSchedulers;
 
 public class NestListPresenter extends RxPresenter implements NestListContract.Presenter,
         MainPresenter.NestDateBegin {
-    private final NestListContract.View mView;
     public static final String TAG = "@victor NestListPresen";
     private static onNestInfoAdded sOnNestInfoAdded;
+    private final NestListContract.View mView;
 
 
     public NestListPresenter(NestListContract.View view) {
         mView = view;
         mView.setPresenter(this);
         MainPresenter.setNestDateBegin(this);
+    }
+
+    public static void setOnNestInfoAdded(onNestInfoAdded onnestInfoAdded) {
+        sOnNestInfoAdded = onnestInfoAdded;
     }
 
     @Override
@@ -76,11 +80,6 @@ public class NestListPresenter extends RxPresenter implements NestListContract.P
                 });
         addSubscribe(subscription);
 
-    }
-
-
-    public static void setOnNestInfoAdded(onNestInfoAdded onnestInfoAdded) {
-        sOnNestInfoAdded = onnestInfoAdded;
     }
 
     public interface onNestInfoAdded {
