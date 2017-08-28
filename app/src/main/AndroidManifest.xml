@@ -28,6 +28,7 @@
             android:name=".service.NetworkService"
             android:enabled="true"/>
         <service android:name=".service.RecordingService"/>
+        <service android:name=".service.PostMusicService"/>
 
         <receiver
             android:name=".broadcast.AlarmReceiver"

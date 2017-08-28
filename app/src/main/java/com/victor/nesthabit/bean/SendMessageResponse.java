@@ -18,6 +18,7 @@ public class SendMessageResponse {
     public String value;
     public String target_nest;
     public long time;
+    public long creat_time;
     public String username;
     public String _id;
     public int type;

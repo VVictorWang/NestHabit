@@ -16,6 +16,7 @@ import com.victor.nesthabit.bean.RegisterResponse;
 import com.victor.nesthabit.bean.SendMessageResponse;
 import com.victor.nesthabit.bean.UserInfo;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.MultipartBody;
@@ -115,13 +116,12 @@ public class UserApi {
         return mApiService.getNestList(username, header);
     }
 
-    public Observable<AlarmResponse> addAlarm(String title, int[] time, int[] repeate, String
+    public Observable<AlarmResponse> addAlarm(String title, List<Integer> time, List<Integer> repeate, String
             music_id, boolean nap, boolean shock, String bind_to_nest,
                                               boolean willing_music, boolean
                                                       willing_text, String
-                                                      id, String username, String
                                                       header) {
-        return mApiService.addAlarm(id, username, JsonRequestBody.getAlarm(title, time, repeate,
+        return mApiService.addAlarm(JsonRequestBody.getAlarm(title, time, repeate,
                 music_id, nap, shock, bind_to_nest, willing_music,
                 willing_text), header);
     }
@@ -151,14 +151,14 @@ public class UserApi {
     }
 
     public Observable<PostMusicResponse> postMusic(String username, String name, MultipartBody
-            .Part filebody, String
-                                                           header) {
-        return mApiService.postMusic(username, name, filebody, header);
+            .Part filebody, String header,String type) {
+        return mApiService.postMusic(username, name, filebody, header,type);
     }
 
-    public Observable<SendMessageResponse> sendMessage(String message, String nestid, String
-            header) {
-        return mApiService.sendMessage(JsonRequestBody.getCommunicationItem(message, nestid),
+    public Observable<SendMessageResponse> sendMessage(String message, long time, String nestid,
+                                                       String
+                                                               header) {
+        return mApiService.sendMessage(JsonRequestBody.getCommunicationItem(message, time, nestid),
                 header);
     }
 

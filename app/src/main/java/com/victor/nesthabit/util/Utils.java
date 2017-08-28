@@ -1,6 +1,11 @@
 package com.victor.nesthabit.util;
 
+import android.net.Uri;
+import android.os.Environment;
+
 import com.victor.nesthabit.bean.GlobalData;
+
+import java.io.File;
 
 /**
  * Created by victor on 7/26/17.
@@ -24,4 +29,21 @@ public class Utils {
         }
         return key.replaceFirst("-", "");
     }
+
+    public static Uri getImageStreamFromExternal(String imageName) {
+        File externalPubPath = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES
+        );
+
+        File picPath = new File(externalPubPath, imageName);
+        Uri uri = null;
+        if (picPath.exists()) {
+            uri = Uri.fromFile(picPath);
+        }
+
+        return uri;
+    }
+
 }
+
+

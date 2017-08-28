@@ -7,6 +7,8 @@ import com.victor.nesthabit.bean.NestInfo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by victor on 7/26/17.
@@ -37,9 +39,21 @@ public class DataCloneUtil {
         alarmTime.setTitle(response.getTitle());
         alarmTime.setReceive_Voice(response.isWilling_music());
         alarmTime.setReceive_text(response.isWilling_text());
-        alarmTime.setHour(response.getTime().get(0));
-        alarmTime.setMinute(response.getTime().get(1));
-        List<Integer> repeat = response.getRepeat();
+        String time = response.getTime();
+        String[] str = time.split(",");
+        String regEx="[^0-9]";
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(str[0]);
+        alarmTime.setHour(Integer.valueOf(m.replaceAll("").trim()));
+        m = p.matcher(str[1]);
+        alarmTime.setMinute(Integer.valueOf(m.replaceAll("").trim()));
+        String  repeatString = response.getRepeat();
+        str = repeatString.split(",");
+        List<Integer> repeat = new ArrayList<>();
+        for (String s : str) {
+            m = p.matcher(s);
+            repeat.add(Integer.valueOf(m.replaceAll("").trim()));
+        }
         List<Integer> weeks = new ArrayList<>();
         for (int i = 0; i < 7; i++) {
             weeks.add(0);
@@ -47,6 +61,7 @@ public class DataCloneUtil {
         for (int i : repeat) {
             weeks.set(i, 1);
         }
+
         alarmTime.setWeeks(weeks);
         alarmTime.setMusic_id(response.getMusic_id());
         alarmTime.setBind_to_nest(response.getBind_to_nest());

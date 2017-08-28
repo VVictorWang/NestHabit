@@ -57,8 +57,12 @@ public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyVi
     }
 
     @Override
-    public void OnDataModified() {
-        mAlarmTimes = DataSupport.findAll(AlarmTime.class);
+    public void OnDataModified(AlarmTime alarmtime) {
+        for (int i = 0; i <mAlarmTimes.size() ; i++) {
+            if (mAlarmTimes.get(i).getId() == alarmtime.getId()) {
+                mAlarmTimes.set(i, alarmtime);
+            }
+        }
         notifyDataSetChanged();
     }
 

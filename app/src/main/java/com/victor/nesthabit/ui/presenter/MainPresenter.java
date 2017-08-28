@@ -1,8 +1,6 @@
 package com.victor.nesthabit.ui.presenter;
 
 import com.victor.nesthabit.api.UserApi;
-import com.victor.nesthabit.bean.AlarmResponse;
-import com.victor.nesthabit.bean.AlarmTime;
 import com.victor.nesthabit.bean.Nests;
 import com.victor.nesthabit.bean.UserInfo;
 import com.victor.nesthabit.ui.base.RxPresenter;
@@ -26,8 +24,7 @@ import rx.schedulers.Schedulers;
  * blog: www.victorwang.science                                            #
  */
 
-public class MainPresenter extends RxPresenter implements MainContract.Presenter,
-        AddAlarmPresenter.OnAlarmAdded {
+public class MainPresenter extends RxPresenter implements MainContract.Presenter {
     public static final String TAG = "@victor MainPresenter";
     private static NestDateBegin sNestDateBegin;
     private static ClockDataBegin sClockDataBegin;
@@ -36,7 +33,6 @@ public class MainPresenter extends RxPresenter implements MainContract.Presenter
     public MainPresenter(MainContract.View view) {
         mView = view;
         mView.setPresenter(this);
-        AddAlarmPresenter.setOnAlarmAdded(this);
     }
 
     public static void setNestDateBegin(NestDateBegin nestDateBegin) {
@@ -119,45 +115,6 @@ public class MainPresenter extends RxPresenter implements MainContract.Presenter
         unSubscribe();
     }
 
-    @Override
-    public void onAlarmAdded(AlarmTime alarmTime) {
-        List<Integer> weeks = alarmTime.getWeeks();
-        List<Integer> repeat = new ArrayList<>();
-        for (int i : weeks) {
-            if (weeks.get(i) == 1) {
-                repeat.add(i);
-            }
-        }
-        int[] re = new int[repeat.size()];
-        for (int i = 0; i < repeat.size(); i++) {
-            re[i] = repeat.get(i);
-        }
-        Observable<AlarmResponse> observable = UserApi.getInstance().addAlarm
-                (alarmTime.getTitle(), new int[]{alarmTime
-                                .getHour(), alarmTime.getMinute()}, re, alarmTime.getMusic_id
-                                (), alarmTime.isSnap(),
-                        true, alarmTime.getBind_to_nest(), alarmTime
-                                .isReceive_Voice(), alarmTime.isReceive_text(), alarmTime
-                                .getNestid(), Utils.getUsername(), Utils.getHeader());
-        observable.observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<AlarmResponse>() {
-                    @Override
-                    public void onCompleted() {
-                        mView.showMyToast("添加成功");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        mView.showMyToast("添加失败");
-                    }
-
-                    @Override
-                    public void onNext(AlarmResponse alarmResponse) {
-
-                    }
-                });
-    }
 
     interface ClockDataBegin {
         void begin(List<String> alarmids);

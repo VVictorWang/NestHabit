@@ -72,12 +72,14 @@ public class CommunicateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         if (position == getPositionForSection(day)) {
             if (type == LEFT_TYPE) {
                 ((LeftViewHolder) holder).date_layout.setVisibility(View.VISIBLE);
-                ((LeftViewHolder) holder).date.setText(DateUtils.format(item.time, "yyyy-MM-dd"));
+                ((LeftViewHolder) holder).date.setText(DateUtils.format(item.creat_time,
+                        "yyyy-MM-dd"));
             } else if (type == RIGHT_TYPR) {
                 ((RightViewHoler) holder).date_layout.setVisibility(View.VISIBLE);
-                ((RightViewHoler) holder).date.setText(DateUtils.format(item.time, "yyyy-MM-dd"));
+                ((RightViewHoler) holder).date.setText(DateUtils.format(item.creat_time,
+                        "yyyy-MM-dd"));
                 ((RightViewHoler) holder).text.setText(item.value);
-                ((RightViewHoler) holder).time.setText(DateUtils.format(item.time, "HH:mm"));
+                ((RightViewHoler) holder).time.setText(DateUtils.format(item.creat_time, "HH:mm"));
             }
         } else {
             if (type == LEFT_TYPE) {
@@ -85,7 +87,7 @@ public class CommunicateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             } else if (type == RIGHT_TYPR) {
                 ((RightViewHoler) holder).date_layout.setVisibility(View.GONE);
                 ((RightViewHoler) holder).text.setText(item.value);
-                ((RightViewHoler) holder).time.setText(DateUtils.format(item.time, "HH:mm"));
+                ((RightViewHoler) holder).time.setText(DateUtils.format(item.creat_time, "HH:mm"));
             }
         }
 
@@ -98,13 +100,13 @@ public class CommunicateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     public String getDayForSection(int position) {
-        long time = mCommunicateItems.get(position).time;
+        long time = mCommunicateItems.get(position).creat_time;
         return DateUtils.format(time, "dd");
     }
 
     public int getPositionForSection(String day) {
         for (int i = 0; i < getItemCount(); i++) {
-            long time = mCommunicateItems.get(i).time;
+            long time = mCommunicateItems.get(i).creat_time;
             String dayString = DateUtils.format(time, "dd");
             if (dayString.equals(day)) {
                 return i;

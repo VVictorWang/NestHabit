@@ -6,6 +6,8 @@ import com.victor.nesthabit.ui.base.Baseview;
 
 import java.util.List;
 
+import okhttp3.MultipartBody;
+
 /**
  * Created by victor on 7/22/17.
  * email: chengyiwang@hustunique.com
@@ -16,11 +18,15 @@ public interface AddAlarmContract {
     interface View extends Baseview<Presenter> {
         void setEditToobar();
 
+        String getMusicType();
+
+        void startPostService();
+
         void clearText();
 
         long getIntentId();
 
-        String getMusicUri();
+        MultipartBody.Part getMusicUri();
 
         String getNestid();
 

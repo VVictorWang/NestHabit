@@ -1,5 +1,7 @@
 package com.victor.nesthabit.ui.presenter;
 
+import android.util.Log;
+
 import com.victor.nesthabit.api.UserApi;
 import com.victor.nesthabit.bean.MessageList;
 import com.victor.nesthabit.bean.SendMessageResponse;
@@ -65,6 +67,8 @@ public class CommunicatePresenter extends RxPresenter implements CommunicateCont
                                     sendMessageResponse.type = CommunicateAdapter.RIGHT_TYPR;
                                 } else
                                     sendMessageResponse.type = CommunicateAdapter.LEFT_TYPE;
+                                Log.d(TAG, "time: " + sendMessageResponse.creat_time + " ");
+//                                sendMessageResponse.time *= 1000;
                                 return sendMessageResponse;
                             }
                         }).toSortedList(new Func2<SendMessageResponse, SendMessageResponse,
@@ -73,7 +77,8 @@ public class CommunicatePresenter extends RxPresenter implements CommunicateCont
                             @Override
                             public Integer call(SendMessageResponse sendMessageResponse,
                                                 SendMessageResponse sendMessageResponse2) {
-                                if (sendMessageResponse.time >= sendMessageResponse2.time) {
+                                if (sendMessageResponse.creat_time >=
+                                        sendMessageResponse2.creat_time) {
                                     return 1;
                                 }
                                 return -1;
@@ -108,7 +113,7 @@ public class CommunicatePresenter extends RxPresenter implements CommunicateCont
     public void sendMessage() {
 
         Observable<SendMessageResponse> observable = UserApi.getInstance().sendMessage(mView
-                        .getMessage(),
+                        .getMessage(), System.currentTimeMillis(),
                 mView.getNestId(), Utils.getHeader());
         Subscription subscription = observable.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -126,7 +131,6 @@ public class CommunicatePresenter extends RxPresenter implements CommunicateCont
 
                     @Override
                     public void onNext(SendMessageResponse sendMessageResponse) {
-                        sendMessageResponse.time = System.currentTimeMillis();
                         sendMessageResponse.type = CommunicateAdapter.RIGHT_TYPR;
                         mView.addItem(sendMessageResponse);
                     }

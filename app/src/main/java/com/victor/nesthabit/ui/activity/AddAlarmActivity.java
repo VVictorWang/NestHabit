@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.bean.AlarmTime;
+import com.victor.nesthabit.service.PostMusicService;
 import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.ui.contract.AddAlarmContract;
@@ -27,8 +29,13 @@ import com.victor.nesthabit.util.AlarmManagerUtil;
 import com.victor.nesthabit.view.PickerView;
 import com.victor.nesthabit.view.SwitchButton;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 public class AddAlarmActivity extends BaseActivity implements View.OnClickListener, AddAlarmContract
         .View {
@@ -55,7 +62,7 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
     private AddAlarmContract.Presenter mPresenter;
     private List<Integer> weeks = new ArrayList<>();
     private long id = -1;
-    private String musicUri = null, nestid = null;
+    private String musicUri = null, nestid = null,musicType = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +141,19 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
     }
 
     @Override
+    public String getMusicType() {
+        return musicType;
+    }
+
+    @Override
+    public void startPostService() {
+        Intent intent = new Intent(this, PostMusicService.class);
+        intent.putExtra("musicUri", musicUri);
+
+        startService(intent);
+    }
+
+    @Override
     public void clearText() {
         setEditTitle("");
         title.setHint(getString(R.string.edit_your_title));
@@ -150,15 +170,14 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
 
 
     @Override
-    public String getMusicUri() {
+    public MultipartBody.Part getMusicUri() {
         if (musicUri != null) {
-            return musicUri;
-//            Uri uri = Uri.parse(musicUri);
-//            File file = new File(musicUri);
-//            RequestBody requestFile = RequestBody.create(MediaType.parse
-//                    ("audio/mp3"), file);
-//
-//            return MultipartBody.Part.createFormData("name",file.getName(),requestFile);
+            Uri uri = MediaStore.Audio.Media.getContentUriForPath(musicUri);
+            File file = new File(musicUri);
+            musicType = getContentResolver().getType(uri);
+            RequestBody requestFile = RequestBody.create(MediaType.parse
+                    (musicType), file);
+            return MultipartBody.Part.createFormData("name", file.getName(), requestFile);
         }
         return null;
     }

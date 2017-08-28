@@ -1,5 +1,7 @@
 package com.victor.nesthabit.ui.presenter;
 
+import android.util.Log;
+
 import com.victor.nesthabit.api.UserApi;
 import com.victor.nesthabit.bean.AlarmResponse;
 import com.victor.nesthabit.bean.AlarmTime;
@@ -8,8 +10,6 @@ import com.victor.nesthabit.ui.contract.ClockListContract;
 import com.victor.nesthabit.util.DataCloneUtil;
 import com.victor.nesthabit.util.RxUtil;
 import com.victor.nesthabit.util.Utils;
-
-import org.litepal.crud.DataSupport;
 
 import java.util.List;
 
@@ -43,12 +43,7 @@ public class ClockListPresenter extends RxPresenter implements ClockListContract
 
     @Override
     public void start() {
-        List<AlarmTime> alarmTimes = DataSupport.findAll(AlarmTime.class);
-        if (alarmTimes != null && !alarmTimes.isEmpty() && sOnAlarmAdded != null) {
-            for (AlarmTime alarmTime : alarmTimes) {
-                sOnAlarmAdded.AlarmAdded(alarmTime);
-            }
-        }
+
 
     }
 
@@ -78,10 +73,12 @@ public class ClockListPresenter extends RxPresenter implements ClockListContract
                             @Override
                             public void onError(Throwable e) {
 
+                                Log.d(TAG, "error: " + e.getMessage());
                             }
 
                             @Override
                             public void onNext(AlarmResponse alarmResponse) {
+
                                 AlarmTime alarmTime = DataCloneUtil.cloneAlarmRestoTime
                                         (alarmResponse);
                                 alarmTime.save();

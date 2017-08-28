@@ -2,7 +2,10 @@ package com.victor.nesthabit.api;
 
 import com.victor.nesthabit.util.safe.Base64Cipher;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -78,14 +81,14 @@ public class JsonRequestBody {
         return RequestBody.create(sMediaType, jsonObject.toString());
     }
 
-    public static RequestBody getAlarm(String title, int[] time, int[] repeate, String music_id,
+    public static RequestBody getAlarm(String title, List<Integer> time, List<Integer> repeate, String music_id,
                                        boolean nap, boolean shock, String bind_to_nest, boolean
                                                willing_music, boolean willing_text) {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("title", title);
             jsonObject.put("time", time);
             jsonObject.put("repeat", repeate);
+            jsonObject.put("title", title);
             jsonObject.put("music_id", music_id);
             jsonObject.put("nap", nap);
             jsonObject.put("shock", shock);
@@ -108,10 +111,11 @@ public class JsonRequestBody {
         return RequestBody.create(sMediaType, jsonObject.toString());
     }
 
-    public static RequestBody getCommunicationItem(String value, String targetnest) {
+    public static RequestBody getCommunicationItem(String value,long time, String targetnest) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("value", value);
+            jsonObject.put("creat_time", time);
             jsonObject.put("target_nest", targetnest);
         } catch (Exception e) {
             e.printStackTrace();

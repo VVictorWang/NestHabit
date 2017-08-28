@@ -7,11 +7,16 @@ import android.widget.RelativeLayout;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.api.UserApi;
+import com.victor.nesthabit.bean.RegisterResponse;
 import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.ui.contract.LoginContract;
 import com.victor.nesthabit.ui.presenter.LoginPresenter;
 import com.victor.nesthabit.util.ActivityManager;
+
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class LoginActivity extends BaseActivity implements LoginContract.View {
 
@@ -42,15 +47,18 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
         loginqq.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mLoginPresenter.login("test", "12345");
+                mLoginPresenter.login("victor", "12345");
             }
         });
         loginweichat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 UserApi api = UserApi.getInstance();
-//                Observable<RegisterResponse> responseObservable = api
-//                        .register("test", "12345");
+                Observable<RegisterResponse> responseObservable = api
+                        .register("victor", "12345");
+                responseObservable.observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe();
 //                responseObservable.observeOn(AndroidSchedulers.mainThread())
 //                        .subscribe(new Observer<RegisterResponse>() {
 //                            @Override

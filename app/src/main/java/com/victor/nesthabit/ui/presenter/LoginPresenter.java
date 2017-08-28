@@ -51,7 +51,7 @@ public class LoginPresenter extends RxPresenter implements LoginContract.Present
                         PrefsUtils.putValue(AppUtils.getAppContext(), GlobalData
                                 .AUTHORIZATION, loginResponse.getAuthorization());
                         PrefsUtils.putValue(AppUtils.getAppContext(), GlobalData.USERNAME,
-                                "test");
+                                username);
                     }
                 })
                 .subscribe(new Observer<LoginResponse>() {

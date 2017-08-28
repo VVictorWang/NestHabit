@@ -9,8 +9,6 @@ import java.util.List;
  */
 
 public class AlarmResponse {
-
-
     /**
      * title : AAA
      * time : [7,0]
@@ -36,8 +34,8 @@ public class AlarmResponse {
     public int created_time;
     public String owner;
     public String _id;
-    public List<Integer> time;
-    public List<Integer> repeat;
+    public String time;
+    public String repeat;
 
     public String getTitle() {
         return title;
@@ -119,19 +117,23 @@ public class AlarmResponse {
         this._id = _id;
     }
 
-    public List<Integer> getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(List<Integer> time) {
+    public void setTime(String time) {
         this.time = time;
     }
 
-    public List<Integer> getRepeat() {
+    public String getRepeat() {
         return repeat;
     }
 
-    public void setRepeat(List<Integer> repeat) {
+    public void setRepeat(String repeat) {
         this.repeat = repeat;
     }
+
+
+
+
 }
