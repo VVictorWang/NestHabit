@@ -29,6 +29,7 @@ public class ShareActivity extends BaseActivity {
     private android.support.v7.widget.CardView sharecardlayout;
     private android.widget.Button submit;
     private String nestId = null;
+    private static OnDakaAdded sOnDakaAdded;
 
     @Override
     protected BasePresenter getPresnter() {
@@ -80,7 +81,8 @@ public class ShareActivity extends BaseActivity {
     }
 
     private void daka() {
-        Observable<DakaResponse> observable = UserApi.getInstance().daka(nestId, Utils.getHeader());
+        Observable<DakaResponse> observable = UserApi.getInstance().daka(nestId, sharetext
+                .getText().toString(), System.currentTimeMillis(), Utils.getHeader());
         observable.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<DakaResponse>() {
@@ -97,7 +99,17 @@ public class ShareActivity extends BaseActivity {
 
                     @Override
                     public void onNext(DakaResponse dakaResponse) {
+                        sOnDakaAdded.OnDakaItemAdded(dakaResponse);
                     }
                 });
     }
+
+    public static void setOnDakaAdded(OnDakaAdded onDakaAdded) {
+        sOnDakaAdded = onDakaAdded;
+    }
+
+    public interface OnDakaAdded {
+        void OnDakaItemAdded(DakaResponse dakaResponse);
+    }
+
 }

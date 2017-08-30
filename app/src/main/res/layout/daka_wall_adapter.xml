@@ -3,86 +3,140 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-
     <RelativeLayout
-        android:id="@+id/left_layout"
+        android:id="@+id/date_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:visibility="gone"
         >
 
-
         <TextView
-            android:id="@+id/view_first"
             android:layout_width="3dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="21dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="31dp"
             android:background="@color/name_color"
+            android:id="@+id/date_view_first"
             />
 
 
         <ImageView
-            android:id="@+id/avatar"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:id="@+id/yellow_circle"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="2dp"
-            android:src="@drawable/huang"
+            android:layout_marginLeft="23dp"
+            android:src="@drawable/circle_yellow"
             />
 
         <TextView
-            android:id="@+id/view_last"
             android:layout_width="3dp"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/avatar"
-            android:layout_marginLeft="21dp"
-            android:layout_marginTop="10dp"
+            android:layout_height="20dp"
+            android:layout_below="@+id/yellow_circle"
+            android:layout_marginLeft="31dp"
             android:background="@color/name_color"
             />
 
         <TextView
-            android:id="@+id/name"
+            android:id="@+id/date"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/yellow_circle"
+            android:text="2017-07-18"
+            android:textColor="@color/mygray"
+            android:textSize="16sp"
+
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/daka_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/date_layout"
+        >
+
+        <RelativeLayout
+            android:id="@+id/left_layout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="12dp"
-            android:layout_toRightOf="@+id/avatar"
-            android:text="黄思佳"
-            android:textColor="@color/mygray"
-            android:textSize="12sp"
-            />
+            >
 
-        <TextView
-            android:id="@+id/time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="12dp"
-            android:layout_toRightOf="@+id/name"
-            android:text="07:33"
-            android:textColor="@color/mygray"
-            android:textSize="12sp"
-            />
 
-        <TextView
-            android:id="@+id/text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/name"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="3dp"
-            android:layout_toRightOf="@+id/avatar"
-            android:background="@drawable/bubble_others"
-            android:gravity="center_vertical"
-            android:letterSpacing="0.1"
-            android:lineSpacingMultiplier="1.2"
-            android:padding="8dp"
-            android:text="今天按时早起了，美好的一天"
-            android:textColor="#FEFEFE"
-            android:textSize="14sp"
-            />
+            <TextView
+                android:id="@+id/view_first"
+                android:layout_width="3dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="21dp"
+                android:background="@color/name_color"
+                />
 
+
+            <ImageView
+                android:id="@+id/avatar"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="2dp"
+                android:src="@drawable/huang"
+                />
+
+            <TextView
+                android:id="@+id/view_last"
+                android:layout_width="3dp"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/avatar"
+                android:layout_marginLeft="21dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/name_color"
+                />
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/avatar"
+                android:text="黄思佳"
+                android:textColor="@color/mygray"
+                android:textSize="12sp"
+                />
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/name"
+                android:text="07:33"
+                android:textColor="@color/mygray"
+                android:textSize="12sp"
+                />
+
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/name"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="3dp"
+                android:layout_toRightOf="@+id/avatar"
+                android:background="@drawable/bubble_others"
+                android:gravity="center_vertical"
+                android:letterSpacing="0.1"
+                android:lineSpacingMultiplier="1.2"
+                android:padding="8dp"
+                android:text="今天按时早起了，美好的一天"
+                android:textColor="#FEFEFE"
+                android:textSize="14sp"
+                />
+
+        </RelativeLayout>
     </RelativeLayout>
 
 

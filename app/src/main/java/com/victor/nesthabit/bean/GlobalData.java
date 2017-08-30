@@ -23,4 +23,6 @@ public interface GlobalData {
 
     public static final String USER_ID = "User_id";
     public static final String PATH_DATA = AppUtils.getAppContext().getExternalCacheDir().getPath();
+
+    public static final String PATH_MUSIC = PATH_DATA + "/music";
 }

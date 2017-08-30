@@ -2,7 +2,6 @@ package com.victor.nesthabit.ui.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -27,12 +26,16 @@ public class MusicSettingAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private Context mContext;
     private MusicListAdapter mMusicListAdapter;
     private int profileposition = -1;
+    private String musicUri = null, musicName = null;
     private VibrateVolumeAdapter mVibrateVolumeAdapter;
 
 
-    public MusicSettingAdapter(Context context, int profileposition) {
+    public MusicSettingAdapter(Context context, int profileposition, String musicUri, String
+            musicName) {
         mContext = context;
         this.profileposition = profileposition;
+        this.musicUri = musicUri;
+        this.musicName = musicName;
     }
 
     @Override
@@ -77,14 +80,14 @@ public class MusicSettingAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((MyViewHolder) holder).mRecyclerView.setLayoutManager(new LinearLayoutManager
                     (mContext));
             mMusicListAdapter = new MusicListAdapter(mContext, ((MyViewHolder) holder)
-                    .mRecyclerView, false, profileposition);
+                    .mRecyclerView, false, musicUri);
             ((MyViewHolder) holder).mRecyclerView.setAdapter(mMusicListAdapter);
 
         } else if (type == VIBRATE_VOLUME_TYPE) {
             ((VibrateVolumeViewHoler) holder).mRecyclerView.setLayoutManager(new
                     LinearLayoutManager(mContext));
             mVibrateVolumeAdapter = new VibrateVolumeAdapter
-                    (mContext, profileposition);
+                    (mContext, profileposition, musicUri, musicName);
             ((VibrateVolumeViewHoler) holder).mRecyclerView.setAdapter(mVibrateVolumeAdapter);
         }
 

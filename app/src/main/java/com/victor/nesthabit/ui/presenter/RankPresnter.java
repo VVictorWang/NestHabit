@@ -85,7 +85,7 @@ public class RankPresnter extends RxPresenter implements RankContract.Presenter 
                                                             .getHeader()).compose(RxUtil
                                                             .<DateOfNest>rxCacheListHelper
                                                                     (datekey));
-                                            ;
+
                                             RankItem rankItem = new RankItem();
                                             rankItem.setName(s);
                                             Subscription subscription1 = Observable.concat(RxUtil
@@ -114,7 +114,7 @@ public class RankPresnter extends RxPresenter implements RankContract.Presenter 
                                                                 rankItem.setDays(DateUtils
                                                                         .getConstantDays
                                                                                 (DateUtils
-                                                                                        .formatStrings(dateOfNest.days)));
+                                                                                        .formatStrings(Utils.getDays(dateOfNest))));
                                                         }
                                                     });
                                             addSubscribe(subscription1);

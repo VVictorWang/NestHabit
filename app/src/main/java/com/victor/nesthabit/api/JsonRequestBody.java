@@ -101,10 +101,12 @@ public class JsonRequestBody {
         return RequestBody.create(sMediaType, jsonObject.toString());
     }
 
-    public static RequestBody getTargetNest(String nestid) {
+    public static RequestBody getTargetNest(String nestid,String comment,long time) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("target_nest", nestid);
+            jsonObject.put("comment", comment);
+            jsonObject.put("created_time", time);
         } catch (Exception e) {
             e.printStackTrace();
         }

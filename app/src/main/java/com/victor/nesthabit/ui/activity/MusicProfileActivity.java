@@ -47,7 +47,7 @@ public class MusicProfileActivity extends BaseActivity {
         back = (ImageView) toolbar.findViewById(R.id.back);
         setToolbar();
         musiclist.setLayoutManager(new LinearLayoutManager(MusicProfileActivity.this));
-        adapter = new MusicListAdapter(MusicProfileActivity.this, musiclist, true, -1);
+        adapter = new MusicListAdapter(MusicProfileActivity.this, musiclist, true, null);
         musiclist.setAdapter(adapter);
     }
 

@@ -30,7 +30,8 @@ import rx.schedulers.Schedulers;
 public class PostMusicService extends IntentService {
 
     private static OnAlarmAdded sOnAlarmAdded;
-    private String musicUri = "";
+    private String musicUri = null, musicName = null;
+
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
      */
@@ -43,17 +44,18 @@ public class PostMusicService extends IntentService {
 
         if (intent != null) {
             musicUri = intent.getStringExtra("musicUri");
+            musicName = intent.getStringExtra("name");
         }
         Uri uri = MediaStore.Audio.Media.getContentUriForPath(musicUri);
         File file = new File(musicUri);
         String musicType = getContentResolver().getType(uri);
         RequestBody requestFile = RequestBody.create(MediaType.parse
                 (musicType), file);
-        MultipartBody.Part part = MultipartBody.Part.createFormData("name", file.getName(),
-                requestFile);
+//        MultipartBody.Part part = MultipartBody.Part.createFormData("name", file.getName(),
+//                requestFile);
 
         Observable<PostMusicResponse> observable = UserApi.getInstance().postMusic(Utils
-                .getUsername(), file.getName(), part, Utils.getHeader(), musicType);
+                .getUsername(), file.getName(), requestFile, Utils.getHeader(), musicType);
 
         observable.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -72,17 +74,16 @@ public class PostMusicService extends IntentService {
                         if (sOnAlarmAdded != null) {
                             sOnAlarmAdded.onAlarmAdded(postMusicResponse.get_id());
                         }
-                        PrefsUtils.putValue(PostMusicService.this, postMusicResponse.get_id(), musicUri);
+                        PrefsUtils.putValue(PostMusicService.this, postMusicResponse.get_id(),
+                                musicUri);
                     }
                 });
     }
 
 
-
     public static void setOnAlarmAdded(OnAlarmAdded onAlarmAdded) {
         sOnAlarmAdded = onAlarmAdded;
     }
-
 
 
     public interface OnAlarmAdded {

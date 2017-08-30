@@ -19,7 +19,6 @@ import com.victor.nesthabit.bean.UserInfo;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import retrofit2.Retrofit;
@@ -116,8 +115,10 @@ public class UserApi {
         return mApiService.getNestList(username, header);
     }
 
-    public Observable<AlarmResponse> addAlarm(String title, List<Integer> time, List<Integer> repeate, String
-            music_id, boolean nap, boolean shock, String bind_to_nest,
+    public Observable<AlarmResponse> addAlarm(String title, List<Integer> time, List<Integer>
+            repeate, String
+                                                      music_id, boolean nap, boolean shock,
+                                              String bind_to_nest,
                                               boolean willing_music, boolean
                                                       willing_text, String
                                                       header) {
@@ -134,25 +135,32 @@ public class UserApi {
         return mApiService.deleteAlarm(id, header);
     }
 
-    public Observable<NestInfo> changeAlarm(String id, RequestBody body, String header) {
-        return mApiService.changeAlarm(id, body, header);
+    public Observable<AlarmResponse> changeAlarm(String id, String title, List<Integer> time,
+                                                 List<Integer> repeate, String music_id, boolean
+                                                         nap,
+                                                 boolean shock, String bind_to_nest,
+                                                 boolean willing_music, boolean willing_text, String
+                                                         header) {
+        return mApiService.changeAlarm(id, JsonRequestBody.getAlarm(title, time, repeate,
+                music_id, nap, shock, bind_to_nest, willing_music,
+                willing_text), header);
     }
 
     public Observable<DateOfNest> getDateOfNest(String username, String nestid, String header) {
         return mApiService.getDateOfNest(username, nestid, header);
     }
 
-    public Observable<DakaResponse> daka(String nestid, String header) {
-        return mApiService.daka(JsonRequestBody.getTargetNest(nestid), header);
+    public Observable<DakaResponse> daka(String nestid, String comment, long time, String header) {
+        return mApiService.daka(JsonRequestBody.getTargetNest(nestid, comment, time), header);
     }
 
     public Observable<MusicInfo> getMusicName(String musicid, String header) {
         return mApiService.getMusicName(musicid, header);
     }
 
-    public Observable<PostMusicResponse> postMusic(String username, String name, MultipartBody
-            .Part filebody, String header,String type) {
-        return mApiService.postMusic(username, name, filebody, header,type);
+    public Observable<PostMusicResponse> postMusic(String username, String name, RequestBody
+            filebody, String header, String type) {
+        return mApiService.postMusic(username, name, filebody, header, type);
     }
 
     public Observable<SendMessageResponse> sendMessage(String message, long time, String nestid,

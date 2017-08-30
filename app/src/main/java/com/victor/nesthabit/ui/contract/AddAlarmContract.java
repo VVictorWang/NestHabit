@@ -24,9 +24,10 @@ public interface AddAlarmContract {
 
         void clearText();
 
-        long getIntentId();
+        String getIntentId();
 
-        MultipartBody.Part getMusicUri();
+
+        void setMusicUri(String uri);
 
         String getNestid();
 
@@ -40,6 +41,8 @@ public interface AddAlarmContract {
         void setSeletedMinute(String minute);
 
         List<Integer> getSeletedWeek();
+
+        void setSelectedWeek(List<Integer> selectedWeek);
 
         String getEditTitle();
 

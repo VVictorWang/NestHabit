@@ -24,6 +24,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import rx.Observable;
@@ -98,8 +99,8 @@ public interface UserApiService {
     Observable<MsgResponse> deleteAlarm(@Path("id") String id, @Header(GlobalData
             .HEADER_AU) String header);
 
-    @POST("alarm_clock/{id}")
-    Observable<NestInfo> changeAlarm(@Path("id") String id, @Body RequestBody body,
+    @PUT("alarm_clock/{id}")
+    Observable<AlarmResponse> changeAlarm(@Path("id") String id, @Body RequestBody body,
                                      @Header(GlobalData.HEADER_AU) String header);
 
     @GET("nest/{id}?list_members=1")
@@ -114,7 +115,7 @@ public interface UserApiService {
     Observable<DakaResponse> daka(@Body RequestBody body, @Header(GlobalData.HEADER_AU) String
             header);
 
-    @GET("alarm_clock/{id}")
+    @GET("music/{id}")
     Observable<MusicInfo> getMusicName(@Path("id") String id, @Header(GlobalData.HEADER_AU)
             String header);
 
@@ -123,10 +124,9 @@ public interface UserApiService {
             String name, @Part MultipartBody.Part file, @Header(GlobalData.HEADER_AU) String
                                            header);
 
-    @Multipart
     @POST("user/{username}/uploaded_musics/{name}")
     Observable<PostMusicResponse> postMusic(@Path("username") String username, @Path("name")
-            String name, @Part MultipartBody.Part file, @Header(GlobalData.HEADER_AU) String
+            String name, @Body RequestBody file, @Header(GlobalData.HEADER_AU) String
             header,@Header("X-Mime-Type") String type);
 
     @POST("chat_log")

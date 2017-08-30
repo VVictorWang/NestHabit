@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -27,13 +28,18 @@ public class MusicSettingActivity extends BaseActivity {
     private CardView musiclayout;
     private TextView finish;
     private int profileposition = -1;
+    private String musicUri = null, musicName = null;
+    public static final String TAG = "@victor MusicSetting";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         if (getIntent() != null) {
             profileposition = getIntent().getIntExtra("profile", -1);
+            musicUri = getIntent().getStringExtra("musicUri");
+            musicName = getIntent().getStringExtra("musicName");
         }
+        super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -59,7 +65,8 @@ public class MusicSettingActivity extends BaseActivity {
         this.back = (ImageView) findViewById(R.id.back);
         finish = (TextView) findViewById(R.id.right_text);
         musiclist.setLayoutManager(new LinearLayoutManager(MusicSettingActivity.this));
-        adapter = new MusicSettingAdapter(MusicSettingActivity.this, profileposition);
+        adapter = new MusicSettingAdapter(MusicSettingActivity.this, profileposition, musicUri,
+                musicName);
         musiclist.setAdapter(adapter);
     }
 

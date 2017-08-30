@@ -1,11 +1,9 @@
 package com.victor.nesthabit.ui.adapter;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,10 +27,14 @@ public class VibrateVolumeAdapter extends RecyclerView.Adapter<RecyclerView.View
     private Context mContext;
     private int profileposiition = -1;
     private MediaPlayer mMediaPlayer;
+    private String musicUri = null, musicName = null;
 
-    public VibrateVolumeAdapter(Context context, int profileposiition) {
+    public VibrateVolumeAdapter(Context context, int profileposiition, String musicUri, String
+            musicName) {
         mContext = context;
         this.profileposiition = profileposiition;
+        this.musicUri = musicUri;
+        this.musicName = musicName;
     }
 
     @Override
@@ -87,21 +89,15 @@ public class VibrateVolumeAdapter extends RecyclerView.Adapter<RecyclerView.View
 
                 }
             });
-        } else if (type == PROFILE_MUSIC && profileposiition != -1) {
-            Cursor cursor = mContext.getContentResolver().query(MediaStore.Audio.Media
-                    .EXTERNAL_CONTENT_URI, null, null, null, null);
-            cursor.moveToPosition(profileposiition);
+        } else if (type == PROFILE_MUSIC && profileposiition == -1) {
             ((MusicListAdapter.MyViewHolder) holder).isChecked.setVisibility(View.VISIBLE);
-            ((MusicListAdapter.MyViewHolder) holder).name.setText(cursor.getString(cursor
-                    .getColumnIndex(MediaStore.Audio.Media
-                            .TITLE)));
-            playMusic(cursor.getString(cursor.getColumnIndex(MediaStore.Audio
-                    .Media.DATA)));
-
+            ((MusicListAdapter.MyViewHolder) holder).name.setText(musicName);
+            playMusic(musicUri);
         }
     }
 
     private void playMusic(String data) {
+        data = data.substring(data.indexOf('/') + 2);
         Uri uri = Uri.parse(data);
         mMediaPlayer = MediaPlayer.create(mContext, uri);
         mMediaPlayer.setLooping(true);
@@ -117,10 +113,10 @@ public class VibrateVolumeAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public int getItemCount() {
-        if (profileposiition == -1) {
-            return 2;
-        } else {
+        if (profileposiition == -1 && musicUri != null && musicName != null) {
             return 3;
+        } else {
+            return 2;
         }
     }
 

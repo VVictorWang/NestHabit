@@ -1,19 +1,28 @@
 package com.victor.nesthabit.ui.presenter;
 
+import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.database.Cursor;
+import android.net.Uri;
 import android.util.Log;
 
 import com.victor.nesthabit.api.UserApi;
 import com.victor.nesthabit.bean.AlarmResponse;
 import com.victor.nesthabit.bean.AlarmTime;
+import com.victor.nesthabit.bean.MusicInfo;
+import com.victor.nesthabit.bean.NestInfo;
 import com.victor.nesthabit.service.PostMusicService;
+import com.victor.nesthabit.ui.base.RxPresenter;
 import com.victor.nesthabit.ui.contract.AddAlarmContract;
 import com.victor.nesthabit.util.AppUtils;
 import com.victor.nesthabit.util.CheckUtils;
 import com.victor.nesthabit.util.DateUtils;
 import com.victor.nesthabit.util.PrefsUtils;
+import com.victor.nesthabit.util.RxUtil;
 import com.victor.nesthabit.util.Utils;
-
-import org.litepal.crud.DataSupport;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -21,7 +30,9 @@ import java.util.List;
 
 import rx.Observable;
 import rx.Observer;
+import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -30,15 +41,16 @@ import rx.schedulers.Schedulers;
  * blog: www.victorwang.science                                            #
  */
 
-public class AddAlarmPresenter implements AddAlarmContract.Presenter, PostMusicService.OnAlarmAdded {
+public class AddAlarmPresenter extends RxPresenter implements AddAlarmContract.Presenter,
+        PostMusicService
+                .OnAlarmAdded {
     public static final String TAG = "@victor AlarmPresenter";
     private static OnDataChanged mOnDataChanged;
 
     private AddAlarmContract.View mView;
-    private AlarmTime mAlarmTime = null;
+    private AlarmTime newAlarm;
 
-    private AlarmTime alarmTime;
-    private long id = -1;
+    private String id = null;
 
     public AddAlarmPresenter(AddAlarmContract.View view) {
         mView = view;
@@ -50,42 +62,160 @@ public class AddAlarmPresenter implements AddAlarmContract.Presenter, PostMusicS
     @Override
     public void start() {
         id = mView.getIntentId();
-        if (id == -1) {
+        if (id == null) {
             mView.clearText();
             mView.setSeletedHour(DateUtils.getCurrentHour());
             mView.setSeletedMinute(DateUtils.getCurrentMinute());
 
         } else {
             mView.setEditToobar();
-            mAlarmTime = DataSupport.find(AlarmTime.class, id);
-            mView.setEditTitle(mAlarmTime.getTitle());
-            mView.setSeletedHour(String.format("%02d", mAlarmTime.getHour()));
-            mView.setSeletedMinute(String.format("%02d", mAlarmTime.getMinute()));
-            String musicUri = PrefsUtils.getValue(AppUtils.getAppContext(), mAlarmTime
-                    .getMusic_id(), "empty");
-            if (!"empty".equals(musicUri)) {
-                File file = new File(musicUri);
-                if (file.exists()) {
-                    mView.setMusic(file.getName());
-                }
-            }
-            mView.setSnap(mAlarmTime.isSnap());
-            mView.setVoice(mAlarmTime.isReceive_Voice());
-            mView.setRemindText(mAlarmTime.isReceive_text());
+            String key = Utils.createAcacheKey("get_alarm_byid", id);
+            Observable<AlarmResponse> observable = UserApi.getInstance().getAlarm(id, Utils
+                    .getHeader()).compose(RxUtil
+                    .<AlarmResponse>rxCacheBeanHelper(key));
+            Subscription subscription = Observable.concat(RxUtil.rxCreateDiskObservable(key,
+                    AlarmResponse.class), observable)
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<AlarmResponse>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+
+                            Log.d(TAG, "error: " + e.getMessage());
+                        }
+
+                        @Override
+                        public void onNext(AlarmResponse alarmResponse) {
+                            getInfo(alarmResponse);
+                        }
+                    });
+            addSubscribe(subscription);
         }
+    }
+
+
+    private void getInfo(AlarmResponse alarmResponse) {
+        mView.setEditTitle(alarmResponse.title);
+        mView.setSeletedHour(Utils.getAlarmHour(alarmResponse.time));
+        mView.setSeletedMinute(Utils.getAlarmMinute(alarmResponse.time));
+        mView.setSelectedWeek(Utils.getSelectedWeeks(alarmResponse.repeat));
+        mView.setSnap(alarmResponse.nap);
+        mView.setVoice(alarmResponse.willing_music);
+        mView.setRemindText(alarmResponse.willing_text);
+        Observable<NestInfo> observable1 = UserApi.getInstance().getNestInfo
+                (alarmResponse.bind_to_nest
+                        , Utils.getHeader());
+        Subscription subscription1 = observable1.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<NestInfo>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(NestInfo nestInfo) {
+                        mView.setNestname(nestInfo.name);
+                    }
+                });
+        addSubscribe(subscription1);
+        String musicUri = PrefsUtils.getValue(AppUtils.getAppContext(), alarmResponse.music_id,
+                "empty");
+        File file = new File(musicUri.substring(musicUri.indexOf('/') + 2));
+        Observable<MusicInfo> observable = UserApi.getInstance().getMusicName(alarmResponse
+                .music_id, Utils.getHeader());
+        Subscription subscription = observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(new Action1<MusicInfo>() {
+                    @Override
+                    public void call(MusicInfo musicInfo) {
+                        mView.setMusic(musicInfo.getMusic_name().substring(0, musicInfo
+                                .getMusic_name().lastIndexOf('.')));
+                    }
+                })
+                .observeOn(Schedulers.newThread())
+                .subscribe(new Observer<MusicInfo>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(MusicInfo musicInfo) {
+                        if (!file.exists()) {
+                            DownloadManager.Request request = new DownloadManager.Request
+                                    (Uri.parse(musicInfo.getUrl()));
+                            Log.d(TAG, musicInfo.getUrl());
+                            request.setDestinationInExternalPublicDir("/music/", musicInfo
+                                    .getMusic_name());
+                            DownloadManager downloadManager = (DownloadManager) AppUtils
+                                    .getAppContext().getSystemService(Context
+                                            .DOWNLOAD_SERVICE);
+                            long downloadid = downloadManager.enqueue(request);
+
+                            BroadcastReceiver receiver = new BroadcastReceiver() {
+                                @Override
+                                public void onReceive(Context context, Intent intent) {
+                                    DownloadManager.Query query = new DownloadManager.Query()
+                                            .setFilterById(downloadid);
+                                    Cursor c = downloadManager.query(query);
+                                    if (c.moveToFirst()) {
+                                        int status = c.getInt(c.getColumnIndex
+                                                (DownloadManager.COLUMN_STATUS));
+                                        switch (status) {
+                                            case DownloadManager.STATUS_PAUSED:
+                                            case DownloadManager.STATUS_PENDING:
+                                            case DownloadManager.STATUS_RUNNING:
+                                                break;
+                                            case DownloadManager.STATUS_SUCCESSFUL:
+                                                String url = c.getString(c
+                                                        .getColumnIndexOrThrow
+                                                                (DownloadManager
+                                                                        .COLUMN_LOCAL_URI));
+                                                mView.setMusicUri(url);
+                                                PrefsUtils.putValue(AppUtils.getAppContext(),
+                                                        alarmResponse.music_id, url);
+                                                Log.d(TAG, "url" + url);
+                                                break;
+                                        }
+                                    }
+                                }
+                            };
+                            AppUtils.getAppContext().registerReceiver(receiver, new
+                                    IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+                        } else {
+                            mView.setMusicUri(musicUri);
+                        }
+                    }
+                });
+        addSubscribe(subscription);
     }
 
     @Override
     public void unscribe() {
-
+        unSubscribe();
     }
 
     @Override
     public void finish() {
-        alarmTime = new AlarmTime();
-        alarmTime.setWeeks(mView.getSeletedWeek());
-        alarmTime.setHour(Integer.valueOf(mView.getSeletedHour()));
-        alarmTime.setMinute(Integer.valueOf(mView.getSeletedMinute()));
+        newAlarm = new AlarmTime();
+        newAlarm.setWeeks(mView.getSeletedWeek());
+        newAlarm.setHour(Integer.valueOf(mView.getSeletedHour()));
+        newAlarm.setMinute(Integer.valueOf(mView.getSeletedMinute()));
         if (CheckUtils.isEmpty(mView.getEditTitle())) {
             mView.setEditTitleError();
         } else if (CheckUtils.isEmpty(mView.getNestName())) {
@@ -93,21 +223,19 @@ public class AddAlarmPresenter implements AddAlarmContract.Presenter, PostMusicS
         } else if (CheckUtils.isEmpty(mView.getMusic())) {
             mView.setMusicError();
         } else {
-
-            alarmTime.setHour(Integer.valueOf(mView.getSeletedHour()));
-            alarmTime.setMinute(Integer.valueOf(mView.getSeletedMinute()));
-//            alarmTime.setAlert_music(mView.getMusic());
-            alarmTime.setTitle(mView.getEditTitle());
-            alarmTime.setReceive_text(mView.getRemindText());
-            alarmTime.setReceive_Voice(mView.getVoice());
-            alarmTime.setSnap(mView.getSnap());
-            alarmTime.setBind_to_nest(mView.getNestName());
-            alarmTime.setNestid(mView.getNestid());
-            alarmTime.setWeeks(mView.getSeletedWeek());
-            if (id == -1) {
-                mOnDataChanged.OnDataAdded(alarmTime);
+            newAlarm.setHour(Integer.valueOf(mView.getSeletedHour()));
+            newAlarm.setMinute(Integer.valueOf(mView.getSeletedMinute()));
+            newAlarm.setTitle(mView.getEditTitle());
+            newAlarm.setReceive_text(mView.getRemindText());
+            newAlarm.setReceive_Voice(mView.getVoice());
+            newAlarm.setSnap(mView.getSnap());
+            newAlarm.setBind_to_nest(mView.getNestName());
+            newAlarm.setNestid(mView.getNestid());
+            newAlarm.setWeeks(mView.getSeletedWeek());
+            if (id == null) {
+                mOnDataChanged.OnDataAdded(newAlarm);
             } else {
-                mOnDataChanged.OnDataModified(alarmTime);
+                mOnDataChanged.OnDataModified(newAlarm);
             }
             mView.startPostService();
             mView.finishActivity();
@@ -121,36 +249,47 @@ public class AddAlarmPresenter implements AddAlarmContract.Presenter, PostMusicS
 
     @Override
     public void onAlarmAdded(String musicId) {
-        alarmTime.setMusic_id(musicId);
-        alarmTime.save();
-        List<Integer> weeks = alarmTime.getWeeks();
+        newAlarm.setMusic_id(musicId);
+        List<Integer> weeks = newAlarm.getWeeks();
         List<Integer> repeat = new ArrayList<>();
         for (int i : weeks) {
             if (i == 1) {
                 repeat.add(i);
             }
         }
-//        int[] re = new int[repeat.size()];
-//        for (int i = 0; i < repeat.size(); i++) {
-//            re[i] = repeat.get(i);
-//        }
-        Log.d(TAG, "time: " + alarmTime.getHour());
-        Log.d(TAG, "time minute: " + alarmTime.getMinute());
-
         List<Integer> time = new ArrayList<>();
-        time.add(alarmTime.getHour());
-        time.add(alarmTime.getMinute());
-        Observable<AlarmResponse> observable = UserApi.getInstance().addAlarm
-                (alarmTime.getTitle(), time, repeat, alarmTime.getMusic_id
-                                (), alarmTime.isSnap(),
-                        true, alarmTime.getNestid(), alarmTime
-                                .isReceive_Voice(), alarmTime.isReceive_text(), Utils.getHeader());
+        time.add(newAlarm.getHour());
+        time.add(newAlarm.getMinute());
+        Observable<AlarmResponse> observable;
+        if (id == null) {
+            observable = UserApi.getInstance().addAlarm
+                    (newAlarm.getTitle(), time, repeat, newAlarm.getMusic_id
+                                    (), newAlarm.isSnap(),
+                            true, newAlarm.getNestid(), newAlarm
+                                    .isReceive_Voice(), newAlarm.isReceive_text(), Utils
+                                    .getHeader());
+        } else {
+            observable = UserApi.getInstance().changeAlarm(id, newAlarm
+                            .getTitle(), time, repeat, newAlarm.getMusic_id
+                            (), newAlarm.isSnap(),
+                    true, newAlarm.getNestid(), newAlarm
+                            .isReceive_Voice(), newAlarm.isReceive_text(), Utils
+                            .getHeader());
+        }
         observable.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
+                .doOnNext(new Action1<AlarmResponse>() {
+                    @Override
+                    public void call(AlarmResponse alarmResponse) {
+                        newAlarm.setMyid(alarmResponse.get_id());
+                        newAlarm.save();
+                    }
+                })
                 .subscribe(new Observer<AlarmResponse>() {
                     @Override
                     public void onCompleted() {
                         mView.showMyToast("添加成功");
+                        mOnDataChanged.OnDataModified(newAlarm);
                     }
 
                     @Override
@@ -162,8 +301,6 @@ public class AddAlarmPresenter implements AddAlarmContract.Presenter, PostMusicS
                     @Override
                     public void onNext(AlarmResponse alarmResponse) {
 
-                        Log.d(TAG, "time: " + alarmResponse.getTime());
-                        Log.d(TAG, "repeat: " + alarmResponse.getRepeat());
                     }
                 });
     }

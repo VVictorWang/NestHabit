@@ -28,18 +28,19 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.MyVi
     private RecyclerView mRecyclerView;
     private Cursor mCursor;
     private MyViewHolder tickedHoler;
-    private boolean isProfile;
+//    private boolean isProfile;
     private MediaPlayer mMediaPlayer;
-    private int profileposition = -1;
+    //    private int profileposition = -1;
     private String musicUri = null;
+    private int myPosition = -1;
 
 
-    public MusicListAdapter(Context context, RecyclerView recyclerView, boolean isProfile, int
-            profileposition) {
+    public MusicListAdapter(Context context, RecyclerView recyclerView, boolean isProfile, String
+            musicUri) {
         mContext = context;
         mRecyclerView = recyclerView;
-        this.isProfile = isProfile;
-        this.profileposition = profileposition;
+//        this.isProfile = isProfile;
+        this.musicUri = musicUri;
         if (!isProfile) {
             mCursor = context.getContentResolver().query(MediaStore.Audio.Media
                             .INTERNAL_CONTENT_URI, null, null,
@@ -50,10 +51,26 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.MyVi
         }
     }
 
+    private int getPosition() {
+        if (musicUri == null) {
+            return -1;
+        }
+        mCursor.moveToFirst();
+        int i = 0;
+        do {
+            if (mCursor.getString(mCursor.getColumnIndex(MediaStore.Audio
+                    .Media.DATA)).equals(musicUri)) {
+                return i;
+            }
+            i++;
+        } while (mCursor.moveToNext());
+        return -1;
+    }
+
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
+        myPosition = getPosition();
         return new MyViewHolder(LayoutInflater.from(parent.getContext()).inflate(
                 R.layout.music_list_adapter, null));
 
@@ -83,14 +100,14 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.MyVi
                         notifyOthers(holder);
                         String data = mCursor.getString(mCursor.getColumnIndex(MediaStore.Audio
                                 .Media.DATA));
+                        musicUri = data;
                         playMusic(data);
                     }
                 }
             });
-            if (profileposition == -1 && position == 0) {
+            if (position == myPosition) {
                 tickedHoler = holder;
                 holder.isChecked.setVisibility(View.VISIBLE);
-                mCursor.moveToFirst();
                 String data = mCursor.getString(mCursor.getColumnIndex(MediaStore.Audio
                         .Media.DATA));
                 musicUri = data;

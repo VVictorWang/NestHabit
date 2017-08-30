@@ -1,7 +1,6 @@
 package com.victor.nesthabit.ui.presenter;
 
 import com.victor.nesthabit.api.UserApi;
-import com.victor.nesthabit.bean.DakaResponse;
 import com.victor.nesthabit.bean.DateOfNest;
 import com.victor.nesthabit.bean.NestInfo;
 import com.victor.nesthabit.ui.base.RxPresenter;
@@ -81,7 +80,7 @@ public class NsetSpecificPresenter extends RxPresenter implements NestSpecificCo
 
                         @Override
                         public void onNext(DateOfNest dateOfNest) {
-                            List<String> days = dateOfNest.getDays();
+                            List<String> days = Utils.getDays(dateOfNest);
                             if (days.isEmpty()) {
                                 mView.setTotalday(0);
                                 mView.setTotalProgress(0);
@@ -110,9 +109,6 @@ public class NsetSpecificPresenter extends RxPresenter implements NestSpecificCo
 
     @Override
     public void checkin() {
-        Observable<DakaResponse> dakaResponseObservable = UserApi.getInstance().daka(mView
-                .getNestId(), Utils.getHeader());
-
         mView.setTotalday(mView.getTotalday() + 1);
         mView.setConstantDay(mView.getConstantDay() + 1);
         mView.setTotalProgress(mView.getTotalday());

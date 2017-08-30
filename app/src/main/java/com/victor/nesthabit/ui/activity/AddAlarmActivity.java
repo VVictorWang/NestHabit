@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -29,13 +28,8 @@ import com.victor.nesthabit.util.AlarmManagerUtil;
 import com.victor.nesthabit.view.PickerView;
 import com.victor.nesthabit.view.SwitchButton;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 
 public class AddAlarmActivity extends BaseActivity implements View.OnClickListener, AddAlarmContract
         .View {
@@ -61,15 +55,16 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
     private Button finish;
     private AddAlarmContract.Presenter mPresenter;
     private List<Integer> weeks = new ArrayList<>();
-    private long id = -1;
-    private String musicUri = null, nestid = null,musicType = null;
+    private List<View> mViews = new ArrayList<>();
+    private String id = null;
+    private String musicUri = null, nestid = null, musicType = null, musicName = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mPresenter = new AddAlarmPresenter(this);
         super.onCreate(savedInstanceState);
         if (getIntent() != null)
-            id = getIntent().getLongExtra("id", -1);
+            id = getIntent().getStringExtra("id");
         initWeeks();
         mPresenter.start();
     }
@@ -149,7 +144,7 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
     public void startPostService() {
         Intent intent = new Intent(this, PostMusicService.class);
         intent.putExtra("musicUri", musicUri);
-
+        intent.putExtra("name", musicName);
         startService(intent);
     }
 
@@ -164,23 +159,15 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
     }
 
     @Override
-    public long getIntentId() {
+    public String getIntentId() {
         return id;
     }
 
-
     @Override
-    public MultipartBody.Part getMusicUri() {
-        if (musicUri != null) {
-            Uri uri = MediaStore.Audio.Media.getContentUriForPath(musicUri);
-            File file = new File(musicUri);
-            musicType = getContentResolver().getType(uri);
-            RequestBody requestFile = RequestBody.create(MediaType.parse
-                    (musicType), file);
-            return MultipartBody.Part.createFormData("name", file.getName(), requestFile);
-        }
-        return null;
+    public void setMusicUri(String uri) {
+        musicUri = uri;
     }
+
 
     @Override
     public String getNestid() {
@@ -204,9 +191,9 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
                 } else {
                     int position = containsInProfile(getMusic());
                     Log.d(TAG, "position : " + position);
-                    if (position != -1) {
-                        intent.putExtra("profile", position);
-                    }
+                    intent.putExtra("profile", position);
+                    intent.putExtra("musicUri", musicUri);
+                    intent.putExtra("musicName", musicName);
                     ActivityManager.startActivityForResult(getActivity(), intent, 222);
                 }
 
@@ -248,6 +235,14 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
         friday.setTag("unchoosen");
         saturday.setOnClickListener(this);
         saturday.setTag("unchoosen");
+
+        mViews.add(sunday);
+        mViews.add(monday);
+        mViews.add(tuesday);
+        mViews.add(wednesday);
+        mViews.add(thursday);
+        mViews.add(friday);
+        mViews.add(saturday);
     }
 
     @Override
@@ -257,6 +252,7 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
                 if (resultCode == 111) {
                     setMusic(data.getStringExtra("name"));
                     musicUri = data.getStringExtra("musicUri");
+                    musicName = data.getStringExtra("name");
                 }
                 break;
             case 123:
@@ -294,8 +290,17 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.finish:
                 mPresenter.finish();
-
                 break;
+        }
+    }
+
+    private void setWeeks() {
+        for (int i = 0; i < weeks.size(); i++) {
+            if (weeks.get(i) != 0) {
+                mViews.get(i).setBackground(getResources().getDrawable(R.drawable.circle_yellow));
+                ((TextView) mViews.get(i)).setTextColor(getResources().getColor(R.color.white));
+                mViews.get(i).setTag("choosen");
+            }
         }
     }
 
@@ -317,7 +322,7 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
     @RequiresApi(api = Build.VERSION_CODES.M)
     private int containsInProfile(String music) {
         Cursor cursor = getActivity().getContentResolver().query(MediaStore.Audio.Media
-                .EXTERNAL_CONTENT_URI, null, null, null, null);
+                .INTERNAL_CONTENT_URI, null, null, null, null);
         boolean c = cursor == null;
         Log.d(TAG, "cursor: " + c);
         if (cursor != null) {
@@ -328,7 +333,6 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
                                 .TITLE));
                 if (name.equals(music))
                     return cursor.getPosition();
-
             }
         }
 
@@ -363,6 +367,13 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
     @Override
     public List<Integer> getSeletedWeek() {
         return weeks;
+    }
+
+    @Override
+    public void setSelectedWeek(List<Integer> selectedWeek) {
+        weeks.clear();
+        weeks.addAll(selectedWeek);
+        setWeeks();
     }
 
     @Override
@@ -406,6 +417,7 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void setMusic(String name) {
         music.setText(name);
+        musicName = name;
     }
 
     @Override

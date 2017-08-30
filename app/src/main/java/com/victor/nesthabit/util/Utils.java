@@ -3,9 +3,14 @@ package com.victor.nesthabit.util;
 import android.net.Uri;
 import android.os.Environment;
 
+import com.victor.nesthabit.bean.DateOfNest;
 import com.victor.nesthabit.bean.GlobalData;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by victor on 7/26/17.
@@ -42,6 +47,50 @@ public class Utils {
         }
 
         return uri;
+    }
+
+    public static String getAlarmHour(String time) {
+        String[] str = time.split(",");
+        String regEx = "[^0-9]";
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(str[0]);
+        return String.format("%02d", Integer.valueOf(m.replaceAll("").trim()));
+    }
+
+    public static String getAlarmMinute(String time) {
+        String[] str = time.split(",");
+        String regEx = "[^0-9]";
+        Pattern p = Pattern.compile(regEx);
+        Matcher m = p.matcher(str[1]);
+        return String.format("%02d", Integer.valueOf(m.replaceAll("").trim()));
+    }
+
+    public static List<Integer> getSelectedWeeks(String repeatString) {
+        String[] str = repeatString.split(",");
+        String regEx = "[^0-9]";
+        Pattern p = Pattern.compile(regEx);
+        List<Integer> repeat = new ArrayList<>();
+        for (String s : str) {
+            Matcher m = p.matcher(s);
+            repeat.add(Integer.valueOf(m.replaceAll("").trim()));
+        }
+        List<Integer> weeks = new ArrayList<>();
+        for (int i = 0; i < 7; i++) {
+            weeks.add(0);
+        }
+        for (int i : repeat) {
+            weeks.set(i, 1);
+        }
+        return weeks;
+    }
+
+    public static List<String> getDays(DateOfNest dateOfNest) {
+        List<String> days = new ArrayList<String>();
+        List<DateOfNest.DaysBean> beans = dateOfNest.days;
+        for (DateOfNest.DaysBean bean : beans) {
+            days.add(bean.day);
+        }
+        return days;
     }
 
 }

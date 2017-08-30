@@ -1,6 +1,7 @@
 package com.victor.nesthabit.ui.adapter;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
@@ -9,22 +10,31 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
+import com.victor.nesthabit.api.UserApi;
 import com.victor.nesthabit.bean.AlarmTime;
+import com.victor.nesthabit.bean.MsgResponse;
 import com.victor.nesthabit.ui.activity.AddAlarmActivity;
 import com.victor.nesthabit.ui.presenter.AddAlarmPresenter;
 import com.victor.nesthabit.ui.presenter.ClockListPresenter;
 import com.victor.nesthabit.util.ActivityManager;
 import com.victor.nesthabit.util.DateUtils;
+import com.victor.nesthabit.util.Utils;
 import com.victor.nesthabit.view.SwitchButton;
 
 import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import rx.Observable;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by victor on 7/17/17.
@@ -58,8 +68,8 @@ public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyVi
 
     @Override
     public void OnDataModified(AlarmTime alarmtime) {
-        for (int i = 0; i <mAlarmTimes.size() ; i++) {
-            if (mAlarmTimes.get(i).getId() == alarmtime.getId()) {
+        for (int i = 0; i < mAlarmTimes.size(); i++) {
+            if (mAlarmTimes.get(i).getMyid().equals(alarmtime.getMyid())) {
                 mAlarmTimes.set(i, alarmtime);
             }
         }
@@ -69,6 +79,13 @@ public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyVi
     @Override
     public void AlarmAdded(AlarmTime alarmTime) {
         mAlarmTimes.add(alarmTime);
+        notifyDataSetChanged();
+    }
+
+    @Override
+    public void AlarmAddAll(List<AlarmTime> alarmTimes) {
+        mAlarmTimes.clear();
+        mAlarmTimes.addAll(alarmTimes);
         notifyDataSetChanged();
     }
 
@@ -117,21 +134,57 @@ public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyVi
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, AddAlarmActivity.class);
-                intent.putExtra("id", alarmTime.getId());
+                intent.putExtra("id", alarmTime.getMyid());
                 ActivityManager.startActivity((Activity) mContext, intent);
             }
         });
-//        holder.mCardView.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View v) {
-//                View dialogView = LayoutInflater.from(mContext).inflate(R.layout.delete_dialog,
-//                        null);
-//                TextView textView = (TextView) dialogView.findViewById(R.id.delete_text);
-//                textView.setText(mContext.getText(R.string.ensure_delete));
-//                Button delete = (Button) dialogView.findViewById(R.id.delete);
-//
-//            }
-//        });
+        holder.mCardView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                View view = LayoutInflater.from(mContext).inflate(R.layout.delete_dialog, null);
+                TextView textView = (TextView) view.findViewById(R.id.delete_text);
+                Button cancel = (Button) view.findViewById(R.id.cancel);
+                Button ensure = (Button) view.findViewById(R.id.delete);
+                textView.setText(mContext.getString(R.string.delete_remind));
+                AlertDialog dialog = new AlertDialog.Builder(mContext).setView(view).create();
+                dialog.show();
+                ensure.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        DataSupport.delete(AlarmTime.class, alarmTime.getId());
+                        Observable<MsgResponse> observable = UserApi.getInstance().deleteAlarm
+                                (alarmTime.getMyid(), Utils.getHeader());
+                        observable.observeOn(AndroidSchedulers.mainThread())
+                                .subscribeOn(Schedulers.io())
+                                .subscribe(new Observer<MsgResponse>() {
+                                    @Override
+                                    public void onCompleted() {
+                                        mAlarmTimes.remove(alarmTime);
+                                        notifyDataSetChanged();
+                                        dialog.dismiss();
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+
+                                    }
+
+                                    @Override
+                                    public void onNext(MsgResponse msgResponse) {
+
+                                    }
+                                });
+                    }
+                });
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                return false;
+            }
+        });
     }
 
     private void handleImageOn(AlarmTime alarmTime, MyViewHolder holder) {

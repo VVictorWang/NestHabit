@@ -4,9 +4,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.victor.nesthabit.R;
+import com.victor.nesthabit.api.UserApi;
+import com.victor.nesthabit.bean.DakaResponse;
 import com.victor.nesthabit.ui.adapter.DaKaWallAdapater;
 import com.victor.nesthabit.ui.base.BaseFragment;
 import com.victor.nesthabit.ui.base.BasePresenter;
+
+import rx.Observable;
 
 /**
  * Created by victor on 7/20/17.
@@ -16,6 +20,7 @@ import com.victor.nesthabit.ui.base.BasePresenter;
 
 public class DaKaWallFragment extends BaseFragment {
     private RecyclerView mRecyclerView;
+    private DaKaWallAdapater mDaKaWallAdapater;
 
     @Override
     protected BasePresenter getPresenter() {
@@ -31,7 +36,8 @@ public class DaKaWallFragment extends BaseFragment {
     protected void initView() {
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.list);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
-        mRecyclerView.setAdapter(new DaKaWallAdapater(mActivity));
+        mDaKaWallAdapater = new DaKaWallAdapater(mActivity);
+        mRecyclerView.setAdapter(mDaKaWallAdapater);
     }
 
     @Override

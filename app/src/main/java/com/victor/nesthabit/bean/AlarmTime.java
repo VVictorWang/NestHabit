@@ -23,7 +23,15 @@ public class AlarmTime extends DataSupport {
     private boolean receive_text;
     private String bind_to_nest;
     private String nestid;
-    private long creat_time;
+    private String myid;
+
+    public String getMyid() {
+        return myid;
+    }
+
+    public void setMyid(String myid) {
+        this.myid = myid;
+    }
 
     public String getNestid() {
         return nestid;
@@ -33,13 +41,6 @@ public class AlarmTime extends DataSupport {
         this.nestid = nestid;
     }
 
-    public long getCreat_time() {
-        return creat_time;
-    }
-
-    public void setCreat_time(long creat_time) {
-        this.creat_time = creat_time;
-    }
 
     public String getBind_to_nest() {
         return bind_to_nest;

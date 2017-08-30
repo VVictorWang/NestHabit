@@ -26,6 +26,18 @@ public class DateUtils {
         return sdf.format(new Date(time));
     }
 
+    public static String formatString(String time, String pattern) {
+        DateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        String result = null;
+        try {
+            Date date = simpleDateFormat.parse(time);
+            result =  simpleDateFormat.format(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
 
     public static boolean isNight(int hour) {
         if (hour > 19 || hour < 6) {
@@ -75,7 +87,7 @@ public class DateUtils {
     }
 
     public static List<Date> formatStrings(List<String> dateString) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
         if (dateString != null && !dateString.isEmpty()) {
             List<Date> result = new ArrayList<>();
             for (String datestr : dateString) {

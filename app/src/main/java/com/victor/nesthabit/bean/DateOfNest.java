@@ -10,13 +10,20 @@ import java.util.List;
 
 public class DateOfNest {
 
-    public List<String> days;
 
-    public List<String> getDays() {
-        return days;
-    }
+    public List<DaysBean> days;
 
-    public void setDays(List<String> days) {
-        this.days = days;
+
+
+    public static class DaysBean {
+        /**
+         * day : 20170830
+         * comment : aaaaaaa
+         */
+
+        public String day;
+        public String comment;
+
+
     }
 }
