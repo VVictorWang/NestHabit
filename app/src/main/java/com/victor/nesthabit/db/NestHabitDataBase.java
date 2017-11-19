@@ -18,6 +18,8 @@ import com.victor.nesthabit.bean.UserInfo;
 public abstract class NestHabitDataBase extends RoomDatabase {
     abstract public UserDao userDao();
 
+    abstract public NestDao nestDao();
+
     private static NestHabitDataBase instance;
 
     public static NestHabitDataBase getInstance(Context context) {
@@ -27,4 +29,5 @@ public abstract class NestHabitDataBase extends RoomDatabase {
         }
         return instance;
     }
+
 }

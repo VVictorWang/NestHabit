@@ -3,10 +3,11 @@ package com.victor.nesthabit.ui.activity;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 
 import com.victor.nesthabit.R;
+import com.victor.nesthabit.bean.AlarmTime;
 import com.victor.nesthabit.bean.Constants;
+import com.victor.nesthabit.bean.NestInfo;
 import com.victor.nesthabit.ui.adapter.MyFragPageAdapter;
 import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.ui.base.BasePresenter;
@@ -16,6 +17,8 @@ import com.victor.nesthabit.ui.fragment.NestListFragment;
 import com.victor.nesthabit.ui.presenter.MainPresenter;
 import com.victor.nesthabit.util.PrefsUtils;
 
+import java.util.List;
+
 public class MainActivity extends BaseActivity implements MainContract.View {
 
     public static final String TAG = "@victor MainActivity";
@@ -23,6 +26,8 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     private android.support.design.widget.TabLayout maintable;
     private TabLayout.Tab nest, clock;
     private MainContract.Presenter mPresenter;
+    private ClockListFragment mClockListFragment;
+    private NestListFragment mNestListFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +47,8 @@ public class MainActivity extends BaseActivity implements MainContract.View {
 
     @Override
     protected void initView() {
-        this.maintable = (TabLayout) findViewById(R.id.main_table);
-        this.birdcageviewpager = (ViewPager) findViewById(R.id.birdcage_view_pager);
+        this.maintable = findViewById(R.id.main_table);
+        this.birdcageviewpager = findViewById(R.id.birdcage_view_pager);
         setUpViewPager();
         setTab();
     }
@@ -93,8 +98,10 @@ public class MainActivity extends BaseActivity implements MainContract.View {
 
     private void setUpViewPager() {
         MyFragPageAdapter adapter = new MyFragPageAdapter(getSupportFragmentManager());
-        adapter.addFragment(new ClockListFragment(), "闹钟");
-        adapter.addFragment(new NestListFragment(), "鸟窝");
+        mClockListFragment = new ClockListFragment();
+        mNestListFragment = new NestListFragment();
+        adapter.addFragment(mClockListFragment, "闹钟");
+        adapter.addFragment(mNestListFragment, "鸟窝");
         birdcageviewpager.setAdapter(adapter);
         maintable.setupWithViewPager(birdcageviewpager);
     }
@@ -121,6 +128,16 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     @Override
     public void saveUserId(long userid) {
         PrefsUtils.putLongValue(MainActivity.this, Constants.USER_ID, userid);
+    }
+
+    @Override
+    public void addAlarmTime(AlarmTime alarmTime) {
+        mClockListFragment.addData(alarmTime);
+    }
+
+    @Override
+    public void addNestInfo(NestInfo nestInfo) {
+        mNestListFragment.addData(nestInfo);
     }
 
 

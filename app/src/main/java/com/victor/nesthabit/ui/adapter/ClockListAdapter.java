@@ -89,6 +89,12 @@ public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyVi
         notifyDataSetChanged();
     }
 
+    public void setAlarmTimes(List<AlarmTime> alarmTimes) {
+        mAlarmTimes.clear();
+        mAlarmTimes.addAll(alarmTimes);
+        notifyDataSetChanged();
+    }
+
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from((parent.getContext())).inflate(R.layout

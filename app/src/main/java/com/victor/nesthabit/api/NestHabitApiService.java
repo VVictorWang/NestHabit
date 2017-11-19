@@ -10,10 +10,13 @@ import com.victor.nesthabit.bean.MessageList;
 import com.victor.nesthabit.bean.MsgResponse;
 import com.victor.nesthabit.bean.MusicInfo;
 import com.victor.nesthabit.bean.NestInfo;
+import com.victor.nesthabit.bean.NestList;
 import com.victor.nesthabit.bean.PostMusicResponse;
 import com.victor.nesthabit.bean.RegisterResponse;
 import com.victor.nesthabit.bean.SendMessageResponse;
 import com.victor.nesthabit.bean.UserInfo;
+
+import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -54,14 +57,6 @@ public interface NestHabitApiService {
             (Constants.HEADER_AU) String header);
 
 
-    @GET("user/{username}/info")
-    Observable<UserInfo> getUserInfor(@Path("username") String username, @Header
-            (Constants.HEADER_AU) String authorization);
-
-
-    @POST("user")
-    Observable<UserInfo> changeNickname(@Body RequestBody body, @Header(Constants
-            .HEADER_AU) String header);
 
 
     //nest api
@@ -86,9 +81,7 @@ public interface NestHabitApiService {
     Observable<JoinedNests> quitNest(@Path("username") String username, @Body
             RequestBody body, @Header(Constants.HEADER_AU) String header);
 
-    @GET("user/{username}/joined_nests")
-    Observable<JoinedNests> getNestList(@Path("username") String username, @Header
-            (Constants.HEADER_AU) String header);
+
 
 
     @POST("alarm_clock")
@@ -107,8 +100,11 @@ public interface NestHabitApiService {
     Observable<AlarmResponse> changeAlarm(@Path("id") String id, @Body RequestBody body,
                                           @Header(Constants.HEADER_AU) String header);
 
+    @GET("classes/nest")
+    Observable<ApiResponse<NestList>> getNestList();
+
     @GET("classes/nest/{objectId}")
-    Observable<NestInfo> getNestInfo(@Path("objectId") String objectId);
+    Observable<ApiResponse<NestInfo>> getNestInfo(@Path("objectId") String objectId);
 
     @GET("user/{username}/nest/{nest_id}/punches")
     Observable<DateOfNest> getDateOfNest(@Path("username") String username, @Path("nest_id")

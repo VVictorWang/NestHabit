@@ -1,5 +1,6 @@
 package com.victor.nesthabit.ui.contract;
 
+import com.victor.nesthabit.bean.RegisterResponse;
 import com.victor.nesthabit.repository.ReposityCallback;
 import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.ui.base.Baseview;
@@ -18,6 +19,6 @@ public interface LoginContract {
     interface Presenter extends BasePresenter {
         void login(String username, String password);
 
-        void register(String username, String password, ReposityCallback callback);
+        void register(String username, String password, ReposityCallback<RegisterResponse> callback);
     }
 }

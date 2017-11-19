@@ -1,6 +1,7 @@
 package com.victor.nesthabit.ui.presenter;
 
 import com.victor.nesthabit.bean.Constants;
+import com.victor.nesthabit.bean.RegisterResponse;
 import com.victor.nesthabit.bean.UserInfo;
 import com.victor.nesthabit.repository.ReposityCallback;
 import com.victor.nesthabit.repository.UserRepository;
@@ -54,12 +55,16 @@ public class LoginPresenter extends RxPresenter implements LoginContract.Present
                 .subscribeOn(Schedulers.io())
                 .doOnNext(userInfo -> PrefsUtils.putValue(AppUtils.getAppContext(), Constants
                         .AUTHORIZATION, userInfo.getSessionToken()))
-                .subscribe(userInfo -> mView.switchToMain());
+                .subscribe(userInfo -> {
+                    mView.showMyToast("登录成功");
+                    mView.switchToMain();
+                });
         addSubscribe(subscription);
     }
 
     @Override
-    public void register(String username, String password, ReposityCallback callback) {
+    public void register(String username, String password, ReposityCallback<RegisterResponse>
+            callback) {
         mUserRepository.register(username, password, callback);
     }
 }

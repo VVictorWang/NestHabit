@@ -49,6 +49,10 @@ public class NestListFragment extends BaseFragment implements NestListContract.V
         mPresenter = new NestListPresenter(this);
     }
 
+    public void addData(NestInfo nestInfo) {
+        mNestListFragAdapter.OnDataAdded(nestInfo);
+    }
+
     @Override
     protected BasePresenter getPresenter() {
         return mPresenter;

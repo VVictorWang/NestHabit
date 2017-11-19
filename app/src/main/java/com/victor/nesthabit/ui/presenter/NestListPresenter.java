@@ -21,8 +21,7 @@ import rx.android.schedulers.AndroidSchedulers;
  * blog: www.victorwang.science                                            #
  */
 
-public class NestListPresenter extends RxPresenter implements NestListContract.Presenter,
-        MainPresenter.NestDateBegin {
+public class NestListPresenter extends RxPresenter implements NestListContract.Presenter {
     public static final String TAG = "@victor NestListPresen";
     private static onNestInfoAdded sOnNestInfoAdded;
     private final NestListContract.View mView;
@@ -31,7 +30,6 @@ public class NestListPresenter extends RxPresenter implements NestListContract.P
     public NestListPresenter(NestListContract.View view) {
         mView = view;
         mView.setPresenter(this);
-        MainPresenter.setNestDateBegin(this);
     }
 
     public static void setOnNestInfoAdded(onNestInfoAdded onnestInfoAdded) {
@@ -48,39 +46,7 @@ public class NestListPresenter extends RxPresenter implements NestListContract.P
         unSubscribe();
     }
 
-    @Override
-    public void begin(List<String> ids) {
-        NestHabitApi api = NestHabitApi.getInstance();
-        String key = Utils.createAcacheKey("get_nest_list", "nestid");
-        Observable<JoinedNests> responseObservable = api.getNestList(Utils.getUsername(), Utils
-                .getHeader()).compose(RxUtil.<JoinedNests>rxCacheListHelper(key));
-        Observable observable = Observable.concat(RxUtil.rxCreateDiskObservable(key,
-                JoinedNests.class), responseObservable)
-                .observeOn(AndroidSchedulers.mainThread());
 
-        Subscription subscription = observable
-                .subscribe(new Observer<JoinedNests>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(JoinedNests joinedNests) {
-                        List<NestInfo> nestInfos = joinedNests.getJoined_nests();
-                        if (nestInfos != null && !nestInfos.isEmpty() && sOnNestInfoAdded != null) {
-                            sOnNestInfoAdded.addNestInfos(nestInfos);
-                        }
-                    }
-                });
-        addSubscribe(subscription);
-
-    }
 
     public interface onNestInfoAdded {
         void addNestInfos(List<NestInfo> nestInfos);

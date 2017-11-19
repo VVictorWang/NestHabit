@@ -1,7 +1,11 @@
 package com.victor.nesthabit.ui.contract;
 
+import com.victor.nesthabit.bean.AlarmTime;
+import com.victor.nesthabit.bean.NestInfo;
 import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.ui.base.Baseview;
+
+import java.util.List;
 
 /**
  * Created by victor on 7/25/17.
@@ -18,6 +22,10 @@ public interface MainContract {
         void hideProgress();
 
         void saveUserId(long userid);
+
+        void addAlarmTime(AlarmTime alarmTime);
+
+        void addNestInfo(NestInfo nestInfo);
 
 
     }

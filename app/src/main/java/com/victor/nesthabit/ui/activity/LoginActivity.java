@@ -6,18 +6,13 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.api.NestHabitApi;
 import com.victor.nesthabit.bean.RegisterResponse;
+import com.victor.nesthabit.repository.ReposityCallback;
 import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.ui.contract.LoginContract;
 import com.victor.nesthabit.ui.presenter.LoginPresenter;
 import com.victor.nesthabit.util.ActivityManager;
-
-import rx.Observable;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 public class LoginActivity extends BaseActivity implements LoginContract.View {
 
@@ -39,24 +34,25 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
     @Override
     protected void initView() {
-        this.loginweichat = (RelativeLayout) findViewById(R.id.login_weichat);
-        this.loginqq = (RelativeLayout) findViewById(R.id.login_qq);
+        this.loginweichat = findViewById(R.id.login_weichat);
+        this.loginqq = findViewById(R.id.login_qq);
     }
 
     @Override
     protected void initEvent() {
-        loginqq.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mLoginPresenter.login("victor", "12345");
-            }
-        });
-        loginweichat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mLoginPresenter.register("example","1234",data -> );
-            }
-        });
+        loginqq.setOnClickListener(v -> mLoginPresenter.login("victor", "12345"));
+        loginweichat.setOnClickListener(v -> mLoginPresenter.register("example", "1234",
+                new ReposityCallback<RegisterResponse>() {
+                    @Override
+                    public void callSuccess(RegisterResponse data) {
+                        showToast("注册成功");
+                    }
+
+                    @Override
+                    public void callFailure(String errorMessage) {
+                        showToast("注册失败: " + errorMessage);
+                    }
+                }));
     }
 
     @Override

@@ -1,5 +1,9 @@
 package com.victor.nesthabit.bean;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
+
 import java.util.List;
 
 /**
@@ -8,81 +12,43 @@ import java.util.List;
  * blog: www.victorwang.science                                            #
  */
 
+@Entity(tableName = "nests")
 public class NestInfo {
+
     /**
-     * _id : 597431a9f6ded6062862d268
-     * name : aaaaaaa
-     * desc : aaaa
-     * members_limit : 0
-     * start_time : 1331856000
      * challenge_days : 1000
-     * open : true
      * cover_image :
-     * created_time : 1500758313
+     * createdAt : 2017-11-19 19:33:15
      * creator : far
-     * owner : far
+     * desc : aaaa
+     * members : ["wang","st"]
      * members_amount : 1
-     * members : [{"username":"far","joined_nests":[{"_id":"59737af7f6ded61e7af0e6b8",
-     * "kept_days":0},{"_id":"597431a9f6ded6062862d268","kept_days":0}],
-     * "uploaded_musics":["59742ce5f6ded67422b9ffa3"],"alarm_clocks":["597385a6f6ded65832a3c175",
-     * "597385aaf6ded65832a3c176"],"avatar":"http://nesthabit.pek3a.qingstor.com/image
-     * /581583075164355.png","nickname":"a"}]
+     * members_limit : 0
+     * name : aaaaaaa
+     * objectId : cc6f734f8d
+     * open : true
+     * owner : far
+     * start_time : 1331856000
+     * updatedAt : 2017-11-19 19:33:15
      */
 
-    public String _id;
-    public String name;
-    public String desc;
-    public int members_limit;
-    public long start_time;
-    public int challenge_days;
-    public boolean open;
-    public String cover_image;
-    public long created_time;
-    public String creator;
-    public String owner;
-    public int members_amount;
-    public List<UserInfo> members;
+    private int challenge_days;
+    private String cover_image;
+    private String createdAt;
+    private String creator;
+    private String desc;
+    private int members_amount;
+    private int members_limit;
+    private String name;
 
-
-    public String get_id() {
-        return _id;
-    }
-
-    public void set_id(String _id) {
-        this._id = _id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDesc() {
-        return desc;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
-
-    public int getMembers_limit() {
-        return members_limit;
-    }
-
-    public void setMembers_limit(int members_limit) {
-        this.members_limit = members_limit;
-    }
-
-    public long getStart_time() {
-        return start_time;
-    }
-
-    public void setStart_time(long start_time) {
-        this.start_time = start_time;
-    }
+    @PrimaryKey
+    @NonNull
+    private String objectId;
+    private boolean open;
+    private String owner;
+    private long start_time;
+    private String updatedAt;
+    private List<String> members;
 
     public int getChallenge_days() {
         return challenge_days;
@@ -90,14 +56,6 @@ public class NestInfo {
 
     public void setChallenge_days(int challenge_days) {
         this.challenge_days = challenge_days;
-    }
-
-    public boolean isOpen() {
-        return open;
-    }
-
-    public void setOpen(boolean open) {
-        this.open = open;
     }
 
     public String getCover_image() {
@@ -108,12 +66,12 @@ public class NestInfo {
         this.cover_image = cover_image;
     }
 
-    public long getCreated_time() {
-        return created_time;
+    public String getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_time(long created_time) {
-        this.created_time = created_time;
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
     public String getCreator() {
@@ -124,12 +82,12 @@ public class NestInfo {
         this.creator = creator;
     }
 
-    public String getOwner() {
-        return owner;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setOwner(String owner) {
-        this.owner = owner;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
     public int getMembers_amount() {
@@ -140,11 +98,67 @@ public class NestInfo {
         this.members_amount = members_amount;
     }
 
-    public List<UserInfo> getMembers() {
+    public int getMembers_limit() {
+        return members_limit;
+    }
+
+    public void setMembers_limit(int members_limit) {
+        this.members_limit = members_limit;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
+    }
+
+    public boolean isOpen() {
+        return open;
+    }
+
+    public void setOpen(boolean open) {
+        this.open = open;
+    }
+
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public long getStart_time() {
+        return start_time;
+    }
+
+    public void setStart_time(long start_time) {
+        this.start_time = start_time;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public List<String> getMembers() {
         return members;
     }
 
-    public void setMembers(List<UserInfo> members) {
+    public void setMembers(List<String> members) {
         this.members = members;
     }
 }

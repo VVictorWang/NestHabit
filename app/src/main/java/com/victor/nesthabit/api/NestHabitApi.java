@@ -10,6 +10,7 @@ import com.victor.nesthabit.bean.MessageList;
 import com.victor.nesthabit.bean.MsgResponse;
 import com.victor.nesthabit.bean.MusicInfo;
 import com.victor.nesthabit.bean.NestInfo;
+import com.victor.nesthabit.bean.NestList;
 import com.victor.nesthabit.bean.PostMusicResponse;
 import com.victor.nesthabit.bean.RegisterResponse;
 import com.victor.nesthabit.bean.SendMessageResponse;
@@ -92,8 +93,8 @@ public class NestHabitApi {
                 start_time, days, isOpen), header);
     }
 
-    public Observable<NestInfo> getNestInfo(String id, String header) {
-        return mApiService.getNestInfo(id, header);
+    public Observable<ApiResponse<NestInfo>> getNestInfo(String id) {
+        return mApiService.getNestInfo(id);
     }
 
     public Observable<MsgResponse> deleteNest(String id, String header) {
@@ -119,8 +120,8 @@ public class NestHabitApi {
         return mApiService.quitNest(username, JsonRequestBody.getNest(nests), header);
     }
 
-    public Observable<JoinedNests> getNestList(String username, String header) {
-        return mApiService.getNestList(username, header);
+    public Observable<ApiResponse<NestList>> getNestList() {
+        return mApiService.getNestList();
     }
 
     public Observable<AlarmResponse> addAlarm(String title, List<Integer> time, List<Integer>

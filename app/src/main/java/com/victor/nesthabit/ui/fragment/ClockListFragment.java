@@ -40,6 +40,10 @@ public class ClockListFragment extends BaseFragment implements ClockListContract
         mPresenter.unscribe();
     }
 
+    public void addData(AlarmTime alarmTime) {
+        mAdapter.AlarmAdded(alarmTime);
+    }
+
     @Override
     protected BasePresenter getPresenter() {
         return mPresenter;

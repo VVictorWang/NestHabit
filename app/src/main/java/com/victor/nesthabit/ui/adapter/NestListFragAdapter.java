@@ -72,16 +72,14 @@ public class NestListFragAdapter extends RecyclerView.Adapter<NestListFragAdapte
     @Override
     public void onBindViewHolder(ListViewHolder holder, int position) {
         NestInfo info = mBirdCageInfos.get(position);
-//        holder.progresstext.setText(info.getDay_insist() + "/" + info
-//                .getChallenge_days());
-        boolean isOwner = info.owner.equals(Utils.getUsername());
+        boolean isOwner = info.getOwner().equals(Utils.getUsername());
         holder.birdcageListText.setText(info.getName());
         holder.peoplea.setText("+" + info.getMembers_amount() + "人");
         holder.mCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, NestSpecificActivity.class);
-                intent.putExtra("id", info.get_id());
+                intent.putExtra("id", info.getObjectId());
                 intent.putExtra("isOwner", isOwner);
                 ActivityManager.startActivity((Activity) mContext, intent);
             }
