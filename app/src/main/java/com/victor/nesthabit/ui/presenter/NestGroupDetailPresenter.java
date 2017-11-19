@@ -2,7 +2,7 @@ package com.victor.nesthabit.ui.presenter;
 
 import android.util.Log;
 
-import com.victor.nesthabit.api.UserApi;
+import com.victor.nesthabit.api.NestHabitApi;
 import com.victor.nesthabit.bean.NestInfo;
 import com.victor.nesthabit.ui.base.RxPresenter;
 import com.victor.nesthabit.ui.contract.NestGroupDetailContract;
@@ -39,7 +39,7 @@ public class NestGroupDetailPresenter extends RxPresenter implements NestGroupDe
         Log.d(TAG, "nestId" + nestId);
         if (nestId != null) {
             String key = Utils.createAcacheKey("get_nestinfo", nestId);
-            Observable<NestInfo> observable = UserApi.getInstance().getNestInfo(nestId, Utils
+            Observable<NestInfo> observable = NestHabitApi.getInstance().getNestInfo(nestId, Utils
                     .getHeader())
                     .compose(RxUtil.<NestInfo>rxCacheBeanHelper(key));
             Subscription subscription = concat(RxUtil.rxCreateDiskObservable(key,

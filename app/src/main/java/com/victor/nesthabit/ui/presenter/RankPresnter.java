@@ -2,7 +2,7 @@ package com.victor.nesthabit.ui.presenter;
 
 import android.util.Log;
 
-import com.victor.nesthabit.api.UserApi;
+import com.victor.nesthabit.api.NestHabitApi;
 import com.victor.nesthabit.bean.DateOfNest;
 import com.victor.nesthabit.bean.NestInfo;
 import com.victor.nesthabit.bean.RankItem;
@@ -48,11 +48,12 @@ public class RankPresnter extends RxPresenter implements RankContract.Presenter 
         if (nestId != null) {
             Log.d(TAG, nestId);
             String key = Utils.createAcacheKey("get_nestinfo", nestId);
-            Observable<NestInfo> observable = UserApi.getInstance().getNestInfo(nestId, Utils
+            Observable<NestInfo> observable = NestHabitApi.getInstance().getNestInfo(nestId, Utils
                     .getHeader())
                     .compose(RxUtil.<NestInfo>rxCacheListHelper(key));
-            Subscription subscription = concat(RxUtil.rxCreateDiskObservable(key,
+            Subscription subscription = Observable.concat(RxUtil.rxCreateDiskObservable(key,
                     NestInfo.class), observable)
+                    .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .map(new Func1<NestInfo, List<UserInfo>>() {
                         @Override
@@ -71,8 +72,8 @@ public class RankPresnter extends RxPresenter implements RankContract.Presenter 
                                         public String call(UserInfo userInfo) {
 
 
-                                            Log.d(TAG, "members: " + userInfo.username);
-                                            return userInfo.username;
+                                            Log.d(TAG, "members: " + userInfo.getUsername());
+                                            return userInfo.getUsername();
                                         }
                                     })
                                     .doOnNext(new Action1<String>() {
@@ -80,7 +81,7 @@ public class RankPresnter extends RxPresenter implements RankContract.Presenter 
                                         public void call(String s) {
                                             String datekey = Utils.createAcacheKey
                                                     ("get_nest_days", nestId);
-                                            Observable<DateOfNest> ofNestObservable = UserApi
+                                            Observable<DateOfNest> ofNestObservable = NestHabitApi
                                                     .getInstance().getDateOfNest(s, nestId, Utils
                                                             .getHeader()).compose(RxUtil
                                                             .<DateOfNest>rxCacheListHelper

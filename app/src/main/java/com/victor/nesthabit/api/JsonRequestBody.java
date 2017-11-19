@@ -1,10 +1,13 @@
 package com.victor.nesthabit.api;
 
+import android.util.Log;
+
 import com.victor.nesthabit.util.safe.Base64Cipher;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -25,10 +28,15 @@ public class JsonRequestBody {
         try {
             jsonObject.put("username", username);
             password = Base64Cipher.encrypt(password);
+            jsonObject.put("avatar", "");
+            jsonObject.put("joinedNests", new JSONArray());
+            jsonObject.put("uploaded_musics", new JSONArray());
+            jsonObject.put("alarm_clocks", new JSONArray());
             jsonObject.put("password", password);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Log.d("@victor", jsonObject.toString());
         return RequestBody.create(sMediaType, jsonObject.toString());
     }
 

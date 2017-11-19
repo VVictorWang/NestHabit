@@ -2,12 +2,11 @@ package com.victor.nesthabit.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.bean.GlobalData;
+import com.victor.nesthabit.bean.Constants;
 import com.victor.nesthabit.ui.adapter.MyFragPageAdapter;
 import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.ui.base.BasePresenter;
@@ -121,7 +120,7 @@ public class MainActivity extends BaseActivity implements MainContract.View {
 
     @Override
     public void saveUserId(long userid) {
-        PrefsUtils.putLongValue(MainActivity.this, GlobalData.USER_ID, userid);
+        PrefsUtils.putLongValue(MainActivity.this, Constants.USER_ID, userid);
     }
 
 

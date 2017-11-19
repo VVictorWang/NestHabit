@@ -3,8 +3,8 @@ package com.victor.nesthabit.util;
 import android.net.Uri;
 import android.os.Environment;
 
+import com.victor.nesthabit.bean.Constants;
 import com.victor.nesthabit.bean.DateOfNest;
-import com.victor.nesthabit.bean.GlobalData;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -20,11 +20,11 @@ import java.util.regex.Pattern;
 
 public class Utils {
     public static String getHeader() {
-        return PrefsUtils.getValue(AppUtils.getAppContext(), GlobalData.AUTHORIZATION, "null");
+        return PrefsUtils.getValue(AppUtils.getAppContext(), Constants.AUTHORIZATION, "null");
     }
 
     public static String getUsername() {
-        return PrefsUtils.getValue(AppUtils.getAppContext(), GlobalData.USERNAME, "null");
+        return PrefsUtils.getValue(AppUtils.getAppContext(), Constants.USERNAME, "null");
     }
 
     public static String createAcacheKey(Object... param) {

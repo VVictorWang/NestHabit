@@ -1,6 +1,6 @@
 package com.victor.nesthabit.ui.presenter;
 
-import com.victor.nesthabit.api.UserApi;
+import com.victor.nesthabit.api.NestHabitApi;
 import com.victor.nesthabit.bean.DateOfNest;
 import com.victor.nesthabit.bean.NestInfo;
 import com.victor.nesthabit.ui.base.RxPresenter;
@@ -37,7 +37,7 @@ public class NsetSpecificPresenter extends RxPresenter implements NestSpecificCo
         String id = mView.getNestId();
         if (id != null) {
             String key = Utils.createAcacheKey("get_nestinfo", id);
-            Observable<NestInfo> observable = UserApi.getInstance().getNestInfo(id,
+            Observable<NestInfo> observable = NestHabitApi.getInstance().getNestInfo(id,
                     Utils.getHeader()).compose(RxUtil.<NestInfo>rxCacheBeanHelper(key));
             Subscription subscription = Observable.concat(RxUtil.rxCreateDiskObservable(key,
                     NestInfo.class), observable)
@@ -61,7 +61,7 @@ public class NsetSpecificPresenter extends RxPresenter implements NestSpecificCo
                     });
             addSubscribe(subscription);
             String datekey = Utils.createAcacheKey("get_nest_days", id);
-            Observable<DateOfNest> nestObservable = UserApi.getInstance().getDateOfNest(Utils
+            Observable<DateOfNest> nestObservable = NestHabitApi.getInstance().getDateOfNest(Utils
                     .getUsername(), id, Utils.getHeader()).compose(RxUtil
                     .<DateOfNest>rxCacheListHelper(datekey));
             Subscription datesub = Observable.concat(RxUtil.rxCreateDiskObservable(datekey,

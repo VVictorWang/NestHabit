@@ -63,6 +63,10 @@ public class ActivityManager {
         activity.overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
     }
 
+    public static void popActivity() {
+        activityStack.pop();
+    }
+
     public static void addFragmentToActivity(@NonNull FragmentManager fragmentManager, @NonNull
             Fragment fragment, int fragmeID) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();

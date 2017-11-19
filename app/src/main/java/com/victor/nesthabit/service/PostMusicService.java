@@ -6,7 +6,7 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 
-import com.victor.nesthabit.api.UserApi;
+import com.victor.nesthabit.api.NestHabitApi;
 import com.victor.nesthabit.bean.PostMusicResponse;
 import com.victor.nesthabit.util.PrefsUtils;
 import com.victor.nesthabit.util.Utils;
@@ -14,7 +14,6 @@ import com.victor.nesthabit.util.Utils;
 import java.io.File;
 
 import okhttp3.MediaType;
-import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import rx.Observable;
 import rx.Observer;
@@ -54,7 +53,7 @@ public class PostMusicService extends IntentService {
 //        MultipartBody.Part part = MultipartBody.Part.createFormData("name", file.getName(),
 //                requestFile);
 
-        Observable<PostMusicResponse> observable = UserApi.getInstance().postMusic(Utils
+        Observable<PostMusicResponse> observable = NestHabitApi.getInstance().postMusic(Utils
                 .getUsername(), file.getName(), requestFile, Utils.getHeader(), musicType);
 
         observable.observeOn(AndroidSchedulers.mainThread())

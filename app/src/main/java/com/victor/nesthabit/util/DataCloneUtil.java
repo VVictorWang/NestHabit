@@ -1,19 +1,7 @@
 package com.victor.nesthabit.util;
 
-import com.victor.nesthabit.api.UserApi;
-import com.victor.nesthabit.bean.AlarmResponse;
-import com.victor.nesthabit.bean.AlarmTime;
 import com.victor.nesthabit.bean.MyNestInfo;
 import com.victor.nesthabit.bean.NestInfo;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import rx.Observable;
-import rx.Observer;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by victor on 7/26/17.

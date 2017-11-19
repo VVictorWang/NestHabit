@@ -9,7 +9,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.util.Log;
 
-import com.victor.nesthabit.api.UserApi;
+import com.victor.nesthabit.api.NestHabitApi;
 import com.victor.nesthabit.bean.AlarmResponse;
 import com.victor.nesthabit.bean.AlarmTime;
 import com.victor.nesthabit.bean.MusicInfo;
@@ -70,7 +70,7 @@ public class AddAlarmPresenter extends RxPresenter implements AddAlarmContract.P
         } else {
             mView.setEditToobar();
             String key = Utils.createAcacheKey("get_alarm_byid", id);
-            Observable<AlarmResponse> observable = UserApi.getInstance().getAlarm(id, Utils
+            Observable<AlarmResponse> observable = NestHabitApi.getInstance().getAlarm(id, Utils
                     .getHeader()).compose(RxUtil
                     .<AlarmResponse>rxCacheBeanHelper(key));
             Subscription subscription = Observable.concat(RxUtil.rxCreateDiskObservable(key,
@@ -106,7 +106,7 @@ public class AddAlarmPresenter extends RxPresenter implements AddAlarmContract.P
         mView.setSnap(alarmResponse.nap);
         mView.setVoice(alarmResponse.willing_music);
         mView.setRemindText(alarmResponse.willing_text);
-        Observable<NestInfo> observable1 = UserApi.getInstance().getNestInfo
+        Observable<NestInfo> observable1 = NestHabitApi.getInstance().getNestInfo
                 (alarmResponse.bind_to_nest
                         , Utils.getHeader());
         Subscription subscription1 = observable1.subscribeOn(Schedulers.io())
@@ -131,7 +131,7 @@ public class AddAlarmPresenter extends RxPresenter implements AddAlarmContract.P
         String musicUri = PrefsUtils.getValue(AppUtils.getAppContext(), alarmResponse.music_id,
                 "empty");
         File file = new File(musicUri.substring(musicUri.indexOf('/') + 2));
-        Observable<MusicInfo> observable = UserApi.getInstance().getMusicName(alarmResponse
+        Observable<MusicInfo> observable = NestHabitApi.getInstance().getMusicName(alarmResponse
                 .music_id, Utils.getHeader());
         Subscription subscription = observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -262,14 +262,14 @@ public class AddAlarmPresenter extends RxPresenter implements AddAlarmContract.P
         time.add(newAlarm.getMinute());
         Observable<AlarmResponse> observable;
         if (id == null) {
-            observable = UserApi.getInstance().addAlarm
+            observable = NestHabitApi.getInstance().addAlarm
                     (newAlarm.getTitle(), time, repeat, newAlarm.getMusic_id
                                     (), newAlarm.isSnap(),
                             true, newAlarm.getNestid(), newAlarm
                                     .isReceive_Voice(), newAlarm.isReceive_text(), Utils
                                     .getHeader());
         } else {
-            observable = UserApi.getInstance().changeAlarm(id, newAlarm
+            observable = NestHabitApi.getInstance().changeAlarm(id, newAlarm
                             .getTitle(), time, repeat, newAlarm.getMusic_id
                             (), newAlarm.isSnap(),
                     true, newAlarm.getNestid(), newAlarm

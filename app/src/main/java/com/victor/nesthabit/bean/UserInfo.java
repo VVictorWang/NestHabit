@@ -1,6 +1,11 @@
 package com.victor.nesthabit.bean;
 
-import org.litepal.crud.DataSupport;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverters;
+import android.support.annotation.NonNull;
+
+import com.victor.nesthabit.db.MyTypeConverter;
 
 import java.util.List;
 
@@ -10,31 +15,72 @@ import java.util.List;
  * blog: www.victorwang.science                                            #
  */
 
-public class UserInfo extends DataSupport {
+@Entity(tableName = "users")
+@TypeConverters(MyTypeConverter.class)
+public class UserInfo {
 
     /**
-     * username : swwwe
-     * joined_nests : []
-     * uploaded_musics : []
      * alarm_clocks : []
      * avatar :
-     * nickname :
+     * createdAt : 2017-11-18 15:50:42
+     * joined_nests : []
+     * objectId : e6549a8d01
+     * sessionToken : 7494dee940dc02a280e3d8569d9633b7
+     * updatedAt : 2017-11-18 15:50:42
+     * uploaded_musics : []
+     * username : wang
      */
 
-    public long id;
-    public String username;
-    public String avatar;
-    public String nickname;
-    public List<Nests> joined_nests;
-    public List<String> uploaded_musics;
-    public List<String> alarm_clocks;
+    private String avatar;
+    private String createdAt;
+    @PrimaryKey
+    @NonNull
+    private String objectId;
+    private String sessionToken;
+    private String updatedAt;
+    private String username;
+    private List<String> alarm_clocks;
+    private List<String> joined_nests;
+    private List<String> uploaded_musics;
 
-    public long getId() {
-        return id;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
+    }
+
+    public String getSessionToken() {
+        return sessionToken;
+    }
+
+    public void setSessionToken(String sessionToken) {
+        this.sessionToken = sessionToken;
+    }
+
+    public String getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(String updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public String getUsername() {
@@ -45,27 +91,19 @@ public class UserInfo extends DataSupport {
         this.username = username;
     }
 
-    public String getAvatar() {
-        return avatar;
+    public List<String> getAlarm_clocks() {
+        return alarm_clocks;
     }
 
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
+    public void setAlarm_clocks(List<String> alarm_clocks) {
+        this.alarm_clocks = alarm_clocks;
     }
 
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public List<Nests> getJoined_nests() {
+    public List<String> getJoined_nests() {
         return joined_nests;
     }
 
-    public void setJoined_nests(List<Nests> joined_nests) {
+    public void setJoined_nests(List<String> joined_nests) {
         this.joined_nests = joined_nests;
     }
 
@@ -77,11 +115,47 @@ public class UserInfo extends DataSupport {
         this.uploaded_musics = uploaded_musics;
     }
 
-    public List<String> getAlarm_clocks() {
-        return alarm_clocks;
-    }
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("{");
+        builder.append("\"avatar\" : " + avatar + ",\n" + "\"username\" : " + username + ",\n" +
+                "\"alarm_clocks\" : [");
+        int i = 0;
+        if (alarm_clocks != null) {
+            for (String alarmid : alarm_clocks) {
+                i++;
+                builder.append(alarmid);
+                if (i != alarm_clocks.size() - 1) {
+                    builder.append(",");
+                }
+            }
+        }
 
-    public void setAlarm_clocks(List<String> alarm_clocks) {
-        this.alarm_clocks = alarm_clocks;
+        builder.append("],\n" + "\"joined_nests\" : [");
+        if (joined_nests != null) {
+            i = 0;
+            for (String nestId : joined_nests) {
+                i++;
+                builder.append(nestId);
+                if (i != alarm_clocks.size() - 1) {
+                    builder.append(",");
+                }
+            }
+        }
+        builder.append("],\n" + "\"uploaded_musics\" : [");
+        if (uploaded_musics != null) {
+            i = 0;
+            for (String musicId : uploaded_musics) {
+                i++;
+                builder.append(musicId);
+                if (i != alarm_clocks.size() - 1) {
+                    builder.append(",");
+                }
+            }
+        }
+
+        builder.append("]\n}");
+        return builder.toString();
     }
 }

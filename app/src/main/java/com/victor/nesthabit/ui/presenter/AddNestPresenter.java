@@ -1,8 +1,8 @@
 package com.victor.nesthabit.ui.presenter;
 
-import com.victor.nesthabit.api.UserApi;
+import com.victor.nesthabit.api.NestHabitApi;
 import com.victor.nesthabit.bean.AddNestResponse;
-import com.victor.nesthabit.bean.GlobalData;
+import com.victor.nesthabit.bean.Constants;
 import com.victor.nesthabit.bean.JoinedNests;
 import com.victor.nesthabit.bean.MyNestInfo;
 import com.victor.nesthabit.bean.NestInfo;
@@ -71,11 +71,11 @@ public class AddNestPresenter extends RxPresenter implements AddNestContract.Pre
             } else
                 nestInfo.setMembers_limit(0);
 
-            Observable<AddNestResponse> responseObservable = UserApi.getInstance()
+            Observable<AddNestResponse> responseObservable = NestHabitApi.getInstance()
                     .addNest(nestInfo.getName(), nestInfo.getDesc(), nestInfo.getMembers_limit(),
                             nestInfo.getStart_time(), nestInfo
                                     .getChallenge_days(),
-                            false, PrefsUtils.getValue(AppUtils.getAppContext(), GlobalData
+                            false, PrefsUtils.getValue(AppUtils.getAppContext(), Constants
                                     .AUTHORIZATION, "null"));
             Subscription subscription = responseObservable.observeOn(AndroidSchedulers.mainThread())
                     .subscribeOn(Schedulers.io())
@@ -87,7 +87,7 @@ public class AddNestPresenter extends RxPresenter implements AddNestContract.Pre
                                 sOnCageDataChanged.OnDataAdded(DataCloneUtil.cloneMynestToNest
                                         (nestInfo));
                                 String key = Utils.createAcacheKey("get_nest_list", "nestid");
-                                Observable<JoinedNests> responseObservable = UserApi.getInstance
+                                Observable<JoinedNests> responseObservable = NestHabitApi.getInstance
                                         ().getNestList(Utils.getUsername(), Utils
                                         .getHeader()).compose(RxUtil
                                         .<JoinedNests>rxCacheListHelper(key));

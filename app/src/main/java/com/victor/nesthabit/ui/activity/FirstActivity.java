@@ -6,21 +6,19 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.bean.GlobalData;
+import com.victor.nesthabit.bean.Constants;
 import com.victor.nesthabit.util.ActivityManager;
 import com.victor.nesthabit.util.PrefsUtils;
 
 public class FirstActivity extends AppCompatActivity {
     private int second = 1000;
-    private String authorization;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
         ActivityManager.getInstance().pushActivity(FirstActivity.this);
-        authorization = PrefsUtils.getValue(FirstActivity.this, GlobalData
-                .AUTHORIZATION, "empty");
+        String authorization = PrefsUtils.getValue(FirstActivity.this, Constants.AUTHORIZATION, "empty");
         if (authorization.equals("empty")) {
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -40,8 +38,8 @@ public class FirstActivity extends AppCompatActivity {
                 }
             }, second);
         }
-
-
+//
+//
     }
-
+//
 }

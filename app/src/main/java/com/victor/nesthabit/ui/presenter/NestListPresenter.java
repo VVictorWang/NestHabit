@@ -1,6 +1,6 @@
 package com.victor.nesthabit.ui.presenter;
 
-import com.victor.nesthabit.api.UserApi;
+import com.victor.nesthabit.api.NestHabitApi;
 import com.victor.nesthabit.bean.JoinedNests;
 import com.victor.nesthabit.bean.NestInfo;
 import com.victor.nesthabit.ui.base.RxPresenter;
@@ -50,7 +50,7 @@ public class NestListPresenter extends RxPresenter implements NestListContract.P
 
     @Override
     public void begin(List<String> ids) {
-        UserApi api = UserApi.getInstance();
+        NestHabitApi api = NestHabitApi.getInstance();
         String key = Utils.createAcacheKey("get_nest_list", "nestid");
         Observable<JoinedNests> responseObservable = api.getNestList(Utils.getUsername(), Utils
                 .getHeader()).compose(RxUtil.<JoinedNests>rxCacheListHelper(key));

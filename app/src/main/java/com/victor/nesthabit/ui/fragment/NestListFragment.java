@@ -8,7 +8,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.bean.GlobalData;
+import com.victor.nesthabit.bean.Constants;
 import com.victor.nesthabit.bean.NestInfo;
 import com.victor.nesthabit.ui.activity.AddNestActivity;
 import com.victor.nesthabit.ui.activity.ProfileActivity;
@@ -110,7 +110,7 @@ public class NestListFragment extends BaseFragment implements NestListContract.V
 
     @Override
     public long getUserId() {
-        return PrefsUtils.getLongValue(mActivity, GlobalData.USER_ID, -1);
+        return PrefsUtils.getLongValue(mActivity, Constants.USER_ID, -1);
     }
 
 }

@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.ui.base.BasePresenter;
+import com.victor.nesthabit.util.ActivityManager;
 import com.victor.nesthabit.view.CircleImageView;
 
 public class ShareSuccessActivity extends BaseActivity {
@@ -51,6 +52,8 @@ public class ShareSuccessActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
 
+                ActivityManager.popActivity();
+                ActivityManager.popActivity();
             }
         });
     }

@@ -15,7 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.api.UserApi;
+import com.victor.nesthabit.api.NestHabitApi;
 import com.victor.nesthabit.bean.AlarmTime;
 import com.victor.nesthabit.bean.MsgResponse;
 import com.victor.nesthabit.ui.activity.AddAlarmActivity;
@@ -152,7 +152,7 @@ public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyVi
                     @Override
                     public void onClick(View v) {
                         DataSupport.delete(AlarmTime.class, alarmTime.getId());
-                        Observable<MsgResponse> observable = UserApi.getInstance().deleteAlarm
+                        Observable<MsgResponse> observable = NestHabitApi.getInstance().deleteAlarm
                                 (alarmTime.getMyid(), Utils.getHeader());
                         observable.observeOn(AndroidSchedulers.mainThread())
                                 .subscribeOn(Schedulers.io())

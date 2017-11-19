@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.api.UserApi;
+import com.victor.nesthabit.api.NestHabitApi;
 import com.victor.nesthabit.bean.NestInfo;
 import com.victor.nesthabit.bean.UserInfo;
 import com.victor.nesthabit.util.AppUtils;
@@ -74,7 +74,7 @@ public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.My
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         UserInfo userInfo = mMembers.get(position);
-        holder.name.setText(userInfo.username);
+        holder.name.setText(userInfo.getUsername());
         if (!isChoose) {
             if (!isChoosing) {
                 holder.avatar_choosen.setVisibility(View.GONE);
@@ -92,8 +92,8 @@ public class MemberListAdapter extends RecyclerView.Adapter<MemberListAdapter.My
                         ok.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Observable<NestInfo> nestInfoObservable = UserApi.getInstance()
-                                        .deleteMember(nestId, userInfo.username, Utils.getHeader());
+                                Observable<NestInfo> nestInfoObservable = NestHabitApi.getInstance()
+                                        .deleteMember(nestId, userInfo.getUsername(), Utils.getHeader());
                                 nestInfoObservable.observeOn(AndroidSchedulers.mainThread())
                                         .subscribeOn(Schedulers.io())
                                         .subscribe(new Observer<NestInfo>() {

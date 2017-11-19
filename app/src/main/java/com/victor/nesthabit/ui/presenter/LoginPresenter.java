@@ -1,18 +1,19 @@
 package com.victor.nesthabit.ui.presenter;
 
-import com.victor.nesthabit.api.UserApi;
-import com.victor.nesthabit.bean.GlobalData;
-import com.victor.nesthabit.bean.LoginResponse;
+import com.victor.nesthabit.bean.Constants;
+import com.victor.nesthabit.bean.UserInfo;
+import com.victor.nesthabit.repository.ReposityCallback;
+import com.victor.nesthabit.repository.UserRepository;
 import com.victor.nesthabit.ui.base.RxPresenter;
 import com.victor.nesthabit.ui.contract.LoginContract;
 import com.victor.nesthabit.util.AppUtils;
 import com.victor.nesthabit.util.PrefsUtils;
 
+import javax.inject.Inject;
+
 import rx.Observable;
-import rx.Observer;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -23,6 +24,9 @@ import rx.schedulers.Schedulers;
 
 public class LoginPresenter extends RxPresenter implements LoginContract.Presenter {
     private LoginContract.View mView;
+
+    @Inject
+    private UserRepository mUserRepository;
 
     public LoginPresenter(LoginContract.View view) {
         mView = view;
@@ -41,35 +45,21 @@ public class LoginPresenter extends RxPresenter implements LoginContract.Present
 
     @Override
     public void login(String username, String password) {
-        UserApi userApi = UserApi.getInstance();
-        Observable<LoginResponse> response = userApi.login(username, password);
-        Subscription subscription = response.observeOn(AndroidSchedulers.mainThread())
+        Observable<UserInfo> observable = mUserRepository.login(username, password);
+        if (observable == null) {
+            return;
+        }
+        Subscription subscription = observable.observeOn
+                (AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .doOnNext(new Action1<LoginResponse>() {
-                    @Override
-                    public void call(LoginResponse loginResponse) {
-                        PrefsUtils.putValue(AppUtils.getAppContext(), GlobalData
-                                .AUTHORIZATION, loginResponse.getAuthorization());
-                        PrefsUtils.putValue(AppUtils.getAppContext(), GlobalData.USERNAME,
-                                username);
-                    }
-                })
-                .subscribe(new Observer<LoginResponse>() {
-                    @Override
-                    public void onCompleted() {
-                        mView.switchToMain();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                    }
-
-                    @Override
-                    public void onNext(LoginResponse loginResponseResponse) {
-
-                    }
-                });
+                .doOnNext(userInfo -> PrefsUtils.putValue(AppUtils.getAppContext(), Constants
+                        .AUTHORIZATION, userInfo.getSessionToken()))
+                .subscribe(userInfo -> mView.switchToMain());
         addSubscribe(subscription);
+    }
 
+    @Override
+    public void register(String username, String password, ReposityCallback callback) {
+        mUserRepository.register(username, password, callback);
     }
 }

@@ -2,7 +2,7 @@ package com.victor.nesthabit.ui.presenter;
 
 import android.util.Log;
 
-import com.victor.nesthabit.api.UserApi;
+import com.victor.nesthabit.api.NestHabitApi;
 import com.victor.nesthabit.bean.AlarmResponse;
 import com.victor.nesthabit.bean.AlarmTime;
 import com.victor.nesthabit.bean.NestInfo;
@@ -64,7 +64,7 @@ public class ClockListPresenter extends RxPresenter implements ClockListContract
         if (!alarmids.isEmpty()) {
             for (String alarmid : alarmids) {
                 String key = Utils.createAcacheKey("get_alarm_byid", alarmid);
-                Observable<AlarmResponse> responseObservable = UserApi.getInstance()
+                Observable<AlarmResponse> responseObservable = NestHabitApi.getInstance()
                         .getAlarm(alarmid, Utils.getHeader()).compose(RxUtil
                                 .<AlarmResponse>rxCacheBeanHelper(key));
                 Subscription subscription = Observable.concat(RxUtil.rxCreateDiskObservable(key,
@@ -113,7 +113,7 @@ public class ClockListPresenter extends RxPresenter implements ClockListContract
             alarmTime.setMusic_id(response.getMusic_id());
             alarmTime.setMyid(response.get_id());
             alarmTime.setNestid(response.getBind_to_nest());
-            Observable<NestInfo> observable = UserApi.getInstance().getNestInfo(alarmTime
+            Observable<NestInfo> observable = NestHabitApi.getInstance().getNestInfo(alarmTime
                             .getNestid()
                     , Utils.getHeader());
             observable.subscribeOn(Schedulers.io())

@@ -1,6 +1,6 @@
 package com.victor.nesthabit.ui.presenter;
 
-import com.victor.nesthabit.api.UserApi;
+import com.victor.nesthabit.api.NestHabitApi;
 import com.victor.nesthabit.bean.Nests;
 import com.victor.nesthabit.bean.UserInfo;
 import com.victor.nesthabit.ui.base.RxPresenter;
@@ -46,7 +46,7 @@ public class MainPresenter extends RxPresenter implements MainContract.Presenter
     @Override
     public void start() {
         mView.showProgress();
-        UserApi api = UserApi.getInstance();
+        NestHabitApi api = NestHabitApi.getInstance();
         String key = Utils.createAcacheKey("get-userinfo", Utils.getUsername());
         Observable<UserInfo> responseObservable = api.getUserInfo(Utils.getUsername(),
                 Utils.getHeader()).compose(RxUtil.<UserInfo>rxCacheBeanHelper(key));
@@ -69,17 +69,10 @@ public class MainPresenter extends RxPresenter implements MainContract.Presenter
                     public void onNext(UserInfo userInfo) {
                         if (sNestDateBegin != null && userInfo.getJoined_nests() != null &&
                                 !userInfo.getJoined_nests().isEmpty()) {
-                            List<Nests> nestses = userInfo.getJoined_nests();
+                            List<String> nestses = userInfo.getJoined_nests();
                             List<String> nestid = new ArrayList<String>();
                             Observable.from(nestses)
                                     .subscribeOn(AndroidSchedulers.mainThread())
-                                    .map(new Func1<Nests, String>() {
-
-                                        @Override
-                                        public String call(Nests nests) {
-                                            return nests.get_id();
-                                        }
-                                    })
                                     .subscribe(new Observer<String>() {
                                         @Override
                                         public void onCompleted() {
@@ -103,7 +96,7 @@ public class MainPresenter extends RxPresenter implements MainContract.Presenter
                         if (sClockDataBegin != null) {
                             sClockDataBegin.begin(userInfo.getAlarm_clocks());
                         }
-                        mView.saveUserId(userInfo.getId());
+//                        mView.saveUserId(userInfo.getId());
                     }
                 });
         addSubscribe(subscription);

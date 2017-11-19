@@ -53,7 +53,7 @@ public class DaKaWallAdapater extends RecyclerView.Adapter<DaKaWallAdapater.Cont
         String time = getDayForSection(position);
         if (position == getPositionForSection(time)) {
             holder.datelayout.setVisibility(View.VISIBLE);
-            holder.date.setText(DateUtils.format(bean.created_time, "yyyy-MM-dd"));
+            holder.date.setText(DateUtils.format(System.currentTimeMillis(), "yyyy-MM-dd"));
         }
         holder.name.setText(bean.username);
         holder.text.setText(bean.comment);

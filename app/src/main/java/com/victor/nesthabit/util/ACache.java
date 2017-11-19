@@ -8,7 +8,7 @@ import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
-import com.victor.nesthabit.bean.GlobalData;
+import com.victor.nesthabit.bean.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -60,7 +60,7 @@ public class ACache {
     }
 
     public static ACache get(Context ctx, String cacheName) {
-        File f = new File(GlobalData.PATH_DATA, cacheName);
+        File f = new File(Constants.PATH_DATA, cacheName);
         return get(f, MAX_SIZE, MAX_COUNT);
     }
 
@@ -69,7 +69,7 @@ public class ACache {
     }
 
     public static ACache get(Context ctx, long max_zise, int max_count) {
-        File f = new File(GlobalData.PATH_DATA, "data");
+        File f = new File(Constants.PATH_DATA, "data");
         return get(f, max_zise, max_count);
     }
 

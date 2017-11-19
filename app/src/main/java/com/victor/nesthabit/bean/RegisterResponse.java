@@ -1,7 +1,5 @@
 package com.victor.nesthabit.bean;
 
-import java.util.List;
-
 /**
  * Created by victor on 7/23/17.
  * email: chengyiwang@hustunique.com
@@ -10,96 +8,38 @@ import java.util.List;
 
 public class RegisterResponse {
 
+
     /**
-     * username : aaaaaaaa
-     * password : 8412
-     * created_time : 1500719922
-     * joined_nests : []
-     * uploaded_musics : []
-     * alarm_clocks : []
-     * avatar :
+     * createdAt : 2017-11-18 14:53:12
+     * objectId : ba5e7ac1b9
+     * sessionToken : 595db7464016c2988000dabadc139065
      */
 
+    private String createdAt;
+    private String objectId;
+    private String sessionToken;
 
-    private String username;
-    private String password;
-    private int created_time;
-    private String avatar;
-    private List<Nests> joined_nests;
-    private List<String> uploaded_musics;
-    private List<String> alarm_clocks;
-    private String nickname;
-    private String _id;
-
-    public String getNickname() {
-        return nickname;
+    public String getCreatedAt() {
+        return createdAt;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public String get_id() {
-        return _id;
+    public String getObjectId() {
+        return objectId;
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
     }
 
-    public String getUsername() {
-        return username;
+    public String getSessionToken() {
+        return sessionToken;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public int getCreated_time() {
-        return created_time;
-    }
-
-    public void setCreated_time(int created_time) {
-        this.created_time = created_time;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public List<Nests> getJoined_nests() {
-        return joined_nests;
-    }
-
-    public void setJoined_nests(List<Nests> joined_nests) {
-        this.joined_nests = joined_nests;
-    }
-
-    public List<String> getUploaded_musics() {
-        return uploaded_musics;
-    }
-
-    public void setUploaded_musics(List<String> uploaded_musics) {
-        this.uploaded_musics = uploaded_musics;
-    }
-
-    public List<String> getAlarm_clocks() {
-        return alarm_clocks;
-    }
-
-    public void setAlarm_clocks(List<String> alarm_clocks) {
-        this.alarm_clocks = alarm_clocks;
+    public void setSessionToken(String sessionToken) {
+        this.sessionToken = sessionToken;
     }
 }

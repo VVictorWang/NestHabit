@@ -2,7 +2,7 @@ package com.victor.nesthabit.ui.presenter;
 
 import android.util.Log;
 
-import com.victor.nesthabit.api.UserApi;
+import com.victor.nesthabit.api.NestHabitApi;
 import com.victor.nesthabit.bean.MessageList;
 import com.victor.nesthabit.bean.SendMessageResponse;
 import com.victor.nesthabit.ui.adapter.CommunicateAdapter;
@@ -40,7 +40,7 @@ public class CommunicatePresenter extends RxPresenter implements CommunicateCont
     @Override
     public void start() {
         String key = Utils.createAcacheKey("get-message-list", mView.getNestId());
-        Observable<MessageList> observable = UserApi.getInstance().getMessageList(mView.getNestId
+        Observable<MessageList> observable = NestHabitApi.getInstance().getMessageList(mView.getNestId
                 (), Utils.getHeader()).compose(RxUtil.<MessageList>rxCacheListHelper(key));
         Subscription subscription = observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -112,7 +112,7 @@ public class CommunicatePresenter extends RxPresenter implements CommunicateCont
     @Override
     public void sendMessage() {
 
-        Observable<SendMessageResponse> observable = UserApi.getInstance().sendMessage(mView
+        Observable<SendMessageResponse> observable = NestHabitApi.getInstance().sendMessage(mView
                         .getMessage(), System.currentTimeMillis(),
                 mView.getNestId(), Utils.getHeader());
         Subscription subscription = observable.observeOn(AndroidSchedulers.mainThread())

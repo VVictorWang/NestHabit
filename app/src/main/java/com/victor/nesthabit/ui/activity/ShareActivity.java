@@ -9,7 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.api.UserApi;
+import com.victor.nesthabit.api.NestHabitApi;
 import com.victor.nesthabit.bean.DakaResponse;
 import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.ui.base.BasePresenter;
@@ -81,7 +81,7 @@ public class ShareActivity extends BaseActivity {
     }
 
     private void daka() {
-        Observable<DakaResponse> observable = UserApi.getInstance().daka(nestId, sharetext
+        Observable<DakaResponse> observable = NestHabitApi.getInstance().daka(nestId, sharetext
                 .getText().toString(), System.currentTimeMillis(), Utils.getHeader());
         observable.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())

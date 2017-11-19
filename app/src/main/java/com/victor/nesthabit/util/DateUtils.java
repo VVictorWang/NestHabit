@@ -71,7 +71,7 @@ public class DateUtils {
 
     public static String getCurrentHour() {
         Date date = getCurDate();
-        DateFormat format = new SimpleDateFormat("hh");
+        DateFormat format = new SimpleDateFormat("HH");
         return format.format(date);
     }
 
