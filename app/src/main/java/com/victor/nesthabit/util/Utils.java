@@ -35,6 +35,11 @@ public class Utils {
         return key.replaceFirst("-", "");
     }
 
+//    public static String getFileMimeType(File file) {
+//        String fileName = file.getName();
+//
+//    }
+
     public static Uri getImageStreamFromExternal(String imageName) {
         File externalPubPath = Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES

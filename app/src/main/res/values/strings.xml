@@ -43,7 +43,7 @@
     <string name="change_day">挑战天数</string>
     <string name="start_time">开始时间</string>
     <string name="limit_amount">限定成员数量</string>
-    <string name="member_amount">成员数量</string>
+    <string name="member_amount">限制的成员数量</string>
     <string name="clock">闹钟</string>
     <string name="advices">意见反馈</string>
     <string name="quit_current">退出当前账号</string>
@@ -86,6 +86,7 @@
     <string name="add_success">创建成功</string>
     <string name="delete_remind">将该提醒从列表中删除</string>
     <string name="ensure_delete">确认删除吗</string>
+    <string name="isopen">是否对外开放</string>
     <string-array name="custome_weekday">
         <item>日</item>
         <item>一</item>

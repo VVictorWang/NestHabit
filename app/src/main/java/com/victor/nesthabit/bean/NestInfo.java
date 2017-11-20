@@ -19,27 +19,26 @@ import java.util.List;
 @TypeConverters(StringListConverter.class)
 public class NestInfo {
 
+
     /**
      * challenge_days : 1000
      * cover_image :
-     * createdAt : 2017-11-19 19:33:15
-     * creator : far
+     * createdAt : 2017-11-20 22:36:28
      * desc : aaaa
      * members : ["wang","st"]
      * members_amount : 1
      * members_limit : 0
-     * name : aaaaaaa
-     * objectId : cc6f734f8d
+     * name : bbbb
+     * objectId : 93c506396b
      * open : true
-     * owner : far
+     * owner : wang
      * start_time : 1331856000
-     * updatedAt : 2017-11-19 19:33:15
+     * updatedAt : 2017-11-20 22:36:28
      */
 
     private int challenge_days;
     private String cover_image;
     private String createdAt;
-    private String creator;
     private String desc;
     private int members_amount;
     private int members_limit;
@@ -76,14 +75,6 @@ public class NestInfo {
 
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public String getCreator() {
-        return creator;
-    }
-
-    public void setCreator(String creator) {
-        this.creator = creator;
     }
 
     public String getDesc() {

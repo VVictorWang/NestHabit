@@ -1,14 +1,15 @@
 package com.victor.nesthabit.repository;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.victor.nesthabit.api.NestHabitApi;
 import com.victor.nesthabit.bean.AlarmInfo;
 import com.victor.nesthabit.db.AlarmDao;
+import com.victor.nesthabit.db.NestHabitDataBase;
+import com.victor.nesthabit.util.AppUtils;
 import com.victor.nesthabit.util.NetWorkBoundUtils;
-
-import javax.inject.Inject;
 
 import retrofit2.Response;
 import rx.Observable;
@@ -25,10 +26,18 @@ public class AlarmRepoitory {
     private final NestHabitApi mNestHabitApi;
     private final AlarmDao mAlarmDao;
 
-    @Inject
-    public AlarmRepoitory(NestHabitApi nestHabitApi, AlarmDao alarmDao) {
-        mNestHabitApi = nestHabitApi;
-        mAlarmDao = alarmDao;
+    private AlarmRepoitory(Context context) {
+        mNestHabitApi = NestHabitApi.getInstance();
+        mAlarmDao = NestHabitDataBase.getInstance(context).alarmDao();
+    }
+
+    private static AlarmRepoitory instance;
+
+    public static AlarmRepoitory getInstance() {
+        if (instance == null) {
+            instance = new AlarmRepoitory(AppUtils.getAppContext());
+        }
+        return instance;
     }
 
     public void loadAlarmInfo(String alarmId, NetWorkBoundUtils.CallBack<AlarmInfo> callBack) {

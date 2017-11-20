@@ -1,14 +1,15 @@
 package com.victor.nesthabit.repository;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.victor.nesthabit.api.NestHabitApi;
 import com.victor.nesthabit.bean.NestInfo;
 import com.victor.nesthabit.db.NestDao;
+import com.victor.nesthabit.db.NestHabitDataBase;
+import com.victor.nesthabit.util.AppUtils;
 import com.victor.nesthabit.util.NetWorkBoundUtils;
-
-import javax.inject.Inject;
 
 import retrofit2.Response;
 import rx.Observable;
@@ -25,10 +26,19 @@ public class NestRepository {
     private final NestHabitApi mNestHabitApi;
     private final NestDao mNestDao;
 
-    @Inject
-    public NestRepository(NestHabitApi nestHabitApi, NestDao nestDao) {
-        mNestHabitApi = nestHabitApi;
-        mNestDao = nestDao;
+
+    private NestRepository(Context context) {
+        mNestHabitApi = NestHabitApi.getInstance();
+        mNestDao = NestHabitDataBase.getInstance(context).nestDao();
+    }
+
+    private static NestRepository instance;
+
+    public static NestRepository getInstance() {
+        if (instance == null) {
+            instance = new NestRepository(AppUtils.getAppContext());
+        }
+        return instance;
     }
 
     public void loadNestInfo(String objectId, NetWorkBoundUtils.CallBack<NestInfo> callBack) {

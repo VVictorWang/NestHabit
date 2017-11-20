@@ -24,13 +24,10 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
     private LoginContract.Presenter mLoginPresenter;
 
-    private UserRepository mUserRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mUserRepository = new UserRepository(NestHabitDataBase.getInstance(this).userDao(),
-                NestHabitApi.getInstance());
-        mLoginPresenter = new LoginPresenter(mUserRepository, this);
+        mLoginPresenter = new LoginPresenter(this);
         super.onCreate(savedInstanceState);
     }
 

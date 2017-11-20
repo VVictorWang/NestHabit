@@ -10,7 +10,7 @@ import com.victor.nesthabit.util.AppUtils;
 
 public class Constants {
     public static final String APP_ID_WECHAT = "wx69ea2f76fd79e402";
-    public static final String BASE_URL = "http://api.bmob.cn/1/";
+    public static final String BASE_URL = "http://api.bmob.cn/";
 
     public static final String BMOB_APPLICATION_ID = "2f94f95204ed4448edf8de6eca3c21b0";
     public static final String BMOB_REST_API_KEY = "5be4389657a669a418b175615cd4ab49";

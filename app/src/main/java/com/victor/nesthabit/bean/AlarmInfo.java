@@ -1,9 +1,7 @@
 package com.victor.nesthabit.bean;
 
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
-import android.support.annotation.NonNull;
 
 import com.victor.nesthabit.db.IntergerListConverter;
 
@@ -22,38 +20,37 @@ public class AlarmInfo {
 
     /**
      * bind_to_nest :
-     * createdAt : 2017-11-19 23:03:15
-     * duration_level : 1
+     * createdAt : 2017-11-20 22:18:45
+     * hour : 7
+     * minute : 12
      * music_id :
-     * nap_level : 1
-     * objectId : f7004392c8
+     * nap : true
+     * objectId : e64ada2045
      * owner : far
      * repeat : [0,1,3,5,6]
-     * time : [7,0]
      * title : waaaaaaa
-     * updatedAt : 2017-11-19 23:03:15
-     * volume_level : 1
+     * updatedAt : 2017-11-20 22:18:45
+     * vibrate : true
+     * volume : 40
      * willing_music : true
      * willing_text : true
      */
 
     private String bind_to_nest;
     private String createdAt;
-    private int duration_level;
-    private String music_id;
-    private int nap_level;
-
-    @PrimaryKey
-    @NonNull
+    private int hour;
+    private int minute;
+    private PostFileResponse music;
+    private boolean nap;
     private String objectId;
     private String owner;
     private String title;
     private String updatedAt;
-    private int volume_level;
+    private boolean vibrate;
+    private int volume;
     private boolean willing_music;
     private boolean willing_text;
     private List<Integer> repeat;
-    private List<Integer> time;
 
     public String getBind_to_nest() {
         return bind_to_nest;
@@ -71,28 +68,33 @@ public class AlarmInfo {
         this.createdAt = createdAt;
     }
 
-    public int getDuration_level() {
-        return duration_level;
+    public int getHour() {
+        return hour;
     }
 
-    public void setDuration_level(int duration_level) {
-        this.duration_level = duration_level;
+    public void setHour(int hour) {
+        this.hour = hour;
     }
 
-    public String getMusic_id() {
-        return music_id;
+    public int getMinute() {
+        return minute;
     }
 
-    public void setMusic_id(String music_id) {
-        this.music_id = music_id;
+    public void setMinute(int minute) {
+        this.minute = minute;
     }
 
-    public int getNap_level() {
-        return nap_level;
+    public PostFileResponse getMusic() {
+        return music;
     }
 
-    public void setNap_level(int nap_level) {
-        this.nap_level = nap_level;
+
+    public boolean isNap() {
+        return nap;
+    }
+
+    public void setNap(boolean nap) {
+        this.nap = nap;
     }
 
     public String getObjectId() {
@@ -127,12 +129,24 @@ public class AlarmInfo {
         this.updatedAt = updatedAt;
     }
 
-    public int getVolume_level() {
-        return volume_level;
+    public boolean isVibrate() {
+        return vibrate;
     }
 
-    public void setVolume_level(int volume_level) {
-        this.volume_level = volume_level;
+    public void setVibrate(boolean vibrate) {
+        this.vibrate = vibrate;
+    }
+
+    public int getVolume() {
+        return volume;
+    }
+
+    public void setVolume(int volume) {
+        this.volume = volume;
+    }
+
+    public void setMusic(PostFileResponse music) {
+        this.music = music;
     }
 
     public boolean isWilling_music() {
@@ -157,13 +171,5 @@ public class AlarmInfo {
 
     public void setRepeat(List<Integer> repeat) {
         this.repeat = repeat;
-    }
-
-    public List<Integer> getTime() {
-        return time;
-    }
-
-    public void setTime(List<Integer> time) {
-        this.time = time;
     }
 }

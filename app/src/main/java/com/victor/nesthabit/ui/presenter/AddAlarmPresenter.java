@@ -249,60 +249,51 @@ public class AddAlarmPresenter extends RxPresenter implements AddAlarmContract.P
 
     @Override
     public void onAlarmAdded(String musicId) {
-        newAlarm.setMusic_id(musicId);
-        List<Integer> weeks = newAlarm.getWeeks();
-        List<Integer> repeat = new ArrayList<>();
-        for (int i : weeks) {
-            if (i == 1) {
-                repeat.add(i);
-            }
-        }
-        List<Integer> time = new ArrayList<>();
-        time.add(newAlarm.getHour());
-        time.add(newAlarm.getMinute());
-        Observable<AlarmInfo> observable;
-        if (id == null) {
-            observable = NestHabitApi.getInstance().addAlarm
-                    (newAlarm.getTitle(), time, repeat, newAlarm.getMusic_id
-                                    (), newAlarm.isSnap(),
-                            true, newAlarm.getNestid(), newAlarm
-                                    .isReceive_Voice(), newAlarm.isReceive_text(), Utils
-                                    .getHeader());
-        } else {
-            observable = NestHabitApi.getInstance().changeAlarm(id, newAlarm
-                            .getTitle(), time, repeat, newAlarm.getMusic_id
-                            (), newAlarm.isSnap(),
-                    true, newAlarm.getNestid(), newAlarm
-                            .isReceive_Voice(), newAlarm.isReceive_text(), Utils
-                            .getHeader());
-        }
-        observable.observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .doOnNext(new Action1<AlarmInfo>() {
-                    @Override
-                    public void call(AlarmInfo alarmResponse) {
-                        newAlarm.setMyid(alarmResponse.getObjectId());
-                        newAlarm.save();
-                    }
-                })
-                .subscribe(new Observer<AlarmInfo>() {
-                    @Override
-                    public void onCompleted() {
-                        mView.showMyToast("添加成功");
-                        mOnDataChanged.OnDataModified(newAlarm);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        mView.showMyToast("添加失败");
-                        Log.d(TAG, "failure: " + e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(AlarmInfo alarmResponse) {
-
-                    }
-                });
+//        newAlarm.setMusic_id(musicId);
+//        List<Integer> weeks = newAlarm.getWeeks();
+//        List<Integer> repeat = new ArrayList<>();
+//        for (int i : weeks) {
+//            if (i == 1) {
+//                repeat.add(i);
+//            }
+//        }
+//        List<Integer> time = new ArrayList<>();
+//        time.add(newAlarm.getHour());
+//        time.add(newAlarm.getMinute());
+//        Observable<AlarmInfo> observable;
+//        if (id == null) {
+//            observable = NestHabitApi.getInstance().addAlarm();
+//        } else {
+//            observable = NestHabitApi.getInstance().changeAlarm(newAlarm);
+//
+//        }
+//        observable.observeOn(AndroidSchedulers.mainThread())
+//                .subscribeOn(Schedulers.io())
+//                .doOnNext(new Action1<AlarmInfo>() {
+//                    @Override
+//                    public void call(AlarmInfo alarmResponse) {
+//                        newAlarm.setMyid(alarmResponse.getObjectId());
+//                        newAlarm.save();
+//                    }
+//                })
+//                .subscribe(new Observer<AlarmInfo>() {
+//                    @Override
+//                    public void onCompleted() {
+//                        mView.showMyToast("添加成功");
+//                        mOnDataChanged.OnDataModified(newAlarm);
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        mView.showMyToast("添加失败");
+//                        Log.d(TAG, "failure: " + e.getMessage());
+//                    }
+//
+//                    @Override
+//                    public void onNext(AlarmInfo alarmResponse) {
+//
+//                    }
+//                });
     }
 
     public interface OnDataChanged {

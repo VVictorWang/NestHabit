@@ -7,7 +7,7 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 
 import com.victor.nesthabit.api.NestHabitApi;
-import com.victor.nesthabit.bean.PostMusicResponse;
+import com.victor.nesthabit.bean.PostFileResponse;
 import com.victor.nesthabit.util.PrefsUtils;
 import com.victor.nesthabit.util.Utils;
 
@@ -53,30 +53,30 @@ public class PostMusicService extends IntentService {
 //        MultipartBody.Part part = MultipartBody.Part.createFormData("name", file.getName(),
 //                requestFile);
 
-        Observable<PostMusicResponse> observable = NestHabitApi.getInstance().postMusic(Utils
-                .getUsername(), file.getName(), requestFile, Utils.getHeader(), musicType);
-
-        observable.observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<PostMusicResponse>() {
-                    @Override
-                    public void onCompleted() {
-                    }
-
-
-                    @Override
-                    public void onError(Throwable e) {
-                    }
-
-                    @Override
-                    public void onNext(PostMusicResponse postMusicResponse) {
-                        if (sOnAlarmAdded != null) {
-                            sOnAlarmAdded.onAlarmAdded(postMusicResponse.get_id());
-                        }
-                        PrefsUtils.putValue(PostMusicService.this, postMusicResponse.get_id(),
-                                musicUri);
-                    }
-                });
+//        Observable<PostFileResponse> observable = NestHabitApi.getInstance().postMusic(Utils
+//                .getUsername(), file.getName(), requestFile, Utils.getHeader(), musicType);
+//
+//        observable.observeOn(AndroidSchedulers.mainThread())
+//                .subscribeOn(Schedulers.io())
+//                .subscribe(new Observer<PostFileResponse>() {
+//                    @Override
+//                    public void onCompleted() {
+//                    }
+//
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                    }
+//
+//                    @Override
+//                    public void onNext(PostFileResponse postMusicResponse) {
+//                        if (sOnAlarmAdded != null) {
+//                            sOnAlarmAdded.onAlarmAdded(postMusicResponse.get_id());
+//                        }
+//                        PrefsUtils.putValue(PostMusicService.this, postMusicResponse.get_id(),
+//                                musicUri);
+//                    }
+//                });
     }
 
 

@@ -74,8 +74,8 @@ public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyVi
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         holder.remindList.setLayoutManager(linearLayoutManager);
         holder.remindList.setAdapter(adpater);
-        holder.remindTime.setText(String.format("%02d:%02d", alarmInfo.getTime().get(0),
-                alarmInfo.getTime().get(1)));
+        holder.remindTime.setText(String.format("%02d:%02d", alarmInfo.getHour(),
+                alarmInfo.getMinute()));
         handleImageOn(alarmInfo, holder);
         holder.remindTitle.setText(alarmInfo.getTitle());
         holder.mSwitchButton.setOnToggleChanged(on -> {
@@ -133,14 +133,14 @@ public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyVi
     }
 
     private void handleImageOn(AlarmInfo alarmInfo, MyViewHolder holder) {
-        if (DateUtils.isNight(alarmInfo.getTime().get(0))) {
+        if (DateUtils.isNight(alarmInfo.getHour())) {
             holder.remindImage.setImageDrawable(mContext.getDrawable(R.drawable.night));
         } else
             holder.remindImage.setImageDrawable(mContext.getDrawable(R.drawable.day));
     }
 
     private void handleImageOff(AlarmInfo alarmInfo, MyViewHolder holder) {
-        if (DateUtils.isNight(alarmInfo.getTime().get(0))) {
+        if (DateUtils.isNight(alarmInfo.getHour())) {
             holder.remindImage.setImageDrawable(mContext.getDrawable(R.drawable.night_19));
         } else
             holder.remindImage.setImageDrawable(mContext.getDrawable(R.drawable.day_67));

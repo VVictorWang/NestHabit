@@ -333,6 +333,51 @@
                     android:textSize="16sp"
                     />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/fenge"
+                    />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/is_open_layout"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@id/amount_layout"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/isopen"
+                    android:textColor="@color/text_color"
+                    android:textSize="17dp"
+                    />
+
+
+                <com.victor.nesthabit.view.SwitchButton
+                    android:id="@+id/open_toggle"
+                    android:layout_width="40dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    app:marginHeight="15dp"
+                    app:offColor="@color/offcolor"
+                    app:onColor="@color/offcolor"
+                    app:spotColoroff="@color/spot_off"
+                    app:spotColoron="@color/name_color"
+                    app:swBorderWidth="0dp"
+                    />
+
+
             </RelativeLayout>
 
 

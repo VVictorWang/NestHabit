@@ -1,6 +1,6 @@
 package com.victor.nesthabit.api;
 
-import com.victor.nesthabit.bean.AddNestResponse;
+import com.victor.nesthabit.bean.AddResponse;
 import com.victor.nesthabit.bean.AlarmInfo;
 import com.victor.nesthabit.bean.Constants;
 import com.victor.nesthabit.bean.DakaResponse;
@@ -11,7 +11,7 @@ import com.victor.nesthabit.bean.MsgResponse;
 import com.victor.nesthabit.bean.MusicInfo;
 import com.victor.nesthabit.bean.NestInfo;
 import com.victor.nesthabit.bean.NestList;
-import com.victor.nesthabit.bean.PostMusicResponse;
+import com.victor.nesthabit.bean.PostFileResponse;
 import com.victor.nesthabit.bean.RegisterResponse;
 import com.victor.nesthabit.bean.SendMessageResponse;
 import com.victor.nesthabit.bean.UserInfo;
@@ -39,33 +39,32 @@ import rx.Observable;
 public interface NestHabitApiService {
 
     //user api
-    @POST("users")
+    @POST("1/users")
     Observable<Response<RegisterResponse>> register(@Body RequestBody registerBody);
 
-    @GET("login")
-    Observable<Response<UserInfo>> login(@Query("username") String username, @Query("password") String
+    @GET("1/login")
+    Observable<Response<UserInfo>> login(@Query("username") String username, @Query("password")
+            String
             password);
 
-    @PUT("users/{objectId}")
+    @PUT("1/users/{objectId}")
     Observable<UserInfo> editUserInfo(@Path("objectId") String objectId, @Header
             ("X-Bmob-Session-Token") String header, @Body RequestBody body);
 
 
-    @DELETE("user/{username}/session")
+    @DELETE("1/user/{username}/session")
     Observable<MsgResponse> logout(@Path("username") String username, @Header
             (Constants.HEADER_AU) String header);
 
 
-
-
     //nest api
-    @POST("classes/nest")
-    Observable<AddNestResponse> addNest(@Body RequestBody body);
+    @POST("1/classes/nest")
+    Observable<Response<AddResponse>> addNest(@Body RequestBody body);
 
-    @DELETE("classes/nest/{objectId}")
+    @DELETE("1/classes/nest/{objectId}")
     Observable<MsgResponse> deleteNest(@Path("objectId") String objectId);
 
-    @POST("classes/nest/{objectId}")
+    @POST("1/classes/nest/{objectId}")
     Observable<NestInfo> changeNest(@Path("objectId") String objectId, @Body RequestBody body);
 
     @DELETE("nest/{id}/members/{member_username}")
@@ -81,27 +80,23 @@ public interface NestHabitApiService {
             RequestBody body, @Header(Constants.HEADER_AU) String header);
 
 
+    @POST("1/classes/alarm_clock")
+    Observable<AlarmInfo> addAlarm(@Body RequestBody body);
 
-
-    @POST("alarm_clock")
-    Observable<AlarmInfo> addAlarm(@Body RequestBody body, @Header(Constants.HEADER_AU)
-            String header);
-
-    @GET("alarm_clock/{objectId}")
+    @GET("1/classes/alarm_clock/{objectId}")
     Observable<Response<AlarmInfo>> getAlarmInfo(@Path("Id") String objectId);
 
     @DELETE("alarm_clock/{id}")
     Observable<MsgResponse> deleteAlarm(@Path("id") String id, @Header(Constants
             .HEADER_AU) String header);
 
-    @PUT("alarm_clock/{id}")
-    Observable<AlarmInfo> changeAlarm(@Path("id") String id, @Body RequestBody body,
-                                      @Header(Constants.HEADER_AU) String header);
+    @PUT("1/classes/alarm_clock/{objectId}")
+    Observable<AlarmInfo> changeAlarm(@Path("objectId") String id, @Body RequestBody body);
 
-    @GET("classes/nest")
+    @GET("1/classes/nest")
     Observable<Response<NestList>> getNestList();
 
-    @GET("classes/nest/{objectId}")
+    @GET("1/classes/nest/{objectId}")
     Observable<Response<NestInfo>> getNestInfo(@Path("objectId") String objectId);
 
     @GET("user/{username}/nest/{nest_id}/punches")
@@ -121,10 +116,9 @@ public interface NestHabitApiService {
             String name, @Part MultipartBody.Part file, @Header(Constants.HEADER_AU) String
                                            header);
 
-    @POST("user/{username}/uploaded_musics/{name}")
-    Observable<PostMusicResponse> postMusic(@Path("username") String username, @Path("name")
-            String name, @Body RequestBody file, @Header(Constants.HEADER_AU) String
-                                                    header, @Header("X-Mime-Type") String type);
+    @POST("2/file/{filename}")
+    Observable<PostFileResponse> postMusic(@Path("filename") String fileName, @Body RequestBody
+            file);
 
     @POST("chat_log")
     Observable<SendMessageResponse> sendMessage(@Body RequestBody body, @Header(Constants

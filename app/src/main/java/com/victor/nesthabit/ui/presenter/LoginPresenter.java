@@ -27,10 +27,10 @@ public class LoginPresenter extends RxPresenter implements LoginContract.Present
 
     private UserRepository mUserRepository;
 
-    public LoginPresenter(UserRepository userRepository, LoginContract.View view) {
+    public LoginPresenter(LoginContract.View view) {
         mView = view;
         mView.setPresenter(this);
-        mUserRepository = userRepository;
+        mUserRepository = UserRepository.getInstance();
     }
 
 

@@ -2,13 +2,16 @@ package com.victor.nesthabit.api;
 
 import android.util.Log;
 
+import com.victor.nesthabit.bean.AlarmInfo;
+import com.victor.nesthabit.bean.NestInfo;
+import com.victor.nesthabit.util.GetFileMimeUtil;
+import com.victor.nesthabit.util.Utils;
 import com.victor.nesthabit.util.safe.Base64Cipher;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.File;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -53,16 +56,19 @@ public class JsonRequestBody {
         return RequestBody.create(sMediaType, jsonObject.toString());
     }
 
-    public static RequestBody getAddNest(String name, String desc, int member_limit, long
-            start_time, int days, boolean isOpen) {
+    public static RequestBody getAddNest(NestInfo nestInfo) {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("name", name);
-            jsonObject.put("desc", desc);
-            jsonObject.put("members_limit", member_limit);
-            jsonObject.put("start_time", (int) start_time);
-            jsonObject.put("challenge_days", days);
-            jsonObject.put("open", isOpen);
+            jsonObject.put("name", nestInfo.getName());
+            jsonObject.put("desc", nestInfo.getDesc());
+            jsonObject.put("members_limit", nestInfo.getMembers_limit());
+            jsonObject.put("start_time", nestInfo.getStart_time());
+            jsonObject.put("challenge_days", nestInfo.getChallenge_days());
+            jsonObject.put("open", nestInfo.isOpen());
+            jsonObject.put("cover_image", "");
+            jsonObject.put("members", new JSONArray());
+            jsonObject.put("members_amount", 1);
+            jsonObject.put("owner", Utils.getUsername());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -89,27 +95,28 @@ public class JsonRequestBody {
         return RequestBody.create(sMediaType, jsonObject.toString());
     }
 
-    public static RequestBody getAlarm(String title, List<Integer> time, List<Integer> repeate, String music_id,
-                                       boolean nap, boolean shock, String bind_to_nest, boolean
-                                               willing_music, boolean willing_text) {
+    public static RequestBody getAlarm(AlarmInfo alarmInfo) {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("time", time);
-            jsonObject.put("repeat", repeate);
-            jsonObject.put("title", title);
-            jsonObject.put("music_id", music_id);
-            jsonObject.put("nap", nap);
-            jsonObject.put("shock", shock);
-            jsonObject.put("bind_to_nest", bind_to_nest);
-            jsonObject.put("willing_music", willing_music);
-            jsonObject.put("willing_text", willing_text);
+            jsonObject.put("title", alarmInfo.getTitle());
+            jsonObject.put("hour", alarmInfo.getHour());
+            jsonObject.put("minute", alarmInfo.getMinute());
+            jsonObject.put("repeat", alarmInfo.getRepeat());
+            jsonObject.put("music", alarmInfo.getMusic());
+            jsonObject.put("nap", alarmInfo.isNap());
+            jsonObject.put("volume", alarmInfo.getVolume());
+            jsonObject.put("vibrate", alarmInfo.isVibrate());
+            jsonObject.put("bind_to_nest", alarmInfo.getBind_to_nest());
+            jsonObject.put("willing_music", alarmInfo.isWilling_music());
+            jsonObject.put("willing_text", alarmInfo.isWilling_text());
+            jsonObject.put("owner", Utils.getUsername());
         } catch (Exception e) {
             e.printStackTrace();
         }
         return RequestBody.create(sMediaType, jsonObject.toString());
     }
 
-    public static RequestBody getTargetNest(String nestid,String comment,long time) {
+    public static RequestBody getTargetNest(String nestid, String comment, long time) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("target_nest", nestid);
@@ -121,7 +128,7 @@ public class JsonRequestBody {
         return RequestBody.create(sMediaType, jsonObject.toString());
     }
 
-    public static RequestBody getCommunicationItem(String value,long time, String targetnest) {
+    public static RequestBody getCommunicationItem(String value, long time, String targetnest) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("value", value);
@@ -133,4 +140,7 @@ public class JsonRequestBody {
         return RequestBody.create(sMediaType, jsonObject.toString());
     }
 
+    public static RequestBody getFile(File file) {
+        return RequestBody.create(MediaType.parse(GetFileMimeUtil.getFileMime(file)), file);
+    }
 }

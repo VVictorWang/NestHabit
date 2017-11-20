@@ -11,8 +11,6 @@ import com.victor.nesthabit.ui.contract.MainContract;
 import com.victor.nesthabit.util.NetWorkBoundUtils;
 import com.victor.nesthabit.util.Utils;
 
-import javax.inject.Inject;
-
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -28,18 +26,19 @@ public class MainPresenter extends RxPresenter implements MainContract.Presenter
     public static final String TAG = "@victor MainPresenter";
     private MainContract.View mView;
 
-    @Inject
     UserRepository mUserRepository;
 
-    @Inject
+
     NestRepository mNestRepository;
 
-    @Inject
     AlarmRepoitory mAlarmRepoitory;
 
     public MainPresenter(MainContract.View view) {
         mView = view;
         mView.setPresenter(this);
+        mUserRepository = UserRepository.getInstance();
+        mAlarmRepoitory = AlarmRepoitory.getInstance();
+        mNestRepository = NestRepository.getInstance();
     }
 
 
