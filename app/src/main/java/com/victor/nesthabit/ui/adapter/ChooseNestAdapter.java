@@ -69,7 +69,7 @@ public class ChooseNestAdapter extends RecyclerView.Adapter<ChooseNestAdapter.Li
                         tickholer = holder;
                     } else
                         tickholer = holder;
-                    tickedid = info.get_id();
+                    tickedid = info.getObjectId();
                 } else
                     holder.redborder.setVisibility(View.INVISIBLE);
             }

@@ -10,7 +10,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.victor.nesthabit.api.NestHabitApi;
-import com.victor.nesthabit.bean.AlarmResponse;
+import com.victor.nesthabit.bean.AlarmInfo;
 import com.victor.nesthabit.bean.AlarmTime;
 import com.victor.nesthabit.bean.MusicInfo;
 import com.victor.nesthabit.bean.NestInfo;
@@ -62,147 +62,147 @@ public class AddAlarmPresenter extends RxPresenter implements AddAlarmContract.P
     @Override
     public void start() {
         id = mView.getIntentId();
-        if (id == null) {
-            mView.clearText();
-            mView.setSeletedHour(DateUtils.getCurrentHour());
-            mView.setSeletedMinute(DateUtils.getCurrentMinute());
-
-        } else {
-            mView.setEditToobar();
-            String key = Utils.createAcacheKey("get_alarm_byid", id);
-            Observable<AlarmResponse> observable = NestHabitApi.getInstance().getAlarm(id, Utils
-                    .getHeader()).compose(RxUtil
-                    .<AlarmResponse>rxCacheBeanHelper(key));
-            Subscription subscription = Observable.concat(RxUtil.rxCreateDiskObservable(key,
-                    AlarmResponse.class), observable)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<AlarmResponse>() {
-                        @Override
-                        public void onCompleted() {
-
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-
-                            Log.d(TAG, "error: " + e.getMessage());
-                        }
-
-                        @Override
-                        public void onNext(AlarmResponse alarmResponse) {
-                            getInfo(alarmResponse);
-                        }
-                    });
-            addSubscribe(subscription);
-        }
-    }
-
-
-    private void getInfo(AlarmResponse alarmResponse) {
-        mView.setEditTitle(alarmResponse.title);
-        mView.setSeletedHour(Utils.getAlarmHour(alarmResponse.time));
-        mView.setSeletedMinute(Utils.getAlarmMinute(alarmResponse.time));
-        mView.setSelectedWeek(Utils.getSelectedWeeks(alarmResponse.repeat));
-        mView.setSnap(alarmResponse.nap);
-        mView.setVoice(alarmResponse.willing_music);
-        mView.setRemindText(alarmResponse.willing_text);
-        Observable<NestInfo> observable1 = NestHabitApi.getInstance().getNestInfo
-                (alarmResponse.bind_to_nest
-                        , Utils.getHeader());
-        Subscription subscription1 = observable1.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<NestInfo>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(NestInfo nestInfo) {
-                        mView.setNestname(nestInfo.name);
-                    }
-                });
-        addSubscribe(subscription1);
-        String musicUri = PrefsUtils.getValue(AppUtils.getAppContext(), alarmResponse.music_id,
-                "empty");
-        File file = new File(musicUri.substring(musicUri.indexOf('/') + 2));
-        Observable<MusicInfo> observable = NestHabitApi.getInstance().getMusicName(alarmResponse
-                .music_id, Utils.getHeader());
-        Subscription subscription = observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(new Action1<MusicInfo>() {
-                    @Override
-                    public void call(MusicInfo musicInfo) {
-                        mView.setMusic(musicInfo.getMusic_name().substring(0, musicInfo
-                                .getMusic_name().lastIndexOf('.')));
-                    }
-                })
-                .observeOn(Schedulers.newThread())
-                .subscribe(new Observer<MusicInfo>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(MusicInfo musicInfo) {
-                        if (!file.exists()) {
-                            DownloadManager.Request request = new DownloadManager.Request
-                                    (Uri.parse(musicInfo.getUrl()));
-                            Log.d(TAG, musicInfo.getUrl());
-                            request.setDestinationInExternalPublicDir("/music/", musicInfo
-                                    .getMusic_name());
-                            DownloadManager downloadManager = (DownloadManager) AppUtils
-                                    .getAppContext().getSystemService(Context
-                                            .DOWNLOAD_SERVICE);
-                            long downloadid = downloadManager.enqueue(request);
-
-                            BroadcastReceiver receiver = new BroadcastReceiver() {
-                                @Override
-                                public void onReceive(Context context, Intent intent) {
-                                    DownloadManager.Query query = new DownloadManager.Query()
-                                            .setFilterById(downloadid);
-                                    Cursor c = downloadManager.query(query);
-                                    if (c.moveToFirst()) {
-                                        int status = c.getInt(c.getColumnIndex
-                                                (DownloadManager.COLUMN_STATUS));
-                                        switch (status) {
-                                            case DownloadManager.STATUS_PAUSED:
-                                            case DownloadManager.STATUS_PENDING:
-                                            case DownloadManager.STATUS_RUNNING:
-                                                break;
-                                            case DownloadManager.STATUS_SUCCESSFUL:
-                                                String url = c.getString(c
-                                                        .getColumnIndexOrThrow
-                                                                (DownloadManager
-                                                                        .COLUMN_LOCAL_URI));
-                                                mView.setMusicUri(url);
-                                                PrefsUtils.putValue(AppUtils.getAppContext(),
-                                                        alarmResponse.music_id, url);
-                                                Log.d(TAG, "url" + url);
-                                                break;
-                                        }
-                                    }
-                                }
-                            };
-                            AppUtils.getAppContext().registerReceiver(receiver, new
-                                    IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-                        } else {
-                            mView.setMusicUri(musicUri);
-                        }
-                    }
-                });
-        addSubscribe(subscription);
+//        if (id == null) {
+//            mView.clearText();
+//            mView.setSeletedHour(DateUtils.getCurrentHour());
+//            mView.setSeletedMinute(DateUtils.getCurrentMinute());
+//
+//        } else {
+//            mView.setEditToobar();
+//            String key = Utils.createAcacheKey("get_alarm_byid", id);
+//            Observable<AlarmInfo> observable = NestHabitApi.getInstance().getAlarm(id, Utils
+//                    .getHeader()).compose(RxUtil
+//                    .<AlarmInfo>rxCacheBeanHelper(key));
+//            Subscription subscription = Observable.concat(RxUtil.rxCreateDiskObservable(key,
+//                    AlarmInfo.class), observable)
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(new Observer<AlarmInfo>() {
+//                        @Override
+//                        public void onCompleted() {
+//
+//                        }
+//
+//                        @Override
+//                        public void onError(Throwable e) {
+//
+//                            Log.d(TAG, "error: " + e.getMessage());
+//                        }
+//
+//                        @Override
+//                        public void onNext(AlarmInfo alarmResponse) {
+//                            getInfo(alarmResponse);
+//                        }
+//                    });
+//            addSubscribe(subscription);
+//        }
+//    }
+//
+//
+//    private void getInfo(AlarmInfo alarmResponse) {
+//        mView.setEditTitle(alarmResponse.title);
+//        mView.setSeletedHour(Utils.getAlarmHour(alarmResponse.time));
+//        mView.setSeletedMinute(Utils.getAlarmMinute(alarmResponse.time));
+//        mView.setSelectedWeek(Utils.getSelectedWeeks(alarmResponse.repeat));
+//        mView.setSnap(alarmResponse.nap);
+//        mView.setVoice(alarmResponse.willing_music);
+//        mView.setRemindText(alarmResponse.willing_text);
+//        Observable<NestInfo> observable1 = NestHabitApi.getInstance().getNestInfo
+//                (alarmResponse.bind_to_nest
+//                        , Utils.getHeader());
+//        Subscription subscription1 = observable1.subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Observer<NestInfo>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(NestInfo nestInfo) {
+//                        mView.setNestname(nestInfo.name);
+//                    }
+//                });
+//        addSubscribe(subscription1);
+//        String musicUri = PrefsUtils.getValue(AppUtils.getAppContext(), alarmResponse.music_id,
+//                "empty");
+//        File file = new File(musicUri.substring(musicUri.indexOf('/') + 2));
+//        Observable<MusicInfo> observable = NestHabitApi.getInstance().getMusicName(alarmResponse
+//                .music_id, Utils.getHeader());
+//        Subscription subscription = observable.subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .doOnNext(new Action1<MusicInfo>() {
+//                    @Override
+//                    public void call(MusicInfo musicInfo) {
+//                        mView.setMusic(musicInfo.getMusic_name().substring(0, musicInfo
+//                                .getMusic_name().lastIndexOf('.')));
+//                    }
+//                })
+//                .observeOn(Schedulers.newThread())
+//                .subscribe(new Observer<MusicInfo>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(MusicInfo musicInfo) {
+//                        if (!file.exists()) {
+//                            DownloadManager.Request request = new DownloadManager.Request
+//                                    (Uri.parse(musicInfo.getUrl()));
+//                            Log.d(TAG, musicInfo.getUrl());
+//                            request.setDestinationInExternalPublicDir("/music/", musicInfo
+//                                    .getMusic_name());
+//                            DownloadManager downloadManager = (DownloadManager) AppUtils
+//                                    .getAppContext().getSystemService(Context
+//                                            .DOWNLOAD_SERVICE);
+//                            long downloadid = downloadManager.enqueue(request);
+//
+//                            BroadcastReceiver receiver = new BroadcastReceiver() {
+//                                @Override
+//                                public void onReceive(Context context, Intent intent) {
+//                                    DownloadManager.Query query = new DownloadManager.Query()
+//                                            .setFilterById(downloadid);
+//                                    Cursor c = downloadManager.query(query);
+//                                    if (c.moveToFirst()) {
+//                                        int status = c.getInt(c.getColumnIndex
+//                                                (DownloadManager.COLUMN_STATUS));
+//                                        switch (status) {
+//                                            case DownloadManager.STATUS_PAUSED:
+//                                            case DownloadManager.STATUS_PENDING:
+//                                            case DownloadManager.STATUS_RUNNING:
+//                                                break;
+//                                            case DownloadManager.STATUS_SUCCESSFUL:
+//                                                String url = c.getString(c
+//                                                        .getColumnIndexOrThrow
+//                                                                (DownloadManager
+//                                                                        .COLUMN_LOCAL_URI));
+//                                                mView.setMusicUri(url);
+//                                                PrefsUtils.putValue(AppUtils.getAppContext(),
+//                                                        alarmResponse.music_id, url);
+//                                                Log.d(TAG, "url" + url);
+//                                                break;
+//                                        }
+//                                    }
+//                                }
+//                            };
+//                            AppUtils.getAppContext().registerReceiver(receiver, new
+//                                    IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+//                        } else {
+//                            mView.setMusicUri(musicUri);
+//                        }
+//                    }
+//                });
+//        addSubscribe(subscription);
     }
 
     @Override
@@ -260,7 +260,7 @@ public class AddAlarmPresenter extends RxPresenter implements AddAlarmContract.P
         List<Integer> time = new ArrayList<>();
         time.add(newAlarm.getHour());
         time.add(newAlarm.getMinute());
-        Observable<AlarmResponse> observable;
+        Observable<AlarmInfo> observable;
         if (id == null) {
             observable = NestHabitApi.getInstance().addAlarm
                     (newAlarm.getTitle(), time, repeat, newAlarm.getMusic_id
@@ -278,14 +278,14 @@ public class AddAlarmPresenter extends RxPresenter implements AddAlarmContract.P
         }
         observable.observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
-                .doOnNext(new Action1<AlarmResponse>() {
+                .doOnNext(new Action1<AlarmInfo>() {
                     @Override
-                    public void call(AlarmResponse alarmResponse) {
-                        newAlarm.setMyid(alarmResponse.get_id());
+                    public void call(AlarmInfo alarmResponse) {
+                        newAlarm.setMyid(alarmResponse.getObjectId());
                         newAlarm.save();
                     }
                 })
-                .subscribe(new Observer<AlarmResponse>() {
+                .subscribe(new Observer<AlarmInfo>() {
                     @Override
                     public void onCompleted() {
                         mView.showMyToast("添加成功");
@@ -299,7 +299,7 @@ public class AddAlarmPresenter extends RxPresenter implements AddAlarmContract.P
                     }
 
                     @Override
-                    public void onNext(AlarmResponse alarmResponse) {
+                    public void onNext(AlarmInfo alarmResponse) {
 
                     }
                 });

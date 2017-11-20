@@ -51,9 +51,9 @@ public class MemberListPresenter extends RxPresenter implements MemberListContra
 
                         @Override
                         public void onNext(NestInfo nestInfo) {
-                            for (UserInfo userInfo : nestInfo.members) {
-                                mView.addItem(userInfo);
-                            }
+//                            for (UserInfo userInfo : nestInfo.members) {
+//                                mView.addItem(userInfo);
+//                            }
                         }
                     });
             addSubscribe(subscription);

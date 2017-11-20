@@ -37,49 +37,49 @@ public class NestGroupDetailPresenter extends RxPresenter implements NestGroupDe
     public void start() {
         String nestId = mView.getNestid();
         Log.d(TAG, "nestId" + nestId);
-        if (nestId != null) {
-            String key = Utils.createAcacheKey("get_nestinfo", nestId);
-            Observable<NestInfo> observable = NestHabitApi.getInstance().getNestInfo(nestId, Utils
-                    .getHeader())
-                    .compose(RxUtil.<NestInfo>rxCacheBeanHelper(key));
-            Subscription subscription = concat(RxUtil.rxCreateDiskObservable(key,
-                    NestInfo.class), observable)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<NestInfo>() {
-                        @Override
-                        public void onCompleted() {
-
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-
-                        }
-
-                        @Override
-                        public void onNext(NestInfo nestInfo) {
-                            mView.setTitle(nestInfo.name);
-                            mView.setDes(nestInfo.desc);
-                            mView.setStartTime(DateUtils.format(nestInfo.start_time, "yyyy-MM-dd"));
-                            mView.setChalengeDay(nestInfo.challenge_days);
-                            mView.setAmount(nestInfo.members_amount);
-                            if (mView.isOwner()) {
-                                if (nestInfo.members_limit == 0) {
-                                    mView.setLimited(false);
-                                    mView.setAmountEnabled(false);
-                                    mView.setMaxAmount(0);
-                                } else {
-                                    mView.setLimited(true);
-                                    mView.setAmountEnabled(true);
-                                    mView.setMaxAmount(nestInfo.members_limit);
-                                }
-                                mView.setOpen(nestInfo.open);
-                            } else
-                                mView.setMaxAmount(nestInfo.members_limit);
-                        }
-                    });
-            addSubscribe(subscription);
-        }
+//        if (nestId != null) {
+//            String key = Utils.createAcacheKey("get_nestinfo", nestId);
+//            Observable<NestInfo> observable = NestHabitApi.getInstance().getNestInfo(nestId, Utils
+//                    .getHeader())
+//                    .compose(RxUtil.<NestInfo>rxCacheBeanHelper(key));
+//            Subscription subscription = concat(RxUtil.rxCreateDiskObservable(key,
+//                    NestInfo.class), observable)
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(new Observer<NestInfo>() {
+//                        @Override
+//                        public void onCompleted() {
+//
+//                        }
+//
+//                        @Override
+//                        public void onError(Throwable e) {
+//
+//                        }
+//
+//                        @Override
+//                        public void onNext(NestInfo nestInfo) {
+//                            mView.setTitle(nestInfo.name);
+//                            mView.setDes(nestInfo.desc);
+//                            mView.setStartTime(DateUtils.format(nestInfo.start_time, "yyyy-MM-dd"));
+//                            mView.setChalengeDay(nestInfo.challenge_days);
+//                            mView.setAmount(nestInfo.members_amount);
+//                            if (mView.isOwner()) {
+//                                if (nestInfo.members_limit == 0) {
+//                                    mView.setLimited(false);
+//                                    mView.setAmountEnabled(false);
+//                                    mView.setMaxAmount(0);
+//                                } else {
+//                                    mView.setLimited(true);
+//                                    mView.setAmountEnabled(true);
+//                                    mView.setMaxAmount(nestInfo.members_limit);
+//                                }
+//                                mView.setOpen(nestInfo.open);
+//                            } else
+//                                mView.setMaxAmount(nestInfo.members_limit);
+//                        }
+//                    });
+//            addSubscribe(subscription);
+//        }
     }
 
 

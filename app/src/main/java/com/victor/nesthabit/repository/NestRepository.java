@@ -3,7 +3,6 @@ package com.victor.nesthabit.repository;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.victor.nesthabit.api.ApiResponse;
 import com.victor.nesthabit.api.NestHabitApi;
 import com.victor.nesthabit.bean.NestInfo;
 import com.victor.nesthabit.db.NestDao;
@@ -11,6 +10,7 @@ import com.victor.nesthabit.util.NetWorkBoundUtils;
 
 import javax.inject.Inject;
 
+import retrofit2.Response;
 import rx.Observable;
 
 /**
@@ -31,8 +31,8 @@ public class NestRepository {
         mNestDao = nestDao;
     }
 
-    public Observable<NestInfo> loadNestInfo(String objectId) {
-        return new NetWorkBoundUtils<NestInfo, NestInfo>() {
+    public void loadNestInfo(String objectId, NetWorkBoundUtils.CallBack<NestInfo> callBack) {
+        new NetWorkBoundUtils<NestInfo, NestInfo>(callBack) {
             @Override
             protected void saveCallResult(@NonNull NestInfo item) {
                 mNestDao.insert(item);
@@ -45,15 +45,15 @@ public class NestRepository {
 
             @NonNull
             @Override
-            protected NestInfo loadFromDb() {
-                return mNestDao.loadNestInfo(objectId);
+            protected Observable<NestInfo> loadFromDb() {
+                return Observable.just(mNestDao.loadNestInfo(objectId));
             }
 
             @NonNull
             @Override
-            protected Observable<ApiResponse<NestInfo>> createCall() {
+            protected Observable<Response<NestInfo>> createCall() {
                 return mNestHabitApi.getNestInfo(objectId);
             }
-        }.getResult();
+        };
     }
 }

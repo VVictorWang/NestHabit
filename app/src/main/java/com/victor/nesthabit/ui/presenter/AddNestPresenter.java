@@ -71,47 +71,47 @@ public class AddNestPresenter extends RxPresenter implements AddNestContract.Pre
             } else
                 nestInfo.setMembers_limit(0);
 
-            Observable<AddNestResponse> responseObservable = NestHabitApi.getInstance()
-                    .addNest(nestInfo.getName(), nestInfo.getDesc(), nestInfo.getMembers_limit(),
-                            nestInfo.getStart_time(), nestInfo
-                                    .getChallenge_days(),
-                            false, PrefsUtils.getValue(AppUtils.getAppContext(), Constants
-                                    .AUTHORIZATION, "null"));
-            Subscription subscription = responseObservable.observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.io())
-                    .subscribe(new Observer<AddNestResponse>() {
-                        @Override
-                        public void onCompleted() {
-                            mView.showMyToast("添加成功");
-                            if (sOnCageDataChanged != null) {
-                                sOnCageDataChanged.OnDataAdded(DataCloneUtil.cloneMynestToNest
-                                        (nestInfo));
-                                String key = Utils.createAcacheKey("get_nest_list", "nestid");
-                                Observable<JoinedNests> responseObservable = NestHabitApi.getInstance
-                                        ().getNestList(Utils.getUsername(), Utils
-                                        .getHeader()).compose(RxUtil
-                                        .<JoinedNests>rxCacheListHelper(key));
-                                responseObservable.observeOn(AndroidSchedulers.mainThread())
-                                        .subscribeOn(Schedulers.io())
-                                        .subscribe();
-                            }
-                            mView.finishActivity();
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            mView.showMyToast("添加失败");
-                            mView.finishActivity();
-                        }
-
-                        @Override
-                        public void onNext(AddNestResponse addNestResponse) {
-                            nestInfo.setCreated_time(addNestResponse.getCreated_time());
-                            nestInfo.setOwner(addNestResponse.getOwner());
-                            nestInfo.setMembers_amount(addNestResponse.getMembers_amount());
-                        }
-                    });
-            addSubscribe(subscription);
+//            Observable<AddNestResponse> responseObservable = NestHabitApi.getInstance()
+//                    .addNest(nestInfo.getName(), nestInfo.getDesc(), nestInfo.getMembers_limit(),
+//                            nestInfo.getStart_time(), nestInfo
+//                                    .getChallenge_days(),
+//                            false, PrefsUtils.getValue(AppUtils.getAppContext(), Constants
+//                                    .AUTHORIZATION, "null"));
+//            Subscription subscription = responseObservable.observeOn(AndroidSchedulers.mainThread())
+//                    .subscribeOn(Schedulers.io())
+//                    .subscribe(new Observer<AddNestResponse>() {
+//                        @Override
+//                        public void onCompleted() {
+//                            mView.showMyToast("添加成功");
+//                            if (sOnCageDataChanged != null) {
+//                                sOnCageDataChanged.OnDataAdded(DataCloneUtil.cloneMynestToNest
+//                                        (nestInfo));
+//                                String key = Utils.createAcacheKey("get_nest_list", "nestid");
+//                                Observable<JoinedNests> responseObservable = NestHabitApi.getInstance
+//                                        ().getNestList(Utils.getUsername(), Utils
+//                                        .getHeader()).compose(RxUtil
+//                                        .<JoinedNests>rxCacheListHelper(key));
+//                                responseObservable.observeOn(AndroidSchedulers.mainThread())
+//                                        .subscribeOn(Schedulers.io())
+//                                        .subscribe();
+//                            }
+//                            mView.finishActivity();
+//                        }
+//
+//                        @Override
+//                        public void onError(Throwable e) {
+//                            mView.showMyToast("添加失败");
+//                            mView.finishActivity();
+//                        }
+//
+//                        @Override
+//                        public void onNext(AddNestResponse addNestResponse) {
+//                            nestInfo.setCreated_time(addNestResponse.getCreated_time());
+//                            nestInfo.setOwner(addNestResponse.getOwner());
+//                            nestInfo.setMembers_amount(addNestResponse.getMembers_amount());
+//                        }
+//                    });
+//            addSubscribe(subscription);
 //            Log.d(TAG, addNestResponseResponse.code() + " code");
 //            if (addNestResponseResponse.code() == 200) {
 //                nestInfo.setMyid(addNestResponseResponse.body().get_id());

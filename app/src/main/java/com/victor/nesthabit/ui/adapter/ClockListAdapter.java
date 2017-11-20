@@ -15,26 +15,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.api.NestHabitApi;
-import com.victor.nesthabit.bean.AlarmTime;
-import com.victor.nesthabit.bean.MsgResponse;
+import com.victor.nesthabit.bean.AlarmInfo;
 import com.victor.nesthabit.ui.activity.AddAlarmActivity;
-import com.victor.nesthabit.ui.presenter.AddAlarmPresenter;
-import com.victor.nesthabit.ui.presenter.ClockListPresenter;
 import com.victor.nesthabit.util.ActivityManager;
 import com.victor.nesthabit.util.DateUtils;
-import com.victor.nesthabit.util.Utils;
 import com.victor.nesthabit.view.SwitchButton;
-
-import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import rx.Observable;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by victor on 7/17/17.
@@ -42,58 +30,27 @@ import rx.schedulers.Schedulers;
  * blog: www.victorwang.science                                            #
  */
 
-public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyViewHolder>
-        implements AddAlarmPresenter.OnDataChanged, ClockListPresenter.onAlarmAdded {
+public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyViewHolder> {
     private static final String[] WEEK_DAYS = new String[]{"周日", "周一", "周二", "周三", "周四", "周五",
             "周六"};
     private Context mContext;
-    private List<AlarmTime> mAlarmTimes = new ArrayList<>();
+    private List<AlarmInfo> mAlarmInfos = new ArrayList<>();
     private int white;
     private int white_transparent;
 
-    public ClockListAdapter(Context context, List<AlarmTime> alarmTimes) {
+    public ClockListAdapter(Context context) {
         mContext = context;
         white = mContext.getResources().getColor(R.color.white);
         white_transparent = mContext.getResources().getColor(R.color.while_transpante60);
-        mAlarmTimes = alarmTimes;
-        AddAlarmPresenter.setOnDataChanged(this);
-        ClockListPresenter.setOnAlarmAdded(this);
+        mAlarmInfos = new ArrayList<>();
     }
 
-    @Override
-    public void OnDataAdded(AlarmTime alarmTime) {
-        mAlarmTimes.add(alarmTime);
+
+    public void addAlarm(AlarmInfo alarmInfo) {
+        mAlarmInfos.add(alarmInfo);
         notifyDataSetChanged();
     }
 
-    @Override
-    public void OnDataModified(AlarmTime alarmtime) {
-        for (int i = 0; i < mAlarmTimes.size(); i++) {
-            if (mAlarmTimes.get(i).getMyid().equals(alarmtime.getMyid())) {
-                mAlarmTimes.set(i, alarmtime);
-            }
-        }
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public void AlarmAdded(AlarmTime alarmTime) {
-        mAlarmTimes.add(alarmTime);
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public void AlarmAddAll(List<AlarmTime> alarmTimes) {
-        mAlarmTimes.clear();
-        mAlarmTimes.addAll(alarmTimes);
-        notifyDataSetChanged();
-    }
-
-    public void setAlarmTimes(List<AlarmTime> alarmTimes) {
-        mAlarmTimes.clear();
-        mAlarmTimes.addAll(alarmTimes);
-        notifyDataSetChanged();
-    }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -104,9 +61,9 @@ public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyVi
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        AlarmTime alarmTime = mAlarmTimes.get(position);
+        AlarmInfo alarmInfo = mAlarmInfos.get(position);
         List<String> weekdays = new ArrayList<>();
-        List<Integer> weeks = alarmTime.getWeeks();
+        List<Integer> weeks = alarmInfo.getRepeat();
         for (int i = 0; i < weeks.size(); i++) {
             if (weeks.get(i) == 1) {
                 weekdays.add(WEEK_DAYS[i]);
@@ -117,91 +74,73 @@ public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyVi
         linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         holder.remindList.setLayoutManager(linearLayoutManager);
         holder.remindList.setAdapter(adpater);
-        holder.remindTime.setText(String.format("%02d:%02d", alarmTime.getHour(), alarmTime
-                .getMinute()));
-        handleImageOn(alarmTime, holder);
-        holder.remindTitle.setText(alarmTime.getTitle());
+        holder.remindTime.setText(String.format("%02d:%02d", alarmInfo.getTime().get(0),
+                alarmInfo.getTime().get(1)));
+        handleImageOn(alarmInfo, holder);
+        holder.remindTitle.setText(alarmInfo.getTitle());
+        holder.mSwitchButton.setOnToggleChanged(on -> {
+            if (on) {
+                holder.mCardView.setBackgroundColor(white);
+                handleImageOn(alarmInfo, holder);
 
-        holder.mSwitchButton.setOnToggleChanged(new SwitchButton.OnToggleChanged() {
-            @Override
-            public void onToggle(boolean on) {
-                if (on) {
-                    holder.mCardView.setBackgroundColor(white);
-                    handleImageOn(alarmTime, holder);
+            } else {
+                holder.mCardView.setBackgroundColor(white_transparent);
+                handleImageOff(alarmInfo, holder);
 
-                } else {
-                    holder.mCardView.setBackgroundColor(white_transparent);
-                    handleImageOff(alarmTime, holder);
-
-                }
             }
         });
-        holder.mCardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, AddAlarmActivity.class);
-                intent.putExtra("id", alarmTime.getMyid());
-                ActivityManager.startActivity((Activity) mContext, intent);
-            }
+        holder.mCardView.setOnClickListener(v -> {
+            Intent intent = new Intent(mContext, AddAlarmActivity.class);
+            intent.putExtra("id", alarmInfo.getObjectId());
+            ActivityManager.startActivity((Activity) mContext, intent);
         });
-        holder.mCardView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                View view = LayoutInflater.from(mContext).inflate(R.layout.delete_dialog, null);
-                TextView textView = (TextView) view.findViewById(R.id.delete_text);
-                Button cancel = (Button) view.findViewById(R.id.cancel);
-                Button ensure = (Button) view.findViewById(R.id.delete);
-                textView.setText(mContext.getString(R.string.delete_remind));
-                AlertDialog dialog = new AlertDialog.Builder(mContext).setView(view).create();
-                dialog.show();
-                ensure.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        DataSupport.delete(AlarmTime.class, alarmTime.getId());
-                        Observable<MsgResponse> observable = NestHabitApi.getInstance().deleteAlarm
-                                (alarmTime.getMyid(), Utils.getHeader());
-                        observable.observeOn(AndroidSchedulers.mainThread())
-                                .subscribeOn(Schedulers.io())
-                                .subscribe(new Observer<MsgResponse>() {
-                                    @Override
-                                    public void onCompleted() {
-                                        mAlarmTimes.remove(alarmTime);
-                                        notifyDataSetChanged();
-                                        dialog.dismiss();
-                                    }
-
-                                    @Override
-                                    public void onError(Throwable e) {
-
-                                    }
-
-                                    @Override
-                                    public void onNext(MsgResponse msgResponse) {
-
-                                    }
-                                });
-                    }
-                });
-                cancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-                return false;
-            }
+        holder.mCardView.setOnLongClickListener(v -> {
+            View view = LayoutInflater.from(mContext).inflate(R.layout.delete_dialog, null);
+            TextView textView = (TextView) view.findViewById(R.id.delete_text);
+            Button cancel = (Button) view.findViewById(R.id.cancel);
+            Button ensure = (Button) view.findViewById(R.id.delete);
+            textView.setText(mContext.getString(R.string.delete_remind));
+            AlertDialog dialog = new AlertDialog.Builder(mContext).setView(view).create();
+            dialog.show();
+            ensure.setOnClickListener(v12 -> {
+//                        Observable<MsgResponse> observable = NestHabitApi.getInstance()
+// .deleteAlarm
+//                                (alarmTime.getMyid(), Utils.getHeader());
+//                        observable.observeOn(AndroidSchedulers.mainThread())
+//                                .subscribeOn(Schedulers.io())
+//                                .subscribe(new Observer<MsgResponse>() {
+//                                    @Override
+//                                    public void onCompleted() {
+//                                        mAlarmInfos.remove(alarmTime);
+//                                        notifyDataSetChanged();
+//                                        dialog.dismiss();
+//                                    }
+//
+//                                    @Override
+//                                    public void onError(Throwable e) {
+//
+//                                    }
+//
+//                                    @Override
+//                                    public void onNext(MsgResponse msgResponse) {
+//
+//                                    }
+//                                });
+            });
+            cancel.setOnClickListener(v1 -> dialog.dismiss());
+            return false;
         });
     }
 
-    private void handleImageOn(AlarmTime alarmTime, MyViewHolder holder) {
-        if (DateUtils.isNight(alarmTime.getHour())) {
+    private void handleImageOn(AlarmInfo alarmInfo, MyViewHolder holder) {
+        if (DateUtils.isNight(alarmInfo.getTime().get(0))) {
             holder.remindImage.setImageDrawable(mContext.getDrawable(R.drawable.night));
         } else
             holder.remindImage.setImageDrawable(mContext.getDrawable(R.drawable.day));
     }
 
-    private void handleImageOff(AlarmTime alarmTime, MyViewHolder holder) {
-        if (DateUtils.isNight(alarmTime.getHour())) {
+    private void handleImageOff(AlarmInfo alarmInfo, MyViewHolder holder) {
+        if (DateUtils.isNight(alarmInfo.getTime().get(0))) {
             holder.remindImage.setImageDrawable(mContext.getDrawable(R.drawable.night_19));
         } else
             holder.remindImage.setImageDrawable(mContext.getDrawable(R.drawable.day_67));
@@ -209,7 +148,7 @@ public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyVi
 
     @Override
     public int getItemCount() {
-        return mAlarmTimes.size();
+        return mAlarmInfos.size();
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {

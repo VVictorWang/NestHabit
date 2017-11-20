@@ -2,12 +2,13 @@ package com.victor.nesthabit.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.RelativeLayout;
 
 import com.victor.nesthabit.R;
+import com.victor.nesthabit.api.NestHabitApi;
 import com.victor.nesthabit.bean.RegisterResponse;
+import com.victor.nesthabit.db.NestHabitDataBase;
 import com.victor.nesthabit.repository.ReposityCallback;
+import com.victor.nesthabit.repository.UserRepository;
 import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.ui.contract.LoginContract;
@@ -16,14 +17,20 @@ import com.victor.nesthabit.util.ActivityManager;
 
 public class LoginActivity extends BaseActivity implements LoginContract.View {
 
+
     public static final String TAG = "@victor LoginActivity";
     private android.widget.RelativeLayout loginqq;
     private android.widget.RelativeLayout loginweichat;
+
     private LoginContract.Presenter mLoginPresenter;
+
+    private UserRepository mUserRepository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mLoginPresenter = new LoginPresenter(this);
+        mUserRepository = new UserRepository(NestHabitDataBase.getInstance(this).userDao(),
+                NestHabitApi.getInstance());
+        mLoginPresenter = new LoginPresenter(mUserRepository, this);
         super.onCreate(savedInstanceState);
     }
 
@@ -40,7 +47,7 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
     @Override
     protected void initEvent() {
-        loginqq.setOnClickListener(v -> mLoginPresenter.login("victor", "12345"));
+        loginqq.setOnClickListener(v -> mLoginPresenter.login("example", "1234"));
         loginweichat.setOnClickListener(v -> mLoginPresenter.register("example", "1234",
                 new ReposityCallback<RegisterResponse>() {
                     @Override
@@ -82,4 +89,5 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
     protected BasePresenter getPresnter() {
         return mLoginPresenter;
     }
+
 }

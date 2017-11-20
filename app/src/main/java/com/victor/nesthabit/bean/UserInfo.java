@@ -5,7 +5,7 @@ import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 import android.support.annotation.NonNull;
 
-import com.victor.nesthabit.db.MyTypeConverter;
+import com.victor.nesthabit.db.StringListConverter;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ import java.util.List;
  */
 
 @Entity(tableName = "users")
-@TypeConverters(MyTypeConverter.class)
+@TypeConverters(StringListConverter.class)
 public class UserInfo {
 
     /**

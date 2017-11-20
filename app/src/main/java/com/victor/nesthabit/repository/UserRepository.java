@@ -3,16 +3,17 @@ package com.victor.nesthabit.repository;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.victor.nesthabit.api.ApiResponse;
 import com.victor.nesthabit.api.NestHabitApi;
 import com.victor.nesthabit.bean.RegisterResponse;
 import com.victor.nesthabit.bean.UserInfo;
 import com.victor.nesthabit.db.UserDao;
 import com.victor.nesthabit.util.NetWorkBoundUtils;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
+import java.io.IOException;
 
+import javax.inject.Inject;
+
+import retrofit2.Response;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -25,7 +26,6 @@ import rx.schedulers.Schedulers;
  * @email chengyiwang @hustunique.com
  * @blog www.victorwan.cn #
  */
-@Singleton
 public class UserRepository {
 
     private final UserDao mUserDao;
@@ -57,9 +57,13 @@ public class UserRepository {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
                     if (response.isSuccessful()) {
-                        callback.callSuccess(response.body);
+                        callback.callSuccess(response.body());
                     } else {
-                        callback.callFailure(response.errorMessage);
+                        try {
+                            callback.callFailure(response.errorBody().string());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
     }
@@ -71,8 +75,8 @@ public class UserRepository {
      * @param password the password
      * @return the observable
      */
-    public Observable<UserInfo> login(String name, String password) {
-        return new NetWorkBoundUtils<UserInfo, UserInfo>() {
+    public void login(String name, String password, NetWorkBoundUtils.CallBack<UserInfo> callBack) {
+        new NetWorkBoundUtils<UserInfo, UserInfo>(callBack) {
             @Override
             protected void saveCallResult(@NonNull UserInfo item) {
                 mUserDao.insert(item);
@@ -85,16 +89,16 @@ public class UserRepository {
 
             @NonNull
             @Override
-            protected UserInfo loadFromDb() {
-                return mUserDao.loadUser(name);
+            protected Observable<UserInfo> loadFromDb() {
+                return Observable.just(mUserDao.loadUser(name));
             }
 
             @NonNull
             @Override
-            protected Observable<ApiResponse<UserInfo>> createCall() {
+            protected Observable<Response<UserInfo>> createCall() {
                 return mNestHabitApi.login(name, password);
             }
-        }.getResult();
+        };
     }
 
 }

@@ -1,5 +1,6 @@
 package com.victor.nesthabit.ui.contract;
 
+import com.victor.nesthabit.bean.AlarmInfo;
 import com.victor.nesthabit.bean.AlarmTime;
 import com.victor.nesthabit.bean.NestInfo;
 import com.victor.nesthabit.ui.base.BasePresenter;
@@ -23,7 +24,7 @@ public interface MainContract {
 
         void saveUserId(long userid);
 
-        void addAlarmTime(AlarmTime alarmTime);
+        void addAlarmTime(AlarmInfo alarmInfo);
 
         void addNestInfo(NestInfo nestInfo);
 

@@ -45,89 +45,89 @@ public class RankPresnter extends RxPresenter implements RankContract.Presenter 
     @Override
     public void start() {
         String nestId = mView.getNestId();
-        if (nestId != null) {
-            Log.d(TAG, nestId);
-            String key = Utils.createAcacheKey("get_nestinfo", nestId);
-            Observable<NestInfo> observable = NestHabitApi.getInstance().getNestInfo(nestId, Utils
-                    .getHeader())
-                    .compose(RxUtil.<NestInfo>rxCacheListHelper(key));
-            Subscription subscription = Observable.concat(RxUtil.rxCreateDiskObservable(key,
-                    NestInfo.class), observable)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .map(new Func1<NestInfo, List<UserInfo>>() {
-                        @Override
-                        public List<UserInfo> call(NestInfo nestInfo) {
-                            Log.d(TAG, "mapping");
-                            return nestInfo.members;
-                        }
-                    })
-                    .map(new Func1<List<UserInfo>, Void>() {
-                        @Override
-                        public Void call(List<UserInfo> userInfos) {
-                            Observable.from(userInfos).subscribeOn(Schedulers.io())
-                                    .observeOn(AndroidSchedulers.mainThread())
-                                    .map(new Func1<UserInfo, String>() {
-                                        @Override
-                                        public String call(UserInfo userInfo) {
-
-
-                                            Log.d(TAG, "members: " + userInfo.getUsername());
-                                            return userInfo.getUsername();
-                                        }
-                                    })
-                                    .doOnNext(new Action1<String>() {
-                                        @Override
-                                        public void call(String s) {
-                                            String datekey = Utils.createAcacheKey
-                                                    ("get_nest_days", nestId);
-                                            Observable<DateOfNest> ofNestObservable = NestHabitApi
-                                                    .getInstance().getDateOfNest(s, nestId, Utils
-                                                            .getHeader()).compose(RxUtil
-                                                            .<DateOfNest>rxCacheListHelper
-                                                                    (datekey));
-
-                                            RankItem rankItem = new RankItem();
-                                            rankItem.setName(s);
-                                            Subscription subscription1 = Observable.concat(RxUtil
-                                                    .rxCreateDiskObservable(datekey,
-                                                            DateOfNest.class), ofNestObservable)
-                                                    .observeOn(AndroidSchedulers.mainThread())
-                                                    .subscribe(new Observer<DateOfNest>() {
-                                                        @Override
-                                                        public void onCompleted() {
-                                                            mView.addItem(rankItem);
-                                                        }
-
-                                                        @Override
-                                                        public void onError(Throwable e) {
-
-                                                        }
-
-                                                        @Override
-                                                        public void onNext(DateOfNest dateOfNest) {
-                                                            int type = mView.getType();
-                                                            if (type == RankTotalFragment
-                                                                    .TOTAL_TYPE) {
-                                                                rankItem.setDays(dateOfNest.days
-                                                                        .size());
-                                                            } else
-                                                                rankItem.setDays(DateUtils
-                                                                        .getConstantDays
-                                                                                (DateUtils
-                                                                                        .formatStrings(Utils.getDays(dateOfNest))));
-                                                        }
-                                                    });
-                                            addSubscribe(subscription1);
-                                        }
-                                    })
-                                    .subscribe();
-                            return null;
-                        }
-                    })
-                    .subscribe();
-            addSubscribe(subscription);
-        }
+//        if (nestId != null) {
+//            Log.d(TAG, nestId);
+//            String key = Utils.createAcacheKey("get_nestinfo", nestId);
+//            Observable<NestInfo> observable = NestHabitApi.getInstance().getNestInfo(nestId, Utils
+//                    .getHeader())
+//                    .compose(RxUtil.<NestInfo>rxCacheListHelper(key));
+//            Subscription subscription = Observable.concat(RxUtil.rxCreateDiskObservable(key,
+//                    NestInfo.class), observable)
+//                    .subscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .map(new Func1<NestInfo, List<UserInfo>>() {
+//                        @Override
+//                        public List<UserInfo> call(NestInfo nestInfo) {
+//                            Log.d(TAG, "mapping");
+//                            return nestInfo.members;
+//                        }
+//                    })
+//                    .map(new Func1<List<UserInfo>, Void>() {
+//                        @Override
+//                        public Void call(List<UserInfo> userInfos) {
+//                            Observable.from(userInfos).subscribeOn(Schedulers.io())
+//                                    .observeOn(AndroidSchedulers.mainThread())
+//                                    .map(new Func1<UserInfo, String>() {
+//                                        @Override
+//                                        public String call(UserInfo userInfo) {
+//
+//
+//                                            Log.d(TAG, "members: " + userInfo.getUsername());
+//                                            return userInfo.getUsername();
+//                                        }
+//                                    })
+//                                    .doOnNext(new Action1<String>() {
+//                                        @Override
+//                                        public void call(String s) {
+//                                            String datekey = Utils.createAcacheKey
+//                                                    ("get_nest_days", nestId);
+//                                            Observable<DateOfNest> ofNestObservable = NestHabitApi
+//                                                    .getInstance().getDateOfNest(s, nestId, Utils
+//                                                            .getHeader()).compose(RxUtil
+//                                                            .<DateOfNest>rxCacheListHelper
+//                                                                    (datekey));
+//
+//                                            RankItem rankItem = new RankItem();
+//                                            rankItem.setName(s);
+//                                            Subscription subscription1 = Observable.concat(RxUtil
+//                                                    .rxCreateDiskObservable(datekey,
+//                                                            DateOfNest.class), ofNestObservable)
+//                                                    .observeOn(AndroidSchedulers.mainThread())
+//                                                    .subscribe(new Observer<DateOfNest>() {
+//                                                        @Override
+//                                                        public void onCompleted() {
+//                                                            mView.addItem(rankItem);
+//                                                        }
+//
+//                                                        @Override
+//                                                        public void onError(Throwable e) {
+//
+//                                                        }
+//
+//                                                        @Override
+//                                                        public void onNext(DateOfNest dateOfNest) {
+//                                                            int type = mView.getType();
+//                                                            if (type == RankTotalFragment
+//                                                                    .TOTAL_TYPE) {
+//                                                                rankItem.setDays(dateOfNest.days
+//                                                                        .size());
+//                                                            } else
+//                                                                rankItem.setDays(DateUtils
+//                                                                        .getConstantDays
+//                                                                                (DateUtils
+//                                                                                        .formatStrings(Utils.getDays(dateOfNest))));
+//                                                        }
+//                                                    });
+//                                            addSubscribe(subscription1);
+//                                        }
+//                                    })
+//                                    .subscribe();
+//                            return null;
+//                        }
+//                    })
+//                    .subscribe();
+//            addSubscribe(subscription);
+//        }
 
     }
 

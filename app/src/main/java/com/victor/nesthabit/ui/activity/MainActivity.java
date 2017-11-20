@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 
 import com.victor.nesthabit.R;
+import com.victor.nesthabit.bean.AlarmInfo;
 import com.victor.nesthabit.bean.AlarmTime;
 import com.victor.nesthabit.bean.Constants;
 import com.victor.nesthabit.bean.NestInfo;
@@ -131,8 +132,8 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     }
 
     @Override
-    public void addAlarmTime(AlarmTime alarmTime) {
-        mClockListFragment.addData(alarmTime);
+    public void addAlarmTime(AlarmInfo alarmInfo) {
+        mClockListFragment.addData(alarmInfo);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.victor.nesthabit.api;
 
 import com.victor.nesthabit.bean.AddNestResponse;
-import com.victor.nesthabit.bean.AlarmResponse;
+import com.victor.nesthabit.bean.AlarmInfo;
 import com.victor.nesthabit.bean.Constants;
 import com.victor.nesthabit.bean.DakaResponse;
 import com.victor.nesthabit.bean.DateOfNest;
@@ -23,6 +23,7 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -67,11 +68,11 @@ public class NestHabitApi {
         return instance;
     }
 
-    public Observable<ApiResponse<RegisterResponse>> register(String username, String password) {
+    public Observable<Response<RegisterResponse>> register(String username, String password) {
         return mApiService.register(JsonRequestBody.getJsonRegister(username, password));
     }
 
-    public Observable<ApiResponse<UserInfo>> login(String username, String paswword) {
+    public Observable<Response<UserInfo>> login(String username, String paswword) {
         return mApiService.login(username, Base64Cipher.encrypt(paswword));
     }
 
@@ -79,31 +80,21 @@ public class NestHabitApi {
         return mApiService.logout(username, authorization);
     }
 
-    public Observable<UserInfo> getUserInfo(String username, String authorization) {
-        return mApiService.getUserInfor(username, authorization);
-    }
-
-    public Observable<UserInfo> changeNickname(String nickname, String header) {
-        return mApiService.changeNickname(JsonRequestBody.getNickname(nickname), header);
-    }
 
     public Observable<AddNestResponse> addNest(String name, String desc, int
-            member_limit, long start_time, int days, boolean isOpen, String header) {
+            member_limit, long start_time, int days, boolean isOpen) {
         return mApiService.addNest(JsonRequestBody.getAddNest(name, desc, member_limit,
-                start_time, days, isOpen), header);
+                start_time, days, isOpen));
     }
 
-    public Observable<ApiResponse<NestInfo>> getNestInfo(String id) {
+    public Observable<Response<NestInfo>> getNestInfo(String id) {
         return mApiService.getNestInfo(id);
     }
 
-    public Observable<MsgResponse> deleteNest(String id, String header) {
-        return mApiService.deleteNest(id, header);
+    public Observable<MsgResponse> deleteNest(String id) {
+        return mApiService.deleteNest(id);
     }
 
-    public Observable<NestInfo> changeNest(String id, RequestBody body, String header) {
-        return mApiService.changeNest(id, body, header);
-    }
 
     public Observable<NestInfo> deleteMember(String nestId, String membername, String
             header) {
@@ -120,36 +111,36 @@ public class NestHabitApi {
         return mApiService.quitNest(username, JsonRequestBody.getNest(nests), header);
     }
 
-    public Observable<ApiResponse<NestList>> getNestList() {
+    public Observable<Response<NestList>> getNestList() {
         return mApiService.getNestList();
     }
 
-    public Observable<AlarmResponse> addAlarm(String title, List<Integer> time, List<Integer>
+    public Observable<AlarmInfo> addAlarm(String title, List<Integer> time, List<Integer>
             repeate, String
-                                                      music_id, boolean nap, boolean shock,
-                                              String bind_to_nest,
-                                              boolean willing_music, boolean
-                                                      willing_text, String
-                                                      header) {
+                                                  music_id, boolean nap, boolean shock,
+                                          String bind_to_nest,
+                                          boolean willing_music, boolean
+                                                  willing_text, String
+                                                  header) {
         return mApiService.addAlarm(JsonRequestBody.getAlarm(title, time, repeate,
                 music_id, nap, shock, bind_to_nest, willing_music,
                 willing_text), header);
     }
 
-    public Observable<AlarmResponse> getAlarm(String id, String header) {
-        return mApiService.getAlarm(id, header);
+    public Observable<Response<AlarmInfo>> getAlarmInfo(String alarmId) {
+        return mApiService.getAlarmInfo(alarmId);
     }
 
     public Observable<MsgResponse> deleteAlarm(String id, String header) {
         return mApiService.deleteAlarm(id, header);
     }
 
-    public Observable<AlarmResponse> changeAlarm(String id, String title, List<Integer> time,
-                                                 List<Integer> repeate, String music_id, boolean
-                                                         nap,
-                                                 boolean shock, String bind_to_nest,
-                                                 boolean willing_music, boolean willing_text, String
-                                                         header) {
+    public Observable<AlarmInfo> changeAlarm(String id, String title, List<Integer> time,
+                                             List<Integer> repeate, String music_id, boolean
+                                                     nap,
+                                             boolean shock, String bind_to_nest,
+                                             boolean willing_music, boolean willing_text, String
+                                                     header) {
         return mApiService.changeAlarm(id, JsonRequestBody.getAlarm(title, time, repeate,
                 music_id, nap, shock, bind_to_nest, willing_music,
                 willing_text), header);

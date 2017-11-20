@@ -2,7 +2,10 @@ package com.victor.nesthabit.bean;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverters;
 import android.support.annotation.NonNull;
+
+import com.victor.nesthabit.db.StringListConverter;
 
 import java.util.List;
 
@@ -13,6 +16,7 @@ import java.util.List;
  */
 
 @Entity(tableName = "nests")
+@TypeConverters(StringListConverter.class)
 public class NestInfo {
 
     /**

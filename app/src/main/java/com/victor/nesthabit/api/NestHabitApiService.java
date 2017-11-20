@@ -1,7 +1,7 @@
 package com.victor.nesthabit.api;
 
 import com.victor.nesthabit.bean.AddNestResponse;
-import com.victor.nesthabit.bean.AlarmResponse;
+import com.victor.nesthabit.bean.AlarmInfo;
 import com.victor.nesthabit.bean.Constants;
 import com.victor.nesthabit.bean.DakaResponse;
 import com.victor.nesthabit.bean.DateOfNest;
@@ -16,10 +16,9 @@ import com.victor.nesthabit.bean.RegisterResponse;
 import com.victor.nesthabit.bean.SendMessageResponse;
 import com.victor.nesthabit.bean.UserInfo;
 
-import java.util.List;
-
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -41,10 +40,10 @@ public interface NestHabitApiService {
 
     //user api
     @POST("users")
-    Observable<ApiResponse<RegisterResponse>> register(@Body RequestBody registerBody);
+    Observable<Response<RegisterResponse>> register(@Body RequestBody registerBody);
 
     @GET("login")
-    Observable<ApiResponse<UserInfo>> login(@Query("username") String username, @Query("password") String
+    Observable<Response<UserInfo>> login(@Query("username") String username, @Query("password") String
             password);
 
     @PUT("users/{objectId}")
@@ -85,26 +84,25 @@ public interface NestHabitApiService {
 
 
     @POST("alarm_clock")
-    Observable<AlarmResponse> addAlarm(@Body RequestBody body, @Header(Constants.HEADER_AU)
+    Observable<AlarmInfo> addAlarm(@Body RequestBody body, @Header(Constants.HEADER_AU)
             String header);
 
-    @GET("alarm_clock/{id}")
-    Observable<AlarmResponse> getAlarm(@Path("id") String id, @Header(Constants
-            .HEADER_AU) String header);
+    @GET("alarm_clock/{objectId}")
+    Observable<Response<AlarmInfo>> getAlarmInfo(@Path("Id") String objectId);
 
     @DELETE("alarm_clock/{id}")
     Observable<MsgResponse> deleteAlarm(@Path("id") String id, @Header(Constants
             .HEADER_AU) String header);
 
     @PUT("alarm_clock/{id}")
-    Observable<AlarmResponse> changeAlarm(@Path("id") String id, @Body RequestBody body,
-                                          @Header(Constants.HEADER_AU) String header);
+    Observable<AlarmInfo> changeAlarm(@Path("id") String id, @Body RequestBody body,
+                                      @Header(Constants.HEADER_AU) String header);
 
     @GET("classes/nest")
-    Observable<ApiResponse<NestList>> getNestList();
+    Observable<Response<NestList>> getNestList();
 
     @GET("classes/nest/{objectId}")
-    Observable<ApiResponse<NestInfo>> getNestInfo(@Path("objectId") String objectId);
+    Observable<Response<NestInfo>> getNestInfo(@Path("objectId") String objectId);
 
     @GET("user/{username}/nest/{nest_id}/punches")
     Observable<DateOfNest> getDateOfNest(@Path("username") String username, @Path("nest_id")

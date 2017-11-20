@@ -1,7 +1,10 @@
 package com.victor.nesthabit.di;
 
-import com.victor.nesthabit.MyApplication;
+import android.app.Application;
+
 import com.victor.nesthabit.api.NestHabitApi;
+import com.victor.nesthabit.db.AlarmDao;
+import com.victor.nesthabit.db.NestDao;
 import com.victor.nesthabit.db.NestHabitDataBase;
 import com.victor.nesthabit.db.UserDao;
 
@@ -28,15 +31,23 @@ public class AppModule {
 
     @Provides
     @Singleton
-    NestHabitDataBase provideNestHabitDataBase(MyApplication myApplication) {
-        return NestHabitDataBase.getInstance(myApplication);
+    AlarmDao provideAlarmDao(NestHabitDataBase nestHabitDataBase) {
+        return nestHabitDataBase.alarmDao();
+    }
+
+
+    @Provides
+    @Singleton
+    NestDao provideNeedDao(NestHabitDataBase nestHabitDataBase) {
+        return nestHabitDataBase.nestDao();
     }
 
     @Provides
     @Singleton
-    MyApplication provideMyApplication() {
-        return MyApplication.getInstance();
+    NestHabitDataBase provideNestHabitDataBase(Application myApplication) {
+        return NestHabitDataBase.getInstance(myApplication);
     }
+
 
     @Provides
     @Singleton

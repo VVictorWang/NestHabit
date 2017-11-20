@@ -8,9 +8,8 @@ import com.victor.nesthabit.repository.UserRepository;
 import com.victor.nesthabit.ui.base.RxPresenter;
 import com.victor.nesthabit.ui.contract.LoginContract;
 import com.victor.nesthabit.util.AppUtils;
+import com.victor.nesthabit.util.NetWorkBoundUtils;
 import com.victor.nesthabit.util.PrefsUtils;
-
-import javax.inject.Inject;
 
 import rx.Observable;
 import rx.Subscription;
@@ -26,13 +25,14 @@ import rx.schedulers.Schedulers;
 public class LoginPresenter extends RxPresenter implements LoginContract.Presenter {
     private LoginContract.View mView;
 
-    @Inject
     private UserRepository mUserRepository;
 
-    public LoginPresenter(LoginContract.View view) {
+    public LoginPresenter(UserRepository userRepository, LoginContract.View view) {
         mView = view;
         mView.setPresenter(this);
+        mUserRepository = userRepository;
     }
+
 
     @Override
     public void start() {
@@ -46,20 +46,31 @@ public class LoginPresenter extends RxPresenter implements LoginContract.Present
 
     @Override
     public void login(String username, String password) {
-        Observable<UserInfo> observable = mUserRepository.login(username, password);
-        if (observable == null) {
-            return;
-        }
-        Subscription subscription = observable.observeOn
-                (AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .doOnNext(userInfo -> PrefsUtils.putValue(AppUtils.getAppContext(), Constants
-                        .AUTHORIZATION, userInfo.getSessionToken()))
-                .subscribe(userInfo -> {
-                    mView.showMyToast("登录成功");
-                    mView.switchToMain();
-                });
-        addSubscribe(subscription);
+        mUserRepository.login(username, password, new NetWorkBoundUtils.CallBack<UserInfo>() {
+            @Override
+            public void callSuccess(Observable<UserInfo> result) {
+                Subscription subscription = result.observeOn
+                        (AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .doOnNext(userInfo -> {
+                            PrefsUtils.putValue(AppUtils.getAppContext(),
+                                    Constants.AUTHORIZATION, userInfo.getSessionToken());
+                            PrefsUtils.putValue(AppUtils.getAppContext(), Constants.USERNAME,
+                                    userInfo.getUsername());
+                        })
+                        .subscribe(userInfo -> {
+                            mView.showMyToast("登录成功");
+                            mView.switchToMain();
+                        });
+                addSubscribe(subscription);
+            }
+
+            @Override
+            public void callFailure(String errorMessage) {
+                mView.showMyToast("登陆失败 " + errorMessage);
+            }
+        });
+
     }
 
     @Override

@@ -34,29 +34,29 @@ public class ChoosePresenter extends RxPresenter implements ChooseContract.Prese
         String nestId = mView.getNestId();
         if (nestId != null) {
             Log.d(TAG, nestId);
-            String key = Utils.createAcacheKey("get_nestinfo", nestId);
-            Subscription subscription = RxUtil.rxCreateDiskObservable(key,
-                    NestInfo.class)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<NestInfo>() {
-                        @Override
-                        public void onCompleted() {
-
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-
-                        }
-
-                        @Override
-                        public void onNext(NestInfo nestInfo) {
-                            for (UserInfo userInfo : nestInfo.members) {
-                                mView.addItem(userInfo);
-                            }
-                        }
-                    });
-            addSubscribe(subscription);
+//            String key = Utils.createAcacheKey("get_nestinfo", nestId);
+//            Subscription subscription = RxUtil.rxCreateDiskObservable(key,
+//                    NestInfo.class)
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(new Observer<NestInfo>() {
+//                        @Override
+//                        public void onCompleted() {
+//
+//                        }
+//
+//                        @Override
+//                        public void onError(Throwable e) {
+//
+//                        }
+//
+//                        @Override
+//                        public void onNext(NestInfo nestInfo) {
+//                            for (UserInfo userInfo : nestInfo.members) {
+//                                mView.addItem(userInfo);
+//                            }
+//                        }
+//                    });
+//            addSubscribe(subscription);
         }
     }
 

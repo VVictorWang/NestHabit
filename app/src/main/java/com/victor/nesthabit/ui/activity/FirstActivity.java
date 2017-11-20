@@ -19,6 +19,7 @@ public class FirstActivity extends AppCompatActivity {
         setContentView(R.layout.activity_first);
         ActivityManager.getInstance().pushActivity(FirstActivity.this);
         String authorization = PrefsUtils.getValue(FirstActivity.this, Constants.AUTHORIZATION, "empty");
+        authorization = "empty";
         if (authorization.equals("empty")) {
             new Handler().postDelayed(new Runnable() {
                 @Override

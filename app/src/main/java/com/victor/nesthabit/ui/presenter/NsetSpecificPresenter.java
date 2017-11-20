@@ -35,71 +35,71 @@ public class NsetSpecificPresenter extends RxPresenter implements NestSpecificCo
     @Override
     public void start() {
         String id = mView.getNestId();
-        if (id != null) {
-            String key = Utils.createAcacheKey("get_nestinfo", id);
-            Observable<NestInfo> observable = NestHabitApi.getInstance().getNestInfo(id,
-                    Utils.getHeader()).compose(RxUtil.<NestInfo>rxCacheBeanHelper(key));
-            Subscription subscription = Observable.concat(RxUtil.rxCreateDiskObservable(key,
-                    NestInfo.class), observable)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<NestInfo>() {
-                        @Override
-                        public void onCompleted() {
-
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-
-                        }
-
-                        @Override
-                        public void onNext(NestInfo nestInfo) {
-                            mView.setToolbar(nestInfo.getName());
-                            mView.setMaxProgress(nestInfo.getChallenge_days());
-                        }
-                    });
-            addSubscribe(subscription);
-            String datekey = Utils.createAcacheKey("get_nest_days", id);
-            Observable<DateOfNest> nestObservable = NestHabitApi.getInstance().getDateOfNest(Utils
-                    .getUsername(), id, Utils.getHeader()).compose(RxUtil
-                    .<DateOfNest>rxCacheListHelper(datekey));
-            Subscription datesub = Observable.concat(RxUtil.rxCreateDiskObservable(datekey,
-                    DateOfNest.class), nestObservable)
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<DateOfNest>() {
-                        @Override
-                        public void onCompleted() {
-
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-
-                        }
-
-                        @Override
-                        public void onNext(DateOfNest dateOfNest) {
-                            List<String> days = Utils.getDays(dateOfNest);
-                            if (days.isEmpty()) {
-                                mView.setTotalday(0);
-                                mView.setTotalProgress(0);
-                                mView.setConstantProgresss(0);
-                                mView.setConstantDay(0);
-                            }
-                            List<Date> daysof = DateUtils.sortDateDesc(DateUtils.formatStrings
-                                    (days));
-                            if (daysof != null) {
-                                mView.setTotalday(daysof.size());
-                                mView.setTotalProgress((float) daysof.size());
-                                mView.setConstantDay(DateUtils.getConstantDays(daysof));
-                                mView.setConstantProgresss(mView.getConstantDay());
-                            }
-
-                        }
-                    });
-            addSubscribe(datesub);
-        }
+//        if (id != null) {
+//            String key = Utils.createAcacheKey("get_nestinfo", id);
+//            Observable<NestInfo> observable = NestHabitApi.getInstance().getNestInfo(id,
+//                    Utils.getHeader()).compose(RxUtil.<NestInfo>rxCacheBeanHelper(key));
+//            Subscription subscription = Observable.concat(RxUtil.rxCreateDiskObservable(key,
+//                    NestInfo.class), observable)
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(new Observer<NestInfo>() {
+//                        @Override
+//                        public void onCompleted() {
+//
+//                        }
+//
+//                        @Override
+//                        public void onError(Throwable e) {
+//
+//                        }
+//
+//                        @Override
+//                        public void onNext(NestInfo nestInfo) {
+//                            mView.setToolbar(nestInfo.getName());
+//                            mView.setMaxProgress(nestInfo.getChallenge_days());
+//                        }
+//                    });
+//            addSubscribe(subscription);
+//            String datekey = Utils.createAcacheKey("get_nest_days", id);
+//            Observable<DateOfNest> nestObservable = NestHabitApi.getInstance().getDateOfNest(Utils
+//                    .getUsername(), id, Utils.getHeader()).compose(RxUtil
+//                    .<DateOfNest>rxCacheListHelper(datekey));
+//            Subscription datesub = Observable.concat(RxUtil.rxCreateDiskObservable(datekey,
+//                    DateOfNest.class), nestObservable)
+//                    .observeOn(AndroidSchedulers.mainThread())
+//                    .subscribe(new Observer<DateOfNest>() {
+//                        @Override
+//                        public void onCompleted() {
+//
+//                        }
+//
+//                        @Override
+//                        public void onError(Throwable e) {
+//
+//                        }
+//
+//                        @Override
+//                        public void onNext(DateOfNest dateOfNest) {
+//                            List<String> days = Utils.getDays(dateOfNest);
+//                            if (days.isEmpty()) {
+//                                mView.setTotalday(0);
+//                                mView.setTotalProgress(0);
+//                                mView.setConstantProgresss(0);
+//                                mView.setConstantDay(0);
+//                            }
+//                            List<Date> daysof = DateUtils.sortDateDesc(DateUtils.formatStrings
+//                                    (days));
+//                            if (daysof != null) {
+//                                mView.setTotalday(daysof.size());
+//                                mView.setTotalProgress((float) daysof.size());
+//                                mView.setConstantDay(DateUtils.getConstantDays(daysof));
+//                                mView.setConstantProgresss(mView.getConstantDay());
+//                            }
+//
+//                        }
+//                    });
+//            addSubscribe(datesub);
+//        }
     }
 
     @Override

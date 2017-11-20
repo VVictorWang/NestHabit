@@ -5,8 +5,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.WorkerThread;
 
-import com.victor.nesthabit.api.ApiResponse;
+import java.io.IOException;
 
+import retrofit2.Response;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -20,34 +21,48 @@ import rx.schedulers.Schedulers;
 
 public abstract class NetWorkBoundUtils<ResultType, RequestType> {
 
-    private Observable<ResultType> result = null;
+//    private Observable<ResultType> result = null;
 
-    @MainThread
-    public NetWorkBoundUtils() {
-        ResultType dbSource = loadFromDb();
-        if (shouldFetch(dbSource)) {
-            fetchFromNetwork();
-        } else {
-            result = Observable.just(dbSource);
-        }
+    public interface CallBack<ResultType> {
+        void callSuccess(Observable<ResultType> result);
+
+        void callFailure(String errorMessage);
+    }
+
+    public NetWorkBoundUtils(CallBack callBack) {
+
+        Observable.just(1).subscribeOn(Schedulers.io())
+                .subscribe(integer -> {
+                    loadFromDb().subscribeOn(Schedulers.io())
+                            .observeOn(Schedulers.io())
+                            .subscribe(resultType -> {
+                                if (shouldFetch(resultType)) {
+                                    fetchFromNetwork(callBack);
+                                } else
+                                    callBack.callSuccess(loadFromDb());
+                            });
+                });
     }
 
 
-    private void fetchFromNetwork() {
-        Observable<ApiResponse<RequestType>> apiResponse = createCall();
+    private void fetchFromNetwork(CallBack callBack) {
+        Observable<Response<RequestType>> apiResponse = createCall();
         apiResponse.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext(requestTypeApiResponse -> {
                     if (requestTypeApiResponse.isSuccessful()) {
                         saveCallResult(processResponse(requestTypeApiResponse));
+                        callBack.callSuccess(loadFromDb());
                     }
                 })
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(requestTypeApiResponse -> {
-                    if (requestTypeApiResponse.isSuccessful()) {
-                        result = Observable.just(loadFromDb());
-                    } else {
+                    if (!requestTypeApiResponse.isSuccessful()) {
                         onFetchFailed();
-                        result = null;
+                        try {
+                            callBack.callFailure(requestTypeApiResponse.errorBody().string());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
     }
@@ -56,27 +71,23 @@ public abstract class NetWorkBoundUtils<ResultType, RequestType> {
     protected void onFetchFailed() {
     }
 
-    public Observable<ResultType> getResult() {
-        return result;
+//    public Observable<ResultType> getResult() {
+//        return result;
+//    }
+
+    protected RequestType processResponse(Response<RequestType> response) {
+        return response.body();
     }
 
-    @WorkerThread
-    protected RequestType processResponse(ApiResponse<RequestType> response) {
-        return response.body;
-    }
-
-    @WorkerThread
     protected abstract void saveCallResult(@NonNull RequestType item);
 
     @MainThread
     protected abstract boolean shouldFetch(@Nullable ResultType data);
 
     @NonNull
-    @MainThread
-    protected abstract ResultType loadFromDb();
+    protected abstract Observable<ResultType> loadFromDb();
 
     @NonNull
-    @MainThread
-    protected abstract Observable<ApiResponse<RequestType>> createCall();
+    protected abstract Observable<Response<RequestType>> createCall();
 }
 

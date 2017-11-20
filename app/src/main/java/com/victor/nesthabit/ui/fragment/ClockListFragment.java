@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.victor.nesthabit.R;
+import com.victor.nesthabit.bean.AlarmInfo;
 import com.victor.nesthabit.bean.AlarmTime;
 import com.victor.nesthabit.ui.activity.AddAlarmActivity;
 import com.victor.nesthabit.ui.adapter.ClockListAdapter;
@@ -40,8 +41,8 @@ public class ClockListFragment extends BaseFragment implements ClockListContract
         mPresenter.unscribe();
     }
 
-    public void addData(AlarmTime alarmTime) {
-        mAdapter.AlarmAdded(alarmTime);
+    public void addData(AlarmInfo alarmInfo) {
+        mAdapter.addAlarm(alarmInfo);
     }
 
     @Override
@@ -64,7 +65,7 @@ public class ClockListFragment extends BaseFragment implements ClockListContract
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.clock_list);
         add = (FloatingActionButton) rootView.findViewById(R.id.add);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mAdapter = new ClockListAdapter(getContext(), new ArrayList<>());
+        mAdapter = new ClockListAdapter(getContext());
         mRecyclerView.setAdapter(mAdapter);
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +87,7 @@ public class ClockListFragment extends BaseFragment implements ClockListContract
 
     @Override
     public void showRecyclerView(List<AlarmTime> time) {
-        mAdapter = new ClockListAdapter(getContext(), time);
+        mAdapter = new ClockListAdapter(getContext());
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
     }

@@ -86,18 +86,8 @@ public class NestListFragment extends BaseFragment implements NestListContract.V
         mNestInfos = new ArrayList<>();
         mNestListFragAdapter = new NestListFragAdapter(mActivity, mRecyclerView, mNestInfos);
         mRecyclerView.setAdapter(mNestListFragAdapter);
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ActivityManager.startActivity(mActivity, AddNestActivity.class);
-            }
-        });
-        setting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ActivityManager.startActivity(mActivity, ProfileActivity.class);
-            }
-        });
+        add.setOnClickListener(v -> ActivityManager.startActivity(mActivity, AddNestActivity.class));
+        setting.setOnClickListener(v -> ActivityManager.startActivity(mActivity, ProfileActivity.class));
 
     }
 
