@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.victor.nesthabit.bean.AlarmInfo;
 import com.victor.nesthabit.bean.NestInfo;
+import com.victor.nesthabit.bean.UserInfo;
 import com.victor.nesthabit.util.GetFileMimeUtil;
 import com.victor.nesthabit.util.Utils;
 import com.victor.nesthabit.util.safe.Base64Cipher;
@@ -32,10 +33,30 @@ public class JsonRequestBody {
             jsonObject.put("username", username);
             password = Base64Cipher.encrypt(password);
             jsonObject.put("avatar", "");
-            jsonObject.put("joinedNests", new JSONArray());
+            jsonObject.put("joined_nests", new JSONArray());
             jsonObject.put("uploaded_musics", new JSONArray());
             jsonObject.put("alarm_clocks", new JSONArray());
             jsonObject.put("password", password);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.d("@victor", jsonObject.toString());
+        return RequestBody.create(sMediaType, jsonObject.toString());
+    }
+
+    public static RequestBody getUserInfo(UserInfo userInfo) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("username", userInfo.getUsername());
+            jsonObject.put("avatar", userInfo.getAvatar());
+            jsonObject.put("joined_nests", userInfo.getJoined_nests() == null ? new JSONArray()
+                    : new JSONArray(userInfo.getJoined_nests()));
+            jsonObject.put("uploaded_musics", userInfo.getUploaded_musics() == null ? new
+                    JSONArray()
+                    : new JSONArray(userInfo.getUploaded_musics()));
+            jsonObject.put("alarm_clocks", userInfo.getAlarm_clocks() == null ? new JSONArray()
+                    : new JSONArray(userInfo.getAlarm_clocks()));
+
         } catch (Exception e) {
             e.printStackTrace();
         }

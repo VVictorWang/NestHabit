@@ -14,6 +14,7 @@ import com.victor.nesthabit.bean.NestList;
 import com.victor.nesthabit.bean.PostFileResponse;
 import com.victor.nesthabit.bean.RegisterResponse;
 import com.victor.nesthabit.bean.SendMessageResponse;
+import com.victor.nesthabit.bean.UpdateInfo;
 import com.victor.nesthabit.bean.UserInfo;
 
 import okhttp3.MultipartBody;
@@ -48,7 +49,7 @@ public interface NestHabitApiService {
             password);
 
     @PUT("1/users/{objectId}")
-    Observable<UserInfo> editUserInfo(@Path("objectId") String objectId, @Header
+    Observable<Response<UpdateInfo>> editUserInfo(@Path("objectId") String objectId, @Header
             ("X-Bmob-Session-Token") String header, @Body RequestBody body);
 
 

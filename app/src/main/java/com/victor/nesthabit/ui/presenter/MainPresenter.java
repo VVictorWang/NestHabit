@@ -1,15 +1,22 @@
 package com.victor.nesthabit.ui.presenter;
 
+import android.util.Log;
+
 import com.victor.nesthabit.bean.AlarmInfo;
 import com.victor.nesthabit.bean.NestInfo;
+import com.victor.nesthabit.bean.UpdateInfo;
 import com.victor.nesthabit.bean.UserInfo;
 import com.victor.nesthabit.repository.AlarmRepoitory;
 import com.victor.nesthabit.repository.NestRepository;
+import com.victor.nesthabit.repository.ReposityCallback;
 import com.victor.nesthabit.repository.UserRepository;
 import com.victor.nesthabit.ui.base.RxPresenter;
 import com.victor.nesthabit.ui.contract.MainContract;
 import com.victor.nesthabit.util.NetWorkBoundUtils;
 import com.victor.nesthabit.util.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import rx.Observable;
 import rx.Subscription;
@@ -22,7 +29,8 @@ import rx.schedulers.Schedulers;
  * blog: www.victorwang.science                                            #
  */
 
-public class MainPresenter extends RxPresenter implements MainContract.Presenter {
+public class MainPresenter extends RxPresenter implements MainContract.Presenter,
+        AddNestPresenter.NotifyNestAdded {
     public static final String TAG = "@victor MainPresenter";
     private MainContract.View mView;
 
@@ -39,13 +47,15 @@ public class MainPresenter extends RxPresenter implements MainContract.Presenter
         mUserRepository = UserRepository.getInstance();
         mAlarmRepoitory = AlarmRepoitory.getInstance();
         mNestRepository = NestRepository.getInstance();
+        AddNestPresenter.setNotifyNestAdded(this);
     }
 
 
     @Override
     public void start() {
         mView.showProgress();
-        mUserRepository.login(Utils.getUsername(), null, new NetWorkBoundUtils.CallBack<UserInfo>
+        mUserRepository.login(Utils.getUsername(), Utils.getPassword(), new NetWorkBoundUtils
+                .CallBack<UserInfo>
                 () {
             @Override
             public void callSuccess(Observable<UserInfo> result) {
@@ -106,4 +116,57 @@ public class MainPresenter extends RxPresenter implements MainContract.Presenter
     }
 
 
+    @Override
+    public void notifyNestAdded(String nestId) {
+        mUserRepository.login(Utils.getUsername(), null, new NetWorkBoundUtils.CallBack<UserInfo>
+                () {
+            @Override
+            public void callSuccess(Observable<UserInfo> result) {
+                result.subscribeOn(Schedulers.io())
+                        .doOnNext(userInfo -> {
+                            List<String> nests = userInfo.getJoined_nests();
+                            if (nests == null) {
+                                nests = new ArrayList<>();
+                            }
+                            List<String> temp = new ArrayList<>();
+                            temp.addAll(nests);
+                            temp.add(nestId);
+                            userInfo.setJoined_nests(temp);
+                        })
+                        .subscribe(userInfo -> mUserRepository.changeUserInfo(userInfo, new
+                                ReposityCallback<UpdateInfo>() {
+
+                                    @Override
+                                    public void callSuccess(UpdateInfo data) {
+                                        Log.d(TAG, "success " + data.getUpdatedAt());
+                                        mUserRepository.deleteUserInDb(userInfo.getUsername());
+                                    }
+
+                                    @Override
+                                    public void callFailure(String errorMessage) {
+                                        Log.d(TAG, errorMessage);
+                                    }
+                                }));
+                mNestRepository.loadNestInfo(nestId, new NetWorkBoundUtils.CallBack<NestInfo>() {
+                    @Override
+                    public void callSuccess(Observable<NestInfo> result) {
+                        result.subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(nestInfo -> mView.addNestInfo
+                                        (nestInfo));
+                    }
+
+                    @Override
+                    public void callFailure(String errorMessage) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void callFailure(String errorMessage) {
+
+            }
+        });
+    }
 }

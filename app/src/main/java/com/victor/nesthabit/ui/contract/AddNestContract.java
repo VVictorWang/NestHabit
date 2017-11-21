@@ -1,5 +1,7 @@
 package com.victor.nesthabit.ui.contract;
 
+import com.victor.nesthabit.bean.AddResponse;
+import com.victor.nesthabit.repository.ReposityCallback;
 import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.ui.base.Baseview;
 
@@ -27,6 +29,8 @@ public interface AddNestContract {
 
         boolean IsAmountLimited();
 
+        boolean isOPen();
+
         String getAmount();
 
         void showAmountError();
@@ -36,6 +40,8 @@ public interface AddNestContract {
     }
 
     interface Presenter extends BasePresenter {
-        void finish();
+        void finish(ReposityCallback<AddResponse> result);
+
+        void notifyNestAdded(String nestId);
     }
 }

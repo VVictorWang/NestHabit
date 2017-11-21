@@ -13,6 +13,7 @@ import com.victor.nesthabit.bean.NestInfo;
 import com.victor.nesthabit.bean.PostFileResponse;
 import com.victor.nesthabit.bean.RegisterResponse;
 import com.victor.nesthabit.bean.SendMessageResponse;
+import com.victor.nesthabit.bean.UpdateInfo;
 import com.victor.nesthabit.bean.UserInfo;
 import com.victor.nesthabit.util.safe.Base64Cipher;
 
@@ -75,6 +76,12 @@ public class NestHabitApi {
         return mApiService.login(username, Base64Cipher.encrypt(paswword));
     }
 
+
+    public Observable<Response<UpdateInfo>> changeUserInfo(UserInfo userInfo) {
+        return mApiService.editUserInfo(userInfo.getObjectId(), userInfo.getSessionToken(),
+                JsonRequestBody.getUserInfo(userInfo));
+    }
+
     public Observable<MsgResponse> logout(String username, String authorization) {
         return mApiService.logout(username, authorization);
     }
@@ -105,7 +112,6 @@ public class NestHabitApi {
     }
 
 
-
     public Observable<JoinedNests> quitNset(String username, String[] nests, String
             header) {
         return mApiService.quitNest(username, JsonRequestBody.getNest(nests), header);
@@ -129,7 +135,6 @@ public class NestHabitApi {
     public Observable<MsgResponse> deleteAlarm(String id, String header) {
         return mApiService.deleteAlarm(id, header);
     }
-
 
 
     public Observable<DateOfNest> getDateOfNest(String username, String nestid, String header) {

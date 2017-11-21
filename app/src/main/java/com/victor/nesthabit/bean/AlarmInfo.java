@@ -1,9 +1,12 @@
 package com.victor.nesthabit.bean;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
+import android.support.annotation.NonNull;
 
 import com.victor.nesthabit.db.IntergerListConverter;
+import com.victor.nesthabit.db.PostFileConverter;
 
 import java.util.List;
 
@@ -14,7 +17,7 @@ import java.util.List;
  */
 
 @Entity(tableName = "alarms")
-@TypeConverters(IntergerListConverter.class)
+@TypeConverters({IntergerListConverter.class, PostFileConverter.class})
 public class AlarmInfo {
 
 
@@ -42,6 +45,9 @@ public class AlarmInfo {
     private int minute;
     private PostFileResponse music;
     private boolean nap;
+
+    @PrimaryKey
+    @NonNull
     private String objectId;
     private String owner;
     private String title;

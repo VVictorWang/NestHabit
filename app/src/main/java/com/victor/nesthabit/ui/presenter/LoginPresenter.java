@@ -57,6 +57,8 @@ public class LoginPresenter extends RxPresenter implements LoginContract.Present
                                     Constants.AUTHORIZATION, userInfo.getSessionToken());
                             PrefsUtils.putValue(AppUtils.getAppContext(), Constants.USERNAME,
                                     userInfo.getUsername());
+                            PrefsUtils.putValue(AppUtils.getAppContext(), Constants.PASSWORD,
+                                    password);
                         })
                         .subscribe(userInfo -> {
                             mView.showMyToast("登录成功");

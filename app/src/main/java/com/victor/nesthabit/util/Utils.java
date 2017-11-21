@@ -20,11 +20,15 @@ import java.util.regex.Pattern;
 
 public class Utils {
     public static String getHeader() {
-        return PrefsUtils.getValue(AppUtils.getAppContext(), Constants.AUTHORIZATION, "null");
+        return PrefsUtils.getValue(AppUtils.getAppContext(), Constants.AUTHORIZATION, null);
     }
 
     public static String getUsername() {
-        return PrefsUtils.getValue(AppUtils.getAppContext(), Constants.USERNAME, "null");
+        return PrefsUtils.getValue(AppUtils.getAppContext(), Constants.USERNAME, null);
+    }
+
+    public static String getPassword() {
+        return PrefsUtils.getValue(AppUtils.getAppContext(), Constants.PASSWORD, null);
     }
 
     public static String createAcacheKey(Object... param) {

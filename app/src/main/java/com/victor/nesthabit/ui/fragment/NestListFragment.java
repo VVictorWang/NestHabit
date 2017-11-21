@@ -50,7 +50,7 @@ public class NestListFragment extends BaseFragment implements NestListContract.V
     }
 
     public void addData(NestInfo nestInfo) {
-        mNestListFragAdapter.OnDataAdded(nestInfo);
+        mNestListFragAdapter.addData(nestInfo);
     }
 
     @Override

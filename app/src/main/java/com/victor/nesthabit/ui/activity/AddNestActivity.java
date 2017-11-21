@@ -7,13 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.victor.nesthabit.R;
+import com.victor.nesthabit.bean.AddResponse;
+import com.victor.nesthabit.repository.ReposityCallback;
 import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.ui.contract.AddNestContract;
@@ -32,7 +33,9 @@ public class AddNestActivity extends BaseActivity implements AddNestContract.Vie
     private android.widget.EditText introduction, amount;
     private android.widget.EditText day;
     private android.widget.RelativeLayout beginlayout;
-    private com.victor.nesthabit.view.SwitchButton limittoggle;
+    private SwitchButton limittoggle;
+    private SwitchButton openToggle;
+
     private Button submit;
     private AddNestContract.Presenter mPresenter;
 
@@ -40,7 +43,6 @@ public class AddNestActivity extends BaseActivity implements AddNestContract.Vie
     protected void onCreate(Bundle savedInstanceState) {
         mPresenter = new AddNestPresenter(this);
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -65,36 +67,37 @@ public class AddNestActivity extends BaseActivity implements AddNestContract.Vie
         this.day = (EditText) findViewById(R.id.day);
         this.introduction = (EditText) findViewById(R.id.introduction);
         this.name = (EditText) findViewById(R.id.name);
-        this.back = (ImageView) findViewById(R.id.back);
+        this.back = findViewById(R.id.back);
         start_time = (TextView) findViewById(R.id.start_time);
-        amount = (EditText) findViewById(R.id.amount);
+        amount = findViewById(R.id.amount);
+        openToggle = findViewById(R.id.open_toggle);
         submit = (Button) findViewById(R.id.submit);
     }
 
     @Override
     protected void initEvent() {
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ActivityManager.finishActivity(AddNestActivity.this);
-            }
-        });
-        limittoggle.setOnToggleChanged(new SwitchButton.OnToggleChanged() {
-            @Override
-            public void onToggle(boolean on) {
-                if (on) {
-                    amount.setEnabled(true);
-                } else
-                    amount.setEnabled(false);
+        back.setOnClickListener(v -> ActivityManager.finishActivity(AddNestActivity.this));
+        limittoggle.setOnToggleChanged(on -> {
+            if (on) {
+                amount.setEnabled(true);
+            } else {
+                amount.setEnabled(false);
             }
         });
 
-        submit.setOnClickListener(new View.OnClickListener() {
+        submit.setOnClickListener(v -> mPresenter.finish(new ReposityCallback<AddResponse>() {
             @Override
-            public void onClick(View v) {
-                mPresenter.finish();
+            public void callSuccess(AddResponse data) {
+                showToast("添加成功");
+                mPresenter.notifyNestAdded(data.getObjectId());
+                ActivityManager.finishActivity(getActivity());
             }
-        });
+
+            @Override
+            public void callFailure(String errorMessage) {
+                showToast("添加失败 " + errorMessage);
+            }
+        }));
         beginlayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,13 +114,10 @@ public class AddNestActivity extends BaseActivity implements AddNestContract.Vie
                 builder.setView(view);
                 AlertDialog dialog = builder.create();
                 dialog.show();
-                finish.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        setStartTime(DateUtils.DatetoString(calendarView.getSelectedDate().getDate
-                                ()));
-                        dialog.dismiss();
-                    }
+                finish.setOnClickListener(v1 -> {
+                    setStartTime(DateUtils.DatetoString(calendarView.getSelectedDate().getDate
+                            ()));
+                    dialog.dismiss();
                 });
 
             }
@@ -174,6 +174,11 @@ public class AddNestActivity extends BaseActivity implements AddNestContract.Vie
     @Override
     public boolean IsAmountLimited() {
         return limittoggle.getToogle();
+    }
+
+    @Override
+    public boolean isOPen() {
+        return openToggle.getToogle();
     }
 
     @Override

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 
 import com.victor.nesthabit.api.NestHabitApi;
 import com.victor.nesthabit.bean.RegisterResponse;
+import com.victor.nesthabit.bean.UpdateInfo;
 import com.victor.nesthabit.bean.UserInfo;
 import com.victor.nesthabit.db.NestHabitDataBase;
 import com.victor.nesthabit.db.UserDao;
@@ -75,6 +76,28 @@ public class UserRepository {
                         }
                     }
                 });
+    }
+
+    public void changeUserInfo(UserInfo userInfo, ReposityCallback<UpdateInfo> callback) {
+        mNestHabitApi.changeUserInfo(userInfo).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(updateInfoResponse -> {
+                    if (updateInfoResponse.isSuccessful()) {
+                        callback.callSuccess(updateInfoResponse.body());
+                    } else {
+                        try {
+                            callback.callFailure(updateInfoResponse.errorBody().string());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                });
+    }
+
+    public void deleteUserInDb(String name) {
+        Observable.just(1).subscribeOn(Schedulers.io())
+                .subscribe(integer -> mUserDao.deleteUser(mUserDao.loadUser(name)));
     }
 
     /**

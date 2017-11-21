@@ -5,14 +5,20 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.victor.nesthabit.api.NestHabitApi;
+import com.victor.nesthabit.bean.AddNestResponse;
+import com.victor.nesthabit.bean.AddResponse;
 import com.victor.nesthabit.bean.NestInfo;
 import com.victor.nesthabit.db.NestDao;
 import com.victor.nesthabit.db.NestHabitDataBase;
 import com.victor.nesthabit.util.AppUtils;
 import com.victor.nesthabit.util.NetWorkBoundUtils;
 
+import java.io.IOException;
+
 import retrofit2.Response;
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * @author victor
@@ -39,6 +45,22 @@ public class NestRepository {
             instance = new NestRepository(AppUtils.getAppContext());
         }
         return instance;
+    }
+
+    public void addNest(NestInfo nestInfo, ReposityCallback<AddResponse> callback) {
+        mNestHabitApi.addNest(nestInfo).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(addResponseResponse -> {
+                    if (addResponseResponse.isSuccessful()) {
+                        callback.callSuccess(addResponseResponse.body());
+                    } else {
+                        try {
+                            callback.callFailure(addResponseResponse.errorBody().string());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
     }
 
     public void loadNestInfo(String objectId, NetWorkBoundUtils.CallBack<NestInfo> callBack) {

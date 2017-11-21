@@ -12,6 +12,7 @@ import com.victor.nesthabit.bean.NestInfo;
 import com.victor.nesthabit.ui.adapter.MyFragPageAdapter;
 import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.ui.base.BasePresenter;
+import com.victor.nesthabit.ui.contract.AddNestContract;
 import com.victor.nesthabit.ui.contract.MainContract;
 import com.victor.nesthabit.ui.fragment.ClockListFragment;
 import com.victor.nesthabit.ui.fragment.NestListFragment;

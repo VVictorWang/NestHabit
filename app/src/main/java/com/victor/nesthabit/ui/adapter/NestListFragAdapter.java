@@ -21,6 +21,7 @@ import com.victor.nesthabit.util.Utils;
 
 import java.util.List;
 
+import static com.victor.nesthabit.R.id.none;
 import static com.victor.nesthabit.R.id.progress_text;
 
 /**
@@ -30,7 +31,7 @@ import static com.victor.nesthabit.R.id.progress_text;
  */
 
 public class NestListFragAdapter extends RecyclerView.Adapter<NestListFragAdapter.ListViewHolder>
-        implements AddNestPresenter.OnCageDataChanged, NestListPresenter.onNestInfoAdded {
+        implements NestListPresenter.onNestInfoAdded {
     public static final String TAG = "@victor NestLisAdapter";
     private Context mContext;
     private RecyclerView mRecyclerView;
@@ -41,15 +42,14 @@ public class NestListFragAdapter extends RecyclerView.Adapter<NestListFragAdapte
         mContext = context;
         mRecyclerView = recyclerView;
         mBirdCageInfos = birdCageInfos;
-        AddNestPresenter.setOnCageDataChanged(this);
         NestListPresenter.setOnNestInfoAdded(this);
     }
 
-    @Override
-    public void OnDataAdded(NestInfo cageInfo) {
-        mBirdCageInfos.add(cageInfo);
+    public void addData(NestInfo nestInfo) {
+        mBirdCageInfos.add(nestInfo);
         notifyDataSetChanged();
     }
+
 
     @Override
     public void addNestInfos(List<NestInfo> nestInfos) {

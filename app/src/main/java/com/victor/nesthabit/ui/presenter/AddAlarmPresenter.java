@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.util.Log;
 
@@ -239,6 +240,7 @@ public class AddAlarmPresenter extends RxPresenter implements AddAlarmContract.P
             }
             mView.startPostService();
             mView.finishActivity();
+
         }
 
     }

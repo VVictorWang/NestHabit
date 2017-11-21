@@ -1,5 +1,7 @@
 package com.victor.nesthabit.bean;
 
+import android.arch.persistence.room.Entity;
+
 /**
  * Created by victor on 8/21/17.
  * email: chengyiwang@hustunique.com
