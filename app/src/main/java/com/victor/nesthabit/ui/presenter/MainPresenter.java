@@ -63,6 +63,7 @@ public class MainPresenter extends RxPresenter implements MainContract.Presenter
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(userInfo -> {
                             for (String nestId : userInfo.getJoined_nests()) {
+//                                mNestRepository.deleteNest(nestId);
                                 mNestRepository.loadNestInfo(nestId, new NetWorkBoundUtils
                                         .CallBack<NestInfo>() {
 
@@ -118,7 +119,8 @@ public class MainPresenter extends RxPresenter implements MainContract.Presenter
 
     @Override
     public void notifyNestAdded(String nestId) {
-        mUserRepository.login(Utils.getUsername(), null, new NetWorkBoundUtils.CallBack<UserInfo>
+        mUserRepository.login(Utils.getUsername(), Utils.getPassword(), new NetWorkBoundUtils
+                .CallBack<UserInfo>
                 () {
             @Override
             public void callSuccess(Observable<UserInfo> result) {

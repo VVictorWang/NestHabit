@@ -2,8 +2,8 @@ package com.victor.nesthabit.api;
 
 import com.victor.nesthabit.bean.AddResponse;
 import com.victor.nesthabit.bean.AlarmInfo;
+import com.victor.nesthabit.bean.ChatInfo;
 import com.victor.nesthabit.bean.Constants;
-import com.victor.nesthabit.bean.DakaResponse;
 import com.victor.nesthabit.bean.DateOfNest;
 import com.victor.nesthabit.bean.JoinedNests;
 import com.victor.nesthabit.bean.MessageList;
@@ -11,6 +11,7 @@ import com.victor.nesthabit.bean.MsgResponse;
 import com.victor.nesthabit.bean.MusicInfo;
 import com.victor.nesthabit.bean.NestInfo;
 import com.victor.nesthabit.bean.PostFileResponse;
+import com.victor.nesthabit.bean.PunchInfo;
 import com.victor.nesthabit.bean.RegisterResponse;
 import com.victor.nesthabit.bean.SendMessageResponse;
 import com.victor.nesthabit.bean.UpdateInfo;
@@ -74,6 +75,10 @@ public class NestHabitApi {
 
     public Observable<Response<UserInfo>> login(String username, String paswword) {
         return mApiService.login(username, Base64Cipher.encrypt(paswword));
+    }
+
+    public Observable<Response<UserInfo>> getUserInfo(String objectId) {
+        return mApiService.getUserInfo(objectId);
     }
 
 
@@ -141,13 +146,30 @@ public class NestHabitApi {
         return mApiService.getDateOfNest(username, nestid, header);
     }
 
-    public Observable<DakaResponse> daka(String nestid, String comment, long time, String header) {
-        return mApiService.daka(JsonRequestBody.getTargetNest(nestid, comment, time), header);
+    //punch api
+    public Observable<Response<AddResponse>> punch(PunchInfo punchInfo) {
+        return mApiService.punch(JsonRequestBody.getPunchInfo(punchInfo));
+    }
+
+
+    public Observable<Response<PunchInfo>> getPunchInfo(String objectId) {
+        return mApiService.getPunchInfo(objectId);
+    }
+
+    //chat api
+    public Observable<Response<AddResponse>> chat(ChatInfo chatInfo) {
+        return mApiService.chat(JsonRequestBody.getChatInfo(chatInfo));
+    }
+
+
+    public Observable<Response<ChatInfo>> getChatInfo(String objectId) {
+        return mApiService.getChatInfo(objectId);
     }
 
     public Observable<MusicInfo> getMusicName(String musicid, String header) {
         return mApiService.getMusicName(musicid, header);
     }
+
 
     public Observable<PostFileResponse> postMusic(String fileName, File music) {
         return mApiService.postMusic(fileName, JsonRequestBody.getFile(music));

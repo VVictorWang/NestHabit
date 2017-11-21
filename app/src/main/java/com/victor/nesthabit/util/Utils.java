@@ -31,6 +31,10 @@ public class Utils {
         return PrefsUtils.getValue(AppUtils.getAppContext(), Constants.PASSWORD, null);
     }
 
+    public static String getUserId() {
+        return PrefsUtils.getValue(AppUtils.getAppContext(), Constants.USER_OBJEDCTID, null);
+    }
+
     public static String createAcacheKey(Object... param) {
         String key = "";
         for (Object o : param) {

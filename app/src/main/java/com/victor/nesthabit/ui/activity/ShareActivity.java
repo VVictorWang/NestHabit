@@ -81,27 +81,27 @@ public class ShareActivity extends BaseActivity {
     }
 
     private void daka() {
-        Observable<DakaResponse> observable = NestHabitApi.getInstance().daka(nestId, sharetext
-                .getText().toString(), System.currentTimeMillis(), Utils.getHeader());
-        observable.observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<DakaResponse>() {
-                    @Override
-                    public void onCompleted() {
-                        ActivityManager.startActivity(getActivity(), ShareSuccessActivity.class);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        showToast("打卡失败");
-                        Log.e(TAG, "failuire: " + e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(DakaResponse dakaResponse) {
-                        sOnDakaAdded.OnDakaItemAdded(dakaResponse);
-                    }
-                });
+//        Observable<DakaResponse> observable = NestHabitApi.getInstance().punch(nestId, sharetext
+//                .getText().toString(), System.currentTimeMillis(), Utils.getHeader());
+//        observable.observeOn(AndroidSchedulers.mainThread())
+//                .subscribeOn(Schedulers.io())
+//                .subscribe(new Observer<DakaResponse>() {
+//                    @Override
+//                    public void onCompleted() {
+//                        ActivityManager.startActivity(getActivity(), ShareSuccessActivity.class);
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        showToast("打卡失败");
+//                        Log.e(TAG, "failuire: " + e.getMessage());
+//                    }
+//
+//                    @Override
+//                    public void onNext(DakaResponse dakaResponse) {
+//                        sOnDakaAdded.OnDakaItemAdded(dakaResponse);
+//                    }
+//                });
     }
 
     public static void setOnDakaAdded(OnDakaAdded onDakaAdded) {

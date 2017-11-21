@@ -9,7 +9,9 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.victor.nesthabit.bean.AlarmInfo;
+import com.victor.nesthabit.bean.ChatInfo;
 import com.victor.nesthabit.bean.NestInfo;
+import com.victor.nesthabit.bean.PunchInfo;
 import com.victor.nesthabit.bean.UserInfo;
 
 /**
@@ -19,7 +21,8 @@ import com.victor.nesthabit.bean.UserInfo;
  * @blog www.victorwan.cn                                            #
  */
 
-@Database(entities = {UserInfo.class, NestInfo.class, AlarmInfo.class}, version = 2)
+@Database(entities = {UserInfo.class, NestInfo.class, AlarmInfo.class, PunchInfo.class, ChatInfo
+        .class}, version = 1)
 public abstract class NestHabitDataBase extends RoomDatabase {
     abstract public UserDao userDao();
 
@@ -32,7 +35,7 @@ public abstract class NestHabitDataBase extends RoomDatabase {
     public static NestHabitDataBase getInstance(Context context) {
         if (instance == null) {
             instance = Room.databaseBuilder(context.getApplicationContext(), NestHabitDataBase
-                    .class, "nestHabit1.db").addMigrations(new Migration(1, 2) {
+                    .class, "nestHabit3.db").addMigrations(new Migration(1, 2) {
                 @Override
                 public void migrate(@NonNull SupportSQLiteDatabase database) {
                 }

@@ -1,5 +1,6 @@
 package com.victor.nesthabit.ui.activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,7 +20,7 @@ import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.ui.contract.NestSpecificContract;
 import com.victor.nesthabit.ui.fragment.CommunicateFragment;
 import com.victor.nesthabit.ui.fragment.DaKaWallFragment;
-import com.victor.nesthabit.ui.presenter.NsetSpecificPresenter;
+import com.victor.nesthabit.ui.presenter.NestSpecificPresenter;
 import com.victor.nesthabit.util.ActivityManager;
 import com.victor.nesthabit.util.WidgetUtils;
 import com.victor.nesthabit.view.CircleProgressBar;
@@ -44,16 +45,17 @@ public class NestSpecificActivity extends BaseActivity implements NestSpecificCo
     private String id = null;
     private boolean isOwner = false;
     private long myid = -1;
+    private DaKaWallFragment mDaKaWallFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mPresenter = new NsetSpecificPresenter(this);
-        super.onCreate(savedInstanceState);
+        mPresenter = new NestSpecificPresenter(this);
         if (getIntent() != null) {
-            id = getIntent().getStringExtra("id");
+            id = getIntent().getStringExtra("nestId");
             isOwner = getIntent().getBooleanExtra("isOwner", false);
         }
         setUpViewPager();
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -85,10 +87,10 @@ public class NestSpecificActivity extends BaseActivity implements NestSpecificCo
 
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void initEvent() {
         head.setOnTouchListener(new View.OnTouchListener() {
-            //            private int lastX;
             private int lastY;
 
             @Override
@@ -115,44 +117,31 @@ public class NestSpecificActivity extends BaseActivity implements NestSpecificCo
                 return true;
             }
         });
-        rank.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), RankActivity.class);
-                intent.putExtra("nestId", id);
-                ActivityManager.startActivity(getActivity(), intent);
-            }
+        rank.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), RankActivity.class);
+            intent.putExtra("nestId", id);
+            ActivityManager.startActivity(getActivity(), intent);
         });
-        introduction.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), NestGroupDetailActivity.class);
-                intent.putExtra("nestId", id);
-                intent.putExtra("isOwner", isOwner);
-                ActivityManager.startActivity(getActivity(), intent);
-            }
+        introduction.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), NestGroupDetailActivity.class);
+            intent.putExtra("nestId", id);
+            intent.putExtra("isOwner", isOwner);
+            ActivityManager.startActivity(getActivity(), intent);
         });
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ActivityManager.finishActivity(NestSpecificActivity.this);
-            }
-        });
-        daka.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), ShareActivity.class);
-                intent.putExtra("nestId", id);
-                ActivityManager.startActivity(getActivity(), intent);
+        back.setOnClickListener(v -> ActivityManager.finishActivity(NestSpecificActivity.this));
+        daka.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), ShareActivity.class);
+            intent.putExtra("nestId", id);
+            ActivityManager.startActivity(getActivity(), intent);
 //                mPresenter.checkin();
-            }
         });
 
     }
 
     private void setUpViewPager() {
         MyFragPageAdapter adapter = new MyFragPageAdapter(getSupportFragmentManager());
-        adapter.addFragment(new DaKaWallFragment(), "打卡墙");
+        mDaKaWallFragment = new DaKaWallFragment();
+        adapter.addFragment(mDaKaWallFragment, "打卡墙");
         adapter.addFragment(CommunicateFragment.newInstance(id), "交流板");
         viewpager.setAdapter(adapter);
         tab.setupWithViewPager(viewpager);

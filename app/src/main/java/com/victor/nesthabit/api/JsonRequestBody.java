@@ -3,9 +3,14 @@ package com.victor.nesthabit.api;
 import android.util.Log;
 
 import com.victor.nesthabit.bean.AlarmInfo;
+import com.victor.nesthabit.bean.ChatInfo;
+import com.victor.nesthabit.bean.Constants;
 import com.victor.nesthabit.bean.NestInfo;
+import com.victor.nesthabit.bean.PunchInfo;
 import com.victor.nesthabit.bean.UserInfo;
+import com.victor.nesthabit.util.AppUtils;
 import com.victor.nesthabit.util.GetFileMimeUtil;
+import com.victor.nesthabit.util.PrefsUtils;
 import com.victor.nesthabit.util.Utils;
 import com.victor.nesthabit.util.safe.Base64Cipher;
 
@@ -87,12 +92,35 @@ public class JsonRequestBody {
             jsonObject.put("challenge_days", nestInfo.getChallenge_days());
             jsonObject.put("open", nestInfo.isOpen());
             jsonObject.put("cover_image", "");
-            jsonObject.put("members", new JSONArray());
+
+//            List<NestInfo.MembersBean> membersBeans = new ArrayList<>();
+//            NestInfo.MembersBean bean = new NestInfo.MembersBean();
+//            bean.setUserId(PrefsUtils.getValue(AppUtils.getAppContext(), Constants
+//                    .USER_OBJEDCTID, null));
+//            bean.setConstant_days(0);
+//            bean.setKept_days(0);
+//            membersBeans.add(bean);
+            JSONObject jsonObject1 = new JSONObject();
+            jsonObject1.put("userId", PrefsUtils.getValue(AppUtils.getAppContext(), Constants
+                    .USER_OBJEDCTID, null));
+            jsonObject1.put("kept_days", 0);
+            jsonObject1.put("constant_days", 0);
+//            List<String> temp = new ArrayList<>();
+//            temp.add(jsonObject1.toString());
+//            JSONArray jsonArray = new JSONArray();
+
+            jsonObject1.toJSONArray(new JSONArray());
+            JSONArray jsonArray = new JSONArray();
+            jsonArray.put(jsonObject1);
+            jsonObject.put("members", jsonArray);
             jsonObject.put("members_amount", 1);
             jsonObject.put("owner", Utils.getUsername());
+            jsonObject.put("chatlogs", new JSONArray());
+            jsonObject.put("punchlogs", new JSONArray());
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Log.d("@victor", "add: " + jsonObject.toString());
         return RequestBody.create(sMediaType, jsonObject.toString());
     }
 
@@ -137,12 +165,22 @@ public class JsonRequestBody {
         return RequestBody.create(sMediaType, jsonObject.toString());
     }
 
-    public static RequestBody getTargetNest(String nestid, String comment, long time) {
+    public static RequestBody getPunchInfo(PunchInfo punchInfo) {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("target_nest", nestid);
-            jsonObject.put("comment", comment);
-            jsonObject.put("created_time", time);
+            jsonObject.put("userId", punchInfo.getUserId());
+            jsonObject.put("contents", punchInfo.getContents());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return RequestBody.create(sMediaType, jsonObject.toString());
+    }
+
+    public static RequestBody getChatInfo(ChatInfo chatInfo) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("userId", chatInfo.getUserId());
+            jsonObject.put("contents", chatInfo.getContents());
         } catch (Exception e) {
             e.printStackTrace();
         }

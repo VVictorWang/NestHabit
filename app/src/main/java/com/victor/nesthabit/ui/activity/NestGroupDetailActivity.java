@@ -57,11 +57,11 @@ public class NestGroupDetailActivity extends BaseActivity implements NestGroupDe
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mPresenter = new NestGroupDetailPresenter(this);
         if (getIntent() != null) {
             nestId = getIntent().getStringExtra("nestId");
             isOwner = getIntent().getBooleanExtra("isOwner", false);
         }
-        mPresenter = new NestGroupDetailPresenter(this);
         super.onCreate(savedInstanceState);
     }
 
@@ -77,8 +77,9 @@ public class NestGroupDetailActivity extends BaseActivity implements NestGroupDe
 
     @Override
     protected int getLayoutId() {
-        if (isOwner)
+        if (isOwner) {
             return R.layout.activity_nest_group_detail;
+        }
         return R.layout.activity_nest_group_detail_normal;
     }
 
@@ -109,74 +110,54 @@ public class NestGroupDetailActivity extends BaseActivity implements NestGroupDe
 
     @Override
     protected void initEvent() {
-        memberlayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), MemberListActivity.class);
+        memberlayout.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), MemberListActivity.class);
+            intent.putExtra("nestId", nestId);
+            intent.putExtra("isOwner", isOwner);
+            ActivityManager.startActivity(getActivity(), intent);
+        });
+        starttimelayout.setOnClickListener(v -> {
+            View view = LayoutInflater.from(getActivity()).inflate(R.layout
+                    .calendar_dialog, null);
+            TextView finish = (TextView) view.findViewById(R.id.finish);
+            MaterialCalendarView calendarView = (MaterialCalendarView) view.findViewById(R.id
+                    .calendar);
+            calendarView.state().edit().setMinimumDate(Calendar.getInstance().getTime()
+            ).commit();
+            calendarView.setSelectedDate(CalendarDay.from(DateUtils.StringToDate(getStartTime
+                    ())));
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setView(view);
+            AlertDialog dialog = builder.create();
+            dialog.show();
+            finish.setOnClickListener(v1 -> {
+                setStartTime(DateUtils.DatetoString(calendarView.getSelectedDate().getDate
+                        ()));
+                dialog.dismiss();
+            });
+        });
+        remind.setOnClickListener(v -> {
+            if (Build.VERSION.SDK_INT >= 23 && !((checkSelfPermission(Manifest.permission
+                    .WRITE_EXTERNAL_STORAGE) ==
+                    PackageManager.PERMISSION_GRANTED) && checkSelfPermission(Manifest
+                    .permission.RECORD_AUDIO) ==
+                    PackageManager.PERMISSION_GRANTED)) {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                Manifest.permission.RECORD_AUDIO},
+                        101);
+            } else {
+                Intent intent = new Intent(getActivity(), RemindFriendActivity.class);
                 intent.putExtra("nestId", nestId);
-                intent.putExtra("isOwner", isOwner);
                 ActivityManager.startActivity(getActivity(), intent);
             }
         });
-        starttimelayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                View view = LayoutInflater.from(getActivity()).inflate(R.layout
-                        .calendar_dialog, null);
-                TextView finish = (TextView) view.findViewById(R.id.finish);
-                MaterialCalendarView calendarView = (MaterialCalendarView) view.findViewById(R.id
-                        .calendar);
-                calendarView.state().edit().setMinimumDate(Calendar.getInstance().getTime()
-                ).commit();
-                calendarView.setSelectedDate(CalendarDay.from(DateUtils.StringToDate(getStartTime
-                        ())));
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setView(view);
-                AlertDialog dialog = builder.create();
-                dialog.show();
-                finish.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        setStartTime(DateUtils.DatetoString(calendarView.getSelectedDate().getDate
-                                ()));
-                        dialog.dismiss();
-                    }
-                });
-            }
-        });
-        remind.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
-            @Override
-            public void onClick(View v) {
-                if (Build.VERSION.SDK_INT >= 23 && !((checkSelfPermission(Manifest.permission
-                        .WRITE_EXTERNAL_STORAGE) ==
-                        PackageManager.PERMISSION_GRANTED) && checkSelfPermission(Manifest
-                        .permission.RECORD_AUDIO) ==
-                        PackageManager.PERMISSION_GRANTED)) {
-                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                    Manifest.permission.RECORD_AUDIO},
-                            101);
-                } else {
-                    Intent intent = new Intent(getActivity(), RemindFriendActivity.class);
-                    intent.putExtra("nestId", nestId);
-                    ActivityManager.startActivity(getActivity(), intent);
-                }
-            }
-        });
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ActivityManager.finishActivity(NestGroupDetailActivity.this);
-            }
-        });
+        back.setOnClickListener(v -> ActivityManager.finishActivity(NestGroupDetailActivity.this));
         if (isOwner) {
-            limitamounttoogle.setOnToggleChanged(new SwitchButton.OnToggleChanged() {
-                @Override
-                public void onToggle(boolean on) {
-                    if (on) {
-                        setAmountEnabled(true);
-                    } else
-                        setAmountEnabled(false);
+            limitamounttoogle.setOnToggleChanged(on -> {
+                if (on) {
+                    setAmountEnabled(true);
+                } else {
+                    setAmountEnabled(false);
                 }
             });
         }
@@ -257,8 +238,9 @@ public class NestGroupDetailActivity extends BaseActivity implements NestGroupDe
     public void setLimited(boolean limited) {
         if (limited) {
             limitamounttoogle.toggleOn();
-        } else
+        } else {
             limitamounttoogle.toggleOff();
+        }
     }
 
     @Override
@@ -270,8 +252,9 @@ public class NestGroupDetailActivity extends BaseActivity implements NestGroupDe
     public void setOpen(boolean open) {
         if (open) {
             opentoogle.toggleOn();
-        } else
+        } else {
             opentoogle.toggleOff();
+        }
     }
 
     @Override

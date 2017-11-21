@@ -5,6 +5,7 @@ import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 import android.support.annotation.NonNull;
 
+import com.victor.nesthabit.db.MembersBeanConverter;
 import com.victor.nesthabit.db.StringListConverter;
 
 import java.util.List;
@@ -16,24 +17,26 @@ import java.util.List;
  */
 
 @Entity(tableName = "nests")
-@TypeConverters(StringListConverter.class)
+@TypeConverters({StringListConverter.class, MembersBeanConverter.class})
 public class NestInfo {
 
 
     /**
      * challenge_days : 1000
+     * chatlogs : []
      * cover_image :
-     * createdAt : 2017-11-20 22:36:28
+     * createdAt : 2017-11-21 22:14:29
      * desc : aaaa
-     * members : ["wang","st"]
+     * members : [{"constant_days":2,"kept_days":34,"userId":"32423e"}]
      * members_amount : 1
      * members_limit : 0
      * name : bbbb
-     * objectId : 93c506396b
+     * objectId : 8503821e85
      * open : true
      * owner : wang
+     * punchlogs : []
      * start_time : 1331856000
-     * updatedAt : 2017-11-20 22:36:28
+     * updatedAt : 2017-11-21 22:14:29
      */
 
     private int challenge_days;
@@ -43,7 +46,6 @@ public class NestInfo {
     private int members_amount;
     private int members_limit;
     private String name;
-
     @PrimaryKey
     @NonNull
     private String objectId;
@@ -51,7 +53,9 @@ public class NestInfo {
     private String owner;
     private long start_time;
     private String updatedAt;
-    private List<String> members;
+    private List<String> chatlogs;
+    private List<MembersBean> members;
+    private List<String> punchlogs;
 
     public int getChallenge_days() {
         return challenge_days;
@@ -149,11 +153,64 @@ public class NestInfo {
         this.updatedAt = updatedAt;
     }
 
-    public List<String> getMembers() {
+
+    public List<MembersBean> getMembers() {
         return members;
     }
 
-    public void setMembers(List<String> members) {
+    public void setMembers(List<MembersBean> members) {
         this.members = members;
+    }
+
+    public List<String> getChatlogs() {
+        return chatlogs;
+    }
+
+    public void setChatlogs(List<String> chatlogs) {
+        this.chatlogs = chatlogs;
+    }
+
+    public List<String> getPunchlogs() {
+        return punchlogs;
+    }
+
+    public void setPunchlogs(List<String> punchlogs) {
+        this.punchlogs = punchlogs;
+    }
+
+    public static class MembersBean {
+        /**
+         * constant_days : 2
+         * kept_days : 34
+         * userId : 32423e
+         */
+
+        private int constant_days;
+        private int kept_days;
+        private String userId;
+
+        public int getConstant_days() {
+            return constant_days;
+        }
+
+        public void setConstant_days(int constant_days) {
+            this.constant_days = constant_days;
+        }
+
+        public int getKept_days() {
+            return kept_days;
+        }
+
+        public void setKept_days(int kept_days) {
+            this.kept_days = kept_days;
+        }
+
+        public String getUserId() {
+            return userId;
+        }
+
+        public void setUserId(String userId) {
+            this.userId = userId;
+        }
     }
 }

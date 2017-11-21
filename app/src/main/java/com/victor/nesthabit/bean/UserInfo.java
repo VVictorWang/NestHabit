@@ -38,6 +38,9 @@ public class UserInfo {
     private String objectId;
     private String sessionToken;
     private String updatedAt;
+
+    @PrimaryKey
+    @NonNull
     private String username;
     private List<String> alarm_clocks;
     private List<String> joined_nests;

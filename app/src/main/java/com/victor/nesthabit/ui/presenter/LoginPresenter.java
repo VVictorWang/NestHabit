@@ -46,6 +46,7 @@ public class LoginPresenter extends RxPresenter implements LoginContract.Present
 
     @Override
     public void login(String username, String password) {
+//        mUserRepository.deleteUserInDb(username);
         mUserRepository.login(username, password, new NetWorkBoundUtils.CallBack<UserInfo>() {
             @Override
             public void callSuccess(Observable<UserInfo> result) {
@@ -59,6 +60,8 @@ public class LoginPresenter extends RxPresenter implements LoginContract.Present
                                     userInfo.getUsername());
                             PrefsUtils.putValue(AppUtils.getAppContext(), Constants.PASSWORD,
                                     password);
+                            PrefsUtils.putValue(AppUtils.getAppContext(), Constants.USER_OBJEDCTID,
+                                    userInfo.getObjectId());
                         })
                         .subscribe(userInfo -> {
                             mView.showMyToast("登录成功");

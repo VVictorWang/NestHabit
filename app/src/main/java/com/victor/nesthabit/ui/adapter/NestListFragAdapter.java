@@ -14,14 +14,12 @@ import android.widget.TextView;
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.bean.NestInfo;
 import com.victor.nesthabit.ui.activity.NestSpecificActivity;
-import com.victor.nesthabit.ui.presenter.AddNestPresenter;
 import com.victor.nesthabit.ui.presenter.NestListPresenter;
 import com.victor.nesthabit.util.ActivityManager;
 import com.victor.nesthabit.util.Utils;
 
 import java.util.List;
 
-import static com.victor.nesthabit.R.id.none;
 import static com.victor.nesthabit.R.id.progress_text;
 
 /**
@@ -79,7 +77,7 @@ public class NestListFragAdapter extends RecyclerView.Adapter<NestListFragAdapte
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, NestSpecificActivity.class);
-                intent.putExtra("id", info.getObjectId());
+                intent.putExtra("nestId", info.getObjectId());
                 intent.putExtra("isOwner", isOwner);
                 ActivityManager.startActivity((Activity) mContext, intent);
             }

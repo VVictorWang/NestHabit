@@ -117,7 +117,7 @@ public class UserRepository {
 
             @Override
             protected boolean shouldFetch(@Nullable UserInfo data) {
-                return data == null && password != null;
+                return true;
             }
 
             @NonNull
@@ -130,6 +130,32 @@ public class UserRepository {
             @Override
             protected Observable<Response<UserInfo>> createCall() {
                 return mNestHabitApi.login(name, password);
+            }
+        };
+    }
+
+    public void getUserInfo(String objectId, NetWorkBoundUtils.CallBack<UserInfo> callBack) {
+        new NetWorkBoundUtils<UserInfo, UserInfo>(callBack) {
+            @Override
+            protected void saveCallResult(@NonNull UserInfo item) {
+                mUserDao.insert(item);
+            }
+
+            @Override
+            protected boolean shouldFetch(@Nullable UserInfo data) {
+                return data == null;
+            }
+
+            @NonNull
+            @Override
+            protected Observable<UserInfo> loadFromDb() {
+                return Observable.just(mUserDao.loadUserById(objectId));
+            }
+
+            @NonNull
+            @Override
+            protected Observable<Response<UserInfo>> createCall() {
+                return mNestHabitApi.getUserInfo(objectId);
             }
         };
     }

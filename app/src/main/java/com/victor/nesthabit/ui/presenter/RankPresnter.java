@@ -1,30 +1,15 @@
 package com.victor.nesthabit.ui.presenter;
 
-import android.util.Log;
-
-import com.victor.nesthabit.api.NestHabitApi;
-import com.victor.nesthabit.bean.DateOfNest;
 import com.victor.nesthabit.bean.NestInfo;
-import com.victor.nesthabit.bean.RankItem;
 import com.victor.nesthabit.bean.UserInfo;
+import com.victor.nesthabit.repository.NestRepository;
+import com.victor.nesthabit.repository.UserRepository;
 import com.victor.nesthabit.ui.base.RxPresenter;
 import com.victor.nesthabit.ui.contract.RankContract;
-import com.victor.nesthabit.ui.fragment.RankTotalFragment;
-import com.victor.nesthabit.util.DateUtils;
-import com.victor.nesthabit.util.RxUtil;
-import com.victor.nesthabit.util.Utils;
-
-import java.util.List;
+import com.victor.nesthabit.util.NetWorkBoundUtils;
 
 import rx.Observable;
-import rx.Observer;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
-
-import static rx.Observable.concat;
 
 /**
  * Created by victor on 8/23/17.
@@ -37,14 +22,49 @@ public class RankPresnter extends RxPresenter implements RankContract.Presenter 
     public static final String TAG = "@victor RankPresnter";
     private RankContract.View mView;
 
+    private UserRepository mUserRepository;
+    private NestRepository mNestRepository;
+
     public RankPresnter(RankContract.View view) {
         mView = view;
         mView.setPresenter(this);
+        mNestRepository = NestRepository.getInstance();
+        mUserRepository = UserRepository.getInstance();
     }
 
     @Override
     public void start() {
         String nestId = mView.getNestId();
+        if (nestId != null) {
+            mNestRepository.loadNestInfo(nestId, new NetWorkBoundUtils.CallBack<NestInfo>() {
+                @Override
+                public void callSuccess(Observable<NestInfo> result) {
+                    result.subscribeOn(Schedulers.io())
+                            .map(nestInfo -> nestInfo.getMembers())
+                            .subscribe(membersBeans ->{
+                                for (NestInfo.MembersBean bean : membersBeans) {
+                                    mUserRepository.getUserInfo(bean.getUserId(), new NetWorkBoundUtils.CallBack<UserInfo>() {
+
+                                        @Override
+                                        public void callSuccess(Observable<UserInfo> result) {
+
+                                        }
+
+                                        @Override
+                                        public void callFailure(String errorMessage) {
+
+                                        }
+                                    });
+                                }
+                            });
+                }
+
+                @Override
+                public void callFailure(String errorMessage) {
+
+                }
+            });
+        }
 //        if (nestId != null) {
 //            Log.d(TAG, nestId);
 //            String key = Utils.createAcacheKey("get_nestinfo", nestId);
@@ -105,7 +125,8 @@ public class RankPresnter extends RxPresenter implements RankContract.Presenter 
 //                                                        }
 //
 //                                                        @Override
-//                                                        public void onNext(DateOfNest dateOfNest) {
+//                                                        public void onNext(DateOfNest
+// dateOfNest) {
 //                                                            int type = mView.getType();
 //                                                            if (type == RankTotalFragment
 //                                                                    .TOTAL_TYPE) {
@@ -115,7 +136,8 @@ public class RankPresnter extends RxPresenter implements RankContract.Presenter 
 //                                                                rankItem.setDays(DateUtils
 //                                                                        .getConstantDays
 //                                                                                (DateUtils
-//                                                                                        .formatStrings(Utils.getDays(dateOfNest))));
+//
+// .formatStrings(Utils.getDays(dateOfNest))));
 //                                                        }
 //                                                    });
 //                                            addSubscribe(subscription1);

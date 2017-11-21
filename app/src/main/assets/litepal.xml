@@ -6,7 +6,6 @@
     <list>
         <mapping class="com.victor.nesthabit.bean.AlarmTime"/>
         <mapping class="com.victor.nesthabit.bean.RecordItem"/>
-        <mapping class="com.victor.nesthabit.bean.MyNestInfo"/>
         <mapping class="com.victor.nesthabit.bean.UserInfo"/>
     </list>
 

@@ -2,16 +2,16 @@ package com.victor.nesthabit.api;
 
 import com.victor.nesthabit.bean.AddResponse;
 import com.victor.nesthabit.bean.AlarmInfo;
+import com.victor.nesthabit.bean.ChatInfo;
 import com.victor.nesthabit.bean.Constants;
-import com.victor.nesthabit.bean.DakaResponse;
 import com.victor.nesthabit.bean.DateOfNest;
 import com.victor.nesthabit.bean.JoinedNests;
 import com.victor.nesthabit.bean.MessageList;
 import com.victor.nesthabit.bean.MsgResponse;
 import com.victor.nesthabit.bean.MusicInfo;
 import com.victor.nesthabit.bean.NestInfo;
-import com.victor.nesthabit.bean.NestList;
 import com.victor.nesthabit.bean.PostFileResponse;
+import com.victor.nesthabit.bean.PunchInfo;
 import com.victor.nesthabit.bean.RegisterResponse;
 import com.victor.nesthabit.bean.SendMessageResponse;
 import com.victor.nesthabit.bean.UpdateInfo;
@@ -47,6 +47,9 @@ public interface NestHabitApiService {
     Observable<Response<UserInfo>> login(@Query("username") String username, @Query("password")
             String
             password);
+
+    @GET("1/users/{objectId}")
+    Observable<Response<UserInfo>> getUserInfo(@Path("objectId") String objectId);
 
     @PUT("1/users/{objectId}")
     Observable<Response<UpdateInfo>> editUserInfo(@Path("objectId") String objectId, @Header
@@ -94,8 +97,6 @@ public interface NestHabitApiService {
     @PUT("1/classes/alarm_clock/{objectId}")
     Observable<AlarmInfo> changeAlarm(@Path("objectId") String id, @Body RequestBody body);
 
-    @GET("1/classes/nest")
-    Observable<Response<NestList>> getNestList();
 
     @GET("1/classes/nest/{objectId}")
     Observable<Response<NestInfo>> getNestInfo(@Path("objectId") String objectId);
@@ -104,9 +105,19 @@ public interface NestHabitApiService {
     Observable<DateOfNest> getDateOfNest(@Path("username") String username, @Path("nest_id")
             String nestid, @Header(Constants.HEADER_AU) String header);
 
-    @POST("punch")
-    Observable<DakaResponse> daka(@Body RequestBody body, @Header(Constants.HEADER_AU) String
-            header);
+    //punch api
+    @POST("1/classes/punch")
+    Observable<Response<AddResponse>> punch(@Body RequestBody body);
+
+    @GET("1/classes/punch/{objectId}")
+    Observable<Response<PunchInfo>> getPunchInfo(@Path("objectId") String objectId);
+
+    //chat api
+    @POST("1/classes/chat")
+    Observable<Response<AddResponse>> chat(@Body RequestBody body);
+
+    @GET("1/classes/chat/{objectId}")
+    Observable<Response<ChatInfo>> getChatInfo(@Path("objectId") String objectId);
 
     @GET("music/{id}")
     Observable<MusicInfo> getMusicName(@Path("id") String id, @Header(Constants.HEADER_AU)

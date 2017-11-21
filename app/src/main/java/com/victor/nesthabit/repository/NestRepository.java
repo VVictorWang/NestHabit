@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.victor.nesthabit.api.NestHabitApi;
-import com.victor.nesthabit.bean.AddNestResponse;
 import com.victor.nesthabit.bean.AddResponse;
 import com.victor.nesthabit.bean.NestInfo;
 import com.victor.nesthabit.db.NestDao;
@@ -61,6 +60,11 @@ public class NestRepository {
                         }
                     }
                 });
+    }
+
+    public void deleteNest(String nestId) {
+        Observable.just(1).subscribeOn(Schedulers.io())
+                .subscribe(integer -> mNestDao.deleteNest(mNestDao.loadNestInfo(nestId)));
     }
 
     public void loadNestInfo(String objectId, NetWorkBoundUtils.CallBack<NestInfo> callBack) {

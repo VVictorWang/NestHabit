@@ -24,6 +24,9 @@ public interface UserDao {
     @Query("select * from users where username=:name")
     UserInfo loadUser(String name);
 
+    @Query("select * from users where objectId=:objectId")
+    UserInfo loadUserById(String objectId);
+
     @Delete
     void deleteUser(UserInfo userInfo);
 

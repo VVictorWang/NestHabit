@@ -24,6 +24,7 @@ public class Constants {
 
     public static final String USERNAME = "username";
     public static final String PASSWORD = "user_password";
+    public static final String USER_OBJEDCTID = "user_objectId";
 
     public static final String USER_ID = "User_id";
     public static final String PATH_DATA = AppUtils.getAppContext().getExternalCacheDir().getPath();
