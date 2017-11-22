@@ -4,6 +4,7 @@ import com.victor.nesthabit.bean.AlarmTime;
 import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.ui.base.Baseview;
 
+import java.io.File;
 import java.util.List;
 
 import okhttp3.MultipartBody;
@@ -18,16 +19,16 @@ public interface AddAlarmContract {
     interface View extends Baseview<Presenter> {
         void setEditToobar();
 
-        String getMusicType();
-
-        void startPostService();
 
         void clearText();
 
         String getIntentId();
 
+        String getMusicUri();
 
-        void setMusicUri(String uri);
+        int getVolume();
+
+        boolean isVibrate();
 
         String getNestid();
 
@@ -60,6 +61,8 @@ public interface AddAlarmContract {
 
         void setMusic(String name);
 
+        void setMusicFile(File file);
+
         boolean getSnap();
 
         void setSnap(boolean isSnap);
@@ -74,7 +77,6 @@ public interface AddAlarmContract {
 
         void finishActivity();
 
-        void setAlarm(AlarmTime alarm);
 
         void setMusicError();
     }

@@ -7,12 +7,14 @@ import android.graphics.Canvas;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Environment;
 
 import com.victor.nesthabit.bean.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
@@ -253,7 +255,9 @@ public class ACache {
      */
     public String getAsString(String key) {
         File file = mCache.get(key);
-        if (!file.exists()) return null;
+        if (!file.exists()) {
+            return null;
+        }
         boolean removeFile = false;
         BufferedReader in = null;
         try {
@@ -562,6 +566,13 @@ public class ACache {
         return Utils.Bytes2Bimap(getAsBinary(key));
     }
 
+    public File getAsFile(String key) {
+        if (getAsBinary(key) == null) {
+            return null;
+        }
+        return com.victor.nesthabit.util.Utils.Bytes2File(key,getAsBinary(key));
+    }
+
     // =======================================
     // ============= drawable 数据 读写 =============
     // =======================================
@@ -759,6 +770,8 @@ public class ACache {
             }
             return BitmapFactory.decodeByteArray(b, 0, b.length);
         }
+
+
 
 
         /*

@@ -6,19 +6,10 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 
-import com.victor.nesthabit.api.NestHabitApi;
-import com.victor.nesthabit.bean.PostFileResponse;
-import com.victor.nesthabit.util.PrefsUtils;
-import com.victor.nesthabit.util.Utils;
-
 import java.io.File;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
-import rx.Observable;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by victor on 8/27/17.

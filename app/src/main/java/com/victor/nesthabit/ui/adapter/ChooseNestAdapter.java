@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.bean.NestInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,16 +30,14 @@ public class ChooseNestAdapter extends RecyclerView.Adapter<ChooseNestAdapter.Li
     private String tickedid = null;
 
 
-    public ChooseNestAdapter(Context context, RecyclerView recyclerView, List<NestInfo>
-            birdCageInfos) {
+    public ChooseNestAdapter(Context context, RecyclerView recyclerView) {
         mContext = context;
         mRecyclerView = recyclerView;
-        mBirdCageInfos = birdCageInfos;
+        mBirdCageInfos = new ArrayList<>();
     }
 
-    public void setListData(List<NestInfo> nestInfos) {
-        mBirdCageInfos.clear();
-        mBirdCageInfos.addAll(nestInfos);
+    public void addData(NestInfo nestInfo) {
+        mBirdCageInfos.add(nestInfo);
         notifyDataSetChanged();
     }
 
@@ -67,11 +66,13 @@ public class ChooseNestAdapter extends RecyclerView.Adapter<ChooseNestAdapter.Li
                             tickholer.redborder.setVisibility(View.INVISIBLE);
                         }
                         tickholer = holder;
-                    } else
+                    } else {
                         tickholer = holder;
+                    }
                     tickedid = info.getObjectId();
-                } else
+                } else {
                     holder.redborder.setVisibility(View.INVISIBLE);
+                }
             }
         });
 

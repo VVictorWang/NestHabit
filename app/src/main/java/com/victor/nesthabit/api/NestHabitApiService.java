@@ -16,6 +16,7 @@ import com.victor.nesthabit.bean.UserInfo;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -26,6 +27,7 @@ import retrofit2.http.PUT;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Url;
 import rx.Observable;
 
 /**
@@ -87,10 +89,10 @@ public interface NestHabitApiService {
 
 
     @POST("1/classes/alarm_clock")
-    Observable<AlarmInfo> addAlarm(@Body RequestBody body);
+    Observable<Response<AddResponse>> addAlarm(@Body RequestBody body);
 
     @GET("1/classes/alarm_clock/{objectId}")
-    Observable<Response<AlarmInfo>> getAlarmInfo(@Path("Id") String objectId);
+    Observable<Response<AlarmInfo>> getAlarmInfo(@Path("objectId") String objectId);
 
     @DELETE("alarm_clock/{id}")
     Observable<MsgResponse> deleteAlarm(@Path("id") String id, @Header(Constants
@@ -123,9 +125,12 @@ public interface NestHabitApiService {
             String name, @Part MultipartBody.Part file, @Header(Constants.HEADER_AU) String
                                            header);
 
-    @POST("2/file/{filename}")
-    Observable<PostFileResponse> postMusic(@Path("filename") String fileName, @Body RequestBody
-            file);
+    @POST("2/files/{fileName}")
+    Observable<Response<PostFileResponse>> postMusic(@Path("fileName") String fileName, @Body
+            RequestBody file);
 
+
+    @GET
+    Observable<Response<ResponseBody>> download(@Url String url);
 
 }

@@ -94,6 +94,20 @@ public class MusicSettingAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     }
 
+    public int getVolume() {
+        if (mVibrateVolumeAdapter != null) {
+            return mVibrateVolumeAdapter.getVolume();
+        }
+        return 0;
+    }
+
+    public boolean isVibrate() {
+        if (mVibrateVolumeAdapter != null) {
+            return mVibrateVolumeAdapter.isVabriate();
+        }
+        return false;
+    }
+
     public void stopPlaying() {
         if (mMusicListAdapter != null) {
             mMusicListAdapter.stopPlaying();

@@ -161,8 +161,12 @@ public class JsonRequestBody {
             jsonObject.put("title", alarmInfo.getTitle());
             jsonObject.put("hour", alarmInfo.getHour());
             jsonObject.put("minute", alarmInfo.getMinute());
-            jsonObject.put("repeat", alarmInfo.getRepeat());
-            jsonObject.put("music", alarmInfo.getMusic());
+            jsonObject.put("repeat", new JSONArray(alarmInfo.getRepeat()));
+            JSONObject jsonObject1 = new JSONObject();
+            jsonObject1.put("filename", alarmInfo.getMusic().getFilename());
+            jsonObject1.put("cdn", alarmInfo.getMusic().getCdn());
+            jsonObject1.put("url", alarmInfo.getMusic().getUrl());
+            jsonObject.put("music", jsonObject1);
             jsonObject.put("nap", alarmInfo.isNap());
             jsonObject.put("volume", alarmInfo.getVolume());
             jsonObject.put("vibrate", alarmInfo.isVibrate());

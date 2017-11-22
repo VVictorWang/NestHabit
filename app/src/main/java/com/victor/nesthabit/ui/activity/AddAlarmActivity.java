@@ -17,17 +17,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.bean.AlarmTime;
-import com.victor.nesthabit.service.PostMusicService;
 import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.ui.contract.AddAlarmContract;
 import com.victor.nesthabit.ui.presenter.AddAlarmPresenter;
 import com.victor.nesthabit.util.ActivityManager;
-import com.victor.nesthabit.util.AlarmManagerUtil;
 import com.victor.nesthabit.view.PickerView;
 import com.victor.nesthabit.view.SwitchButton;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,6 +56,9 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
     private List<View> mViews = new ArrayList<>();
     private String id = null;
     private String musicUri = null, nestid = null, musicType = null, musicName = null;
+    private int volume;
+    private boolean isVibrate;
+    private File musicFile = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,19 +138,6 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
     }
 
     @Override
-    public String getMusicType() {
-        return musicType;
-    }
-
-    @Override
-    public void startPostService() {
-        Intent intent = new Intent(this, PostMusicService.class);
-        intent.putExtra("musicUri", musicUri);
-        intent.putExtra("name", musicName);
-        startService(intent);
-    }
-
-    @Override
     public void clearText() {
         setEditTitle("");
         title.setHint(getString(R.string.edit_your_title));
@@ -164,9 +152,20 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
         return id;
     }
 
+
     @Override
-    public void setMusicUri(String uri) {
-        musicUri = uri;
+    public String getMusicUri() {
+        return musicUri;
+    }
+
+    @Override
+    public int getVolume() {
+        return volume;
+    }
+
+    @Override
+    public boolean isVibrate() {
+        return isVibrate;
     }
 
 
@@ -175,51 +174,36 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
         return nestid;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void initEvent() {
-        music_layout.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(AddAlarmActivity.this, MusicSettingActivity.class);
-                if (Build.VERSION.SDK_INT >= 23 && !(checkSelfPermission(Manifest.permission
-                        .READ_EXTERNAL_STORAGE) ==
-                        PackageManager
-                                .PERMISSION_GRANTED)) {
-                    requestPermissions(new String[]{Manifest.permission
-                            .READ_EXTERNAL_STORAGE}, 101);
+        music_layout.setOnClickListener(v -> {
+            Intent intent = new Intent(AddAlarmActivity.this, MusicSettingActivity.class);
+            if (Build.VERSION.SDK_INT >= 23 && !(checkSelfPermission(Manifest.permission
+                    .READ_EXTERNAL_STORAGE) ==
+                    PackageManager
+                            .PERMISSION_GRANTED)) {
+                requestPermissions(new String[]{Manifest.permission
+                        .READ_EXTERNAL_STORAGE}, 101);
 
-                } else {
-                    int position = containsInProfile(getMusic());
-                    Log.d(TAG, "position : " + position);
-                    intent.putExtra("profile", position);
-                    intent.putExtra("musicUri", musicUri);
-                    intent.putExtra("musicName", musicName);
-                    ActivityManager.startActivityForResult(getActivity(), intent, 222);
-                }
+            } else {
+                int position = containsInProfile(getMusic());
+                Log.d(TAG, "position : " + position);
+                intent.putExtra("profile", position);
+                intent.putExtra("musicUri", musicUri);
+                intent.putExtra("musicName", musicName);
+                intent.putExtra("music", musicFile);
+                ActivityManager.startActivityForResult(getActivity(), intent, 222);
+            }
 
 
-            }
         });
-        title_layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ActivityManager.startActivity(getActivity(), AlarmActivity.class);
-            }
-        });
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ActivityManager.finishActivity(getActivity());
-            }
-        });
-        cagelayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ActivityManager.startActivityForResult(getActivity(), ChooseNestActivity.class,
-                        123);
-            }
-        });
+        title_layout.setOnClickListener(v -> ActivityManager.startActivity(getActivity(),
+                AlarmActivity.class));
+        back.setOnClickListener(v -> ActivityManager.finishActivity(getActivity()));
+        cagelayout.setOnClickListener(v -> ActivityManager.startActivityForResult(getActivity(),
+                ChooseNestActivity.class,
+                123));
 
         finish.setOnClickListener(this);
         sunday.setOnClickListener(this);
@@ -254,6 +238,8 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
                     setMusic(data.getStringExtra("name"));
                     musicUri = data.getStringExtra("musicUri");
                     musicName = data.getStringExtra("name");
+                    volume = data.getIntExtra("volume", 0);
+                    isVibrate = data.getBooleanExtra("isVibrate", false);
                 }
                 break;
             case 123:
@@ -417,8 +403,17 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void setMusic(String name) {
-        music.setText(name);
+        if ("".equals(name)) {
+            music.setText("");
+        } else {
+            music.setText(name.substring(0, name.lastIndexOf(".")));
+        }
         musicName = name;
+    }
+
+    @Override
+    public void setMusicFile(File file) {
+        musicFile = file;
     }
 
     @Override
@@ -435,8 +430,9 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
     public void setSnap(boolean isSnap) {
         if (isSnap) {
             snaptoogle.toggleOn();
-        } else
+        } else {
             snaptoogle.toggleOff();
+        }
     }
 
     @Override
@@ -448,8 +444,9 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
     public void setVoice(boolean isVoice) {
         if (isVoice) {
             receivevoice.toggleOn();
-        } else
+        } else {
             receivevoice.toggleOff();
+        }
     }
 
     @Override
@@ -461,18 +458,14 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
     public void setRemindText(boolean isRemindText) {
         if (isRemindText) {
             receivetext.toggleOn();
-        } else
+        } else {
             receivetext.toggleOff();
+        }
     }
 
     @Override
     public void finishActivity() {
         ActivityManager.finishActivity(getActivity());
-    }
-
-    @Override
-    public void setAlarm(AlarmTime alarm) {
-        AlarmManagerUtil.setAlarm(getActivity(), alarm);
     }
 
 

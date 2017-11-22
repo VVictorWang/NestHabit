@@ -5,7 +5,9 @@ import android.os.Environment;
 
 import com.victor.nesthabit.bean.Constants;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -32,6 +34,40 @@ public class Utils {
 
     public static String getUserId() {
         return PrefsUtils.getValue(AppUtils.getAppContext(), Constants.USER_OBJEDCTID, null);
+    }
+
+    public static File Bytes2File(String fileName, byte[] bytes) {
+        File file = new File(Environment.getDownloadCacheDirectory(), fileName);
+        if (file.exists()) {
+            return file;
+        }
+        FileOutputStream outputStream = null;
+        BufferedOutputStream bufferedOutputStream = null;
+        try {
+
+            file.createNewFile();
+            outputStream = new FileOutputStream(file);
+            bufferedOutputStream = new BufferedOutputStream(outputStream);
+            bufferedOutputStream.write(bytes);
+            bufferedOutputStream.flush();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (outputStream != null) {
+                try {
+                    outputStream.close();
+                    if (bufferedOutputStream != null) {
+                        bufferedOutputStream.close();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+        return file;
+
     }
 
     public static String createAcacheKey(Object... param) {

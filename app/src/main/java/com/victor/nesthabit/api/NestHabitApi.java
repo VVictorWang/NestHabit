@@ -20,6 +20,7 @@ import java.util.concurrent.TimeUnit;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -126,7 +127,7 @@ public class NestHabitApi {
 
 
     //alarm api
-    public Observable<AlarmInfo> addAlarm(AlarmInfo alarmInfo) {
+    public Observable<Response<AddResponse>> addAlarm(AlarmInfo alarmInfo) {
         return mApiService.addAlarm(JsonRequestBody.getAlarm(alarmInfo));
     }
 
@@ -169,9 +170,12 @@ public class NestHabitApi {
     }
 
 
-    public Observable<PostFileResponse> postMusic(String fileName, File music) {
+    public Observable<Response<PostFileResponse>> postMusic(String fileName, File music) {
         return mApiService.postMusic(fileName, JsonRequestBody.getFile(music));
     }
 
 
+    public Observable<Response<ResponseBody>> download(String url) {
+        return mApiService.download(url);
+    }
 }

@@ -28,6 +28,8 @@ public class VibrateVolumeAdapter extends RecyclerView.Adapter<RecyclerView.View
     private int profileposiition = -1;
     private MediaPlayer mMediaPlayer;
     private String musicUri = null, musicName = null;
+    private int volume;
+    private boolean isVabriate;
 
     public VibrateVolumeAdapter(Context context, int profileposiition, String musicUri, String
             musicName) {
@@ -77,6 +79,7 @@ public class VibrateVolumeAdapter extends RecyclerView.Adapter<RecyclerView.View
                     manager.setStreamVolume(AudioManager.STREAM_MUSIC, progress, AudioManager
                             .FLAG_PLAY_SOUND);
                     ((VolumeViewHoler) holder).percent.setText(progress + "%");
+                    volume = progress;
                 }
 
                 @Override
@@ -93,6 +96,8 @@ public class VibrateVolumeAdapter extends RecyclerView.Adapter<RecyclerView.View
             ((MusicListAdapter.MyViewHolder) holder).isChecked.setVisibility(View.VISIBLE);
             ((MusicListAdapter.MyViewHolder) holder).name.setText(musicName);
             playMusic(musicUri);
+        } else if (type == VIBRATE_TYPE) {
+            ((ViberateViewHoler) holder).vibrate.setOnToggleChanged(on -> isVabriate = on);
         }
     }
 
@@ -118,6 +123,14 @@ public class VibrateVolumeAdapter extends RecyclerView.Adapter<RecyclerView.View
         } else {
             return 2;
         }
+    }
+
+    public int getVolume() {
+        return volume;
+    }
+
+    public boolean isVabriate() {
+        return isVabriate;
     }
 
     static class ViberateViewHoler extends RecyclerView.ViewHolder {

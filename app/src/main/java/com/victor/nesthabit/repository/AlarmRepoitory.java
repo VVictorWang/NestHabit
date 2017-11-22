@@ -5,14 +5,19 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.victor.nesthabit.api.NestHabitApi;
+import com.victor.nesthabit.bean.AddResponse;
 import com.victor.nesthabit.bean.AlarmInfo;
 import com.victor.nesthabit.db.AlarmDao;
 import com.victor.nesthabit.db.NestHabitDataBase;
 import com.victor.nesthabit.util.AppUtils;
 import com.victor.nesthabit.util.NetWorkBoundUtils;
 
+import java.io.IOException;
+
 import retrofit2.Response;
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * @author victor
@@ -64,5 +69,21 @@ public class AlarmRepoitory {
                 return mNestHabitApi.getAlarmInfo(alarmId);
             }
         };
+    }
+
+    public void addAlarm(AlarmInfo alarmInfo, ReposityCallback<AddResponse> callback) {
+        mNestHabitApi.addAlarm(alarmInfo).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(alarmInfo1 -> {
+                    if (alarmInfo1.isSuccessful()) {
+                        callback.callSuccess(alarmInfo1.body());
+                    } else {
+                        try {
+                            callback.callFailure(alarmInfo1.errorBody().string());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
     }
 }

@@ -2,8 +2,10 @@ package com.victor.nesthabit.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.bean.Constants;
@@ -18,6 +20,7 @@ public class FirstActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
         ActivityManager.getInstance().pushActivity(FirstActivity.this);
+//        Log.d("@victor", Environment.getDownloadCacheDirectory().getAbsolutePath());
         String authorization = PrefsUtils.getValue(FirstActivity.this, Constants.AUTHORIZATION,
                 "empty");
         authorization = "empty";

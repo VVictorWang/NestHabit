@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -92,6 +91,8 @@ public class MusicSettingActivity extends BaseActivity {
         if (adapter != null && adapter.getMusicName() != null) {
             intent.putExtra("name", adapter.getMusicName());
             intent.putExtra("musicUri", adapter.getMusicUri());
+            intent.putExtra("volume", adapter.getVolume());
+            intent.putExtra("isVibrate", adapter.isVibrate());
             setResult(111, intent);
         } else
             setResult(112);

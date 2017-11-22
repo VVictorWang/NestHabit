@@ -131,10 +131,11 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.MyVi
 
     @Override
     public int getItemCount() {
-        if (mCursor != null)
+        if (mCursor != null) {
             return mCursor.getCount();
-        else
+        } else {
             return 0;
+        }
     }
 
     public void stopPlaying() {
