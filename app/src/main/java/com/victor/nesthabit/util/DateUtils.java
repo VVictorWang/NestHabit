@@ -26,12 +26,26 @@ public class DateUtils {
         return sdf.format(new Date(time));
     }
 
-    public static String formatString(String time, String pattern) {
+    public static String formatString(String time, String originPattern,String pattern) {
         DateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        DateFormat format = new SimpleDateFormat(originPattern);
         String result = null;
         try {
-            Date date = simpleDateFormat.parse(time);
-            result =  simpleDateFormat.format(date);
+            Date date = format.parse(time);
+            result = simpleDateFormat.format(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public static String formatCreatedAt(String time, String pattern) {
+        DateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String result = null;
+        try {
+            Date date = format.parse(time);
+            result = simpleDateFormat.format(date);
         } catch (Exception e) {
             e.printStackTrace();
         }

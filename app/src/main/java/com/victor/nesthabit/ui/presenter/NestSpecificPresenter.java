@@ -1,7 +1,11 @@
 package com.victor.nesthabit.ui.presenter;
 
+import com.victor.nesthabit.bean.ChatInfo;
 import com.victor.nesthabit.bean.NestInfo;
+import com.victor.nesthabit.bean.PunchInfo;
+import com.victor.nesthabit.repository.ChatRepository;
 import com.victor.nesthabit.repository.NestRepository;
+import com.victor.nesthabit.repository.PunchRepository;
 import com.victor.nesthabit.ui.base.RxPresenter;
 import com.victor.nesthabit.ui.contract.NestSpecificContract;
 import com.victor.nesthabit.util.NetWorkBoundUtils;
@@ -22,11 +26,15 @@ public class NestSpecificPresenter extends RxPresenter implements NestSpecificCo
     private NestSpecificContract.View mView;
 
     private NestRepository mNestRepository;
+    private PunchRepository mPunchRepository;
+    private ChatRepository mChatRepository;
 
     public NestSpecificPresenter(NestSpecificContract.View view) {
         mView = view;
         mView.setPresenter(this);
         mNestRepository = NestRepository.getInstance();
+        mPunchRepository = PunchRepository.getInstance();
+        mChatRepository = ChatRepository.getInstance();
     }
 
     @Override
@@ -54,6 +62,41 @@ public class NestSpecificPresenter extends RxPresenter implements NestSpecificCo
                                             mView.setConstantProgresss(membersBean
                                                     .getConstant_days() + 2);
                                         });
+                                for (String puchId : nestInfo.getPunchlogs()) {
+                                    mPunchRepository.getPunchInfo(puchId, new NetWorkBoundUtils
+                                            .CallBack<PunchInfo>() {
+                                        @Override
+                                        public void callSuccess(Observable<PunchInfo> result) {
+                                            result.subscribeOn(Schedulers.io())
+                                                    .observeOn(AndroidSchedulers.mainThread())
+                                                    .subscribe(punchInfo -> mView.addPunchIno
+                                                            (punchInfo));
+                                        }
+
+                                        @Override
+                                        public void callFailure(String errorMessage) {
+
+                                        }
+                                    });
+                                }
+                                for (String chatId : nestInfo.getChatlogs()) {
+                                    mChatRepository.getChatInfo(chatId, new NetWorkBoundUtils
+                                            .CallBack<ChatInfo>() {
+
+                                        @Override
+                                        public void callSuccess(Observable<ChatInfo> result) {
+                                            result.subscribeOn(Schedulers.io())
+                                                    .observeOn(AndroidSchedulers.mainThread())
+                                                    .subscribe(chatInfo -> mView.addChatInfo
+                                                            (chatInfo));
+                                        }
+
+                                        @Override
+                                        public void callFailure(String errorMessage) {
+
+                                        }
+                                    });
+                                }
                             });
                 }
 

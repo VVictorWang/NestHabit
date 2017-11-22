@@ -10,8 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.bean.DakaResponse;
-import com.victor.nesthabit.ui.activity.ShareActivity;
+import com.victor.nesthabit.bean.PunchInfo;
 import com.victor.nesthabit.util.DateUtils;
 
 import java.util.ArrayList;
@@ -23,20 +22,18 @@ import java.util.List;
  * blog: www.victorwang.science                                            #
  */
 
-public class DaKaWallAdapater extends RecyclerView.Adapter<DaKaWallAdapater.ContentViewHolder>
-        implements ShareActivity.OnDakaAdded {
+public class DaKaWallAdapater extends RecyclerView.Adapter<DaKaWallAdapater.ContentViewHolder> {
 
     private Context mContext;
-    private List<DakaResponse> mDakaResponses;
+    private List<PunchInfo> mPunchInfoList;
 
     public DaKaWallAdapater(Context context) {
         mContext = context;
-        mDakaResponses = new ArrayList<>();
-        ShareActivity.setOnDakaAdded(this);
+        mPunchInfoList = new ArrayList<>();
     }
 
-    public void addItem(DakaResponse daysBean) {
-        mDakaResponses.add(daysBean);
+    public void addItem(PunchInfo punchInfo) {
+        mPunchInfoList.add(punchInfo);
         notifyDataSetChanged();
     }
 
@@ -49,14 +46,14 @@ public class DaKaWallAdapater extends RecyclerView.Adapter<DaKaWallAdapater.Cont
 
     @Override
     public void onBindViewHolder(ContentViewHolder holder, int position) {
-        DakaResponse bean = mDakaResponses.get(position);
+        PunchInfo bean = mPunchInfoList.get(position);
         String time = getDayForSection(position);
         if (position == getPositionForSection(time)) {
             holder.datelayout.setVisibility(View.VISIBLE);
             holder.date.setText(DateUtils.format(System.currentTimeMillis(), "yyyy-MM-dd"));
         }
-        holder.name.setText(bean.username);
-        holder.text.setText(bean.comment);
+        holder.name.setText("test");
+        holder.text.setText(bean.getContents());
         if (position == 0) {
             holder.dateViewFirst.setVisibility(View.INVISIBLE);
         }
@@ -68,28 +65,23 @@ public class DaKaWallAdapater extends RecyclerView.Adapter<DaKaWallAdapater.Cont
 
     @Override
     public int getItemCount() {
-        return mDakaResponses.size();
+        return mPunchInfoList.size();
     }
 
     public String getDayForSection(int position) {
-        long time = mDakaResponses.get(position).created_time;
-        return DateUtils.format(time, "yyyyMMdd");
+        String time = mPunchInfoList.get(position).getCreatedAt();
+        return DateUtils.formatString(time, "yyyy-MM-dd HH:mm:ss", "yyyyMMdd");
     }
 
     public int getPositionForSection(String day) {
         for (int i = 0; i < getItemCount(); i++) {
-            long time = mDakaResponses.get(i).created_time;
-            String dayString = DateUtils.format(time, "yyyyMMdd");
+            String time = mPunchInfoList.get(i).getCreatedAt();
+            String dayString = DateUtils.formatString(time, "yyyy-MM-dd HH:mm:ss", "yyyyMMdd");
             if (dayString.equals(day)) {
                 return i;
             }
         }
         return -1;
-    }
-
-    @Override
-    public void OnDakaItemAdded(DakaResponse dakaResponse) {
-        addItem(dakaResponse);
     }
 
 

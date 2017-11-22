@@ -6,7 +6,6 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 
 import com.victor.nesthabit.bean.ChatInfo;
-import com.victor.nesthabit.bean.PunchInfo;
 
 /**
  * @author victor
@@ -21,5 +20,5 @@ public interface ChatDao {
     void insert(ChatInfo chatInfo);
 
     @Query("select * from chats where objectId =:objectId")
-    PunchInfo loadPunch(String objectId);
+    ChatInfo loadChat(String objectId);
 }

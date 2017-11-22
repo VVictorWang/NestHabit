@@ -1,7 +1,6 @@
 package com.victor.nesthabit.bean;
 
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
 import android.arch.persistence.room.TypeConverters;
 import android.support.annotation.NonNull;
 
@@ -15,7 +14,7 @@ import java.util.List;
  * blog: www.victorwang.science                                            #
  */
 
-@Entity(tableName = "users")
+@Entity(tableName = "users", primaryKeys = {"objectId", "username"})
 @TypeConverters(StringListConverter.class)
 public class UserInfo {
 
@@ -33,13 +32,11 @@ public class UserInfo {
 
     private String avatar;
     private String createdAt;
-    @PrimaryKey
     @NonNull
     private String objectId;
     private String sessionToken;
     private String updatedAt;
 
-    @PrimaryKey
     @NonNull
     private String username;
     private List<String> alarm_clocks;

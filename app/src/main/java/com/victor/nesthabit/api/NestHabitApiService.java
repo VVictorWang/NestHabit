@@ -65,11 +65,16 @@ public interface NestHabitApiService {
     @POST("1/classes/nest")
     Observable<Response<AddResponse>> addNest(@Body RequestBody body);
 
+    @GET("1/classes/nest/{objectId}")
+    Observable<Response<NestInfo>> getNestInfo(@Path("objectId") String objectId);
+
+
+    @PUT("1/classes/nest/{objectId}")
+    Observable<Response<UpdateInfo>> changeNest(@Path("objectId") String objectId, @Body
+            RequestBody body);
+
     @DELETE("1/classes/nest/{objectId}")
     Observable<MsgResponse> deleteNest(@Path("objectId") String objectId);
-
-    @POST("1/classes/nest/{objectId}")
-    Observable<NestInfo> changeNest(@Path("objectId") String objectId, @Body RequestBody body);
 
     @DELETE("nest/{id}/members/{member_username}")
     Observable<NestInfo> deleteMember(@Path("id") String id, @Path("member_username")
@@ -97,9 +102,6 @@ public interface NestHabitApiService {
     @PUT("1/classes/alarm_clock/{objectId}")
     Observable<AlarmInfo> changeAlarm(@Path("objectId") String id, @Body RequestBody body);
 
-
-    @GET("1/classes/nest/{objectId}")
-    Observable<Response<NestInfo>> getNestInfo(@Path("objectId") String objectId);
 
     @GET("user/{username}/nest/{nest_id}/punches")
     Observable<DateOfNest> getDateOfNest(@Path("username") String username, @Path("nest_id")

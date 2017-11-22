@@ -1,5 +1,7 @@
 package com.victor.nesthabit.ui.contract;
 
+import com.victor.nesthabit.bean.ChatInfo;
+import com.victor.nesthabit.bean.PunchInfo;
 import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.ui.base.Baseview;
 
@@ -14,6 +16,10 @@ public interface NestSpecificContract {
         int getTotalday();
 
         void setTotalday(int totalday);
+
+        void addPunchIno(PunchInfo punchInfo);
+
+        void addChatInfo(ChatInfo chatInfo);
 
         int getConstantDay();
 

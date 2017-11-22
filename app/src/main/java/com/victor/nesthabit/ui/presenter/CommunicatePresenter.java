@@ -1,24 +1,22 @@
 package com.victor.nesthabit.ui.presenter;
 
-import android.util.Log;
-
-import com.victor.nesthabit.api.NestHabitApi;
-import com.victor.nesthabit.bean.MessageList;
-import com.victor.nesthabit.bean.SendMessageResponse;
-import com.victor.nesthabit.ui.adapter.CommunicateAdapter;
+import com.victor.nesthabit.bean.AddResponse;
+import com.victor.nesthabit.bean.ChatInfo;
+import com.victor.nesthabit.bean.NestInfo;
+import com.victor.nesthabit.bean.UpdateInfo;
+import com.victor.nesthabit.repository.ChatRepository;
+import com.victor.nesthabit.repository.NestRepository;
+import com.victor.nesthabit.repository.ReposityCallback;
 import com.victor.nesthabit.ui.base.RxPresenter;
 import com.victor.nesthabit.ui.contract.CommunicateContract;
-import com.victor.nesthabit.util.RxUtil;
+import com.victor.nesthabit.util.NetWorkBoundUtils;
 import com.victor.nesthabit.util.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
-import rx.Observer;
-import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.functions.Func2;
 import rx.schedulers.Schedulers;
 
 /**
@@ -31,77 +29,17 @@ public class CommunicatePresenter extends RxPresenter implements CommunicateCont
 
     public static final String TAG = "@victor CommPresenter";
     private CommunicateContract.View mView;
+    private ChatRepository mChatRepository;
 
     public CommunicatePresenter(CommunicateContract.View view) {
         mView = view;
         mView.setPresenter(this);
+        mChatRepository = ChatRepository.getInstance();
     }
 
     @Override
     public void start() {
-        String key = Utils.createAcacheKey("get-message-list", mView.getNestId());
-        Observable<MessageList> observable = NestHabitApi.getInstance().getMessageList(mView.getNestId
-                (), Utils.getHeader()).compose(RxUtil.<MessageList>rxCacheListHelper(key));
-        Subscription subscription = observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<MessageList>() {
-                    @Override
-                    public void onCompleted() {
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(MessageList messageList) {
-                        List<SendMessageResponse> responses = messageList.chat_log;
-                        Observable.from(responses).map(new Func1<SendMessageResponse,
-                                SendMessageResponse>() {
-                            @Override
-                            public SendMessageResponse call(SendMessageResponse
-                                                                    sendMessageResponse) {
-                                if (sendMessageResponse.username.equals(Utils.getUsername())) {
-                                    sendMessageResponse.type = CommunicateAdapter.RIGHT_TYPR;
-                                } else
-                                    sendMessageResponse.type = CommunicateAdapter.LEFT_TYPE;
-                                Log.d(TAG, "time: " + sendMessageResponse.creat_time + " ");
-//                                sendMessageResponse.time *= 1000;
-                                return sendMessageResponse;
-                            }
-                        }).toSortedList(new Func2<SendMessageResponse, SendMessageResponse,
-                                Integer>() {
-
-                            @Override
-                            public Integer call(SendMessageResponse sendMessageResponse,
-                                                SendMessageResponse sendMessageResponse2) {
-                                if (sendMessageResponse.creat_time >=
-                                        sendMessageResponse2.creat_time) {
-                                    return 1;
-                                }
-                                return -1;
-                            }
-                        }).subscribe(new Observer<List<SendMessageResponse>>() {
-                            @Override
-                            public void onCompleted() {
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-
-                            }
-
-                            @Override
-                            public void onNext(List<SendMessageResponse>
-                                                       sendMessageResponses) {
-                                mView.addAll(sendMessageResponses);
-                            }
-                        });
-                    }
-                });
-        addSubscribe(subscription);
     }
 
     @Override
@@ -111,30 +49,66 @@ public class CommunicatePresenter extends RxPresenter implements CommunicateCont
 
     @Override
     public void sendMessage() {
+        ChatInfo chatInfo = new ChatInfo();
+        chatInfo.setUserId(Utils.getUserId());
+        chatInfo.setContents(mView.getMessage());
+        mChatRepository.addChat(chatInfo, new ReposityCallback<AddResponse>() {
+            @Override
+            public void callSuccess(AddResponse data) {
+                mChatRepository.getChatInfo(data.getObjectId(), new NetWorkBoundUtils
+                        .CallBack<ChatInfo>() {
 
-        Observable<SendMessageResponse> observable = NestHabitApi.getInstance().sendMessage(mView
-                        .getMessage(), System.currentTimeMillis(),
-                mView.getNestId(), Utils.getHeader());
-        Subscription subscription = observable.observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<SendMessageResponse>() {
                     @Override
-                    public void onCompleted() {
-                        mView.setEditText("");
+                    public void callSuccess(Observable<ChatInfo> result) {
+                        result.subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(chatInfo1 -> mView.addItem(chatInfo1));
                     }
 
                     @Override
-                    public void onError(Throwable e) {
-                        mView.showToast("发送失败");
+                    public void callFailure(String errorMessage) {
 
-                    }
-
-                    @Override
-                    public void onNext(SendMessageResponse sendMessageResponse) {
-                        sendMessageResponse.type = CommunicateAdapter.RIGHT_TYPR;
-                        mView.addItem(sendMessageResponse);
                     }
                 });
-        addSubscribe(subscription);
+                NestRepository nestRepository = NestRepository.getInstance();
+                nestRepository.loadNestInfo(mView.getNestId(), new NetWorkBoundUtils
+                        .CallBack<NestInfo>() {
+                    @Override
+                    public void callSuccess(Observable<NestInfo> result) {
+                        result.subscribeOn(Schedulers.io())
+                                .doOnNext(nestInfo -> {
+                                    List<String> chats = new ArrayList<>();
+                                    chats.addAll(nestInfo.getChatlogs());
+                                    chats.add(data.getObjectId());
+                                    nestInfo.setChatlogs(chats);
+                                })
+                                .subscribe(nestInfo -> {
+                                    nestRepository.changeNestInfo(nestInfo, new
+                                            ReposityCallback<UpdateInfo>() {
+                                                @Override
+                                                public void callSuccess(UpdateInfo data) {
+
+                                                }
+
+                                                @Override
+                                                public void callFailure(String errorMessage) {
+
+                                                }
+                                            });
+                                });
+                    }
+
+                    @Override
+                    public void callFailure(String errorMessage) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void callFailure(String errorMessage) {
+                mView.showToast(errorMessage);
+            }
+        });
     }
 }

@@ -30,6 +30,10 @@ public abstract class NestHabitDataBase extends RoomDatabase {
 
     abstract public AlarmDao alarmDao();
 
+    abstract public PunchDao punchDao();
+
+    abstract public ChatDao chatDao();
+
     private static NestHabitDataBase instance;
 
     public static NestHabitDataBase getInstance(Context context) {

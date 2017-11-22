@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import com.victor.nesthabit.api.NestHabitApi;
 import com.victor.nesthabit.bean.AddResponse;
 import com.victor.nesthabit.bean.NestInfo;
+import com.victor.nesthabit.bean.UpdateInfo;
 import com.victor.nesthabit.db.NestDao;
 import com.victor.nesthabit.db.NestHabitDataBase;
 import com.victor.nesthabit.util.AppUtils;
@@ -91,5 +92,22 @@ public class NestRepository {
                 return mNestHabitApi.getNestInfo(objectId);
             }
         };
+    }
+
+    public void changeNestInfo(NestInfo nestInfo, ReposityCallback<UpdateInfo> callback) {
+        mNestHabitApi.changeNestInfo(nestInfo).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(updateInfoResponse -> {
+                    if (updateInfoResponse.isSuccessful()) {
+                        callback.callSuccess(updateInfoResponse.body());
+                        deleteNest(nestInfo.getObjectId());
+                    } else {
+                        try {
+                            callback.callFailure(updateInfoResponse.errorBody().string());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
     }
 }

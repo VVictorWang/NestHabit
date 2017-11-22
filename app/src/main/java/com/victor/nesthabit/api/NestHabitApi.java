@@ -101,6 +101,11 @@ public class NestHabitApi {
         return mApiService.getNestInfo(id);
     }
 
+    public Observable<Response<UpdateInfo>> changeNestInfo(NestInfo nestInfo) {
+        return mApiService.changeNest(nestInfo.getObjectId(), JsonRequestBody.getNestInfo
+                (nestInfo));
+    }
+
     public Observable<MsgResponse> deleteNest(String id) {
         return mApiService.deleteNest(id);
     }

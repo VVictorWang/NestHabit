@@ -10,9 +10,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.bean.SendMessageResponse;
+import com.victor.nesthabit.bean.ChatInfo;
 import com.victor.nesthabit.util.DateUtils;
+import com.victor.nesthabit.util.Utils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,23 +30,22 @@ public class CommunicateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public static final int RIGHT_TYPR = 3;
 
     private Context mContext;
-    private List<SendMessageResponse> mCommunicateItems;
+    private List<ChatInfo> mCommunicateItems;
     private RecyclerView mRecyclerView;
 
-    public CommunicateAdapter(Context context, List<SendMessageResponse> communicateItems,
-                              RecyclerView recyclerView) {
+    public CommunicateAdapter(Context context, RecyclerView recyclerView) {
         mContext = context;
-        mCommunicateItems = communicateItems;
+        mCommunicateItems = new ArrayList<>();
         mRecyclerView = recyclerView;
     }
 
-    public void addItem(SendMessageResponse item) {
+    public void addItem(ChatInfo item) {
         mCommunicateItems.add(item);
         notifyDataSetChanged();
         mRecyclerView.scrollToPosition(mCommunicateItems.size() - 1);
     }
 
-    public void addAll(List<SendMessageResponse> communicateItems) {
+    public void addAll(List<ChatInfo> communicateItems) {
         mCommunicateItems.clear();
         mCommunicateItems.addAll(communicateItems);
         notifyDataSetChanged();
@@ -67,27 +68,30 @@ public class CommunicateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         int type = holder.getItemViewType();
-        SendMessageResponse item = mCommunicateItems.get(position);
+        ChatInfo item = mCommunicateItems.get(position);
         String day = getDayForSection(position);
         if (position == getPositionForSection(day)) {
             if (type == LEFT_TYPE) {
                 ((LeftViewHolder) holder).date_layout.setVisibility(View.VISIBLE);
-                ((LeftViewHolder) holder).date.setText(DateUtils.format(item.creat_time,
-                        "yyyy-MM-dd"));
+                ((LeftViewHolder) holder).date.setText(DateUtils.formatString(item.getCreatedAt()
+                        , "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd"));
             } else if (type == RIGHT_TYPR) {
                 ((RightViewHoler) holder).date_layout.setVisibility(View.VISIBLE);
-                ((RightViewHoler) holder).date.setText(DateUtils.format(item.creat_time,
+                ((RightViewHoler) holder).date.setText(DateUtils.formatCreatedAt(item
+                                .getCreatedAt(),
                         "yyyy-MM-dd"));
-                ((RightViewHoler) holder).text.setText(item.value);
-                ((RightViewHoler) holder).time.setText(DateUtils.format(item.creat_time, "HH:mm"));
+                ((RightViewHoler) holder).text.setText(item.getContents());
+                ((RightViewHoler) holder).time.setText(DateUtils.formatCreatedAt(item
+                        .getCreatedAt(), "HH:mm"));
             }
         } else {
             if (type == LEFT_TYPE) {
                 ((LeftViewHolder) holder).date_layout.setVisibility(View.GONE);
             } else if (type == RIGHT_TYPR) {
                 ((RightViewHoler) holder).date_layout.setVisibility(View.GONE);
-                ((RightViewHoler) holder).text.setText(item.value);
-                ((RightViewHoler) holder).time.setText(DateUtils.format(item.creat_time, "HH:mm"));
+                ((RightViewHoler) holder).text.setText(item.getContents());
+                ((RightViewHoler) holder).time.setText(DateUtils.formatCreatedAt(item
+                        .getCreatedAt(), "HH:mm"));
             }
         }
 
@@ -100,14 +104,14 @@ public class CommunicateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     public String getDayForSection(int position) {
-        long time = mCommunicateItems.get(position).creat_time;
-        return DateUtils.format(time, "dd");
+        String time = mCommunicateItems.get(position).getCreatedAt();
+        return DateUtils.formatString(time, "yyyy-MM-dd HH:mm:ss", "dd");
     }
 
     public int getPositionForSection(String day) {
         for (int i = 0; i < getItemCount(); i++) {
-            long time = mCommunicateItems.get(i).creat_time;
-            String dayString = DateUtils.format(time, "dd");
+            String time = mCommunicateItems.get(i).getCreatedAt();
+            String dayString = DateUtils.formatString(time, "yyyy-MM-dd HH:mm:ss", "dd");
             if (dayString.equals(day)) {
                 return i;
             }
@@ -117,8 +121,11 @@ public class CommunicateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public int getItemViewType(int position) {
-        SendMessageResponse item = mCommunicateItems.get(position);
-        return item.type;
+        ChatInfo item = mCommunicateItems.get(position);
+        if (item.getUserId().equals(Utils.getUserId())) {
+            return RIGHT_TYPR;
+        }
+        return LEFT_TYPE;
     }
 
 

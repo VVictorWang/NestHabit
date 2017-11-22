@@ -1,24 +1,31 @@
 package com.victor.nesthabit.ui.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.api.NestHabitApi;
-import com.victor.nesthabit.bean.DakaResponse;
+import com.victor.nesthabit.bean.AddResponse;
+import com.victor.nesthabit.bean.NestInfo;
+import com.victor.nesthabit.bean.PunchInfo;
+import com.victor.nesthabit.bean.UpdateInfo;
+import com.victor.nesthabit.repository.NestRepository;
+import com.victor.nesthabit.repository.PunchRepository;
+import com.victor.nesthabit.repository.ReposityCallback;
 import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.util.ActivityManager;
+import com.victor.nesthabit.util.NetWorkBoundUtils;
 import com.victor.nesthabit.util.Utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import rx.Observable;
-import rx.Observer;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class ShareActivity extends BaseActivity {
@@ -29,7 +36,6 @@ public class ShareActivity extends BaseActivity {
     private android.support.v7.widget.CardView sharecardlayout;
     private android.widget.Button submit;
     private String nestId = null;
-    private static OnDakaAdded sOnDakaAdded;
 
     @Override
     protected BasePresenter getPresnter() {
@@ -48,14 +54,14 @@ public class ShareActivity extends BaseActivity {
 
     @Override
     protected void initView() {
+        if (getIntent() != null) {
+            nestId = getIntent().getStringExtra("nestId");
+        }
         this.submit = (Button) findViewById(R.id.submit);
         this.sharecardlayout = (CardView) findViewById(R.id.share_card_layout);
         this.sharetext = (EditText) findViewById(R.id.share_text);
         this.toolbar = findViewById(R.id.toolbar);
         setToolbar();
-        if (getIntent() != null) {
-            nestId = getIntent().getStringExtra("nestId");
-        }
     }
 
     @Override
@@ -69,7 +75,11 @@ public class ShareActivity extends BaseActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                daka();
+                if (sharetext.getText().toString().isEmpty()) {
+                    sharetext.setError("请输入打卡感想!");
+                } else {
+                    daka();
+                }
             }
         });
     }
@@ -81,35 +91,74 @@ public class ShareActivity extends BaseActivity {
     }
 
     private void daka() {
-//        Observable<DakaResponse> observable = NestHabitApi.getInstance().punch(nestId, sharetext
-//                .getText().toString(), System.currentTimeMillis(), Utils.getHeader());
-//        observable.observeOn(AndroidSchedulers.mainThread())
-//                .subscribeOn(Schedulers.io())
-//                .subscribe(new Observer<DakaResponse>() {
-//                    @Override
-//                    public void onCompleted() {
-//                        ActivityManager.startActivity(getActivity(), ShareSuccessActivity.class);
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        showToast("打卡失败");
-//                        Log.e(TAG, "failuire: " + e.getMessage());
-//                    }
-//
-//                    @Override
-//                    public void onNext(DakaResponse dakaResponse) {
-//                        sOnDakaAdded.OnDakaItemAdded(dakaResponse);
-//                    }
-//                });
+        PunchRepository punchRepository = PunchRepository.getInstance();
+        PunchInfo punchInfo = new PunchInfo();
+        punchInfo.setUserId(Utils.getUserId());
+        punchInfo.setContents(sharetext.getText().toString());
+        punchRepository.punch(punchInfo, new ReposityCallback<AddResponse>() {
+            @Override
+            public void callSuccess(AddResponse data) {
+                NestRepository nestRepository = NestRepository.getInstance();
+                nestRepository.loadNestInfo(nestId, new NetWorkBoundUtils.CallBack<NestInfo>() {
+                    @Override
+                    public void callSuccess(Observable<NestInfo> result) {
+                        result.subscribeOn(Schedulers.io())
+                                .doOnNext(nestInfo -> {
+                                    List<String> punchLogs = new ArrayList<>();
+                                    punchLogs.addAll(nestInfo.getPunchlogs());
+                                    punchLogs.add(data.getObjectId());
+                                    nestInfo.setPunchlogs(punchLogs);
+                                    List<NestInfo.MembersBean> membersBeans = new ArrayList<>();
+                                    membersBeans.addAll(nestInfo.getMembers());
+                                    for (int i = 0; i < membersBeans.size(); i++) {
+                                        NestInfo.MembersBean bean = membersBeans.get(i);
+                                        if (bean.getUserId().equals(Utils.getUserId())) {
+                                            bean.setConstant_days(bean.getConstant_days() + 1);
+                                            bean.setKept_days(bean.getKept_days() + 1);
+                                            membersBeans.set(i, bean);
+                                            break;
+                                        }
+                                    }
+                                    nestInfo.setMembers(membersBeans);
+                                })
+                                .subscribe(nestInfo -> {
+                                    nestRepository.changeNestInfo(nestInfo, new
+                                            ReposityCallback<UpdateInfo>() {
+                                                @Override
+                                                public void callSuccess(UpdateInfo data) {
+
+                                                }
+
+                                                @Override
+                                                public void callFailure(String errorMessage) {
+
+                                                }
+                                            });
+                                });
+                    }
+
+                    @Override
+                    public void callFailure(String errorMessage) {
+
+                    }
+                });
+
+                ActivityManager.startActivityForResult(getActivity(), ShareSuccessActivity.class,
+                        101);
+            }
+
+            @Override
+            public void callFailure(String errorMessage) {
+                showToast(errorMessage);
+            }
+        });
     }
 
-    public static void setOnDakaAdded(OnDakaAdded onDakaAdded) {
-        sOnDakaAdded = onDakaAdded;
-    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 101 && resultCode == 102) {
+            ActivityManager.finishActivity(getActivity());
+        }
 
-    public interface OnDakaAdded {
-        void OnDakaItemAdded(DakaResponse dakaResponse);
     }
-
 }

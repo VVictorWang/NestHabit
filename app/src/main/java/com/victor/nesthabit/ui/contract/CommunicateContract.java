@@ -1,6 +1,6 @@
 package com.victor.nesthabit.ui.contract;
 
-import com.victor.nesthabit.bean.SendMessageResponse;
+import com.victor.nesthabit.bean.ChatInfo;
 import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.ui.base.Baseview;
 
@@ -18,9 +18,9 @@ public interface CommunicateContract {
 
         String getNestId();
 
-        void addItem(SendMessageResponse item);
+        void addItem(ChatInfo item);
 
-        void addAll(List<SendMessageResponse> items);
+        void addAll(List<ChatInfo> items);
 
         void setEditText(String text);
 

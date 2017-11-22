@@ -7,20 +7,18 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.victor.nesthabit.R;
-import com.victor.nesthabit.bean.SendMessageResponse;
+import com.victor.nesthabit.bean.ChatInfo;
 import com.victor.nesthabit.ui.adapter.CommunicateAdapter;
 import com.victor.nesthabit.ui.base.BaseFragment;
 import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.ui.contract.CommunicateContract;
 import com.victor.nesthabit.ui.presenter.CommunicatePresenter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -79,8 +77,7 @@ public class CommunicateFragment extends BaseFragment implements CommunicateCont
         mEditText = (EditText) rootView.findViewById(R.id.input_text);
         send = (Button) rootView.findViewById(R.id.send);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
-        List<SendMessageResponse> communicateItems = new ArrayList<>();
-        mCommunicateAdapter = new CommunicateAdapter(mActivity, communicateItems, mRecyclerView);
+        mCommunicateAdapter = new CommunicateAdapter(mActivity, mRecyclerView);
         mRecyclerView.setAdapter(mCommunicateAdapter);
     }
 
@@ -94,10 +91,11 @@ public class CommunicateFragment extends BaseFragment implements CommunicateCont
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.equals("")) {
+                if ("".equals(s)) {
                     send.setEnabled(false);
-                } else
+                } else {
                     send.setEnabled(true);
+                }
             }
 
             @Override
@@ -105,12 +103,7 @@ public class CommunicateFragment extends BaseFragment implements CommunicateCont
 
             }
         });
-        send.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mPresenter.sendMessage();
-            }
-        });
+        send.setOnClickListener(v -> mPresenter.sendMessage());
     }
 
     @Override
@@ -129,14 +122,14 @@ public class CommunicateFragment extends BaseFragment implements CommunicateCont
     }
 
     @Override
-    public void addItem(SendMessageResponse item) {
+    public void addItem(ChatInfo item) {
         if (mCommunicateAdapter != null) {
             mCommunicateAdapter.addItem(item);
         }
     }
 
     @Override
-    public void addAll(List<SendMessageResponse> items) {
+    public void addAll(List<ChatInfo> items) {
         mCommunicateAdapter.addAll(items);
     }
 

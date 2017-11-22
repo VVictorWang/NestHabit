@@ -92,23 +92,11 @@ public class JsonRequestBody {
             jsonObject.put("challenge_days", nestInfo.getChallenge_days());
             jsonObject.put("open", nestInfo.isOpen());
             jsonObject.put("cover_image", "");
-
-//            List<NestInfo.MembersBean> membersBeans = new ArrayList<>();
-//            NestInfo.MembersBean bean = new NestInfo.MembersBean();
-//            bean.setUserId(PrefsUtils.getValue(AppUtils.getAppContext(), Constants
-//                    .USER_OBJEDCTID, null));
-//            bean.setConstant_days(0);
-//            bean.setKept_days(0);
-//            membersBeans.add(bean);
             JSONObject jsonObject1 = new JSONObject();
             jsonObject1.put("userId", PrefsUtils.getValue(AppUtils.getAppContext(), Constants
                     .USER_OBJEDCTID, null));
             jsonObject1.put("kept_days", 0);
             jsonObject1.put("constant_days", 0);
-//            List<String> temp = new ArrayList<>();
-//            temp.add(jsonObject1.toString());
-//            JSONArray jsonArray = new JSONArray();
-
             jsonObject1.toJSONArray(new JSONArray());
             JSONArray jsonArray = new JSONArray();
             jsonArray.put(jsonObject1);
@@ -124,15 +112,38 @@ public class JsonRequestBody {
         return RequestBody.create(sMediaType, jsonObject.toString());
     }
 
-    public static RequestBody getNickname(String nickname) {
+    public static RequestBody getNestInfo(NestInfo nestInfo) {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("nickname", nickname);
+            jsonObject.put("name", nestInfo.getName());
+            jsonObject.put("desc", nestInfo.getDesc());
+            jsonObject.put("members_limit", nestInfo.getMembers_limit());
+            jsonObject.put("start_time", nestInfo.getStart_time());
+            jsonObject.put("challenge_days", nestInfo.getChallenge_days());
+            jsonObject.put("open", nestInfo.isOpen());
+            jsonObject.put("cover_image", nestInfo.getCover_image());
+            JSONArray jsonArray = new JSONArray();
+            for (NestInfo.MembersBean bean : nestInfo.getMembers()) {
+                JSONObject jsonObject1 = new JSONObject();
+                jsonObject1.put("userId", bean.getUserId());
+                jsonObject1.put("kept_days", bean.getKept_days());
+                jsonObject1.put("constant_days", bean.getConstant_days());
+                jsonObject1.toJSONArray(new JSONArray());
+                jsonArray.put(jsonObject1);
+            }
+            jsonObject.put("members", jsonArray);
+            jsonObject.put("members_amount", 1);
+            jsonObject.put("owner", Utils.getUsername());
+            jsonObject.put("chatlogs", nestInfo.getChatlogs() == null ? new JSONArray() : new
+                    JSONArray(nestInfo.getChatlogs()));
+            jsonObject.put("punchlogs", nestInfo.getPunchlogs() == null ? new JSONArray() : new
+                    JSONArray(nestInfo.getPunchlogs()));
         } catch (Exception e) {
             e.printStackTrace();
         }
         return RequestBody.create(sMediaType, jsonObject.toString());
     }
+
 
     public static RequestBody getNest(String[] id) {
         JSONObject jsonObject = new JSONObject();

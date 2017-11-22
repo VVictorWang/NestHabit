@@ -48,13 +48,9 @@ public class ShareSuccessActivity extends BaseActivity {
 
     @Override
     protected void initEvent() {
-        finish.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                ActivityManager.popActivity();
-                ActivityManager.popActivity();
-            }
+        finish.setOnClickListener(v -> {
+            setResult(102);
+            ActivityManager.finishActivity(getActivity());
         });
     }
 

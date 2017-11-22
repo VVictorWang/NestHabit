@@ -14,6 +14,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
+import com.victor.nesthabit.bean.ChatInfo;
+import com.victor.nesthabit.bean.PunchInfo;
 import com.victor.nesthabit.ui.adapter.MyFragPageAdapter;
 import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.ui.base.BasePresenter;
@@ -46,6 +48,7 @@ public class NestSpecificActivity extends BaseActivity implements NestSpecificCo
     private boolean isOwner = false;
     private long myid = -1;
     private DaKaWallFragment mDaKaWallFragment;
+    private CommunicateFragment mCommunicateFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +57,8 @@ public class NestSpecificActivity extends BaseActivity implements NestSpecificCo
             id = getIntent().getStringExtra("nestId");
             isOwner = getIntent().getBooleanExtra("isOwner", false);
         }
-        setUpViewPager();
         super.onCreate(savedInstanceState);
+        setUpViewPager();
     }
 
     @Override
@@ -142,7 +145,8 @@ public class NestSpecificActivity extends BaseActivity implements NestSpecificCo
         MyFragPageAdapter adapter = new MyFragPageAdapter(getSupportFragmentManager());
         mDaKaWallFragment = new DaKaWallFragment();
         adapter.addFragment(mDaKaWallFragment, "打卡墙");
-        adapter.addFragment(CommunicateFragment.newInstance(id), "交流板");
+        mCommunicateFragment = CommunicateFragment.newInstance(id);
+        adapter.addFragment(mCommunicateFragment, "交流板");
         viewpager.setAdapter(adapter);
         tab.setupWithViewPager(viewpager);
         WidgetUtils.setUpIndicatorWidth(tab, 30, 30);
@@ -167,6 +171,16 @@ public class NestSpecificActivity extends BaseActivity implements NestSpecificCo
     @Override
     public void setTotalday(int totalday) {
         dakatotalnumber.setText(String.valueOf(totalday));
+    }
+
+    @Override
+    public void addPunchIno(PunchInfo punchInfo) {
+        mDaKaWallFragment.addItem(punchInfo);
+    }
+
+    @Override
+    public void addChatInfo(ChatInfo chatInfo) {
+        mCommunicateFragment.addItem(chatInfo);
     }
 
     @Override
