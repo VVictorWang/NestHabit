@@ -1,5 +1,7 @@
 package com.victor.nesthabit.repository;
 
+import android.os.Environment;
+
 import com.victor.nesthabit.MyApplication;
 import com.victor.nesthabit.api.NestHabitApi;
 import com.victor.nesthabit.bean.PostFileResponse;
@@ -57,6 +59,10 @@ public class FileRepositoty {
         if (file != null) {
             callback.callSuccess(file);
         } else {
+            file = new File(Environment.getDownloadCacheDirectory(), data.getFilename());
+            if (file.exists()) {
+                callback.callSuccess(file);
+            }
             mNestHabitApi.download(data.getUrl()).subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(responseBodyResponse -> {

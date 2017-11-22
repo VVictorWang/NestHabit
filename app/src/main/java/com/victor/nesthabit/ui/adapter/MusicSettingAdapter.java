@@ -123,12 +123,7 @@ public class MusicSettingAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         return 3;
     }
 
-    public String getMusicName() {
-        if (mMusicListAdapter != null) {
-            return mMusicListAdapter.getMusic();
-        }
-        return null;
-    }
+
 
     public String getMusicUri() {
         if (mMusicListAdapter != null) {

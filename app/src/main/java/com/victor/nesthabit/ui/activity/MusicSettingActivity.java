@@ -88,8 +88,7 @@ public class MusicSettingActivity extends BaseActivity {
 
     private void setResultData() {
         Intent intent = new Intent();
-        if (adapter != null && adapter.getMusicName() != null) {
-            intent.putExtra("name", adapter.getMusicName());
+        if (adapter != null && adapter.getMusicUri() != null) {
             intent.putExtra("musicUri", adapter.getMusicUri());
             intent.putExtra("volume", adapter.getVolume());
             intent.putExtra("isVibrate", adapter.isVibrate());

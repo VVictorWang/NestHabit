@@ -65,8 +65,7 @@ public class MusicProfileActivity extends BaseActivity {
 
     private void setResultData() {
         Intent intent = new Intent();
-        if (adapter != null && adapter.getMusic() != null) {
-            intent.putExtra("name", adapter.getMusic());
+        if (adapter != null && adapter.getMusicUri() != null) {
             intent.putExtra("musicUri", adapter.getMusicUri());
             setResult(111, intent);
         } else

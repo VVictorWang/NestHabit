@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import com.victor.nesthabit.R;
 
+import java.io.File;
+
 /**
  * Created by victor on 7/18/17.
  * email: chengyiwang@hustunique.com
@@ -28,7 +30,7 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.MyVi
     private RecyclerView mRecyclerView;
     private Cursor mCursor;
     private MyViewHolder tickedHoler;
-//    private boolean isProfile;
+    //    private boolean isProfile;
     private MediaPlayer mMediaPlayer;
     //    private int profileposition = -1;
     private String musicUri = null;
@@ -88,21 +90,19 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.MyVi
     public void onBindViewHolder(MyViewHolder holder, int position) {
         if (mCursor != null) {
             mCursor.moveToPosition(position);
-            holder.name.setText(mCursor.getString(mCursor.getColumnIndex
-                    (MediaStore.Audio.Media
-                            .TITLE)));
-            holder.mRelativeLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (holder.isChecked.getVisibility() == View.INVISIBLE) {
-                        holder.isChecked.setVisibility(View.VISIBLE);
-                        mCursor.moveToPosition(position);
-                        notifyOthers(holder);
-                        String data = mCursor.getString(mCursor.getColumnIndex(MediaStore.Audio
-                                .Media.DATA));
-                        musicUri = data;
-                        playMusic(data);
-                    }
+            String uri_music = mCursor.getString(mCursor.getColumnIndex(MediaStore.Audio.Media
+                    .DATA));
+            File file = new File(uri_music);
+            String name = file.getName();
+            holder.name.setText(name.substring(0, name.lastIndexOf(".")));
+            holder.mRelativeLayout.setOnClickListener(v -> {
+                if (holder.isChecked.getVisibility() == View.INVISIBLE) {
+                    holder.isChecked.setVisibility(View.VISIBLE);
+                    mCursor.moveToPosition(position);
+                    notifyOthers(holder);
+                    musicUri = mCursor.getString(mCursor.getColumnIndex(MediaStore.Audio
+                            .Media.DATA));
+                    playMusic(musicUri);
                 }
             });
             if (position == myPosition) {
@@ -145,18 +145,9 @@ public class MusicListAdapter extends RecyclerView.Adapter<MusicListAdapter.MyVi
         }
     }
 
-    public String getMusic() {
-        if (tickedHoler != null) {
-            return tickedHoler.name.getText().toString();
-        }
-        return null;
-    }
 
     public String getMusicUri() {
-        if (musicUri != null) {
-            return musicUri;
-        }
-        return null;
+        return musicUri;
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {

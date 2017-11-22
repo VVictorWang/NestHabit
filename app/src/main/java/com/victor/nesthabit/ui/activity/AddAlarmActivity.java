@@ -55,7 +55,7 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
     private List<Integer> weeks = new ArrayList<>();
     private List<View> mViews = new ArrayList<>();
     private String id = null;
-    private String musicUri = null, nestid = null, musicType = null, musicName = null;
+    private String musicUri = null, nestid = null;
     private int volume;
     private boolean isVibrate;
     private File musicFile = null;
@@ -191,7 +191,6 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
                 Log.d(TAG, "position : " + position);
                 intent.putExtra("profile", position);
                 intent.putExtra("musicUri", musicUri);
-                intent.putExtra("musicName", musicName);
                 intent.putExtra("music", musicFile);
                 ActivityManager.startActivityForResult(getActivity(), intent, 222);
             }
@@ -237,7 +236,6 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
                 if (resultCode == 111) {
                     setMusic(data.getStringExtra("name"));
                     musicUri = data.getStringExtra("musicUri");
-                    musicName = data.getStringExtra("name");
                     volume = data.getIntExtra("volume", 0);
                     isVibrate = data.getBooleanExtra("isVibrate", false);
                 }
@@ -315,11 +313,12 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
         if (cursor != null) {
             cursor.moveToFirst();
             while (cursor.moveToNext()) {
-                String name = cursor.getString(cursor.getColumnIndex
-                        (MediaStore.Audio.Media
-                                .TITLE));
-                if (name.equals(music))
+                String uri_music = cursor.getString(cursor.getColumnIndex
+                        (MediaStore.Audio.Media.DATA));
+                String name = new File(uri_music).getName();
+                if (name.substring(0, name.lastIndexOf(".")).equals(music)) {
                     return cursor.getPosition();
+                }
             }
         }
 
@@ -408,7 +407,6 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
         } else {
             music.setText(name.substring(0, name.lastIndexOf(".")));
         }
-        musicName = name;
     }
 
     @Override
