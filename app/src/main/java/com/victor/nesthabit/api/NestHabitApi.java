@@ -4,16 +4,13 @@ import com.victor.nesthabit.bean.AddResponse;
 import com.victor.nesthabit.bean.AlarmInfo;
 import com.victor.nesthabit.bean.ChatInfo;
 import com.victor.nesthabit.bean.Constants;
-import com.victor.nesthabit.bean.DateOfNest;
 import com.victor.nesthabit.bean.JoinedNests;
-import com.victor.nesthabit.bean.MessageList;
 import com.victor.nesthabit.bean.MsgResponse;
 import com.victor.nesthabit.bean.MusicInfo;
 import com.victor.nesthabit.bean.NestInfo;
 import com.victor.nesthabit.bean.PostFileResponse;
 import com.victor.nesthabit.bean.PunchInfo;
 import com.victor.nesthabit.bean.RegisterResponse;
-import com.victor.nesthabit.bean.SendMessageResponse;
 import com.victor.nesthabit.bean.UpdateInfo;
 import com.victor.nesthabit.bean.UserInfo;
 import com.victor.nesthabit.util.safe.Base64Cipher;
@@ -147,10 +144,6 @@ public class NestHabitApi {
     }
 
 
-    public Observable<DateOfNest> getDateOfNest(String username, String nestid, String header) {
-        return mApiService.getDateOfNest(username, nestid, header);
-    }
-
     //punch api
     public Observable<Response<AddResponse>> punch(PunchInfo punchInfo) {
         return mApiService.punch(JsonRequestBody.getPunchInfo(punchInfo));
@@ -180,14 +173,5 @@ public class NestHabitApi {
         return mApiService.postMusic(fileName, JsonRequestBody.getFile(music));
     }
 
-    public Observable<SendMessageResponse> sendMessage(String message, long time, String nestid,
-                                                       String
-                                                               header) {
-        return mApiService.sendMessage(JsonRequestBody.getCommunicationItem(message, time, nestid),
-                header);
-    }
 
-    public Observable<MessageList> getMessageList(String nestid, String header) {
-        return mApiService.getMessageList(nestid, header);
-    }
 }

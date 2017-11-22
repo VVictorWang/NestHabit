@@ -14,6 +14,7 @@ import com.victor.nesthabit.R;
 import com.victor.nesthabit.bean.RankItem;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -34,6 +35,7 @@ public class RankAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public void addItem(RankItem rankItem) {
         mRankItems.add(rankItem);
+        Collections.sort(mRankItems, (o1, o2) -> o1.getDays() > o2.getDays() ? 1 : -1);
         notifyDataSetChanged();
     }
 

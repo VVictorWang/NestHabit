@@ -11,7 +11,7 @@ import org.litepal.LitePal;
 /**
  * Created by victor on 7/2/17.
  * email: chengyiwang@hustunique.com
- * blog: www.victorwang.science
+ * blog: www.victorwan.cn
  */
 
 public class MyApplication extends Application {

@@ -63,8 +63,9 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         mPresenter = new AddAlarmPresenter(this);
         super.onCreate(savedInstanceState);
-        if (getIntent() != null)
+        if (getIntent() != null) {
             id = getIntent().getStringExtra("id");
+        }
         initWeeks();
         mPresenter.start();
     }

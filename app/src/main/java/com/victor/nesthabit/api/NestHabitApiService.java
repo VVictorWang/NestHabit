@@ -4,16 +4,13 @@ import com.victor.nesthabit.bean.AddResponse;
 import com.victor.nesthabit.bean.AlarmInfo;
 import com.victor.nesthabit.bean.ChatInfo;
 import com.victor.nesthabit.bean.Constants;
-import com.victor.nesthabit.bean.DateOfNest;
 import com.victor.nesthabit.bean.JoinedNests;
-import com.victor.nesthabit.bean.MessageList;
 import com.victor.nesthabit.bean.MsgResponse;
 import com.victor.nesthabit.bean.MusicInfo;
 import com.victor.nesthabit.bean.NestInfo;
 import com.victor.nesthabit.bean.PostFileResponse;
 import com.victor.nesthabit.bean.PunchInfo;
 import com.victor.nesthabit.bean.RegisterResponse;
-import com.victor.nesthabit.bean.SendMessageResponse;
 import com.victor.nesthabit.bean.UpdateInfo;
 import com.victor.nesthabit.bean.UserInfo;
 
@@ -103,10 +100,6 @@ public interface NestHabitApiService {
     Observable<AlarmInfo> changeAlarm(@Path("objectId") String id, @Body RequestBody body);
 
 
-    @GET("user/{username}/nest/{nest_id}/punches")
-    Observable<DateOfNest> getDateOfNest(@Path("username") String username, @Path("nest_id")
-            String nestid, @Header(Constants.HEADER_AU) String header);
-
     //punch api
     @POST("1/classes/punch")
     Observable<Response<AddResponse>> punch(@Body RequestBody body);
@@ -134,12 +127,5 @@ public interface NestHabitApiService {
     Observable<PostFileResponse> postMusic(@Path("filename") String fileName, @Body RequestBody
             file);
 
-    @POST("chat_log")
-    Observable<SendMessageResponse> sendMessage(@Body RequestBody body, @Header(Constants
-            .HEADER_AU) String
-            header);
 
-    @GET("nest/{id}/chat_log")
-    Observable<MessageList> getMessageList(@Path("id") String id, @Header(Constants.HEADER_AU)
-            String header);
 }

@@ -4,7 +4,6 @@ import android.net.Uri;
 import android.os.Environment;
 
 import com.victor.nesthabit.bean.Constants;
-import com.victor.nesthabit.bean.DateOfNest;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -97,14 +96,6 @@ public class Utils {
         return weeks;
     }
 
-    public static List<String> getDays(DateOfNest dateOfNest) {
-        List<String> days = new ArrayList<String>();
-        List<DateOfNest.DaysBean> beans = dateOfNest.days;
-        for (DateOfNest.DaysBean bean : beans) {
-            days.add(bean.day);
-        }
-        return days;
-    }
 
 }
 
