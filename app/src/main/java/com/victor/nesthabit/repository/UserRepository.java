@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.victor.nesthabit.api.NestHabitApi;
+import com.victor.nesthabit.bean.Constants;
 import com.victor.nesthabit.bean.RegisterResponse;
 import com.victor.nesthabit.bean.UpdateInfo;
 import com.victor.nesthabit.bean.UserInfo;
@@ -12,6 +13,8 @@ import com.victor.nesthabit.db.NestHabitDataBase;
 import com.victor.nesthabit.db.UserDao;
 import com.victor.nesthabit.util.AppUtils;
 import com.victor.nesthabit.util.NetWorkBoundUtils;
+import com.victor.nesthabit.util.PrefsUtils;
+import com.victor.nesthabit.util.Utils;
 
 import java.io.IOException;
 
@@ -112,6 +115,10 @@ public class UserRepository {
         new NetWorkBoundUtils<UserInfo, UserInfo>(callBack) {
             @Override
             protected void saveCallResult(@NonNull UserInfo item) {
+                PrefsUtils.putValue(Utils.getApplicationContext(), Constants.USERNAME, item.getUsername());
+                PrefsUtils.putValue(Utils.getApplicationContext(), Constants.USER_OBJEDCTID, item.getObjectId());
+                PrefsUtils.putValue(Utils.getApplicationContext(), Constants.PASSWORD, password);
+                PrefsUtils.putValue(Utils.getApplicationContext(), Constants.AUTHORIZATION, item.getSessionToken());
                 mUserDao.insert(item);
             }
 
@@ -143,7 +150,7 @@ public class UserRepository {
 
             @Override
             protected boolean shouldFetch(@Nullable UserInfo data) {
-                return data == null;
+                return true;
             }
 
             @NonNull

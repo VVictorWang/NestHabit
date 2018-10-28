@@ -64,7 +64,9 @@ public class AddNestPresenter extends RxPresenter implements AddNestContract.Pre
 
     @Override
     public void notifyNestAdded(String nestId) {
-        sNotifyNestAdded.notifyNestAdded(nestId);
+        if (sNotifyNestAdded != null) {
+            sNotifyNestAdded.notifyNestAdded(nestId);
+        }
     }
 
     public static void setNotifyNestAdded(NotifyNestAdded notifyNestAdded) {

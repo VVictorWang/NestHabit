@@ -50,9 +50,16 @@ public class NestListFragment extends BaseFragment implements NestListContract.V
     }
 
     public void addData(NestInfo nestInfo) {
-        mNestListFragAdapter.addData(nestInfo);
+        if (mNestListFragAdapter != null) {
+            mNestListFragAdapter.addData(nestInfo);
+        }
     }
 
+    public void clearData() {
+        if (mNestListFragAdapter != null) {
+            mNestListFragAdapter.clearData();
+        }
+    }
     @Override
     protected BasePresenter getPresenter() {
         return mPresenter;

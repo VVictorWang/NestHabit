@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.bean.AlarmInfo;
+import com.victor.nesthabit.repository.AlarmRepoitory;
 import com.victor.nesthabit.ui.activity.AddAlarmActivity;
 import com.victor.nesthabit.util.ActivityManager;
 import com.victor.nesthabit.util.DateUtils;
@@ -23,6 +24,8 @@ import com.victor.nesthabit.view.SwitchButton;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by victor on 7/17/17.
@@ -45,6 +48,10 @@ public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyVi
         mAlarmInfos = new ArrayList<>();
     }
 
+    public void clearData() {
+        mAlarmInfos.clear();
+        notifyDataSetChanged();
+    }
 
     public void addAlarm(AlarmInfo alarmInfo) {
         mAlarmInfos.add(alarmInfo);
@@ -76,6 +83,7 @@ public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyVi
         holder.remindList.setAdapter(adpater);
         holder.remindTime.setText(String.format("%02d:%02d", alarmInfo.getHour(),
                 alarmInfo.getMinute()));
+        holder.remidTimeLeft.setText("还有" + DateUtils.getHourOffset(alarmInfo.getHour(), alarmInfo.getMinute()) + "小时");
         handleImageOn(alarmInfo, holder);
         holder.remindTitle.setText(alarmInfo.getTitle());
         holder.mSwitchButton.setOnToggleChanged(on -> {
@@ -103,29 +111,14 @@ public class ClockListAdapter extends RecyclerView.Adapter<ClockListAdapter.MyVi
             AlertDialog dialog = new AlertDialog.Builder(mContext).setView(view).create();
             dialog.show();
             ensure.setOnClickListener(v12 -> {
-//                        Observable<MsgResponse> observable = NestHabitApi.getInstance()
-// .deleteAlarm
-//                                (alarmTime.getMyid(), Utils.getHeader());
-//                        observable.observeOn(AndroidSchedulers.mainThread())
-//                                .subscribeOn(Schedulers.io())
-//                                .subscribe(new Observer<MsgResponse>() {
-//                                    @Override
-//                                    public void onCompleted() {
-//                                        mAlarmInfos.remove(alarmTime);
-//                                        notifyDataSetChanged();
-//                                        dialog.dismiss();
-//                                    }
-//
-//                                    @Override
-//                                    public void onError(Throwable e) {
-//
-//                                    }
-//
-//                                    @Override
-//                                    public void onNext(MsgResponse msgResponse) {
-//
-//                                    }
-//                                });
+                AlarmRepoitory.getInstance().deleteAlarm(alarmInfo.getObjectId()).observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(msgResponse -> {
+                            mAlarmInfos.remove(alarmInfo);
+                            notifyDataSetChanged();
+                            dialog.dismiss();
+                        }, throwable -> {
+                            dialog.dismiss();
+                        });
             });
             cancel.setOnClickListener(v1 -> dialog.dismiss());
             return false;

@@ -11,10 +11,17 @@ import android.widget.TextView;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.bean.PunchInfo;
+import com.victor.nesthabit.bean.UserInfo;
+import com.victor.nesthabit.repository.UserRepository;
 import com.victor.nesthabit.util.DateUtils;
+import com.victor.nesthabit.util.NetWorkBoundUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by victor on 7/21/17.
@@ -34,6 +41,21 @@ public class DaKaWallAdapater extends RecyclerView.Adapter<DaKaWallAdapater.Cont
 
     public void addItem(PunchInfo punchInfo) {
         mPunchInfoList.add(punchInfo);
+        Collections.sort(mPunchInfoList, (o1, o2) -> {
+            long o1Created = DateUtils.stringToLong(o1.getCreatedAt(), "yyyy-MM-dd HH:mm:ss");
+            long o2Created = DateUtils.stringToLong(o2.getCreatedAt(), "yyyy-MM-dd HH:mm:ss");
+            if (o1Created == o2Created) {
+                return 0;
+            } else if (o1Created > o2Created) {
+                return 1;
+            }
+            return -1;
+        });
+        notifyDataSetChanged();
+    }
+
+    public void clearData() {
+        mPunchInfoList.clear();
         notifyDataSetChanged();
     }
 
@@ -50,9 +72,24 @@ public class DaKaWallAdapater extends RecyclerView.Adapter<DaKaWallAdapater.Cont
         String time = getDayForSection(position);
         if (position == getPositionForSection(time)) {
             holder.datelayout.setVisibility(View.VISIBLE);
-            holder.date.setText(DateUtils.format(System.currentTimeMillis(), "yyyy-MM-dd"));
+            holder.date.setText(DateUtils.formatString(bean.getCreatedAt(), "yyyy-MM-dd HH:mm:ss",
+                    "yyyy-MM-dd"));
         }
-        holder.name.setText("test");
+        UserRepository.getInstance().getUserInfo(bean.getUserId(), new NetWorkBoundUtils.CallBack<UserInfo>() {
+            @Override
+            public void callSuccess(Observable<UserInfo> result) {
+                result.observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(userInfo -> {
+                            holder.name.setText(userInfo.getUsername());
+                        }, throwable -> {
+                        });
+            }
+
+            @Override
+            public void callFailure(String errorMessage) {
+
+            }
+        });
         holder.text.setText(bean.getContents());
         if (position == 0) {
             holder.dateViewFirst.setVisibility(View.INVISIBLE);
@@ -60,7 +97,8 @@ public class DaKaWallAdapater extends RecyclerView.Adapter<DaKaWallAdapater.Cont
         if (position == (getItemCount() - 1)) {
             holder.viewlast.setVisibility(View.INVISIBLE);
         }
-
+        holder.time.setText(DateUtils.formatString(bean.getCreatedAt(), "yyyy-MM-dd HH:mm:ss",
+                "HH:mm"));
     }
 
     @Override

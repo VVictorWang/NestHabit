@@ -6,12 +6,20 @@ import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.victor.nesthabit.R;
+import com.victor.nesthabit.bean.UserInfo;
+import com.victor.nesthabit.repository.UserRepository;
 import com.victor.nesthabit.ui.base.BaseActivity;
 import com.victor.nesthabit.ui.base.BasePresenter;
 import com.victor.nesthabit.util.ActivityManager;
+import com.victor.nesthabit.util.NetWorkBoundUtils;
+import com.victor.nesthabit.util.Utils;
 import com.victor.nesthabit.view.CircleImageView;
+
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
 
 public class ProfileActivity extends BaseActivity {
 
@@ -24,12 +32,15 @@ public class ProfileActivity extends BaseActivity {
     private com.victor.nesthabit.view.CircleImageView qzone;
     private com.victor.nesthabit.view.CircleImageView wtchat;
     private com.victor.nesthabit.view.CircleImageView moment;
+    private TextView name;
 
 //    private IWXAPI mIWXAPI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        name.setText(Utils.getUsername());
+
 //        mIWXAPI = WXAPIFactory.createWXAPI(this, Constants.APP_ID_WECHAT, true);
 //        mIWXAPI.registerApp(Constants.APP_ID_WECHAT);
     }
@@ -60,7 +71,7 @@ public class ProfileActivity extends BaseActivity {
         this.avatar = (CircleImageView) findViewById(R.id.avatar);
         this.toolbar = (RelativeLayout) findViewById(R.id.toolbar);
         this.back = (ImageView) findViewById(R.id.back);
-
+        name = (TextView) findViewById(R.id.title_text);
     }
 
     @Override

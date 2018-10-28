@@ -41,6 +41,11 @@ public class DaKaWallFragment extends BaseFragment {
         mDaKaWallAdapater.addItem(punchInfo);
     }
 
+    public void clearData() {
+        if (mDaKaWallAdapater != null) {
+            mDaKaWallAdapater.clearData();
+        }
+    }
     @Override
     protected void initEvent() {
 

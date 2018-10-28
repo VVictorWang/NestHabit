@@ -137,48 +137,49 @@ public class AddAlarmPresenter extends RxPresenter implements AddAlarmContract.P
                                 @Override
                                 public void callSuccess(AddResponse data) {
                                     UserRepository userRepository = UserRepository.getInstance();
-                                    userRepository.getUserInfo(Utils.getUserId(), new
-                                            NetWorkBoundUtils.CallBack<UserInfo>() {
+                                    userRepository.login(Utils.getUsername(), Utils.getPassword(), new NetWorkBoundUtils.CallBack<UserInfo>() {
+                                        @Override
+                                        public void callSuccess(Observable<UserInfo> result) {
+                                            result.subscribeOn(Schedulers.io())
+                                                    .doOnNext(userInfo -> {
+                                                        List<String> alarms = userInfo.getAlarm_clocks();
+                                                        if (alarms == null) {
+                                                            alarms = new ArrayList<>();
+                                                        }
+                                                        List<String> temp = new ArrayList<>();
+                                                        temp.addAll(alarms);
+                                                        temp.add(data.getObjectId());
+                                                        userInfo.setAlarm_clocks(temp);
+                                                    })
+                                                    .observeOn(AndroidSchedulers.mainThread())
+                                                    .subscribe(userInfo -> {
+                                                        userRepository.changeUserInfo
+                                                                (userInfo, new
+                                                                        ReposityCallback<UpdateInfo>() {
+                                                                            @Override
+                                                                            public void
+                                                                            callSuccess
+                                                                                    (UpdateInfo data) {
+                                                                                mView.showMyToast("添加成功");
+                                                                                mView.finishActivity();
+                                                                            }
 
-                                                @Override
-                                                public void callSuccess(Observable<UserInfo>
-                                                                                result) {
-                                                    result.subscribeOn(Schedulers.io())
-                                                            .doOnNext(userInfo -> {
-                                                                List<String> alarms = new
-                                                                        ArrayList<>();
-                                                                alarms.addAll(userInfo
-                                                                        .getAlarm_clocks());
-                                                                alarms.add(data.getObjectId());
-                                                                userInfo.setAlarm_clocks(alarms);
-                                                            })
-                                                            .subscribe(userInfo -> {
-                                                                userRepository.changeUserInfo
-                                                                        (userInfo, new
-                                                                                ReposityCallback<UpdateInfo>() {
-                                                                                    @Override
-                                                                                    public void
-                                                                                    callSuccess
-                                                                                            (UpdateInfo data) {
-                                                                                        mView.showMyToast("添加成功");
-                                                                                        mView.finishActivity();
-                                                                                    }
+                                                                            @Override
+                                                                            public void
+                                                                            callFailure
+                                                                                    (String errorMessage) {
+                                                                                Log.d("@victor", "user change rror " + errorMessage);
+                                                                            }
+                                                                        });
+                                                    },throwable -> {});
+                                        }
 
-                                                                                    @Override
-                                                                                    public void
-                                                                                    callFailure
-                                                                                            (String errorMessage) {
-                                                                                        Log.d("@victor", "user change rror " + errorMessage);
-                                                                                    }
-                                                                                });
-                                                            });
-                                                }
+                                        @Override
+                                        public void callFailure(String errorMessage) {
 
-                                                @Override
-                                                public void callFailure(String errorMessage) {
-                                                    Log.d("@victor", "user error " + errorMessage);
-                                                }
-                                            });
+                                        }
+                                    });
+
                                 }
 
                                 @Override

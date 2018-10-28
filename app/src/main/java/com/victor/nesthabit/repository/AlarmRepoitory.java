@@ -7,16 +7,19 @@ import android.support.annotation.Nullable;
 import com.victor.nesthabit.api.NestHabitApi;
 import com.victor.nesthabit.bean.AddResponse;
 import com.victor.nesthabit.bean.AlarmInfo;
+import com.victor.nesthabit.bean.MsgResponse;
 import com.victor.nesthabit.db.AlarmDao;
 import com.victor.nesthabit.db.NestHabitDataBase;
 import com.victor.nesthabit.util.AppUtils;
 import com.victor.nesthabit.util.NetWorkBoundUtils;
+import com.victor.nesthabit.util.Utils;
 
 import java.io.IOException;
 
 import retrofit2.Response;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -83,6 +86,18 @@ public class AlarmRepoitory {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
+                    }
+                });
+    }
+
+    public Observable<MsgResponse> deleteAlarm(String alarmId) {
+        return mNestHabitApi.deleteAlarm(alarmId, Utils.getHeader())
+                .subscribeOn(Schedulers.io())
+                .map(new Func1<MsgResponse, MsgResponse>() {
+                    @Override
+                    public MsgResponse call(MsgResponse msgResponse) {
+                        mAlarmDao.deleteAlarm(alarmId);
+                        return msgResponse;
                     }
                 });
     }

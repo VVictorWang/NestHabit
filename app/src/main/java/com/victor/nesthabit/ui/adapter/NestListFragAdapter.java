@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.victor.nesthabit.R;
@@ -19,8 +20,6 @@ import com.victor.nesthabit.util.ActivityManager;
 import com.victor.nesthabit.util.Utils;
 
 import java.util.List;
-
-import static com.victor.nesthabit.R.id.progress_text;
 
 /**
  * Created by victor on 7/2/17.
@@ -45,6 +44,11 @@ public class NestListFragAdapter extends RecyclerView.Adapter<NestListFragAdapte
 
     public void addData(NestInfo nestInfo) {
         mBirdCageInfos.add(nestInfo);
+        notifyDataSetChanged();
+    }
+
+    public void clearData() {
+        mBirdCageInfos.clear();
         notifyDataSetChanged();
     }
 
@@ -82,7 +86,9 @@ public class NestListFragAdapter extends RecyclerView.Adapter<NestListFragAdapte
                 ActivityManager.startActivity((Activity) mContext, intent);
             }
         });
+        holder.mProgress.setProgress((info.getMembers_amount() * 100) / info.getMembers_limit());
 
+        holder.progresstext.setText(info.getMembers_amount() + "/" + info.getMembers_limit());
     }
 
     @Override
@@ -96,15 +102,17 @@ public class NestListFragAdapter extends RecyclerView.Adapter<NestListFragAdapte
         private TextView progresstext;
         private TextView peoplea;
         private CardView mCardView;
+        private ProgressBar mProgress;
 
 
         ListViewHolder(View itemView) {
             super(itemView);
             birdcageListImage = (ImageView) itemView.findViewById(R.id.birdcage_list_image);
             birdcageListText = (TextView) itemView.findViewById(R.id.birdcage_list_text);
-            progresstext = (TextView) itemView.findViewById(progress_text);
+            progresstext = (TextView) itemView.findViewById(R.id.progress_text);
             peoplea = (TextView) itemView.findViewById(R.id.people);
             mCardView = (CardView) itemView.findViewById(R.id.card);
+            mProgress = (ProgressBar) itemView.findViewById(R.id.progress_image);
         }
 
     }

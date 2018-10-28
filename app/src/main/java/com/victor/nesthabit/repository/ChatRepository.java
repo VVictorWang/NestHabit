@@ -69,7 +69,7 @@ public class ChatRepository {
 
             @Override
             protected boolean shouldFetch(@Nullable ChatInfo data) {
-                return data == null;
+                return true;
             }
 
             @NonNull

@@ -38,6 +38,14 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     }
 
     @Override
+    protected void onRestart() {
+        super.onRestart();
+        if (mPresenter != null) {
+            mPresenter.start();
+        }
+    }
+
+    @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
     }
@@ -138,10 +146,23 @@ public class MainActivity extends BaseActivity implements MainContract.View {
     }
 
     @Override
+    public void clearAlarms() {
+        if (mClockListFragment != null) {
+            mClockListFragment.clearData();
+        }
+    }
+
+    @Override
     public void addNestInfo(NestInfo nestInfo) {
         mNestListFragment.addData(nestInfo);
     }
 
+    @Override
+    public void clearNests() {
+        if (mNestListFragment != null) {
+            mNestListFragment.clearData();
+        }
+    }
 
     @Override
     protected BasePresenter getPresnter() {

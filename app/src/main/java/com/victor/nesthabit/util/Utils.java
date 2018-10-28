@@ -1,8 +1,10 @@
 package com.victor.nesthabit.util;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Environment;
 
+import com.victor.nesthabit.MyApplication;
 import com.victor.nesthabit.bean.Constants;
 
 import java.io.BufferedOutputStream;
@@ -103,6 +105,10 @@ public class Utils {
         Pattern p = Pattern.compile(regEx);
         Matcher m = p.matcher(str[0]);
         return String.format("%02d", Integer.valueOf(m.replaceAll("").trim()));
+    }
+
+    public static Context getApplicationContext() {
+        return MyApplication.getInstance().getApplicationContext();
     }
 
     public static String getAlarmMinute(String time) {

@@ -45,6 +45,11 @@ public class ClockListFragment extends BaseFragment implements ClockListContract
         mAdapter.addAlarm(alarmInfo);
     }
 
+    public void clearData() {
+        if (mAdapter != null) {
+            mAdapter.clearData();
+        }
+    }
     @Override
     protected BasePresenter getPresenter() {
         return mPresenter;

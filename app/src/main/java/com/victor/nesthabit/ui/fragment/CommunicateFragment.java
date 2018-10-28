@@ -128,6 +128,11 @@ public class CommunicateFragment extends BaseFragment implements CommunicateCont
         }
     }
 
+    public void clearData() {
+        if (mCommunicateAdapter != null) {
+            mCommunicateAdapter.clearData();
+        }
+    }
     @Override
     public void addAll(List<ChatInfo> items) {
         mCommunicateAdapter.addAll(items);

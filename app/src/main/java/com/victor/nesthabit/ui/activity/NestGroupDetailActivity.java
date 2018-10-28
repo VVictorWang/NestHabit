@@ -93,9 +93,13 @@ public class NestGroupDetailActivity extends BaseActivity implements NestGroupDe
         this.introduction = (TextView) findViewById(R.id.introduction);
         this.loginway = (TextView) findViewById(R.id.login_way);
         this.quit = (TextView) findViewById(R.id.quit);
-        this.opentoogle = (SwitchButton) findViewById(R.id.open_toogle);
+        if (isOwner) {
+            this.opentoogle = (SwitchButton) findViewById(R.id.open_toogle);
+        }
         this.amount = (EditText) findViewById(R.id.amount);
-        this.limitamounttoogle = (SwitchButton) findViewById(R.id.limit_amount_toogle);
+        if (isOwner) {
+            this.limitamounttoogle = (SwitchButton) findViewById(R.id.limit_amount_toogle);
+        }
         this.starttimelayout = (RelativeLayout) findViewById(R.id.start_time_layout);
         this.starttime = (TextView) findViewById(R.id.start_time);
         this.day = (EditText) findViewById(R.id.day);
@@ -237,23 +241,35 @@ public class NestGroupDetailActivity extends BaseActivity implements NestGroupDe
     @Override
     public void setLimited(boolean limited) {
         if (limited) {
-            limitamounttoogle.toggleOn();
+            if (limitamounttoogle != null) {
+                limitamounttoogle.toggleOn();
+            }
         } else {
-            limitamounttoogle.toggleOff();
+            if (limitamounttoogle != null) {
+
+                limitamounttoogle.toggleOff();
+            }
         }
     }
 
     @Override
     public boolean isOpen() {
+        if (opentoogle == null) {
+            return false;
+        }
         return opentoogle.getToogle();
     }
 
     @Override
     public void setOpen(boolean open) {
         if (open) {
-            opentoogle.toggleOn();
+            if (opentoogle != null) {
+                opentoogle.toggleOn();
+            }
         } else {
-            opentoogle.toggleOff();
+            if (opentoogle != null) {
+                opentoogle.toggleOff();
+            }
         }
     }
 

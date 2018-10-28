@@ -62,6 +62,7 @@ public class MainPresenter extends RxPresenter implements MainContract.Presenter
                 Subscription subscription = result.subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(userInfo -> {
+                            mView.clearNests();
                             for (String nestId : userInfo.getJoined_nests()) {
 //                                mNestRepository.deleteNest(nestId);
                                 mNestRepository.loadNestInfo(nestId, new NetWorkBoundUtils
@@ -80,6 +81,7 @@ public class MainPresenter extends RxPresenter implements MainContract.Presenter
                                     }
                                 });
                             }
+                            mView.clearAlarms();
                             for (String alarmId : userInfo.getAlarm_clocks()) {
                                 mAlarmRepoitory.loadAlarmInfo(alarmId, new NetWorkBoundUtils
                                         .CallBack<AlarmInfo>() {
@@ -149,20 +151,6 @@ public class MainPresenter extends RxPresenter implements MainContract.Presenter
                                         Log.d(TAG, errorMessage);
                                     }
                                 }));
-                mNestRepository.loadNestInfo(nestId, new NetWorkBoundUtils.CallBack<NestInfo>() {
-                    @Override
-                    public void callSuccess(Observable<NestInfo> result) {
-                        result.subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(nestInfo -> mView.addNestInfo
-                                        (nestInfo));
-                    }
-
-                    @Override
-                    public void callFailure(String errorMessage) {
-
-                    }
-                });
             }
 
             @Override

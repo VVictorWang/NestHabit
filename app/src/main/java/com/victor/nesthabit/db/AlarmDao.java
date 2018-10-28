@@ -22,4 +22,7 @@ public interface AlarmDao {
 
     @Query("select * from alarms where objectId = :objectId")
     AlarmInfo loadAlarm(String objectId);
+
+    @Query("delete from alarms where objectId = :objectId")
+    void deleteAlarm(String objectId);
 }

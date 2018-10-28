@@ -62,12 +62,17 @@ public class CommunicatePresenter extends RxPresenter implements CommunicateCont
                     public void callSuccess(Observable<ChatInfo> result) {
                         result.subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(chatInfo1 -> mView.addItem(chatInfo1));
+                                .subscribe(chatInfo1 -> {
+                                    mView.setEditText("");
+                                    mView.addItem(chatInfo1);
+                                });
                     }
 
                     @Override
                     public void callFailure(String errorMessage) {
-
+                        if (errorMessage != null) {
+                            mView.showToast(errorMessage);
+                        }
                     }
                 });
                 NestRepository nestRepository = NestRepository.getInstance();

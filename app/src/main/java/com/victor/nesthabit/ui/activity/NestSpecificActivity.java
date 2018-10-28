@@ -61,6 +61,15 @@ public class NestSpecificActivity extends BaseActivity implements NestSpecificCo
         setUpViewPager();
     }
 
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if (mPresenter != null) {
+            mPresenter.start();
+        }
+    }
+
     @Override
     protected Activity getActivity() {
         return NestSpecificActivity.this;
@@ -179,8 +188,22 @@ public class NestSpecificActivity extends BaseActivity implements NestSpecificCo
     }
 
     @Override
+    public void clearPunchInfo() {
+        if (mDaKaWallFragment != null) {
+            mDaKaWallFragment.clearData();
+        }
+    }
+
+    @Override
     public void addChatInfo(ChatInfo chatInfo) {
         mCommunicateFragment.addItem(chatInfo);
+    }
+
+    @Override
+    public void clearChatInfo() {
+        if (mCommunicateFragment != null) {
+            mCommunicateFragment.clearData();
+        }
     }
 
     @Override

@@ -26,9 +26,11 @@ public interface MainContract {
 
         void addAlarmTime(AlarmInfo alarmInfo);
 
+        void clearAlarms();
+
         void addNestInfo(NestInfo nestInfo);
 
-
+        void clearNests();
     }
 
     interface Presenter extends BasePresenter {

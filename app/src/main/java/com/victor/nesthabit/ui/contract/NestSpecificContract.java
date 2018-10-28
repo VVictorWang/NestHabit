@@ -19,7 +19,11 @@ public interface NestSpecificContract {
 
         void addPunchIno(PunchInfo punchInfo);
 
+        void clearPunchInfo();
+
         void addChatInfo(ChatInfo chatInfo);
+
+        void clearChatInfo();
 
         int getConstantDay();
 

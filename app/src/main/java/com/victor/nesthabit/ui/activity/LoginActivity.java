@@ -1,6 +1,7 @@
 package com.victor.nesthabit.ui.activity;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.victor.nesthabit.R;
@@ -24,6 +25,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
     private LoginContract.Presenter mLoginPresenter;
 
+    private static String USER_NAME = "victor";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +47,8 @@ public class LoginActivity extends BaseActivity implements LoginContract.View {
 
     @Override
     protected void initEvent() {
-        loginqq.setOnClickListener(v -> mLoginPresenter.login("example", "1234"));
-        loginweichat.setOnClickListener(v -> mLoginPresenter.register("example", "1234",
+        loginqq.setOnClickListener(v -> mLoginPresenter.login(USER_NAME, "1234"));
+        loginweichat.setOnClickListener(v -> mLoginPresenter.register(USER_NAME, "1234",
                 new ReposityCallback<RegisterResponse>() {
                     @Override
                     public void callSuccess(RegisterResponse data) {

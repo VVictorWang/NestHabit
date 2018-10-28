@@ -47,34 +47,52 @@ public class LoginPresenter extends RxPresenter implements LoginContract.Present
     @Override
     public void login(String username, String password) {
 //        mUserRepository.deleteUserInDb(username);
-        mUserRepository.login(username, password, new NetWorkBoundUtils.CallBack<UserInfo>() {
+        mUserRepository.register(username, password, new ReposityCallback<RegisterResponse>() {
             @Override
-            public void callSuccess(Observable<UserInfo> result) {
-                Subscription subscription = result.observeOn
-                        (AndroidSchedulers.mainThread())
-                        .subscribeOn(Schedulers.io())
-                        .doOnNext(userInfo -> {
-                            PrefsUtils.putValue(AppUtils.getAppContext(),
-                                    Constants.AUTHORIZATION, userInfo.getSessionToken());
-                            PrefsUtils.putValue(AppUtils.getAppContext(), Constants.USERNAME,
-                                    userInfo.getUsername());
-                            PrefsUtils.putValue(AppUtils.getAppContext(), Constants.PASSWORD,
-                                    password);
-                            PrefsUtils.putValue(AppUtils.getAppContext(), Constants.USER_OBJEDCTID,
-                                    userInfo.getObjectId());
-                        })
-                        .subscribe(userInfo -> {
-                            mView.showMyToast("登录成功");
-                            mView.switchToMain();
-                        });
-                addSubscribe(subscription);
+            public void callSuccess(RegisterResponse data) {
+                mUserRepository.login(username, password, new NetWorkBoundUtils.CallBack<UserInfo>() {
+                    @Override
+                    public void callSuccess(Observable<UserInfo> result) {
+                        Subscription subscription = result.observeOn
+                                (AndroidSchedulers.mainThread())
+                                .subscribeOn(Schedulers.io())
+                                .subscribe(userInfo -> {
+                                    mView.showMyToast("登录成功");
+                                    mView.switchToMain();
+                                });
+                        addSubscribe(subscription);
+                    }
+
+                    @Override
+                    public void callFailure(String errorMessage) {
+                        mView.showMyToast("登陆失败 " + errorMessage);
+                    }
+                });
             }
 
             @Override
             public void callFailure(String errorMessage) {
-                mView.showMyToast("登陆失败 " + errorMessage);
+                mUserRepository.login(username, password, new NetWorkBoundUtils.CallBack<UserInfo>() {
+                    @Override
+                    public void callSuccess(Observable<UserInfo> result) {
+                        Subscription subscription = result.observeOn
+                                (AndroidSchedulers.mainThread())
+                                .subscribeOn(Schedulers.io())
+                                .subscribe(userInfo -> {
+                                    mView.showMyToast("登录成功");
+                                    mView.switchToMain();
+                                });
+                        addSubscribe(subscription);
+                    }
+
+                    @Override
+                    public void callFailure(String errorMessage) {
+                        mView.showMyToast("登陆失败 " + errorMessage);
+                    }
+                });
             }
         });
+
 
     }
 

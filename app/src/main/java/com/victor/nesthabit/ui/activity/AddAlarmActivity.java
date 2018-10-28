@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -234,7 +235,7 @@ public class AddAlarmActivity extends BaseActivity implements View.OnClickListen
         switch (requestCode) {
             case 222:
                 if (resultCode == 111) {
-                    setMusic(data.getStringExtra("name"));
+                    setMusic("nameTest.omg");
                     musicUri = data.getStringExtra("musicUri");
                     volume = data.getIntExtra("volume", 0);
                     isVibrate = data.getBooleanExtra("isVibrate", false);

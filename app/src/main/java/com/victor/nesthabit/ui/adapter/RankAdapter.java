@@ -35,7 +35,14 @@ public class RankAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public void addItem(RankItem rankItem) {
         mRankItems.add(rankItem);
-        Collections.sort(mRankItems, (o1, o2) -> o1.getDays() > o2.getDays() ? 1 : -1);
+        Collections.sort(mRankItems, (o1, o2) -> {
+            if (o1.getDays() == o2.getDays()) {
+                return 0;
+            } else if (o1.getDays() > o2.getDays()) {
+                return -1;
+            }
+            return 1;
+        });
         notifyDataSetChanged();
     }
 

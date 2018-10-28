@@ -62,6 +62,7 @@ public class NestSpecificPresenter extends RxPresenter implements NestSpecificCo
                                             mView.setConstantProgresss(membersBean
                                                     .getConstant_days() + 2);
                                         });
+                                mView.clearPunchInfo();
                                 for (String puchId : nestInfo.getPunchlogs()) {
                                     mPunchRepository.getPunchInfo(puchId, new NetWorkBoundUtils
                                             .CallBack<PunchInfo>() {
@@ -75,10 +76,10 @@ public class NestSpecificPresenter extends RxPresenter implements NestSpecificCo
 
                                         @Override
                                         public void callFailure(String errorMessage) {
-
                                         }
                                     });
                                 }
+                                mView.clearChatInfo();
                                 for (String chatId : nestInfo.getChatlogs()) {
                                     mChatRepository.getChatInfo(chatId, new NetWorkBoundUtils
                                             .CallBack<ChatInfo>() {
@@ -93,7 +94,6 @@ public class NestSpecificPresenter extends RxPresenter implements NestSpecificCo
 
                                         @Override
                                         public void callFailure(String errorMessage) {
-
                                         }
                                     });
                                 }

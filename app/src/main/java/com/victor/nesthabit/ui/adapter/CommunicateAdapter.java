@@ -11,11 +11,18 @@ import android.widget.TextView;
 
 import com.victor.nesthabit.R;
 import com.victor.nesthabit.bean.ChatInfo;
+import com.victor.nesthabit.bean.UserInfo;
+import com.victor.nesthabit.repository.UserRepository;
 import com.victor.nesthabit.util.DateUtils;
+import com.victor.nesthabit.util.NetWorkBoundUtils;
 import com.victor.nesthabit.util.Utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * Created by victor on 7/21/17.
@@ -41,8 +48,23 @@ public class CommunicateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     public void addItem(ChatInfo item) {
         mCommunicateItems.add(item);
+        Collections.sort(mCommunicateItems,(o1, o2) -> {
+            long o1Created = DateUtils.stringToLong(o1.getCreatedAt(), "yyyy-MM-dd HH:mm:ss");
+            long o2Created = DateUtils.stringToLong(o2.getCreatedAt(), "yyyy-MM-dd HH:mm:ss");
+            if (o1Created == o2Created) {
+                return 0;
+            } else if (o1Created > o2Created) {
+                return 1;
+            }
+            return -1;
+        });
         notifyDataSetChanged();
         mRecyclerView.scrollToPosition(mCommunicateItems.size() - 1);
+    }
+
+    public void clearData() {
+        mCommunicateItems.clear();
+        notifyDataSetChanged();
     }
 
     public void addAll(List<ChatInfo> communicateItems) {
@@ -75,6 +97,24 @@ public class CommunicateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 ((LeftViewHolder) holder).date_layout.setVisibility(View.VISIBLE);
                 ((LeftViewHolder) holder).date.setText(DateUtils.formatString(item.getCreatedAt()
                         , "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd"));
+                ((LeftViewHolder) holder).text.setText(item.getContents());
+                ((LeftViewHolder) holder).time.setText(DateUtils.formatCreatedAt(item
+                        .getCreatedAt(), "HH:mm"));
+                UserRepository.getInstance().getUserInfo(item.getUserId(), new NetWorkBoundUtils.CallBack<UserInfo>() {
+                    @Override
+                    public void callSuccess(Observable<UserInfo> result) {
+                        result.observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(userInfo -> {
+                                    ((LeftViewHolder) holder).name.setText(userInfo.getUsername());
+                                },throwable -> {});
+                    }
+
+                    @Override
+                    public void callFailure(String errorMessage) {
+
+                    }
+                });
+
             } else if (type == RIGHT_TYPR) {
                 ((RightViewHoler) holder).date_layout.setVisibility(View.VISIBLE);
                 ((RightViewHoler) holder).date.setText(DateUtils.formatCreatedAt(item
@@ -87,6 +127,23 @@ public class CommunicateAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         } else {
             if (type == LEFT_TYPE) {
                 ((LeftViewHolder) holder).date_layout.setVisibility(View.GONE);
+                ((LeftViewHolder) holder).text.setText(item.getContents());
+                ((LeftViewHolder) holder).time.setText(DateUtils.formatCreatedAt(item
+                        .getCreatedAt(), "HH:mm"));
+                UserRepository.getInstance().getUserInfo(item.getUserId(), new NetWorkBoundUtils.CallBack<UserInfo>() {
+                    @Override
+                    public void callSuccess(Observable<UserInfo> result) {
+                        result.observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(userInfo -> {
+                                    ((LeftViewHolder) holder).name.setText(userInfo.getUsername());
+                                }, throwable -> {});
+                    }
+
+                    @Override
+                    public void callFailure(String errorMessage) {
+
+                    }
+                });
             } else if (type == RIGHT_TYPR) {
                 ((RightViewHoler) holder).date_layout.setVisibility(View.GONE);
                 ((RightViewHoler) holder).text.setText(item.getContents());

@@ -52,6 +52,7 @@ public class NestRepository {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(addResponseResponse -> {
                     if (addResponseResponse.isSuccessful()) {
+
                         callback.callSuccess(addResponseResponse.body());
                     } else {
                         try {
@@ -77,7 +78,7 @@ public class NestRepository {
 
             @Override
             protected boolean shouldFetch(@Nullable NestInfo data) {
-                return data == null;
+                return true;
             }
 
             @NonNull

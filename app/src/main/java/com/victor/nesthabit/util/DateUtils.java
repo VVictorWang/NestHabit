@@ -89,6 +89,14 @@ public class DateUtils {
         return format.format(date);
     }
 
+    public static int getHourOffset(int hour, int munite) {
+        int currentHour = Integer.valueOf(getCurrentHour());
+        int currentMinute = Integer.valueOf(getCurrentMinute());
+        if (currentHour == hour && currentMinute > munite) {
+            return 24;
+        }
+        return (hour - currentHour + 24) % 24;
+    }
     public static String getCurrentMinute() {
         Date date = getCurDate();
         DateFormat format = new SimpleDateFormat("mm");
@@ -98,6 +106,17 @@ public class DateUtils {
     public static long stringToLong(String dateString) {
         Date date = StringToDate(dateString);
         return date.getTime();
+    }
+
+    public static long stringToLong(String dateString, String pattern) {
+        DateFormat dateFormat = new SimpleDateFormat(pattern);
+        try {
+            Date date = dateFormat.parse(dateString);
+            return date.getTime();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return -1;
     }
 
     public static List<Date> formatStrings(List<String> dateString) {

@@ -70,7 +70,7 @@ public class PunchRepository {
 
             @Override
             protected boolean shouldFetch(@Nullable PunchInfo data) {
-                return data == null;
+                return true;
             }
 
             @NonNull
